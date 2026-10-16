@@ -73,7 +73,7 @@ export function ActionsEditor({ cell, button, show }: { cell: CellRef; button: B
           }
         />
         {button.steps.length > 1 ? (
-          <View ref={stepMenuRef}>
+          <View ref={stepMenuRef} collapsable={false}>
             <IconButton
               icon="ellipsis"
               label={`ステップ ${stepIndex + 1} の操作`}

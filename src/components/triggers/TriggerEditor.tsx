@@ -101,7 +101,7 @@ export function TriggerEditor({ show, trigger, onDeleted }: { show: Show; trigge
           />
           <AppText style={{ flex: 1 }}>{trigger.enabled ? '有効' : '無効'}</AppText>
           <PillButton label="テスト" icon="play.fill" onPress={() => void test()} />
-          <View ref={menuRef}>
+          <View ref={menuRef} collapsable={false}>
             <IconButton
               icon="ellipsis"
               label="その他の操作"

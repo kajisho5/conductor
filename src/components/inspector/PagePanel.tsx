@@ -223,7 +223,7 @@ function PageRow({
               表示中
             </AppText>
           ) : null}
-          <View ref={ref}>
+          <View ref={ref} collapsable={false}>
             <IconButton icon="ellipsis" label={`ページ ${number} の操作`} onPress={() => onMenu(ref.current)} />
           </View>
         </View>

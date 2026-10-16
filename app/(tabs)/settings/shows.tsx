@@ -128,7 +128,7 @@ function ShowRow({
           </AppText>
           <AppText variant="footnote" tone="label2">{`ページ ${s.pages}・機器 ${s.devices}・${s.updatedAt.slice(0, 10)}`}</AppText>
         </View>
-        <View ref={ref} style={{ minHeight: MIN_TAP, justifyContent: 'center' }}>
+        <View ref={ref} collapsable={false} style={{ minHeight: MIN_TAP, justifyContent: 'center' }}>
           <IconButton
             icon="ellipsis"
             label={`${s.name} の操作`}

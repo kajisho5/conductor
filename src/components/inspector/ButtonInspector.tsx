@@ -116,7 +116,7 @@ function InspectorHeader({
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
             <PillButton label="テスト" icon="play.fill" onPress={() => void test()} />
             {running ? <PillButton label="停止" icon="stop.fill" tint={color.danger} onPress={() => stopButton(button.id)} /> : null}
-            <View ref={menuRef}>
+            <View ref={menuRef} collapsable={false}>
               <IconButton icon="ellipsis" label="その他の操作" onPress={() => openCellMenu(cell, menuRef.current)} />
             </View>
           </View>
