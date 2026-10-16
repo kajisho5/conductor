@@ -10,6 +10,7 @@ import { AppText } from '@/components/ui/AppText';
 import { IconButton } from '@/components/ui/Buttons';
 import { Row, Section, SwitchRow } from '@/components/ui/Group';
 import { Segmented } from '@/components/ui/Segmented';
+import { exportAndShare, pickAndImport } from '@/storage/session';
 
 /** 設定（SPEC 2.1-7）。M1：ショー名、ボタン（グリッド・帯・状態アイコン）、本番、画像（compact）、このアプリについて */
 
@@ -46,7 +47,16 @@ export default function SettingsScreen() {
       automaticallyAdjustKeyboardInsets
     >
       <Section title="ショー">
-        <View style={{ minHeight: MIN_TAP, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16 }}>
+        <View
+          style={{
+            minHeight: MIN_TAP,
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            borderBottomWidth: 0.5,
+            borderBottomColor: color.sep,
+          }}
+        >
           <AppText style={{ marginRight: 12 }}>名前</AppText>
           <TextInput
             value={show.name}
@@ -57,6 +67,13 @@ export default function SettingsScreen() {
             style={[typeStyles.body, { flex: 1, textAlign: 'right', color: color.label, minHeight: MIN_TAP }]}
           />
         </View>
+        <Row title="ショーを切り替える" chevron onPress={() => router.push('/settings/shows')} />
+        <Row
+          title="このショーを書き出す"
+          icon="square.and.arrow.up"
+          onPress={() => void exportAndShare(show, { kind: 'show' }, show.name)}
+        />
+        <Row title="ファイルから読み込む" icon="square.and.arrow.down" last onPress={() => void pickAndImport()} />
       </Section>
 
       <Section title="ボタン" footer="範囲の外になったボタンは消えずに残り、大きさを戻すと再び表示されます。">

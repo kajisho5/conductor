@@ -1,16 +1,19 @@
 import { useRef } from 'react';
 import { Pressable, Switch, TextInput, View } from 'react-native';
 import { describeFeedback, deviceLabel, driverIdOf } from '@/engine/describe';
-import { getDefinition, getFeedbackDef } from '@/drivers/registry';
+import { getFeedbackDef } from '@/drivers/registry';
 import {
   addFeedback,
   moveFeedback,
   newFeedback,
   removeFeedback,
   setFeedbackOption,
+  setFeedbackImage,
   setFeedbackStyle,
   updateFeedback,
 } from '@/model/buttonEdits';
+import { chooseImage } from '@/components/editor/imageChoice';
+import { imageUri } from '@/storage/images';
 import type { ButtonModel, FeedbackRule, Show } from '@/model/types';
 import type { CellRef } from '@/stores/show';
 import { useShowStore } from '@/stores/show';
@@ -28,7 +31,6 @@ import { ColorSwatches } from './ColorSwatches';
 export function FeedbackEditor({ cell, button, show }: { cell: CellRef; button: ButtonModel; show: Show }) {
   const mutate = (fn: (b: ButtonModel) => ButtonModel, key?: string) => useShowStore.getState().mutateButton(cell, fn, key);
   const addRef = useRef<View>(null);
-  const canAdd = show.devices.some((d) => (getDefinition(d.driverId)?.feedbacks.length ?? 0) > 0);
 
   return (
     <View style={{ gap: 12 }}>
@@ -40,30 +42,24 @@ export function FeedbackEditor({ cell, button, show }: { cell: CellRef; button: 
       {button.feedbacks.map((f, i) => (
         <FeedbackCard key={f.id} fb={f} index={i} count={button.feedbacks.length} button={button} show={show} mutate={mutate} />
       ))}
-      {canAdd ? (
-        <Pressable
-          ref={addRef}
-          accessibilityRole="button"
-          onPress={() =>
-            pickFeedback(show, addRef.current, (deviceId, def, options) => {
-              mutate((b) => addFeedback(b, newFeedback(deviceId, def.id, options)));
-            })
-          }
-          style={({ pressed }) => ({
-            minHeight: MIN_TAP,
-            justifyContent: 'center',
-            paddingHorizontal: 16,
-            borderRadius: radius.card,
-            backgroundColor: pressed ? color.fill : color.card,
-          })}
-        >
-          <AppText tone="accent">＋ 状態表示を追加</AppText>
-        </Pressable>
-      ) : (
-        <AppText variant="footnote" tone="label2" style={{ marginLeft: 4 }}>
-          状態を返す機器を「機器」で追加すると、ここで条件を選べます。
-        </AppText>
-      )}
+      <Pressable
+        ref={addRef}
+        accessibilityRole="button"
+        onPress={() =>
+          pickFeedback(show, addRef.current, (deviceId, def, options) => {
+            mutate((b) => addFeedback(b, newFeedback(deviceId, def.id, options)));
+          })
+        }
+        style={({ pressed }) => ({
+          minHeight: MIN_TAP,
+          justifyContent: 'center',
+          paddingHorizontal: 16,
+          borderRadius: radius.card,
+          backgroundColor: pressed ? color.fill : color.card,
+        })}
+      >
+        <AppText tone="accent">＋ 状態表示を追加</AppText>
+      </Pressable>
     </View>
   );
 }
@@ -89,6 +85,7 @@ function FeedbackCard({
   const d = describeFeedback(fb, show);
   const preview = { ...button.style, ...fb.style };
   const textOn = fb.style.text !== undefined;
+  const imageRef = useRef<View>(null);
   return (
     <View style={{ backgroundColor: color.card, borderRadius: radius.card, padding: 14, opacity: fb.enabled ? 1 : 0.6 }}>
       <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center', marginBottom: 12 }}>
@@ -98,7 +95,7 @@ function FeedbackCard({
           </AppText>
           <AppText weight="600">{d.condition}</AppText>
         </View>
-        <ButtonFace style={preview} text={preview.text} width={56} height={56} radius={9} />
+        <ButtonFace style={preview} text={preview.text} imageUri={imageUri(show, preview.imageId)} width={56} height={56} radius={9} />
       </View>
       {(def?.options ?? []).map((f) => (
         <OptionField
@@ -133,6 +130,15 @@ function FeedbackCard({
         allowAuto
         onChange={(v) => mutate((b) => setFeedbackStyle(b, fb.id, 'textColor', v === '' ? undefined : v))}
       />
+      <Pressable
+        ref={imageRef}
+        accessibilityRole="button"
+        onPress={() => chooseImage(show, imageRef.current, (imageId) => mutate((b) => setFeedbackImage(b, fb.id, imageId)), '変えない')}
+        style={{ flexDirection: 'row', alignItems: 'center', minHeight: MIN_TAP, marginBottom: 4 }}
+      >
+        <AppText style={{ flex: 1 }}>画像</AppText>
+        <AppText tone="label2">{show.images.find((i) => i.id === fb.style.imageId)?.name ?? '変えない'}</AppText>
+      </Pressable>
       <View style={{ flexDirection: 'row', alignItems: 'center', minHeight: MIN_TAP }}>
         <AppText style={{ flex: 1 }}>文字を変える</AppText>
         <Switch

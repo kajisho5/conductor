@@ -57,7 +57,7 @@ export function ButtonInspector({ cell, button, show, compact }: { cell: CellRef
       {tab === 'actions' ? <ActionsEditor key={button.id} cell={cell} button={button} show={show} /> : null}
       {tab === 'style' ? <StyleEditor cell={cell} button={button} show={show} /> : null}
       {tab === 'feedback' ? <FeedbackEditor cell={cell} button={button} show={show} /> : null}
-      {tab === 'variables' ? <VariablesTab button={button} /> : null}
+      {tab === 'variables' ? <VariablesTab cell={cell} button={button} show={show} /> : null}
       {tab === 'options' ? <OptionsTab cell={cell} button={button} /> : null}
     </ScrollView>
   );
@@ -96,6 +96,7 @@ function InspectorHeader({
           <ButtonFace
             style={view.style}
             text={view.text}
+            imageUri={view.imageUri}
             width={size}
             height={size}
             radius={compact ? 10 : 12}

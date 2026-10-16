@@ -1,6 +1,6 @@
 import { emptyStep } from './defaults';
 import { newId } from './id';
-import type { ActionList, ActionModel, ButtonModel, FeedbackRule, HoldGroup, Step } from './types';
+import type { ActionList, ActionModel, ButtonModel, FeedbackRule, HoldGroup, LocalVariable, Step } from './types';
 
 /**
  * ボタンの動作・状態表示の編集（SPEC 2.1-1）。すべて新しいオブジェクトを返す純粋関数。
@@ -16,7 +16,7 @@ function mapStep(b: ButtonModel, stepId: string, fn: (s: Step) => Step): ButtonM
   return { ...b, steps: b.steps.map((s) => (s.id === stepId ? fn(s) : s)) };
 }
 
-function mapList(b: ButtonModel, ref: ListRef, fn: (l: ActionList) => ActionList): ButtonModel {
+export function mapList(b: ButtonModel, ref: ListRef, fn: (l: ActionList) => ActionList): ButtonModel {
   return mapStep(b, ref.stepId, (s) => {
     if (ref.list === 'hold') {
       const holdId = ref.holdId;
@@ -94,12 +94,56 @@ export function newAction(deviceId: string, definitionId: string, options: Actio
   return { id: newId(), deviceId, definitionId, options, delayMs: 0, enabled: true };
 }
 
+/* リスト単位（ボタン・トリガーで共通） */
+
+export function listAdd(l: ActionList, action: ActionModel): ActionList {
+  return { ...l, actions: [...l.actions, action] };
+}
+
+export function listUpdate(l: ActionList, actionId: string, patch: Partial<Omit<ActionModel, 'id'>>): ActionList {
+  return { ...l, actions: l.actions.map((a) => (a.id === actionId ? { ...a, ...patch } : a)) };
+}
+
+export function listSetOption(l: ActionList, actionId: string, key: string, value: ActionModel['options'][string]): ActionList {
+  return { ...l, actions: l.actions.map((a) => (a.id === actionId ? { ...a, options: { ...a.options, [key]: value } } : a)) };
+}
+
+export function listRemove(l: ActionList, actionId: string): ActionList {
+  return { ...l, actions: l.actions.filter((a) => a.id !== actionId) };
+}
+
+export function listDuplicate(l: ActionList, actionId: string): ActionList {
+  const i = l.actions.findIndex((a) => a.id === actionId);
+  const src = l.actions[i];
+  if (!src) return l;
+  const actions = [...l.actions];
+  actions.splice(i + 1, 0, { ...src, id: newId(), options: { ...src.options } });
+  return { ...l, actions };
+}
+
+export function listMove(l: ActionList, actionId: string, delta: -1 | 1): ActionList {
+  return {
+    ...l,
+    actions: move(
+      l.actions,
+      l.actions.findIndex((a) => a.id === actionId),
+      delta,
+    ),
+  };
+}
+
+export function listMode(l: ActionList, mode: ActionList['mode']): ActionList {
+  return { ...l, mode };
+}
+
+/* ボタンのリスト */
+
 export function addAction(b: ButtonModel, ref: ListRef, action: ActionModel): ButtonModel {
-  return mapList(b, ref, (l) => ({ ...l, actions: [...l.actions, action] }));
+  return mapList(b, ref, (l) => listAdd(l, action));
 }
 
 export function updateAction(b: ButtonModel, ref: ListRef, actionId: string, patch: Partial<Omit<ActionModel, 'id'>>): ButtonModel {
-  return mapList(b, ref, (l) => ({ ...l, actions: l.actions.map((a) => (a.id === actionId ? { ...a, ...patch } : a)) }));
+  return mapList(b, ref, (l) => listUpdate(l, actionId, patch));
 }
 
 export function setActionOption(
@@ -109,40 +153,23 @@ export function setActionOption(
   key: string,
   value: ActionModel['options'][string],
 ): ButtonModel {
-  return mapList(b, ref, (l) => ({
-    ...l,
-    actions: l.actions.map((a) => (a.id === actionId ? { ...a, options: { ...a.options, [key]: value } } : a)),
-  }));
+  return mapList(b, ref, (l) => listSetOption(l, actionId, key, value));
 }
 
 export function removeAction(b: ButtonModel, ref: ListRef, actionId: string): ButtonModel {
-  return mapList(b, ref, (l) => ({ ...l, actions: l.actions.filter((a) => a.id !== actionId) }));
+  return mapList(b, ref, (l) => listRemove(l, actionId));
 }
 
 export function duplicateAction(b: ButtonModel, ref: ListRef, actionId: string): ButtonModel {
-  return mapList(b, ref, (l) => {
-    const i = l.actions.findIndex((a) => a.id === actionId);
-    const src = l.actions[i];
-    if (!src) return l;
-    const actions = [...l.actions];
-    actions.splice(i + 1, 0, { ...src, id: newId(), options: { ...src.options } });
-    return { ...l, actions };
-  });
+  return mapList(b, ref, (l) => listDuplicate(l, actionId));
 }
 
 export function moveAction(b: ButtonModel, ref: ListRef, actionId: string, delta: -1 | 1): ButtonModel {
-  return mapList(b, ref, (l) => ({
-    ...l,
-    actions: move(
-      l.actions,
-      l.actions.findIndex((a) => a.id === actionId),
-      delta,
-    ),
-  }));
+  return mapList(b, ref, (l) => listMove(l, actionId, delta));
 }
 
 export function setListMode(b: ButtonModel, ref: ListRef, mode: ActionList['mode']): ButtonModel {
-  return mapList(b, ref, (l) => ({ ...l, mode }));
+  return mapList(b, ref, (l) => listMode(l, mode));
 }
 
 /* ---------- 長押し ---------- */
@@ -202,6 +229,19 @@ export function setFeedbackStyle(
   };
 }
 
+export function setFeedbackImage(b: ButtonModel, id: string, imageId: string | undefined): ButtonModel {
+  return {
+    ...b,
+    feedbacks: b.feedbacks.map((f) => {
+      if (f.id !== id) return f;
+      const style = { ...f.style };
+      if (imageId) style.imageId = imageId;
+      else delete style.imageId;
+      return { ...f, style };
+    }),
+  };
+}
+
 export function removeFeedback(b: ButtonModel, id: string): ButtonModel {
   return { ...b, feedbacks: b.feedbacks.filter((f) => f.id !== id) };
 }
@@ -215,4 +255,36 @@ export function moveFeedback(b: ButtonModel, id: string, delta: -1 | 1): ButtonM
       delta,
     ),
   };
+}
+
+/* ---------- ボタン変数・トリガー変数（SPEC 2.1-5） ---------- */
+
+export const VARIABLE_NAME_PATTERN = /^[A-Za-z0-9_]+$/;
+
+export function variableNameError(name: string, taken: string[]): string | null {
+  if (name.trim() === '') return '名前を入れてください';
+  if (!VARIABLE_NAME_PATTERN.test(name)) return '英数字と _ だけ使えます';
+  if (taken.filter((t) => t === name).length > 1) return '同じ名前があります';
+  return null;
+}
+
+export function uniqueVariableName(base: string, taken: string[]): string {
+  if (!taken.includes(base)) return base;
+  for (let n = 2; ; n++) if (!taken.includes(`${base}${n}`)) return `${base}${n}`;
+}
+
+export function newLocalVariable(taken: string[]): LocalVariable {
+  return { id: newId(), name: uniqueVariableName('var', taken), kind: 'value', value: '' };
+}
+
+export function addLocalVariable(b: ButtonModel): ButtonModel {
+  return { ...b, localVariables: [...b.localVariables, newLocalVariable(b.localVariables.map((v) => v.name))] };
+}
+
+export function updateLocalVariable(b: ButtonModel, id: string, patch: Partial<Omit<LocalVariable, 'id'>>): ButtonModel {
+  return { ...b, localVariables: b.localVariables.map((v) => (v.id === id ? { ...v, ...patch } : v)) };
+}
+
+export function removeLocalVariable(b: ButtonModel, id: string): ButtonModel {
+  return { ...b, localVariables: b.localVariables.filter((v) => v.id !== id) };
 }

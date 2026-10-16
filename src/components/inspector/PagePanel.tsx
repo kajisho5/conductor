@@ -4,6 +4,7 @@ import type { Show } from '@/model/types';
 import { useRuntimeStore } from '@/stores/runtime';
 import { useShowStore, visibleButtonCount } from '@/stores/show';
 import { useUiStore } from '@/stores/ui';
+import { exportAndShare } from '@/storage/session';
 import { color, MIN_TAP, radius, type as typeStyles } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
 import { IconButton } from '@/components/ui/Buttons';
@@ -83,6 +84,11 @@ export function PagePanel({ show, compact }: { show: Show; compact?: boolean }) 
             style={[typeStyles.body, { flex: 1, textAlign: 'right', color: color.label, minHeight: MIN_TAP }]}
           />
         </View>
+        <Row
+          title="書き出す"
+          icon="square.and.arrow.up"
+          onPress={() => void exportAndShare(show, { kind: 'page', pageId: page.id }, `${show.name} ${page.name}`)}
+        />
         <Row title="ページを複製" onPress={() => keepCurrentPage(() => store().duplicatePage(page.id))} />
         <Row
           title="ページを空にする"

@@ -32,6 +32,8 @@ interface ShowState {
   updateStyle: (ref: CellRef, patch: Partial<ButtonStyle>) => void;
   /** ボタンの中身を作り替える（動作・状態表示などの編集。src/model/buttonEdits.ts の関数を渡す） */
   mutateButton: (ref: CellRef, recipe: (b: ButtonModel) => ButtonModel, coalesceKey?: string) => void;
+  /** ショー全体を作り替える（トリガー・変数など。src/model の関数を渡す） */
+  mutateShow: (recipe: (s: Show) => Show, coalesceKey?: string) => void;
   addDevice: (device: Device) => void;
   updateDevice: (deviceId: string, patch: Partial<Omit<Device, 'id'>>, coalesceKey?: string) => void;
   deleteDevice: (deviceId: string) => void;
@@ -187,6 +189,14 @@ export const useShowStore = create<ShowState>((set, get) => {
       const next = recipe(b);
       if (next === b) return;
       commit(setButtonAt(show, ref, next), coalesceKey ? `mutate:${b.id}:${coalesceKey}` : undefined);
+    },
+
+    mutateShow: (recipe, coalesceKey) => {
+      const show = get().show;
+      if (!show) return;
+      const next = recipe(show);
+      if (next === show) return;
+      commit(touch(next), coalesceKey ? `show:${coalesceKey}` : undefined);
     },
 
     addDevice: (device) => {

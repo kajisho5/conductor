@@ -1,4 +1,5 @@
 import { Text, View } from 'react-native';
+import { Image } from 'expo-image';
 import { color, luminance } from '@/theme/tokens';
 import type { ButtonStyle } from '@/model/types';
 import { Symbol } from '@/components/ui/Symbol';
@@ -38,6 +39,7 @@ export function ButtonFace({
   stepIndex,
   topBar,
   statusIcons = true,
+  imageUri,
 }: {
   style: ButtonStyle;
   text: string;
@@ -52,6 +54,8 @@ export function ButtonFace({
   topBar?: string | null;
   /** 設定 > ボタン > 状態アイコン（未接続の ⚠）。送れなかった ⚠ は常に出す */
   statusIcons?: boolean;
+  /** 見た目の画像（文字の下に、縦横比を保って収める） */
+  imageUri?: string | null;
 }) {
   const fg = textColorOf(style);
   const dim = fg === '#000000' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.35)';
@@ -72,6 +76,9 @@ export function ButtonFace({
         overflow: 'hidden',
       }}
     >
+      {imageUri ? (
+        <Image source={{ uri: imageUri }} style={absoluteFill} contentFit="contain" accessibilityIgnoresInvertColors transition={0} />
+      ) : null}
       {topBar ? (
         <View style={{ height: bar, backgroundColor: 'rgba(0,0,0,0.35)', justifyContent: 'center', paddingHorizontal: 6 }}>
           <Text style={{ color: '#FFFFFF', fontSize: Math.max(11, bar * 0.62), fontWeight: '600' }} numberOfLines={1}>

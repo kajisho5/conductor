@@ -1,5 +1,8 @@
 import { View } from 'react-native';
-import type { ButtonModel } from '@/model/types';
+import type { ButtonModel, Show } from '@/model/types';
+import { useRuntimeStore } from '@/stores/runtime';
+import { currentContext, resolveOne } from '@/variables/resolve';
+import { LocalVariablesEditor } from '@/components/editor/LocalVariablesEditor';
 import type { CellRef } from '@/stores/show';
 import { useShowStore } from '@/stores/show';
 import { color } from '@/theme/tokens';
@@ -10,23 +13,17 @@ import { Segmented } from '@/components/ui/Segmented';
  * 変数／オプションのタブ。ボタン変数の追加・編集は M4（変数）で入れる。
  */
 
-export function VariablesTab({ button }: { button: ButtonModel }) {
+export function VariablesTab({ cell, button, show }: { cell: CellRef; button: ButtonModel; show: Show }) {
+  // 変数の値が変わったら「今の値」を描き直すために購読する
+  const custom = useRuntimeStore((st) => st.customValues);
+  const values = useRuntimeStore((st) => st.deviceValues);
+  const ctx = { ...currentContext(show, button), custom, values };
   return (
-    <Section card={color.card} footer="ボタンの文字で $(this:名前) として使えます。">
-      {button.localVariables.length === 0 ? (
-        <Row title="ボタン変数なし" last />
-      ) : (
-        button.localVariables.map((v, i) => (
-          <Row
-            key={v.id}
-            title={v.name}
-            value={v.value}
-            subtitle={v.kind === 'expression' ? '式' : '値'}
-            last={i === button.localVariables.length - 1}
-          />
-        ))
-      )}
-    </Section>
+    <LocalVariablesEditor
+      variables={button.localVariables}
+      onChange={(fn, key) => useShowStore.getState().mutateButton(cell, (b) => ({ ...b, localVariables: fn(b.localVariables) }), key)}
+      preview={(v) => resolveOne('this', v.name, ctx)}
+    />
   );
 }
 

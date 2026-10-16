@@ -11,6 +11,7 @@ import { Field } from '@/components/ui/Field';
 import { Row, Section } from '@/components/ui/Group';
 import { Segmented } from '@/components/ui/Segmented';
 import { ColorSwatches } from './ColorSwatches';
+import { chooseImage } from '@/components/editor/imageChoice';
 
 /** 見た目タブ（SPEC 2.1-1）。変更はすぐに盤と本番へ反映（ストア経由） */
 
@@ -53,6 +54,7 @@ export function StyleEditor({ cell, button, show }: { cell: CellRef; button: But
   const st = button.style;
   const update = (patch: Partial<ButtonStyle>) => useShowStore.getState().updateStyle(cell, patch);
   const varRef = useRef<View>(null);
+  const imageRef = useRef<View>(null);
 
   const insertVariable = () => {
     if (Platform.OS !== 'ios') return;
@@ -128,8 +130,24 @@ export function StyleEditor({ cell, button, show }: { cell: CellRef; button: But
         onChange={(backgroundColor) => update({ backgroundColor })}
       />
 
-      <Section card={color.card} footer="画像は「画像」で取り込んだものから選べるようになります。">
-        <Row title="画像" value="なし" />
+      <Section card={color.card}>
+        <View ref={imageRef} collapsable={false}>
+          <Row
+            title="画像"
+            value={show.images.find((i) => i.id === st.imageId)?.name ?? 'なし'}
+            chevron
+            onPress={() =>
+              chooseImage(show, imageRef.current, (imageId) =>
+                useShowStore.getState().mutateButton(cell, (b) => {
+                  const style = { ...b.style };
+                  if (imageId) style.imageId = imageId;
+                  else delete style.imageId;
+                  return { ...b, style };
+                }),
+              )
+            }
+          />
+        </View>
         <View style={{ paddingHorizontal: 16, paddingVertical: 10, gap: 8 }}>
           <AppText>上部の帯（位置表示）</AppText>
           <Segmented

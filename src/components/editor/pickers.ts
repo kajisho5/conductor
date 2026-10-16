@@ -59,10 +59,12 @@ export function pickFeedback(
   anchor: View | null,
   done: (deviceId: string, def: FeedbackDef, options: Record<string, string | number | boolean>) => void,
 ): boolean {
-  const sources = show.devices
-    .map((d) => ({ id: d.id, label: d.label, def: getDefinition(d.driverId) }))
-    .filter((s) => (s.def?.feedbacks.length ?? 0) > 0);
-  if (sources.length === 0) return false;
+  const sources = [
+    ...show.devices
+      .map((d) => ({ id: d.id, label: d.label, def: getDefinition(d.driverId) }))
+      .filter((s) => (s.def?.feedbacks.length ?? 0) > 0),
+    { id: 'internal', label: '変数・式', def: INTERNAL_DEFINITION },
+  ];
   sheet(
     'どの機器の状態？',
     sources.map((s) => s.label),

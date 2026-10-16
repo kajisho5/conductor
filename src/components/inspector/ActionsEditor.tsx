@@ -1,36 +1,26 @@
 import { useRef, useState } from 'react';
-import { ActionSheetIOS, Platform, Pressable, ScrollView, Switch, TextInput, View, findNodeHandle } from 'react-native';
-import { delayLabel, describeAction, deviceLabel, driverIdOf } from '@/engine/describe';
-import { getActionDef } from '@/drivers/registry';
+import { ScrollView, Switch, View } from 'react-native';
 import {
-  addAction,
   addHold,
   addStep,
-  duplicateAction,
   duplicateStep,
   getList,
-  moveAction,
+  mapList,
   moveStep,
-  newAction,
-  removeAction,
   removeHold,
   removeStep,
-  setActionOption,
-  setListMode,
-  updateAction,
   updateHold,
   type ListRef,
 } from '@/model/buttonEdits';
-import type { ActionModel, ButtonModel, HoldGroup, Show } from '@/model/types';
+import type { ButtonModel, HoldGroup, Show } from '@/model/types';
 import type { CellRef } from '@/stores/show';
 import { useShowStore } from '@/stores/show';
 import { useRuntimeStore } from '@/stores/runtime';
-import { color, MIN_TAP, radius, type as typeStyles } from '@/theme/tokens';
+import { color, MIN_TAP } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
 import { IconButton, PillButton } from '@/components/ui/Buttons';
-import { Symbol } from '@/components/ui/Symbol';
-import { OptionField } from '@/components/editor/OptionField';
-import { pickAction } from '@/components/editor/pickers';
+import { ActionListEditor } from '@/components/editor/ActionListEditor';
+import { sheet } from '@/components/editor/sheet';
 
 /**
  * 動作タブ（SPEC 2.1-1、docs/design 01）：
@@ -38,25 +28,9 @@ import { pickAction } from '@/components/editor/pickers';
  * 動作は行をタップで開いて編集（オプション・待ち時間・有効）。リストごとに「順番に実行／同時に実行」。
  */
 
-const MODE_LABEL = { sequential: '順番に実行', concurrent: '同時に実行' } as const;
 export const HOLD_STEP_MS = 500;
 export const HOLD_MIN_MS = 500;
 export const HOLD_MAX_MS = 10000;
-
-function sheet(title: string | undefined, items: { label: string; run: () => void; destructive?: boolean }[], anchor: View | null) {
-  if (Platform.OS !== 'ios') return;
-  const options = [...items.map((i) => i.label), 'キャンセル'];
-  ActionSheetIOS.showActionSheetWithOptions(
-    {
-      title,
-      options,
-      cancelButtonIndex: options.length - 1,
-      destructiveButtonIndex: items.findIndex((i) => i.destructive),
-      anchor: anchor ? (findNodeHandle(anchor) ?? undefined) : undefined,
-    },
-    (i) => items[i]?.run(),
-  );
-}
 
 export function ActionsEditor({ cell, button, show }: { cell: CellRef; button: ButtonModel; show: Show }) {
   const [stepId, setStepId] = useState<string>(button.steps[0]?.id ?? '');
@@ -129,8 +103,8 @@ export function ActionsEditor({ cell, button, show }: { cell: CellRef; button: B
         ) : null}
       </View>
 
-      <ListEditor title="押した時" listRef={{ stepId: step.id, list: 'press' }} button={button} show={show} mutate={mutate} />
-      <ListEditor title="離した時" listRef={{ stepId: step.id, list: 'release' }} button={button} show={show} mutate={mutate} />
+      <ButtonList title="押した時" listRef={{ stepId: step.id, list: 'press' }} button={button} show={show} mutate={mutate} />
+      <ButtonList title="離した時" listRef={{ stepId: step.id, list: 'release' }} button={button} show={show} mutate={mutate} />
       {step.holds.map((h) => (
         <HoldEditor key={h.id} hold={h} stepId={step.id} button={button} show={show} mutate={mutate} />
       ))}
@@ -207,12 +181,12 @@ function HoldEditor({
           accessibilityLabel="押している間くり返す"
         />
       </View>
-      <ListEditor title={null} listRef={{ stepId, list: 'hold', holdId: hold.id }} button={button} show={show} mutate={mutate} />
+      <ButtonList title={null} listRef={{ stepId, list: 'hold', holdId: hold.id }} button={button} show={show} mutate={mutate} />
     </View>
   );
 }
 
-function ListEditor({
+function ButtonList({
   title,
   listRef,
   button,
@@ -226,206 +200,14 @@ function ListEditor({
   mutate: Mutate;
 }) {
   const list = getList(button, listRef);
-  const [open, setOpen] = useState<string | null>(null);
-  const addRef = useRef<View>(null);
-  const modeRef = useRef<View>(null);
   if (!list) return null;
-
   return (
-    <View style={{ marginBottom: 20 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6, marginHorizontal: 4, minHeight: 28 }}>
-        {title ? (
-          <AppText variant="footnote" tone="label2" style={{ flex: 1 }}>
-            {title}
-          </AppText>
-        ) : (
-          <View style={{ flex: 1 }} />
-        )}
-        {list.actions.length > 1 ? (
-          <Pressable
-            ref={modeRef}
-            accessibilityRole="button"
-            accessibilityLabel={`実行のしかた、${MODE_LABEL[list.mode]}`}
-            hitSlop={{ top: 8, bottom: 8 }}
-            onPress={() =>
-              sheet(
-                '実行のしかた',
-                [
-                  { label: '順番に実行（前の動作が送れてから次へ）', run: () => mutate((b) => setListMode(b, listRef, 'sequential')) },
-                  { label: '同時に実行（一斉に始める）', run: () => mutate((b) => setListMode(b, listRef, 'concurrent')) },
-                ],
-                modeRef.current,
-              )
-            }
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 28 }}
-          >
-            <AppText variant="footnote" weight="600" tone="accent">
-              {MODE_LABEL[list.mode]}
-            </AppText>
-            <Symbol name="chevron.down" size={11} tint={color.accent} weight="bold" />
-          </Pressable>
-        ) : null}
-      </View>
-      <View style={{ backgroundColor: color.card, borderRadius: radius.card, overflow: 'hidden' }}>
-        {list.actions.map((a, i) => (
-          <ActionRow
-            key={a.id}
-            action={a}
-            index={i}
-            count={list.actions.length}
-            listRef={listRef}
-            show={show}
-            open={open === a.id}
-            onToggle={() => setOpen(open === a.id ? null : a.id)}
-            mutate={mutate}
-          />
-        ))}
-        <Pressable
-          ref={addRef}
-          accessibilityRole="button"
-          onPress={() =>
-            pickAction(show, addRef.current, (deviceId, def, options) => {
-              const action = newAction(deviceId, def.id, options);
-              mutate((b) => addAction(b, listRef, action));
-              setOpen(action.id);
-            })
-          }
-          style={({ pressed }) => ({
-            minHeight: MIN_TAP,
-            justifyContent: 'center',
-            paddingHorizontal: 16,
-            backgroundColor: pressed ? color.fill : 'transparent',
-          })}
-        >
-          <AppText tone="accent">＋ 動作を追加</AppText>
-        </Pressable>
-      </View>
-    </View>
-  );
-}
-
-function ActionRow({
-  action,
-  index,
-  count,
-  listRef,
-  show,
-  open,
-  onToggle,
-  mutate,
-}: {
-  action: ActionModel;
-  index: number;
-  count: number;
-  listRef: ListRef;
-  show: Show;
-  open: boolean;
-  onToggle: () => void;
-  mutate: Mutate;
-}) {
-  const d = describeAction(action, show);
-  const def = getActionDef(driverIdOf(show, action.deviceId), action.definitionId);
-  const delay = delayLabel(action.delayMs);
-  return (
-    <View style={{ borderBottomWidth: 0.5, borderBottomColor: color.sep }}>
-      <Pressable
-        onPress={onToggle}
-        accessibilityRole="button"
-        accessibilityState={{ expanded: open }}
-        accessibilityLabel={`${deviceLabel(show, action.deviceId)}、${d.title}、${d.detail}${action.enabled ? '' : '、無効'}`}
-        style={({ pressed }) => ({
-          minHeight: 60,
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 14,
-          paddingVertical: 8,
-          gap: 10,
-          backgroundColor: pressed ? color.fill : 'transparent',
-          opacity: action.enabled ? 1 : 0.5,
-        })}
-      >
-        <View style={{ flex: 1, gap: 3 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <View style={{ paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6, backgroundColor: color.fill }}>
-              <AppText variant="caption" weight="600" numberOfLines={1}>
-                {deviceLabel(show, action.deviceId)}
-              </AppText>
-            </View>
-            <AppText weight="600" numberOfLines={1} style={{ flexShrink: 1 }}>
-              {d.title}
-            </AppText>
-          </View>
-          {d.detail || delay ? (
-            <AppText variant="footnote" tone="label2" numberOfLines={1} mono>
-              {[delay, d.detail].filter(Boolean).join('　')}
-            </AppText>
-          ) : null}
-        </View>
-        <Symbol name={open ? 'chevron.up' : 'chevron.down'} size={13} tint={color.label3} weight="semibold" />
-      </Pressable>
-      {open ? (
-        <View style={{ paddingHorizontal: 14, paddingBottom: 12 }}>
-          {(def?.options ?? []).map((f) => (
-            <OptionField
-              key={f.id}
-              field={f}
-              value={action.options[f.id]}
-              card={color.fill4}
-              onChange={(v) => mutate((b) => setActionOption(b, listRef, action.id, f.id, v), `${action.id}:${f.id}`)}
-            />
-          ))}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-            <AppText style={{ flex: 1 }}>{index === 0 || listRef.list === 'hold' ? '送る前に待つ' : '前の動作の後に待つ'}</AppText>
-            <TextInput
-              value={String(action.delayMs)}
-              onChangeText={(t) => {
-                const n = Math.max(0, Math.min(600000, Math.round(Number(t.replace(/[^0-9]/g, '')) || 0)));
-                mutate((b) => updateAction(b, listRef, action.id, { delayMs: n }), `${action.id}:delay`);
-              }}
-              keyboardType="number-pad"
-              accessibilityLabel="待ち時間（ミリ秒）"
-              style={[
-                typeStyles.body,
-                {
-                  minWidth: 88,
-                  minHeight: MIN_TAP,
-                  textAlign: 'right',
-                  color: color.label,
-                  backgroundColor: color.fill4,
-                  borderRadius: radius.field,
-                  paddingHorizontal: 12,
-                  fontVariant: ['tabular-nums'],
-                },
-              ]}
-            />
-            <AppText tone="label2">ms</AppText>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', minHeight: MIN_TAP, marginBottom: 8 }}>
-            <AppText style={{ flex: 1 }}>有効</AppText>
-            <Switch
-              value={action.enabled}
-              onValueChange={(enabled) => mutate((b) => updateAction(b, listRef, action.id, { enabled }))}
-              accessibilityLabel="この動作を有効にする"
-            />
-          </View>
-          <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
-            {index > 0 ? (
-              <IconButton icon="arrow.up" label="上へ" onPress={() => mutate((b) => moveAction(b, listRef, action.id, -1))} />
-            ) : null}
-            {index < count - 1 ? (
-              <IconButton icon="arrow.down" label="下へ" onPress={() => mutate((b) => moveAction(b, listRef, action.id, 1))} />
-            ) : null}
-            <IconButton icon="plus.square.on.square" label="複製" onPress={() => mutate((b) => duplicateAction(b, listRef, action.id))} />
-            <View style={{ flex: 1 }} />
-            <IconButton
-              icon="trash"
-              label="この動作を削除"
-              tint={color.danger}
-              onPress={() => mutate((b) => removeAction(b, listRef, action.id))}
-            />
-          </View>
-        </View>
-      ) : null}
-    </View>
+    <ActionListEditor
+      title={title}
+      list={list}
+      show={show}
+      delayFromStart={listRef.list === 'hold'}
+      onList={(fn, key) => mutate((b) => mapList(b, listRef, fn), key)}
+    />
   );
 }

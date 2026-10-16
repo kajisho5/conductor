@@ -5,6 +5,7 @@ export default function Layout() {
   return (
     <Stack screenOptions={{ contentStyle: { backgroundColor: color.groupedBg } }}>
       <Stack.Screen name="index" options={{ title: 'トリガー', headerLargeTitle: true }} />
+      <Stack.Screen name="[id]" options={{ title: 'トリガー' }} />
     </Stack>
   );
 }

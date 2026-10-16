@@ -1,6 +1,7 @@
 import type { ButtonModel, Show } from '@/model/types';
 import { useRuntimeStore } from '@/stores/runtime';
-import { holdButton, pressButton, releaseButton, type ListResult } from './executor';
+import { holdButton, internalHooks, pressButton, releaseButton, type ListResult } from './executor';
+import { useShowStore } from '@/stores/show';
 import { haptic } from './haptics';
 
 /**
@@ -39,8 +40,12 @@ function finish(buttonId: string, result: ListResult, haptics: boolean): void {
   }
 }
 
+/** トリガーの「ボタンを押した／離した」へ知らせる口（triggers.ts が入れる） */
+export const pressListeners: ((kind: 'press' | 'release', button: ButtonModel) => void)[] = [];
+
 export function pressDown(button: ButtonModel, show: Show): void {
   if (sessions.has(button.id)) return;
+  for (const l of pressListeners) l('press', button);
   const haptics = show.settings.haptics;
   useRuntimeStore.getState().setPress(button.id, 'pressing');
   if (haptics) haptic('medium');
@@ -72,6 +77,7 @@ export async function pressUp(button: ButtonModel, show: Show): Promise<ListResu
   const session = sessions.get(button.id);
   if (!session) return 'none';
   sessions.delete(button.id);
+  for (const l of pressListeners) l('release', button);
   for (const t of session.timers) {
     clearTimeout(t);
     clearInterval(t as unknown as ReturnType<typeof setInterval>);
@@ -108,3 +114,15 @@ export function releaseAll(show: Show): void {
 export function anyPressing(): boolean {
   return sessions.size > 0;
 }
+
+/** 内部の動作「別のボタンを押す」 */
+internalHooks.press = async (button, how) => {
+  const show = useShowStore.getState().show;
+  if (!show) return 'none';
+  if (how === 'click') return testPress(button, show);
+  if (how === 'press') {
+    pressDown(button, show);
+    return 'none';
+  }
+  return pressUp(button, show);
+};

@@ -73,6 +73,7 @@ export function EditTile({
         <ButtonFace
           style={view.style}
           text={view.text}
+          imageUri={view.imageUri}
           width={width}
           height={height}
           radius={radius}

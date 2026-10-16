@@ -3,7 +3,10 @@ import { getActionDef, getDefinition, getFeedbackDef } from '@/drivers/registry'
 import type { ActionList, ActionModel, ButtonModel, ButtonStyle, Show } from '@/model/types';
 import { log } from '@/stores/log';
 import { useRuntimeStore } from '@/stores/runtime';
-import { resolveText } from '@/variables/resolve';
+import { cellKey } from '@/model/grid';
+import { currentContext, evaluateFor, resolveText, type ResolveContext } from '@/variables/resolve';
+import { toBool } from '@/expression';
+import { compare } from '@/drivers/engine';
 import { runDemoAction, type DriverContext, type SendResult } from './demoDriver';
 import { deviceManager } from './devices';
 
@@ -29,26 +32,44 @@ function ctxFor(deviceId: string): DriverContext {
   };
 }
 
+/**
+ * 他のモジュールの処理を後から差し込む口（循環 import を避けるため）。
+ * press.ts が「別のボタンを押す」、triggers.ts が「トリガーを操作」を入れる。
+ */
+export const internalHooks: {
+  press?: (button: ButtonModel, how: 'click' | 'press' | 'release') => Promise<ListResult>;
+  trigger?: (name: string, op: 'run' | 'enable' | 'disable') => SendResult;
+} = {};
+
 /** 機器の接続を、ショーの機器一覧に合わせる */
 export function initDevices(show: Show): void {
   deviceManager.sync(show);
 }
 
 /** 文字のオプションの $(…) を今の値に置き換える */
-function resolveOptions(action: ActionModel, show: Show, button?: ButtonModel): Values {
-  const rt = useRuntimeStore.getState();
-  const ctx = { show, values: rt.deviceValues, pageNumber: rt.pageNumber, now: new Date(), button };
+function resolveOptions(action: ActionModel, show: Show, button?: ButtonModel, local?: Record<string, string>): Values {
+  const ctx = currentContext(show, button, local);
   const def =
     action.deviceId === 'internal'
       ? getActionDef('internal', action.definitionId)
       : getActionDef(show.devices.find((d) => d.id === action.deviceId)?.driverId ?? '', action.definitionId);
   const values = withDefaults(def?.options ?? [], action.options);
   const out: Values = {};
-  for (const [k, v] of Object.entries(values)) out[k] = typeof v === 'string' ? resolveText(v, ctx) : v;
+  for (const [k, v] of Object.entries(values)) {
+    // 式で入れる値は、式として評価する時に $(…) を解決するので、ここでは置き換えない
+    if (action.definitionId === 'internal.setVar' && k === 'value' && values.mode === 'expression') out[k] = v;
+    else out[k] = typeof v === 'string' ? resolveText(v, ctx) : v;
+  }
   return out;
 }
 
-function runInternal(action: ActionModel, option: Values, show: Show, button?: ButtonModel): SendResult {
+async function runInternal(
+  action: ActionModel,
+  option: Values,
+  show: Show,
+  button?: ButtonModel,
+  local?: Record<string, string>,
+): Promise<SendResult> {
   const rt = useRuntimeStore.getState();
   switch (action.definitionId) {
     case 'internal.page': {
@@ -77,15 +98,52 @@ function runInternal(action: ActionModel, option: Values, show: Show, button?: B
     case 'internal.log':
       log('info', '内部', String(option.text ?? ''));
       return { ok: true };
+    case 'internal.setVar': {
+      const name = String(option.name ?? '').trim();
+      if (!show.customVariables.some((c) => c.name === name)) return { ok: false, reason: `自分で作る変数 ${name} がありません` };
+      let value = String(option.value ?? '');
+      if (option.mode === 'expression') {
+        const r = evaluateFor(value, currentContext(show, button, local));
+        if ('error' in r) return { ok: false, reason: `式：${r.error}` };
+        value = r.value;
+      }
+      rt.setCustomValue(name, value);
+      return { ok: true };
+    }
+    case 'internal.press': {
+      const page = show.pages.find((p) => p.number === Number(option.page));
+      const target = page?.buttons[cellKey(Number(option.row) - 1, Number(option.col) - 1)];
+      if (!target) return { ok: false, reason: 'そのマスにボタンがありません' };
+      if (target.id === button?.id) return { ok: false, reason: '自分自身は押せません' };
+      if (!internalHooks.press) return { ok: false, reason: 'ボタンを押す準備ができていません' };
+      const how = option.how === 'press' || option.how === 'release' ? option.how : 'click';
+      const r = await internalHooks.press(target, how);
+      return r === 'failed' ? { ok: false, reason: '押したボタンの動作が送れませんでした' } : { ok: true };
+    }
+    case 'internal.trigger': {
+      if (!internalHooks.trigger) return { ok: false, reason: 'トリガーの準備ができていません' };
+      const op = option.op === 'enable' || option.op === 'disable' ? option.op : 'run';
+      return internalHooks.trigger(String(option.name ?? ''), op);
+    }
+    case 'internal.wait': {
+      const ms = Math.max(0, Math.min(600000, Number(option.ms) || 0));
+      await sleep(ms);
+      return { ok: true };
+    }
     default:
       return { ok: false, reason: `内部の動作 ${action.definitionId} は使えません` };
   }
 }
 
-export async function runAction(action: ActionModel, show: Show, button?: ButtonModel): Promise<SendResult> {
+export async function runAction(
+  action: ActionModel,
+  show: Show,
+  button?: ButtonModel,
+  local?: Record<string, string>,
+): Promise<SendResult> {
   if (!action.enabled) return { ok: true };
-  const option = resolveOptions(action, show, button);
-  if (action.deviceId === 'internal') return runInternal(action, option, show, button);
+  const option = resolveOptions(action, show, button, local);
+  if (action.deviceId === 'internal') return runInternal(action, option, show, button, local);
   const device = show.devices.find((d) => d.id === action.deviceId);
   if (!device) return { ok: false, reason: '機器が見つかりません（削除された可能性があります）' };
   const status = useRuntimeStore.getState().deviceStatus[device.id];
@@ -101,7 +159,13 @@ export async function runAction(action: ActionModel, show: Show, button?: Button
   return deviceManager.send(device, actionDef, option);
 }
 
-export async function runList(list: ActionList, show: Show, token: { cancelled: boolean }, button?: ButtonModel): Promise<ListResult> {
+export async function runList(
+  list: ActionList,
+  show: Show,
+  token: { cancelled: boolean },
+  button?: ButtonModel,
+  local?: Record<string, string>,
+): Promise<ListResult> {
   const acts = list.actions.filter((a) => a.enabled);
   if (acts.length === 0) return 'none';
   const results: SendResult[] = [];
@@ -109,14 +173,14 @@ export async function runList(list: ActionList, show: Show, token: { cancelled: 
     for (const a of acts) {
       if (a.delayMs > 0) await sleep(a.delayMs);
       if (token.cancelled) break;
-      results.push(await runAction(a, show, button));
+      results.push(await runAction(a, show, button, local));
     }
   } else {
     await Promise.all(
       acts.map(async (a) => {
         if (a.delayMs > 0) await sleep(a.delayMs);
         if (token.cancelled) return;
-        results.push(await runAction(a, show, button));
+        results.push(await runAction(a, show, button, local));
       }),
     );
   }
@@ -187,15 +251,12 @@ export function resolveStyle(
   show: Show,
   values: Record<string, Record<string, string>>,
   status: Record<string, string>,
+  ctx?: ResolveContext,
 ): { style: ButtonStyle; offline: boolean } {
   let style = button.style;
   for (const fb of button.feedbacks) {
     if (!fb.enabled) continue;
-    const device = show.devices.find((d) => d.id === fb.deviceId);
-    if (!device) continue;
-    const def = getFeedbackDef(device.driverId, fb.definitionId);
-    if (!def) continue;
-    const hit = checkFeedback(def, withDefaults(def.options, fb.options), values[device.id]) !== fb.invert;
+    const hit = feedbackHolds(fb, show, values, ctx ?? currentContext(show, button)) !== fb.invert;
     if (hit) style = { ...style, ...fb.style };
   }
   const usedDevices = new Set<string>();
@@ -205,4 +266,34 @@ export function resolveStyle(
   }
   const offline = [...usedDevices].some((id) => status[id] !== 'connected');
   return { style, offline };
+}
+
+/** 状態表示・トリガーの条件が成り立つか（機器の状態、または内部の「変数を比べる」「式」） */
+export function feedbackHolds(
+  fb: { deviceId: string; definitionId: string; options: ActionModel['options'] },
+  show: Show,
+  values: Record<string, Record<string, string>>,
+  ctx: ResolveContext,
+): boolean {
+  if (fb.deviceId === 'internal') {
+    const def = getFeedbackDef('internal', fb.definitionId);
+    if (!def) return false;
+    const o = withDefaults(def.options, fb.options);
+    if (fb.definitionId === 'internal.expression') {
+      const r = evaluateFor(String(o.expr ?? ''), ctx);
+      return 'value' in r && toBool(r.value);
+    }
+    if (fb.definitionId === 'internal.variable') {
+      return compare(String(o.op ?? 'eq'), resolveText(String(o.variable ?? ''), ctx), resolveText(String(o.value ?? ''), ctx));
+    }
+    return false;
+  }
+  const device = show.devices.find((d) => d.id === fb.deviceId);
+  if (!device) return false;
+  const def = getFeedbackDef(device.driverId, fb.definitionId);
+  if (!def) return false;
+  const option = withDefaults(def.options, fb.options);
+  const resolved: Values = {};
+  for (const [k, v] of Object.entries(option)) resolved[k] = typeof v === 'string' ? resolveText(v, ctx) : v;
+  return checkFeedback(def, resolved, values[device.id]);
 }

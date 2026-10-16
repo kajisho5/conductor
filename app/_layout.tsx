@@ -8,8 +8,12 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { initDevices } from '@/engine/executor';
 import { deviceManager } from '@/engine/devices';
 import { log } from '@/stores/log';
-import { startAutosave, saveNow } from '@/storage/autosave';
-import { loadInitialShow } from '@/storage/showFile';
+import { startAutosave, startStateAutosave, saveNow } from '@/storage/autosave';
+import { loadInitialShow, loadState } from '@/storage/showFile';
+import { triggerEngine } from '@/engine/triggers';
+import { useRuntimeStore } from '@/stores/runtime';
+import { useUiStore } from '@/stores/ui';
+import { importFromUri } from '@/storage/session';
 import { useShowStore } from '@/stores/show';
 import { color } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
@@ -29,12 +33,15 @@ function useBootstrap(): string | null {
     try {
       const { show } = loadInitialShow();
       useShowStore.getState().setShow(show);
+      useRuntimeStore.getState().setCustomValues(loadState(show.id));
       initDevices(show);
+      triggerEngine.start(show);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
       return undefined;
     }
     const stop = startAutosave(reportSaveError);
+    const stopState = startStateAutosave(reportSaveError);
     // iOS は前面にいる間だけ動く（SPEC 11 章）：裏に回ったら保存して接続を閉じ、戻ったら開き直す
     const sub = AppState.addEventListener('change', (s) => {
       if (s === 'background') {
@@ -51,7 +58,9 @@ function useBootstrap(): string | null {
     return () => {
       sub.remove();
       stop();
+      stopState();
       deviceManager.stopAll();
+      triggerEngine.stop();
     };
   }, []);
   return error;
@@ -68,6 +77,16 @@ function useDeviceStatusSync() {
     }, DEVICE_SYNC_DELAY_MS);
     return () => clearTimeout(t);
   }, [devices]);
+}
+
+/** 他のアプリから開いた .conductor の読み込み確認 */
+function usePendingImport(ready: boolean) {
+  const pending = useUiStore((s) => s.pendingImport);
+  useEffect(() => {
+    if (!ready || !pending) return;
+    useUiStore.getState().setPendingImport(null);
+    importFromUri(pending);
+  }, [ready, pending]);
 }
 
 /** 設定 > 本番 > スリープ防止「いつも」 */
@@ -87,6 +106,7 @@ export default function RootLayout() {
   useDeviceStatusSync();
   useKeepAwakeAlways();
   const ready = useShowStore((s) => s.show !== null);
+  usePendingImport(ready);
   const scheme = useColorScheme();
   return (
     <ThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>

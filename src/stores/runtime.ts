@@ -29,6 +29,8 @@ interface RuntimeState {
   /** 表示中のページ番号（本番・ボタン画面で共通、1 始まり） */
   pageNumber: number;
   locked: boolean;
+  /** 自分で作る変数の今の値（名前 → 値）。「再起動後も保持」のものは state.json に保存 */
+  customValues: Record<string, string>;
 
   setDeviceStatus: (id: string, s: DeviceStatus, error?: string) => void;
   setDeviceValues: (id: string, values: Record<string, string>) => void;
@@ -38,6 +40,8 @@ interface RuntimeState {
   setStep: (buttonId: string, index: number) => void;
   setPageNumber: (n: number) => void;
   setLocked: (v: boolean) => void;
+  setCustomValue: (name: string, value: string) => void;
+  setCustomValues: (values: Record<string, string>) => void;
 }
 
 export const useRuntimeStore = create<RuntimeState>((set, get) => ({
@@ -48,6 +52,7 @@ export const useRuntimeStore = create<RuntimeState>((set, get) => ({
   stepIndex: {},
   pageNumber: 1,
   locked: false,
+  customValues: {},
 
   setDeviceStatus: (id, s, error) => {
     const st = get();
@@ -72,4 +77,9 @@ export const useRuntimeStore = create<RuntimeState>((set, get) => ({
   setStep: (buttonId, index) => set({ stepIndex: { ...get().stepIndex, [buttonId]: index } }),
   setPageNumber: (n) => set({ pageNumber: n }),
   setLocked: (v) => set({ locked: v }),
+  setCustomValue: (name, value) => {
+    if (get().customValues[name] === value) return;
+    set({ customValues: { ...get().customValues, [name]: value } });
+  },
+  setCustomValues: (customValues) => set({ customValues }),
 }));

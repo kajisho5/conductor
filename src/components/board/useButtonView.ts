@@ -3,6 +3,7 @@ import { resolveStyle } from '@/engine/executor';
 import type { ButtonModel, ButtonStyle, Show } from '@/model/types';
 import { useRuntimeStore } from '@/stores/runtime';
 import { resolveText, usesClock } from '@/variables/resolve';
+import { imageUri } from '@/storage/images';
 
 /** 1 秒ごとの時計（$(internal:time) を使うボタンだけ） */
 export function useNow(enabled: boolean): Date {
@@ -17,6 +18,7 @@ export function useNow(enabled: boolean): Date {
 
 export interface ButtonView {
   style: ButtonStyle;
+  imageUri: string | null;
   text: string;
   offline: boolean;
   stepCount: number;
@@ -29,12 +31,23 @@ export function useButtonView(button: ButtonModel | undefined, show: Show): Butt
   const status = useRuntimeStore((s) => s.deviceStatus);
   const pageNumber = useRuntimeStore((s) => s.pageNumber);
   const stepIndex = useRuntimeStore((s) => (button ? (s.stepIndex[button.id] ?? 0) : 0));
-  const clock = !!button && (usesClock(button.style.text) || button.feedbacks.some((f) => usesClock(f.style.text ?? '')));
+  const custom = useRuntimeStore((s) => s.customValues);
+  const clock =
+    !!button &&
+    (usesClock(button.style.text) || button.feedbacks.some((f) => usesClock(f.style.text ?? '') || usesClock(JSON.stringify(f.options))));
   const now = useNow(clock);
   return useMemo(() => {
     if (!button) return null;
-    const { style, offline } = resolveStyle(button, show, values, status);
-    const text = resolveText(style.text, { show, values, pageNumber, now, button });
-    return { style, text, offline, stepCount: button.steps.length, stepIndex: Math.min(stepIndex, button.steps.length - 1) };
-  }, [button, show, values, status, pageNumber, stepIndex, now]);
+    const ctx = { show, values, pageNumber, now, button, custom, status };
+    const { style, offline } = resolveStyle(button, show, values, status, ctx);
+    const text = resolveText(style.text, ctx);
+    return {
+      style,
+      text,
+      imageUri: imageUri(show, style.imageId),
+      offline,
+      stepCount: button.steps.length,
+      stepIndex: Math.min(stepIndex, button.steps.length - 1),
+    };
+  }, [button, show, values, status, pageNumber, stepIndex, now, custom]);
 }

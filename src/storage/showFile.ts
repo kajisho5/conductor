@@ -93,3 +93,25 @@ export function loadInitialShow(): { show: Show; created: boolean } {
   saveShow(demo);
   return { show: demo, created: true };
 }
+
+/** 「再起動後も値を保持」の変数（SPEC 9 章：shows/<showId>/state.json） */
+export function loadState(showId: string): Record<string, string> {
+  const f = new File(showDir(showId), 'state.json');
+  if (!f.exists) return {};
+  try {
+    const v = JSON.parse(f.textSync()) as { custom?: unknown };
+    if (typeof v.custom !== 'object' || v.custom === null) return {};
+    const out: Record<string, string> = {};
+    for (const [k, x] of Object.entries(v.custom as Record<string, unknown>)) if (typeof x === 'string') out[k] = x;
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+export function saveState(showId: string, custom: Record<string, string>): void {
+  const dir = showDir(showId);
+  ensureDir(showsDir());
+  ensureDir(dir);
+  writeAtomic(new File(dir, 'state.json'), JSON.stringify({ custom }));
+}
