@@ -14,7 +14,9 @@ import { Segmented } from '@/components/ui/Segmented';
 import { ButtonFace } from '@/components/board/ButtonFace';
 import { openCellMenu, positionLabel } from '@/components/board/boardHelpers';
 import { useButtonView } from '@/components/board/useButtonView';
-import { ActionsTab, FeedbackTab, OptionsTab, VariablesTab } from './BehaviorTabs';
+import { OptionsTab, VariablesTab } from './BehaviorTabs';
+import { ActionsEditor } from './ActionsEditor';
+import { FeedbackEditor } from './FeedbackEditor';
 import { StyleEditor } from './StyleEditor';
 
 /** ボタンの設定（iPad の右の設定欄・iPhone の編集シートで共通。SPEC 3.1・3.2） */
@@ -52,9 +54,9 @@ export function ButtonInspector({ cell, button, show, compact }: { cell: CellRef
         style={{ marginVertical: 16 }}
         accessibilityLabel="ボタンの設定の種類"
       />
-      {tab === 'actions' ? <ActionsTab button={button} show={show} /> : null}
+      {tab === 'actions' ? <ActionsEditor key={button.id} cell={cell} button={button} show={show} /> : null}
       {tab === 'style' ? <StyleEditor cell={cell} button={button} show={show} /> : null}
-      {tab === 'feedback' ? <FeedbackTab button={button} show={show} /> : null}
+      {tab === 'feedback' ? <FeedbackEditor cell={cell} button={button} show={show} /> : null}
       {tab === 'variables' ? <VariablesTab button={button} /> : null}
       {tab === 'options' ? <OptionsTab cell={cell} button={button} /> : null}
     </ScrollView>

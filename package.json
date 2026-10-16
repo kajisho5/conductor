@@ -1,6 +1,6 @@
 {
   "name": "conductor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
@@ -8,7 +8,8 @@
     "ios": "expo run:ios",
     "test": "jest",
     "typecheck": "tsc --noEmit",
-    "doctor": "expo-doctor"
+    "doctor": "expo-doctor",
+    "mock": "node mock/server.mjs"
   },
   "dependencies": {
     "@react-native-segmented-control/segmented-control": "2.5.7",
@@ -49,16 +50,26 @@
   },
   "jest": {
     "preset": "jest-expo",
-    "setupFiles": ["./jest.setup.ts"],
-    "testPathIgnorePatterns": ["/node_modules/", "/docs/", "/scripts/"],
+    "setupFiles": [
+      "./jest.setup.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/docs/",
+      "/scripts/"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|react-native-svg|nativewind|react-native-css-interop|zustand)"
     ],
-    "moduleNameMapper": { "^@/(.*)$": "<rootDir>/src/$1" }
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
   },
   "expo": {
     "doctor": {
-      "appConfigFieldsNotSyncedCheck": { "enabled": false }
+      "appConfigFieldsNotSyncedCheck": {
+        "enabled": false
+      }
     }
   }
 }

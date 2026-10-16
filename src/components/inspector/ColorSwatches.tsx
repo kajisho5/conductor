@@ -2,6 +2,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { color, radius } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
 import { hitSlopFor } from '@/components/ui/Buttons';
+import { Symbol } from '@/components/ui/Symbol';
 
 /**
  * 色見本（ボタンの文字色・背景色）。見た目 28pt・当たり判定 44pt（SPEC 15.5）。
@@ -9,6 +10,7 @@ import { hitSlopFor } from '@/components/ui/Buttons';
  */
 
 const NAMES: Record<string, string> = {
+  '': '変えない',
   auto: '自動',
   '#FFFFFF': '白',
   '#000000': '黒',
@@ -38,14 +40,17 @@ export function ColorSwatches({
   value,
   onChange,
   allowAuto,
+  allowNone,
 }: {
   title: string;
   colors: readonly string[];
   value: string;
   onChange: (v: string) => void;
   allowAuto?: boolean;
+  /** 「変えない」を先頭に出す（状態表示の上書き用。値は空文字） */
+  allowNone?: boolean;
 }) {
-  const items = allowAuto ? ['auto', ...colors] : [...colors];
+  const items = [...(allowNone ? [''] : []), ...(allowAuto ? ['auto'] : []), ...colors];
   return (
     <View style={{ marginBottom: 16 }}>
       <AppText variant="footnote" tone="label2" style={{ marginLeft: 4, marginBottom: 6 }}>
@@ -63,7 +68,7 @@ export function ColorSwatches({
           const sel = c.toUpperCase() === value.toUpperCase();
           return (
             <Pressable
-              key={c}
+              key={c || 'none'}
               onPress={() => onChange(c)}
               hitSlop={hitSlopFor(37, 37)}
               accessibilityRole="radio"
@@ -79,7 +84,22 @@ export function ColorSwatches({
                 borderColor: color.label,
               }}
             >
-              {c === 'auto' ? (
+              {c === '' ? (
+                <View
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: 14,
+                    borderWidth: 1.5,
+                    borderColor: color.label3,
+                    borderStyle: 'dashed',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Symbol name="slash.circle" size={14} tint={color.label2} />
+                </View>
+              ) : c === 'auto' ? (
                 <View
                   style={{
                     width: 28,

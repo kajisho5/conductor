@@ -1,40 +1,37 @@
-import type { ActionModel, FeedbackRule, OptionValue, Show } from '@/model/types';
+import { summarize, withDefaults } from '@/drivers/engine';
+import { getActionDef, getFeedbackDef } from '@/drivers/registry';
+import type { ActionModel, FeedbackRule, Show } from '@/model/types';
 
-/** 動作・状態表示を一覧に出す時の文言（M1：デモドライバと内部動作） */
-
-function v(o: OptionValue | undefined): string {
-  if (o === undefined) return '';
-  if (typeof o === 'object') return `式 ${o.expression}`;
-  return String(o);
-}
+/** 動作・状態表示を一覧に出す時の文言（ドライバ定義の name と summary から作る） */
 
 export function deviceLabel(show: Show, deviceId: string): string {
   if (deviceId === 'internal') return '内部';
   return show.devices.find((d) => d.id === deviceId)?.label ?? '（削除された機器）';
 }
 
-export function describeAction(a: ActionModel): { title: string; detail: string } {
-  const o = a.options;
-  switch (a.definitionId) {
-    case 'demo.set':
-      return { title: '値を設定', detail: `${v(o.key)} = ${v(o.value)}` };
-    case 'demo.swap':
-      return { title: '値を入れ替え', detail: `${v(o.a)} ⇄ ${v(o.b)}` };
-    case 'demo.toggle':
-      return { title: 'ON / OFF を切り替え', detail: v(o.key) };
-    case 'internal.page': {
-      const p = o.page;
-      const detail = p === 'next' ? '次のページ' : p === 'prev' ? '前のページ' : `ページ ${v(p)}`;
-      return { title: 'ページを移動', detail };
-    }
-    default:
-      return { title: a.definitionId, detail: '' };
-  }
+export function driverIdOf(show: Show, deviceId: string): string {
+  if (deviceId === 'internal') return 'internal';
+  return show.devices.find((d) => d.id === deviceId)?.driverId ?? '';
 }
 
-export function describeFeedback(f: FeedbackRule): { condition: string; effect: string } {
-  const o = f.options;
-  const cond = f.definitionId === 'demo.equals' ? `${v(o.key)} が ${v(o.value)}` : f.definitionId;
+const PAGE_WORDS: Record<string, string> = { next: '次', prev: '前' };
+
+export function describeAction(a: ActionModel, show: Show): { title: string; detail: string } {
+  const def = getActionDef(driverIdOf(show, a.deviceId), a.definitionId);
+  if (!def) return { title: a.definitionId, detail: 'この機器では使えない動作です' };
+  const values = withDefaults(def.options, a.options);
+  if (a.definitionId === 'internal.page' || a.definitionId === 'internal.step') {
+    const key = a.definitionId === 'internal.page' ? 'page' : 'step';
+    const v = String(values[key] ?? '');
+    values[key] = PAGE_WORDS[v] ?? v;
+  }
+  if (a.definitionId === 'internal.lock') values.lock = values.lock === 'unlock' ? 'ロックを解除' : 'ロックする';
+  return { title: def.name, detail: summarize(def.summary, values) };
+}
+
+export function describeFeedback(f: FeedbackRule, show: Show): { condition: string; effect: string } {
+  const def = getFeedbackDef(driverIdOf(show, f.deviceId), f.definitionId);
+  const cond = def ? summarize(def.summary, withDefaults(def.options, f.options)) || def.name : f.definitionId;
   const parts: string[] = [];
   if (f.style.backgroundColor) parts.push('背景の色');
   if (f.style.textColor) parts.push('文字の色');

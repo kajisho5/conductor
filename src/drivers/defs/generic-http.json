@@ -1,0 +1,148 @@
+{
+  "format": 1,
+  "id": "generic-http",
+  "name": "汎用 HTTP",
+  "category": "汎用",
+  "version": "1.0.0",
+  "minAppVersion": "0.2.0",
+  "transport": "http",
+  "configFields": [
+    {
+      "id": "baseUrl",
+      "label": "URL の先頭",
+      "type": "text",
+      "placeholder": "http://192.168.0.10:8080",
+      "pattern": "^https?://.+",
+      "mono": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "request",
+      "name": "リクエストを送る",
+      "options": [
+        {
+          "id": "method",
+          "label": "方式",
+          "type": "select",
+          "default": "GET",
+          "choices": [
+            {
+              "id": "GET",
+              "label": "GET"
+            },
+            {
+              "id": "POST",
+              "label": "POST"
+            },
+            {
+              "id": "PUT",
+              "label": "PUT"
+            }
+          ]
+        },
+        {
+          "id": "path",
+          "label": "パス",
+          "type": "text",
+          "placeholder": "/api/play",
+          "mono": true
+        },
+        {
+          "id": "contentType",
+          "label": "本文の形式",
+          "type": "select",
+          "default": "application/json",
+          "choices": [
+            {
+              "id": "application/json",
+              "label": "JSON"
+            },
+            {
+              "id": "text/plain",
+              "label": "文字"
+            },
+            {
+              "id": "application/x-www-form-urlencoded",
+              "label": "フォーム"
+            }
+          ]
+        },
+        {
+          "id": "body",
+          "label": "本文",
+          "type": "textarea",
+          "mono": true,
+          "help": "GET では送りません"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "{{option.method}}",
+        "path": "{{option.path}}",
+        "contentType": "{{option.contentType}}",
+        "body": "{{option.body}}"
+      },
+      "summary": "{{option.method}} {{option.path}}"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "status",
+      "name": "応答のステータス",
+      "options": [
+        {
+          "id": "value",
+          "label": "ステータス",
+          "type": "number",
+          "default": 200
+        }
+      ],
+      "compare": {
+        "variable": "last_status",
+        "op": "eq",
+        "value": "{{option.value}}"
+      },
+      "summary": "ステータス {{option.value}}"
+    },
+    {
+      "id": "body_contains",
+      "name": "応答の本文",
+      "options": [
+        {
+          "id": "value",
+          "label": "含む文字",
+          "type": "text",
+          "mono": true
+        }
+      ],
+      "compare": {
+        "variable": "last_body",
+        "op": "contains",
+        "value": "{{option.value}}"
+      },
+      "summary": "本文に {{option.value}}"
+    }
+  ],
+  "variables": [
+    {
+      "id": "last_status",
+      "name": "最後の応答のステータス"
+    },
+    {
+      "id": "last_body",
+      "name": "最後の応答の本文"
+    }
+  ],
+  "httpResponse": {
+    "status": "last_status",
+    "body": "last_body"
+  },
+  "evidence": [
+    {
+      "title": "HTTP Semantics（RFC 9110）",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110",
+      "status": "確認済"
+    }
+  ]
+}

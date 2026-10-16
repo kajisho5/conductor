@@ -1,0 +1,9 @@
+{
+  "name": "conductor-net",
+  "version": "0.1.0",
+  "description": "conductor — TCP / UDP over Network.framework for Expo (iOS only)",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "author": "SEVENTHWELL",
+  "private": true
+}

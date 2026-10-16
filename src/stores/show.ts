@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { newButton, newPage } from '@/model/defaults';
 import { cellKey, clampGrid, parseKey } from '@/model/grid';
 import { newId } from '@/model/id';
-import type { ButtonModel, ButtonStyle, Page, Show, ShowSettings } from '@/model/types';
+import type { ButtonModel, ButtonStyle, Device, Page, Show, ShowSettings } from '@/model/types';
 
 /**
  * 保存するデータ（ショー）のストア（SPEC 10 章）。変更は必ずここのアクション経由。
@@ -28,6 +28,11 @@ interface ShowState {
   createButton: (ref: CellRef) => ButtonModel | null;
   updateButton: (ref: CellRef, patch: Partial<Pick<ButtonModel, 'name' | 'notes' | 'options'>>) => void;
   updateStyle: (ref: CellRef, patch: Partial<ButtonStyle>) => void;
+  /** ボタンの中身を作り替える（動作・状態表示などの編集。src/model/buttonEdits.ts の関数を渡す） */
+  mutateButton: (ref: CellRef, recipe: (b: ButtonModel) => ButtonModel, coalesceKey?: string) => void;
+  addDevice: (device: Device) => void;
+  updateDevice: (deviceId: string, patch: Partial<Omit<Device, 'id'>>, coalesceKey?: string) => void;
+  deleteDevice: (deviceId: string) => void;
   deleteButton: (ref: CellRef) => void;
   copyButton: (from: CellRef, to: CellRef) => void;
   moveButton: (from: CellRef, to: CellRef) => void;
@@ -163,6 +168,37 @@ export const useShowStore = create<ShowState>((set, get) => {
       const b = getButton(show, ref);
       if (!b) return;
       commit(setButtonAt(show, ref, { ...b, style: { ...b.style, ...patch } }), `style:${b.id}:${Object.keys(patch).sort().join(',')}`);
+    },
+
+    mutateButton: (ref, recipe, coalesceKey) => {
+      const show = get().show;
+      if (!show) return;
+      const b = getButton(show, ref);
+      if (!b) return;
+      const next = recipe(b);
+      if (next === b) return;
+      commit(setButtonAt(show, ref, next), coalesceKey ? `mutate:${b.id}:${coalesceKey}` : undefined);
+    },
+
+    addDevice: (device) => {
+      const show = get().show;
+      if (!show) return;
+      commit(touch({ ...show, devices: [...show.devices, device] }));
+    },
+
+    updateDevice: (deviceId, patch, coalesceKey) => {
+      const show = get().show;
+      if (!show) return;
+      commit(
+        touch({ ...show, devices: show.devices.map((d) => (d.id === deviceId ? { ...d, ...patch } : d)) }),
+        coalesceKey ? `device:${deviceId}:${coalesceKey}` : undefined,
+      );
+    },
+
+    deleteDevice: (deviceId) => {
+      const show = get().show;
+      if (!show) return;
+      commit(touch({ ...show, devices: show.devices.filter((d) => d.id !== deviceId) }));
     },
 
     deleteButton: (ref) => {

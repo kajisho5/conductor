@@ -19,6 +19,8 @@ export interface PressVisual {
 
 interface RuntimeState {
   deviceStatus: Record<string, DeviceStatus>;
+  /** 機器ごとの最後のエラー（機器一覧・診断に出す） */
+  deviceError: Record<string, string | undefined>;
   /** 機器ごとの状態値（変数・状態表示の元） */
   deviceValues: Record<string, Record<string, string>>;
   press: Record<string, PressVisual>;
@@ -28,7 +30,8 @@ interface RuntimeState {
   pageNumber: number;
   locked: boolean;
 
-  setDeviceStatus: (id: string, s: DeviceStatus) => void;
+  setDeviceStatus: (id: string, s: DeviceStatus, error?: string) => void;
+  setDeviceValues: (id: string, values: Record<string, string>) => void;
   setDeviceValue: (id: string, key: string, value: string) => void;
   getDeviceValue: (id: string, key: string) => string | undefined;
   setPress: (buttonId: string, phase: PressPhase) => void;
@@ -39,13 +42,23 @@ interface RuntimeState {
 
 export const useRuntimeStore = create<RuntimeState>((set, get) => ({
   deviceStatus: {},
+  deviceError: {},
   deviceValues: {},
   press: {},
   stepIndex: {},
   pageNumber: 1,
   locked: false,
 
-  setDeviceStatus: (id, s) => set({ deviceStatus: { ...get().deviceStatus, [id]: s } }),
+  setDeviceStatus: (id, s, error) => {
+    const st = get();
+    if (st.deviceStatus[id] === s && st.deviceError[id] === error) return;
+    set({ deviceStatus: { ...st.deviceStatus, [id]: s }, deviceError: { ...st.deviceError, [id]: error } });
+  },
+  setDeviceValues: (id, values) => {
+    const cur = get().deviceValues[id] ?? {};
+    if (Object.entries(values).every(([k, v]) => cur[k] === v)) return;
+    set({ deviceValues: { ...get().deviceValues, [id]: { ...cur, ...values } } });
+  },
   setDeviceValue: (id, key, value) => {
     const cur = get().deviceValues[id] ?? {};
     set({ deviceValues: { ...get().deviceValues, [id]: { ...cur, [key]: value } } });

@@ -9,7 +9,7 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 3. 1 と 2 を出したら止めてオーナーの確認を待つ。承認前に実装コードを書かない
 4. 実装後はマイルストーンごとに テスト / 型チェック / expo-doctor を通してコミット → push → TestFlight
 
-現在の段階：**SPEC・デザイン承認済み。M1 実装済み（feat/m1）**。次は M2（動作エンジン・汎用 TCP/UDP/OSC/HTTP・`conductor-net`・ドライバ定義の JSON 化）。画面は Companion の管理画面（左ボタン盤＋右設定欄）の考え方。iPhone Duo も対象（外側 compact／内側 regular）。
+現在の段階：**SPEC・デザイン承認済み。M1・M2 実装済み**。次は M3（Roland V シリーズ LAN・ドライバ定義の配信）。TestFlight はオーナーの指示で「アプリを作り込んでから」。画面は Companion の管理画面（左ボタン盤＋右設定欄）の考え方。iPhone Duo も対象（外側 compact／内側 regular）。
 
 ## 決まっていること（オーナー合意）
 - 作る：ボタン（ページ・ボタン編集・プリセット）／本番画面／機器／トリガー／変数（自分で作る・式・内部・機器）／画像／設定（書き出し・読み込み、ログ、グリッド、スリープ防止）
@@ -41,6 +41,11 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 - 秘密情報は GitHub Secrets のみ。リポジトリに鍵・証明書を置かない
 - 配布は kajisho5/runway・kajisho5/hangar の共通 TestFlight 基盤を使う
 - 実機が無い間はモック（TCP モックサーバー＋デモモード）で開発・テストできるようにする
+
+## コマンド
+- `npm test` / `npm run typecheck` / `npm run doctor`
+- `npm run mock` — 模擬機器（TCP 9001・UDP 9002・OSC 9003・HTTP 9004）。iPhone/iPad の機器設定にこのパソコンの IP を入れて確かめる
+- Linux では Swift（`modules/conductor-net/ios`）をコンパイルできない。CI の macOS ジョブ（シミュレータビルド）で確認する
 
 ## 返答
 - 日本語で短く、結論から

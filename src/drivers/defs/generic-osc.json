@@ -1,0 +1,182 @@
+{
+  "format": 1,
+  "id": "generic-osc",
+  "name": "汎用 OSC",
+  "category": "汎用",
+  "version": "1.0.0",
+  "minAppVersion": "0.2.0",
+  "transport": "osc",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.0.10",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 9003,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "actions": [
+    {
+      "id": "send",
+      "name": "メッセージを送る",
+      "options": [
+        {
+          "id": "address",
+          "label": "アドレス",
+          "type": "text",
+          "placeholder": "/demo/ch/1/mute",
+          "pattern": "^/.*",
+          "mono": true
+        },
+        {
+          "id": "type",
+          "label": "値の型",
+          "type": "select",
+          "default": "none",
+          "choices": [
+            {
+              "id": "none",
+              "label": "値なし"
+            },
+            {
+              "id": "i",
+              "label": "整数"
+            },
+            {
+              "id": "f",
+              "label": "小数"
+            },
+            {
+              "id": "s",
+              "label": "文字"
+            },
+            {
+              "id": "T",
+              "label": "真"
+            },
+            {
+              "id": "F",
+              "label": "偽"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "値",
+          "type": "text",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{option.address}}",
+        "args": [
+          {
+            "type": "{{option.type}}",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "{{option.address}} {{option.value}}"
+    },
+    {
+      "id": "send2",
+      "name": "メッセージを送る（値 2 つ）",
+      "options": [
+        {
+          "id": "address",
+          "label": "アドレス",
+          "type": "text",
+          "placeholder": "/demo/fader",
+          "pattern": "^/.*",
+          "mono": true
+        },
+        {
+          "id": "type1",
+          "label": "1 つ目の型",
+          "type": "select",
+          "default": "i",
+          "choices": [
+            {
+              "id": "i",
+              "label": "整数"
+            },
+            {
+              "id": "f",
+              "label": "小数"
+            },
+            {
+              "id": "s",
+              "label": "文字"
+            }
+          ]
+        },
+        {
+          "id": "value1",
+          "label": "1 つ目の値",
+          "type": "text",
+          "mono": true
+        },
+        {
+          "id": "type2",
+          "label": "2 つ目の型",
+          "type": "select",
+          "default": "f",
+          "choices": [
+            {
+              "id": "i",
+              "label": "整数"
+            },
+            {
+              "id": "f",
+              "label": "小数"
+            },
+            {
+              "id": "s",
+              "label": "文字"
+            }
+          ]
+        },
+        {
+          "id": "value2",
+          "label": "2 つ目の値",
+          "type": "text",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{option.address}}",
+        "args": [
+          {
+            "type": "{{option.type1}}",
+            "value": "{{option.value1}}"
+          },
+          {
+            "type": "{{option.type2}}",
+            "value": "{{option.value2}}"
+          }
+        ]
+      },
+      "summary": "{{option.address}} {{option.value1}} {{option.value2}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "evidence": [
+    {
+      "title": "The Open Sound Control 1.0 Specification",
+      "url": "https://opensoundcontrol.stanford.edu/spec-1_0.html",
+      "status": "確認済"
+    }
+  ]
+}

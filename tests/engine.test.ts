@@ -1,6 +1,7 @@
 import { DEMO_DEVICE_IDS, demoShow, newButton } from '@/model/defaults';
 import { cellKey } from '@/model/grid';
 import type { ActionModel, ButtonModel, Show } from '@/model/types';
+import { deviceManager } from '@/engine/devices';
 import { initDevices, resolveStyle, runAction, runList, stopButton } from '@/engine/executor';
 import { pressDown, pressUp, testPress } from '@/engine/press';
 import { checkDemoFeedback, runDemoAction } from '@/engine/demoDriver';
@@ -13,7 +14,8 @@ function act(deviceId: string, definitionId: string, options: ActionModel['optio
 }
 
 function freshRuntime(show: Show) {
-  useRuntimeStore.setState({ deviceStatus: {}, deviceValues: {}, press: {}, stepIndex: {}, pageNumber: 1, locked: false });
+  deviceManager.stopAll();
+  useRuntimeStore.setState({ deviceStatus: {}, deviceError: {}, deviceValues: {}, press: {}, stepIndex: {}, pageNumber: 1, locked: false });
   initDevices(show);
 }
 
@@ -45,21 +47,42 @@ describe('実行', () => {
     freshRuntime(show);
   });
 
-  it('接続していない機器・無効の機器は送れない', () => {
-    expect(runAction(act(DEMO_DEVICE_IDS.rec, 'demo.toggle', { key: 'rec' }), show).ok).toBe(false);
-    expect(runAction(act(DEMO_DEVICE_IDS.http, 'demo.toggle', { key: 'x' }), show).ok).toBe(false);
-    expect(runAction(act('nope', 'demo.toggle', { key: 'x' }), show).ok).toBe(false);
-    expect(runAction(act(DEMO_DEVICE_IDS.sw, 'demo.toggle', { key: 'x' }), show).ok).toBe(true);
+  it('接続していない機器・無効の機器は送れない', async () => {
+    expect((await runAction(act(DEMO_DEVICE_IDS.rec, 'demo.toggle', { key: 'rec' }), show)).ok).toBe(false);
+    expect((await runAction(act(DEMO_DEVICE_IDS.http, 'demo.toggle', { key: 'x' }), show)).ok).toBe(false);
+    expect((await runAction(act('nope', 'demo.toggle', { key: 'x' }), show)).ok).toBe(false);
+    expect((await runAction(act(DEMO_DEVICE_IDS.sw, 'demo.toggle', { key: 'x' }), show)).ok).toBe(true);
+    expect((await runAction(act(DEMO_DEVICE_IDS.sw, 'demo.unknown', {}), show)).ok).toBe(false);
   });
 
-  it('ページ移動（番号・次・前）', () => {
-    runAction(act('internal', 'internal.page', { page: 3 }), show);
+  it('文字のオプションの変数は送る前に解決する', async () => {
+    useRuntimeStore.getState().setDeviceValue(DEMO_DEVICE_IDS.sw, 'pgm', 'CAM 3');
+    await runAction(act(DEMO_DEVICE_IDS.mixer, 'demo.set', { key: 'from_sw', value: '$(DEMO-SW-A:pgm)' }), show);
+    expect(useRuntimeStore.getState().deviceValues[DEMO_DEVICE_IDS.mixer]?.from_sw).toBe('CAM 3');
+  });
+
+  it('内部の動作：ステップ・ロック', async () => {
+    const b = btn([]);
+    b.steps.push({ ...b.steps[0]!, id: 's2' }, { ...b.steps[0]!, id: 's3' });
+    await runAction(act('internal', 'internal.step', { step: 3 }), show, b);
+    expect(useRuntimeStore.getState().stepIndex[b.id]).toBe(2);
+    await runAction(act('internal', 'internal.step', { step: 'next' }), show, b);
+    expect(useRuntimeStore.getState().stepIndex[b.id]).toBe(0);
+    expect((await runAction(act('internal', 'internal.step', { step: 9 }), show, b)).ok).toBe(false);
+    await runAction(act('internal', 'internal.lock', { lock: 'lock' }), show);
+    expect(useRuntimeStore.getState().locked).toBe(true);
+    await runAction(act('internal', 'internal.lock', { lock: 'unlock' }), show);
+    expect(useRuntimeStore.getState().locked).toBe(false);
+  });
+
+  it('ページ移動（番号・次・前）', async () => {
+    await runAction(act('internal', 'internal.page', { page: 3 }), show);
     expect(useRuntimeStore.getState().pageNumber).toBe(3);
-    runAction(act('internal', 'internal.page', { page: 'next' }), show);
+    await runAction(act('internal', 'internal.page', { page: 'next' }), show);
     expect(useRuntimeStore.getState().pageNumber).toBe(1);
-    runAction(act('internal', 'internal.page', { page: 'prev' }), show);
+    await runAction(act('internal', 'internal.page', { page: 'prev' }), show);
     expect(useRuntimeStore.getState().pageNumber).toBe(3);
-    expect(runAction(act('internal', 'internal.page', { page: 9 }), show).ok).toBe(false);
+    expect((await runAction(act('internal', 'internal.page', { page: 9 }), show)).ok).toBe(false);
   });
 
   it('順番に実行は待ち時間を順に足す、同時に実行は並ぶ', async () => {
@@ -172,7 +195,11 @@ describe('実行', () => {
   });
 
   it('動作の説明文', () => {
-    expect(describeAction(act('internal', 'internal.page', { page: 'next' })).detail).toBe('次のページ');
+    expect(describeAction(act('internal', 'internal.page', { page: 'next' }), show)).toEqual({
+      title: 'ページを移動',
+      detail: 'ページ 次',
+    });
+    expect(describeAction(act(DEMO_DEVICE_IDS.sw, 'demo.set', { key: 'pgm', value: 'CAM 1' }), show).detail).toBe('pgm = CAM 1');
   });
 });
 

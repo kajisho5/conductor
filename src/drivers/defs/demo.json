@@ -1,0 +1,133 @@
+{
+  "format": 1,
+  "id": "demo",
+  "name": "デモ機器",
+  "category": "デモ",
+  "version": "1.0.0",
+  "minAppVersion": "0.1.0",
+  "transport": "demo",
+  "configFields": [
+    {
+      "id": "model",
+      "label": "種類（表示用）",
+      "type": "text",
+      "default": "デモ"
+    },
+    {
+      "id": "behavior",
+      "label": "接続のふるまい",
+      "type": "select",
+      "default": "ok",
+      "choices": [
+        {
+          "id": "ok",
+          "label": "つながる"
+        },
+        {
+          "id": "reconnecting",
+          "label": "再接続中のまま"
+        },
+        {
+          "id": "error",
+          "label": "エラー"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "demo.set",
+      "name": "値を設定",
+      "options": [
+        {
+          "id": "key",
+          "label": "項目",
+          "type": "text",
+          "mono": true
+        },
+        {
+          "id": "value",
+          "label": "値",
+          "type": "text"
+        }
+      ],
+      "send": {
+        "kind": "builtin",
+        "name": "demo.set"
+      },
+      "summary": "{{option.key}} = {{option.value}}"
+    },
+    {
+      "id": "demo.swap",
+      "name": "値を入れ替え",
+      "options": [
+        {
+          "id": "a",
+          "label": "項目 1",
+          "type": "text",
+          "mono": true
+        },
+        {
+          "id": "b",
+          "label": "項目 2",
+          "type": "text",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "builtin",
+        "name": "demo.swap"
+      },
+      "summary": "{{option.a}} ⇄ {{option.b}}"
+    },
+    {
+      "id": "demo.toggle",
+      "name": "ON / OFF を切り替え",
+      "options": [
+        {
+          "id": "key",
+          "label": "項目",
+          "type": "text",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "builtin",
+        "name": "demo.toggle"
+      },
+      "summary": "{{option.key}}"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "demo.equals",
+      "name": "値が等しい",
+      "options": [
+        {
+          "id": "key",
+          "label": "項目",
+          "type": "text",
+          "mono": true
+        },
+        {
+          "id": "value",
+          "label": "値",
+          "type": "text"
+        }
+      ],
+      "compare": {
+        "variable": "{{option.key}}",
+        "op": "eq",
+        "value": "{{option.value}}"
+      },
+      "summary": "{{option.key}} が {{option.value}}"
+    }
+  ],
+  "variables": [],
+  "evidence": [
+    {
+      "title": "通信しない（アプリ内で値だけ変える）",
+      "status": "確認済"
+    }
+  ]
+}

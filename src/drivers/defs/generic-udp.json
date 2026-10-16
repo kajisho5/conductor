@@ -1,0 +1,167 @@
+{
+  "format": 1,
+  "id": "generic-udp",
+  "name": "汎用 UDP",
+  "category": "汎用",
+  "version": "1.0.0",
+  "minAppVersion": "0.2.0",
+  "transport": "udp",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.0.10",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 9002,
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "id": "terminator",
+      "label": "末尾に付ける改行",
+      "type": "select",
+      "default": "",
+      "choices": [
+        {
+          "id": "",
+          "label": "なし"
+        },
+        {
+          "id": "\\r",
+          "label": "CR"
+        },
+        {
+          "id": "\\n",
+          "label": "LF"
+        },
+        {
+          "id": "\\r\\n",
+          "label": "CR+LF"
+        }
+      ]
+    },
+    {
+      "id": "localPort",
+      "label": "受信ポート",
+      "type": "number",
+      "default": 0,
+      "min": 0,
+      "max": 65535,
+      "help": "0 なら自動。機器が決まったポートへ返す時だけ指定"
+    }
+  ],
+  "actions": [
+    {
+      "id": "send",
+      "name": "文字を送る",
+      "options": [
+        {
+          "id": "data",
+          "label": "送る文字",
+          "type": "text",
+          "placeholder": "例：PLAY",
+          "help": "\\r \\n \\xNN が使えます",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.data}}",
+        "encoding": "text",
+        "terminator": "{{config.terminator}}"
+      },
+      "summary": "{{option.data}}"
+    },
+    {
+      "id": "send_hex",
+      "name": "16 進で送る",
+      "options": [
+        {
+          "id": "data",
+          "label": "バイト列（16 進）",
+          "type": "text",
+          "placeholder": "例：02 41 0D",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.data}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.data}}"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "received",
+      "name": "受信した文字",
+      "options": [
+        {
+          "id": "op",
+          "label": "比べ方",
+          "type": "select",
+          "default": "eq",
+          "choices": [
+            {
+              "id": "eq",
+              "label": "と同じ"
+            },
+            {
+              "id": "neq",
+              "label": "と違う"
+            },
+            {
+              "id": "contains",
+              "label": "を含む"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "文字",
+          "type": "text",
+          "mono": true
+        }
+      ],
+      "compare": {
+        "variable": "last_received",
+        "op": "{{option.op}}",
+        "value": "{{option.value}}"
+      },
+      "summary": "受信 {{option.value}}"
+    }
+  ],
+  "variables": [
+    {
+      "id": "last_received",
+      "name": "最後に受信した行"
+    }
+  ],
+  "receiveSplit": "message",
+  "receive": [
+    {
+      "match": "^(.*)$",
+      "set": [
+        {
+          "variable": "last_received",
+          "value": "$1"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "title": "UDP（RFC 768）",
+      "url": "https://www.rfc-editor.org/rfc/rfc768",
+      "status": "確認済"
+    }
+  ]
+}

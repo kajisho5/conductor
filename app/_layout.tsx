@@ -6,6 +6,8 @@ import { StatusBar } from 'expo-status-bar';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { initDevices } from '@/engine/executor';
+import { deviceManager } from '@/engine/devices';
+import { log } from '@/stores/log';
 import { startAutosave, saveNow } from '@/storage/autosave';
 import { loadInitialShow } from '@/storage/showFile';
 import { useShowStore } from '@/stores/show';
@@ -14,6 +16,7 @@ import { AppText } from '@/components/ui/AppText';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 
 const KEEP_AWAKE_TAG = 'conductor-always';
+const DEVICE_SYNC_DELAY_MS = 600;
 
 function reportSaveError(e: unknown) {
   Alert.alert('保存できませんでした', `空き容量を確認してから、もう一度変更してください。\n${e instanceof Error ? e.message : String(e)}`);
@@ -32,23 +35,38 @@ function useBootstrap(): string | null {
       return undefined;
     }
     const stop = startAutosave(reportSaveError);
+    // iOS は前面にいる間だけ動く（SPEC 11 章）：裏に回ったら保存して接続を閉じ、戻ったら開き直す
     const sub = AppState.addEventListener('change', (s) => {
-      if (s !== 'active') saveNow(reportSaveError);
+      if (s === 'background') {
+        saveNow(reportSaveError);
+        deviceManager.suspend();
+        log('info', 'アプリ', '裏に回ったので機器との接続を閉じました');
+      } else if (s === 'inactive') {
+        saveNow(reportSaveError);
+      } else if (s === 'active') {
+        const show = useShowStore.getState().show;
+        if (show) deviceManager.resume(show);
+      }
     });
     return () => {
       sub.remove();
       stop();
+      deviceManager.stopAll();
     };
   }, []);
   return error;
 }
 
-/** 機器の有効/無効が変わったら状態を作り直す（M1：デモドライバ） */
+/** 機器の追加・削除・設定の変更に合わせて接続を開き直す */
 function useDeviceStatusSync() {
   const devices = useShowStore((s) => s.show?.devices);
   useEffect(() => {
-    const show = useShowStore.getState().show;
-    if (show) initDevices(show);
+    // IP アドレスなどを入力している途中で何度も接続し直さないよう、少し待つ
+    const t = setTimeout(() => {
+      const show = useShowStore.getState().show;
+      if (show) initDevices(show);
+    }, DEVICE_SYNC_DELAY_MS);
+    return () => clearTimeout(t);
   }, [devices]);
 }
 

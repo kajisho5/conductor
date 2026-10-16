@@ -84,11 +84,10 @@ export default function SettingsScreen() {
         />
       </Section>
 
-      {compact ? (
-        <Section>
-          <Row title="画像" icon="photo.on.rectangle" chevron last onPress={() => router.push('/settings/images')} />
-        </Section>
-      ) : null}
+      <Section>
+        {compact ? <Row title="画像" icon="photo.on.rectangle" chevron onPress={() => router.push('/settings/images')} /> : null}
+        <Row title="ログ" icon="doc.text.magnifyingglass" chevron last onPress={() => router.push('/settings/logs')} />
+      </Section>
 
       <Section title="このアプリについて" footer="アプリが前面にある間だけ、機器との通信とトリガーが動きます。">
         <Row title="バージョン" value={Constants.expoConfig?.version ?? '不明'} last />
