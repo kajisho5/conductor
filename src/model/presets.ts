@@ -7,6 +7,11 @@ import type { ButtonModel, Device } from './types';
 export function buttonFromPreset(device: Device, preset: PresetDef): ButtonModel {
   const b = newButton({
     name: `${device.label} ${preset.name}`,
+    localVariables: (preset.localVariables ?? []).map((v) => ({
+      id: newId(),
+      ...v,
+      value: v.value.replace(/\$\(DEVICE:/g, `$(${device.label}:`),
+    })),
     style: { text: preset.text, backgroundColor: preset.backgroundColor ?? '#2A2A2E' },
     feedbacks: (preset.feedbacks ?? []).map((f) => ({
       id: newId(),

@@ -4,7 +4,7 @@ const config: ExpoConfig = {
   name: 'conductor',
   slug: 'conductor',
   scheme: 'conductor',
-  version: '0.4.0',
+  version: '0.5.0',
   // アプリアイコン（HIG「App icons」：1024×1024・角丸なし。dark は透過背景、tinted はグレースケール。元 SVG は docs/brand/）
   icon: './assets/images/icon.png',
   // 向きは固定しない（サイズクラスで構成を変える。HIG Layout / iPhone Duo）
@@ -22,6 +22,8 @@ const config: ExpoConfig = {
     requireFullScreen: false,
     infoPlist: {
       NSLocalNetworkUsageDescription: 'LAN 上の映像・音響機器と通信するために使います。',
+      // Roland の機器を Bluetooth MIDI で追加する時だけ使う（「Bluetooth MIDI の機器を追加」を押した時に聞かれる）
+      NSBluetoothAlwaysUsageDescription: '映像スイッチャーと Bluetooth MIDI で通信するために使います。',
       ITSAppUsesNonExemptEncryption: false,
       // LAN 上の機器へ http:// で送る（汎用 HTTP）。ローカルネットワークだけ平文を許す
       NSAppTransportSecurity: { NSAllowsLocalNetworking: true },

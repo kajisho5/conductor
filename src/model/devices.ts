@@ -23,6 +23,7 @@ const PREFIX: Record<string, string> = {
   'roland-v160hd': 'V160HD',
   'roland-v80hd': 'V80HD',
   'roland-vr120hd': 'VR120HD',
+  atem: 'ATEM',
 };
 
 /** 重ならない名前（TCP-1, TCP-2 …） */
@@ -68,4 +69,22 @@ export function usageCount(show: Show, deviceId: string): number {
     }
   }
   return n;
+}
+
+/**
+ * 機器の名前を変えた時、ボタン・トリガー・式の中の $(古い名前:…) を新しい名前に書き換える。
+ * 入力中に何度も書き換えないよう、名前の入力を終えた時に 1 回だけ呼ぶ。
+ */
+export function renameDeviceReferences(show: Show, oldLabel: string, newLabel: string): Show {
+  if (!oldLabel || oldLabel === newLabel) return show;
+  const from = `$(${oldLabel}:`;
+  const to = `$(${newLabel}:`;
+  const swap = <T>(v: T): T =>
+    JSON.parse(JSON.stringify(v).split(JSON.stringify(from).slice(1, -1)).join(JSON.stringify(to).slice(1, -1))) as T;
+  return {
+    ...show,
+    pages: swap(show.pages),
+    triggers: swap(show.triggers),
+    expressionVariables: swap(show.expressionVariables),
+  };
 }

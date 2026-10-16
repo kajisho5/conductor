@@ -41,6 +41,7 @@ MODELS = [
         'tally_size': '00002A',
         'tally_subscribe': True,
         'password_len': 4,
+        'midi': '00 00 00 00 02',
         'cut': 'DTH:0B001E,01;DTH:0B001E,00;',
         'auto': 'DTH:0B001F,01;DTH:0B001F,00;',
         'cut_note': 'CUT / AUTO は 0B001E / 0B001F に 01 → 00（押して離す）',
@@ -64,6 +65,7 @@ MODELS = [
         'tally_size': '000031',
         'tally_subscribe': False,
         'password_len': 8,
+        'midi': '01 05 14',
         'cut': 'CUT;',
         'auto': 'ATO;',
         'cut_note': 'CUT / AUTO は簡易制御コマンド（本体 Ver.1.3 以降）',
@@ -87,6 +89,7 @@ MODELS = [
         'tally_size': '000025',
         'tally_subscribe': False,
         'password_len': 4,
+        'midi': '00 00 00 00 25',
         'cut': 'CUT;',
         'auto': 'ATO;',
         'cut_note': 'CUT / AUTO は簡易制御コマンド（本体 Ver.2.2 以降）',
@@ -229,7 +232,12 @@ def build(m):
         'minAppVersion': '0.3.0',
         'transport': 'tcp',
         'session': 'roland-lan',
+        'midiModelId': m['midi'],
         'configFields': [
+            {'id': 'link', 'label': '接続', 'type': 'select', 'default': 'lan',
+             'choices': [{'id': 'lan', 'label': 'LAN'}, {'id': 'midi', 'label': 'USB / BT MIDI'}],
+             'help': 'USB・Bluetooth MIDI では DTH の命令だけ使えます（CUT; などの簡易制御コマンドは LAN だけ）'},
+            {'id': 'midiName', 'label': 'MIDI の機器名（空なら機種名で探す）', 'type': 'text', 'placeholder': 'MIDI のとき'},
             {'id': 'host', 'label': 'IP アドレス', 'type': 'text', 'placeholder': '192.168.0.10', 'pattern': '^[A-Za-z0-9.:\\-]+$', 'mono': True},
             {'id': 'port', 'label': 'ポート', 'type': 'number', 'default': 8023, 'min': 1, 'max': 65535},
             {'id': 'password', 'label': f"パスワード（{m['password_len']} 桁）", 'type': 'text',
@@ -248,7 +256,8 @@ def build(m):
         'poll': poll,
         'derive': derive,
         'presets': presets,
-        'evidence': evidence,
+        'evidence': evidence + [{'title': f"SysEx 機種 ID {m['midi']}（USB / Bluetooth MIDI）", 'status': '確認済' if m['id'] != 'roland-vr120hd' else '推測',
+                                 'note': '各機種の Remote Control Guide と crosspoint のプロファイル'}],
     }
 
 

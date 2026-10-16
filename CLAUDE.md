@@ -9,7 +9,7 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 3. 1 と 2 を出したら止めてオーナーの確認を待つ。承認前に実装コードを書かない
 4. 実装後はマイルストーンごとに テスト / 型チェック / expo-doctor を通してコミット → push → TestFlight
 
-現在の段階：**SPEC・デザイン承認済み。M1〜M4 実装済み**（M3 の「ドライバ定義の配信」は配信先が決まっていないので未）。次は M5（ATEM・Roland の USB/Bluetooth MIDI）。TestFlight はオーナーの指示で「アプリを作り込んでから」。画面は Companion の管理画面（左ボタン盤＋右設定欄）の考え方。iPhone Duo も対象（外側 compact／内側 regular）。
+現在の段階：**SPEC・デザイン承認済み。M1〜M5 実装済み**（M3 の「ドライバ定義の配信」は配信先が決まっていないので未）。実機（Roland・ATEM）での確認はまだ。TestFlight はオーナーの指示で「アプリを作り込んでから」。画面は Companion の管理画面（左ボタン盤＋右設定欄）の考え方。iPhone Duo も対象（外側 compact／内側 regular）。
 
 ## 決まっていること（オーナー合意）
 - 作る：ボタン（ページ・ボタン編集・プリセット）／本番画面／機器／トリガー／変数（自分で作る・式・内部・機器）／画像／設定（書き出し・読み込み、ログ、グリッド、スリープ防止）
@@ -46,7 +46,10 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 - `npm test` / `npm run typecheck` / `npm run doctor`
 - `npm run mock` — 模擬機器（TCP 9001・UDP 9002・OSC 9003・HTTP 9004）。iPhone/iPad の機器設定にこのパソコンの IP を入れて確かめる
 - `npm run mock:roland` — Roland V シリーズ風（TCP 8023、`-- --model v160hd|v80hd|vr120hd --password 0000`）
-- `python3 scripts/drivers/build_roland.py` — Roland の定義 JSON を作り直す（JSON を手で直さない）
+- `npm run mock:atem` — ATEM 風（UDP 9910）
+- `python3 scripts/drivers/build_roland.py` / `build_atem.py` — 定義 JSON を作り直す（JSON を手で直さない）
+- `python3 scripts/licenses/build_licenses.py` — ライセンス一覧（依存を変えたら作り直す）
+- バージョンや app.config.ts を変えたら `npx expo prebuild --platform ios --no-install`（tests/config.test.ts が食い違いを検出）
 - Linux では Swift（`modules/conductor-net/ios`）をコンパイルできない。CI の macOS ジョブ（シミュレータビルド）で確認する
 
 ## 返答

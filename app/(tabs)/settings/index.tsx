@@ -107,7 +107,8 @@ export default function SettingsScreen() {
       </Section>
 
       <Section title="このアプリについて" footer="アプリが前面にある間だけ、機器との通信とトリガーが動きます。">
-        <Row title="バージョン" value={Constants.expoConfig?.version ?? '不明'} last />
+        <Row title="バージョン" value={Constants.expoConfig?.version ?? '不明'} />
+        <Row title="オープンソースのライセンス" chevron last onPress={() => router.push('/settings/licenses')} />
       </Section>
     </ScrollView>
   );

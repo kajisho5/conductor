@@ -90,6 +90,8 @@ export interface PresetDef {
   action: { definitionId: string; options: Record<string, string | number | boolean> };
   /** 一緒に入れる状態表示（例：PGM なら赤） */
   feedbacks?: { definitionId: string; options: Record<string, string | number | boolean>; backgroundColor: string }[];
+  /** ボタン変数（値の中の $(DEVICE:…) は置いた機器の名前に置き換える） */
+  localVariables?: { name: string; kind: 'value' | 'expression'; value: string }[];
 }
 
 export interface Evidence {
@@ -120,8 +122,11 @@ export interface DriverDefinition {
   /**
    * アプリに組み込んだ通信手順の名前（定義では表せない認証・区切り・ack 待ちをする）。
    * roland-lan：Roland の LAN 制御（パスワード認証、`;` 区切り、ack 待ち、DTH を addr_XXXXXX の変数へ展開）
+   * atem：Blackmagic ATEM（UDP 9910。接続の手順・ack・コマンドの組み立てと解析。動作は builtin の名前で指定）
    */
-  session?: 'roland-lan';
+  session?: 'roland-lan' | 'atem';
+  /** Roland の SysEx 機種 ID（16 進を空白区切り）。あれば設定「接続」で USB / Bluetooth MIDI も選べる */
+  midiModelId?: string;
   /** 接続できた直後に送る（テンプレート可、{{config.x}}） */
   onConnect?: string[];
   poll?: PollDef[];

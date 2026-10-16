@@ -6,6 +6,7 @@ import httpDef from './defs/generic-http.json';
 import rolandV160hd from './defs/roland-v160hd.json';
 import rolandV80hd from './defs/roland-v80hd.json';
 import rolandVr120hd from './defs/roland-vr120hd.json';
+import atemDef from './defs/atem.json';
 import type { ActionDef, DriverDefinition, FeedbackDef, FieldDef } from './types';
 
 /**
@@ -22,7 +23,7 @@ export class DefinitionError extends Error {
 
 const FIELD_TYPES = new Set(['text', 'textarea', 'number', 'select', 'boolean']);
 const TRANSPORTS = new Set(['tcp', 'udp', 'osc', 'http', 'demo', 'internal']);
-const SESSIONS = new Set(['roland-lan']);
+const SESSIONS = new Set(['roland-lan', 'atem']);
 const SEND_KINDS = new Set(['bytes', 'osc', 'http', 'builtin']);
 
 function isObj(v: unknown): v is Record<string, unknown> {
@@ -260,7 +261,7 @@ export const INTERNAL_DEFINITION: DriverDefinition = {
   evidence: [],
 };
 
-const BUNDLED: DriverDefinition[] = [rolandV160hd, rolandV80hd, rolandVr120hd, tcpDef, udpDef, oscDef, httpDef, demoDef].map((d) =>
+const BUNDLED: DriverDefinition[] = [rolandV160hd, rolandV80hd, rolandVr120hd, atemDef, tcpDef, udpDef, oscDef, httpDef, demoDef].map((d) =>
   validateDefinition(d),
 );
 

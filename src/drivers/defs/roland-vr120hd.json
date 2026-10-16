@@ -7,7 +7,31 @@
   "minAppVersion": "0.3.0",
   "transport": "tcp",
   "session": "roland-lan",
+  "midiModelId": "00 00 00 00 25",
   "configFields": [
+    {
+      "id": "link",
+      "label": "接続",
+      "type": "select",
+      "default": "lan",
+      "choices": [
+        {
+          "id": "lan",
+          "label": "LAN"
+        },
+        {
+          "id": "midi",
+          "label": "USB / BT MIDI"
+        }
+      ],
+      "help": "USB・Bluetooth MIDI では DTH の命令だけ使えます（CUT; などの簡易制御コマンドは LAN だけ）"
+    },
+    {
+      "id": "midiName",
+      "label": "MIDI の機器名（空なら機種名で探す）",
+      "type": "text",
+      "placeholder": "MIDI のとき"
+    },
     {
       "id": "host",
       "label": "IP アドレス",
@@ -1128,6 +1152,11 @@
       "title": "タリーの並び・値（0C0000 から）",
       "status": "推測",
       "note": "自発通知の有無は機種で違う。通知が無い機種は 0.5 秒ごとに問い合わせる"
+    },
+    {
+      "title": "SysEx 機種 ID 00 00 00 00 25（USB / Bluetooth MIDI）",
+      "status": "推測",
+      "note": "各機種の Remote Control Guide と crosspoint のプロファイル"
     }
   ]
 }

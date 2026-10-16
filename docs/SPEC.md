@@ -379,8 +379,19 @@ export interface DriverInstance {
 
 ### 8.3 Blackmagic ATEM
 - 公開 OSS `atem-connection`（MIT）を仕様の参考にする【確認済：npm のライセンス表示 MIT】。状態が変わると機器からパケットが来る（ライブラリの `stateChanged`）【確認済：同 README】
-- UDP ポート 9910【推測：一般的に知られる値。atem-connection のソースで確認する】
+- UDP ポート 9910【確認済：atem-connection 3.10.3 のソース】
 - Node 依存のライブラリなので、そのままは使わず、TS で必要な部分（接続手順・PGM/PST・CUT/AUTO・タリー・DSK・マクロ）を書き直す。ライセンス表記を設定 > ライセンスに入れる
+- 実装（M5）：通信手順 `atem`（`src/drivers/atem.ts`）。HELLO → NewSessionId に ack → AckRequest のパケットのコマンドを解析して ack → `InCm` で「接続中」。送信は AckRequest、ack が来なければ 200ms ごとに 3 回まで送り直し、来なければ「送れなかった」。5 秒何も届かなければ接続し直す【確認済：atem-connection の atemSocketChild。実機は未確認】
+- 送るコマンド：CPgI / CPvI / DCut / DAut / FtbA / MAct / CDsL / CAuS。受けるコマンド：_pin / PrgI / PrvI / TlSr / InPr / FtbS / DskS / AuxS / InCm【確認済：同ライブラリの serialize / deserialize】。DSK の AUTO（DDsA）は本体の版で中身が変わるので入れない
+- 模擬機器：`npm run mock:atem`
+
+### 8.5 Roland の USB / Bluetooth MIDI（M5）
+- Swift の `modules/conductor-midi`（CoreMIDI。kajisho5/crosspoint の crosspoint-midi を元にした）
+- Roland の定義に `midiModelId`（V-160HD `00 00 00 00 02`、V-80HD `01 05 14`、VR-120HD `00 00 00 00 25`）。機器の設定「接続」で LAN / USB・Bluetooth MIDI を選ぶ
+- 送る内容は LAN の命令（`DTH:…;` `RQH:…;`）を DT1 / RQ1 に置き換える。`CUT;` などの簡易制御コマンドは MIDI では使えない（「送れなかった」と理由を出す）。MIDI には ack が無いので、送信できた時点で「送れた」
+- 届いた DT1 は LAN と同じ addr_XXXXXX の変数にし、定義の derive で pgm / pst / tally を作る
+- CoreMIDI モジュールは同時に 1 つの機器だけ開くので、MIDI で使える機器は 1 台まで
+- Bluetooth の機器は機器の画面の「Bluetooth MIDI の機器を追加」（システムのピッカー）で追加。Bluetooth の許可はその時に聞かれる
 
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。

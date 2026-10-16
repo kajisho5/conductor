@@ -8,6 +8,7 @@ export default function Layout() {
       <Stack.Screen name="images" options={{ title: '画像' }} />
       <Stack.Screen name="logs" options={{ title: 'ログ' }} />
       <Stack.Screen name="shows" options={{ title: 'ショー' }} />
+      <Stack.Screen name="licenses" options={{ title: 'ライセンス' }} />
     </Stack>
   );
 }

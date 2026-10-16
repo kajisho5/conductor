@@ -3,6 +3,7 @@ import type { LogLevel } from '@/stores/log';
 import { printable, unescapeText, utf8Encode } from './bytes';
 import { applyDerive, ReceiveParser, renderTemplate, type Values } from './engine';
 import type { DriverDefinition } from './types';
+import { AtemSession } from './atem';
 
 /**
  * 接続ごとの通信手順（SPEC 7 章）。DeviceManager が TCP/UDP の口を開き、その上でこれが動く。
@@ -28,6 +29,8 @@ export interface Session {
   ready(): void;
   data(bytes: Uint8Array): void;
   send(bytes: Uint8Array): Promise<SendResult>;
+  /** 定義の送信形式が builtin の動作（ATEM などアプリに組み込みのコマンド） */
+  sendBuiltin?(name: string, option: Values): Promise<SendResult>;
   /** タイマーなどを止める（閉じる時に必ず呼ぶ） */
   dispose(): void;
 }
@@ -434,5 +437,7 @@ export class RolandLanSession implements Session {
 }
 
 export function createSession(io: SessionIO): Session {
-  return io.def.session === 'roland-lan' ? new RolandLanSession(io) : new RawSession(io);
+  if (io.def.session === 'roland-lan') return new RolandLanSession(io);
+  if (io.def.session === 'atem') return new AtemSession(io);
+  return new RawSession(io);
 }

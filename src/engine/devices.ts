@@ -2,6 +2,9 @@ import { getConductorNet, type ConductorNet, type NetState } from '../../modules
 import { fromBase64, printable, toBase64 } from '@/drivers/bytes';
 import { buildPayload, PayloadError, withDefaults, type Values } from '@/drivers/engine';
 import { createSession, type Session, type SessionIO } from '@/drivers/sessions';
+import { MidiLink } from './midiLink';
+import type { ConductorMidi } from '../../modules/conductor-midi/src';
+import { getConductorMidi } from '../../modules/conductor-midi/src';
 import { getDefinition } from '@/drivers/registry';
 import type { ActionDef, DriverDefinition } from '@/drivers/types';
 import type { Device, Show } from '@/model/types';
@@ -30,6 +33,8 @@ interface Conn {
   netId: string;
   /** 口が開いている間の通信手順（認証・ack 待ち・受信の解析） */
   session: Session | null;
+  /** USB / Bluetooth MIDI でつないでいる時（Roland） */
+  midi: MidiLink | null;
   attempt: number;
   retry: ReturnType<typeof setTimeout> | null;
   wanted: boolean;
@@ -57,6 +62,7 @@ export class DeviceManager {
   constructor(
     private readonly netProvider: () => ConductorNet | null = getConductorNet,
     private readonly fetchImpl: typeof fetch = (...a) => fetch(...a),
+    private readonly midiProvider: () => ConductorMidi | null = getConductorMidi,
   ) {}
 
   private net(): ConductorNet | null {
@@ -123,6 +129,7 @@ export class DeviceManager {
       key: configKey(device),
       netId: '',
       session: null,
+      midi: null,
       attempt: 0,
       retry: null,
       wanted: device.enabled,
@@ -150,6 +157,10 @@ export class DeviceManager {
       return;
     }
     if (this.suspended) return;
+    if (c.def.midiModelId && c.config.link === 'midi') {
+      this.connectMidi(c);
+      return;
+    }
     const h = host(c.config);
     const p = port(c.config);
     if (!h) {
@@ -178,6 +189,34 @@ export class DeviceManager {
       const msg = e instanceof Error ? e.message : String(e);
       this.failed(c, msg);
     });
+  }
+
+  /** Roland の USB / Bluetooth MIDI（同時に 1 台まで） */
+  private connectMidi(c: Conn): void {
+    const other = [...this.conns.values()].find((x) => x !== c && x.midi);
+    if (other) {
+      useRuntimeStore
+        .getState()
+        .setDeviceStatus(c.device.id, 'error', `MIDI は同時に 1 台までです（${other.device.label} が使っています）`);
+      return;
+    }
+    const io: SessionIO = {
+      def: c.def,
+      config: c.config,
+      write: async () => {
+        throw new Error('MIDI では使いません');
+      },
+      setStatus: (status, error) => {
+        if (this.conns.get(c.device.id) === c) useRuntimeStore.getState().setDeviceStatus(c.device.id, status, error);
+      },
+      setValues: (updates) => {
+        if (this.conns.get(c.device.id) === c) useRuntimeStore.getState().setDeviceValues(c.device.id, updates);
+      },
+      log: (level, message) => log(level, c.device.label, message, c.device.id),
+      fail: () => undefined,
+    };
+    c.midi = new MidiLink(io, this.midiProvider);
+    void c.midi.start();
   }
 
   private onNetState(netId: string, state: NetState, error?: string): void {
@@ -257,6 +296,8 @@ export class DeviceManager {
   private async closeNet(c: Conn): Promise<void> {
     c.session?.dispose();
     c.session = null;
+    c.midi?.stop();
+    c.midi = null;
     if (!c.netId) return;
     const netId = c.netId;
     this.byNetId.delete(netId);
@@ -287,7 +328,17 @@ export class DeviceManager {
       log('error', device.label, `${action.name}：${msg}`, device.id);
       return { ok: false, reason: msg };
     }
-    if (payload.kind === 'builtin') return { ok: false, reason: `${action.name} はこの機器では使えません` };
+    if (payload.kind === 'builtin') {
+      if (!c.session?.sendBuiltin) return { ok: false, reason: `${action.name} はこの機器では使えません` };
+      const r = await c.session.sendBuiltin(payload.name, option);
+      if (!r.ok) log('error', device.label, `${action.name}：送れませんでした（${r.reason}）`, device.id);
+      return r;
+    }
+    if (payload.kind === 'bytes' && c.midi) {
+      const r = await c.midi.send(payload.bytes);
+      if (!r.ok) log('error', device.label, `${action.name}：送れませんでした（${r.reason}）`, device.id);
+      return r;
+    }
     if (payload.kind === 'bytes') {
       if (!c.session) return { ok: false, reason: `${device.label} に接続していません` };
       if (c.def.session !== 'roland-lan') log('debug', device.label, `送信 ${printable(payload.bytes)}`, device.id);
