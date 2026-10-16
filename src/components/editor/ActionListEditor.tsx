@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { Pressable, Switch, TextInput, View } from 'react-native';
+import { Switch, TextInput, View } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import { delayLabel, describeAction, deviceLabel, driverIdOf } from '@/engine/describe';
 import { getActionDef } from '@/drivers/registry';
 import { listAdd, listDuplicate, listMode, listMove, listRemove, listSetOption, listUpdate, newAction } from '@/model/buttonEdits';

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { Pressable, ScrollView, Switch, TextInput, View } from 'react-native';
+import { ScrollView, Switch, TextInput, View } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import { triggerEngine } from '@/engine/triggers';
 import {
   addEvent,

@@ -1,4 +1,5 @@
-import { Pressable, ScrollView, Switch, View } from 'react-native';
+import { ScrollView, Switch, View } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import { getDefinition } from '@/drivers/registry';
 import type { Show } from '@/model/types';
 import { useRuntimeStore } from '@/stores/runtime';
@@ -6,6 +7,7 @@ import { useShowStore } from '@/stores/show';
 import { color, MIN_TAP } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
 import { Section } from '@/components/ui/Group';
+import { LocalAddressesSection } from './LocalAddresses';
 import { Symbol } from '@/components/ui/Symbol';
 import { STATUS_LABEL, STATUS_TONE } from '@/components/show/deviceSummary';
 
@@ -65,6 +67,7 @@ export function DeviceList({ show, selectedId, onSelect }: { show: Show; selecte
           );
         })}
       </Section>
+      <LocalAddressesSection />
     </ScrollView>
   );
 }

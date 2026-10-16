@@ -47,6 +47,33 @@ public class ConductorNetModule: Module {
     AsyncFunction("closeAll") {
       self.closeAll()
     }
+
+    /// この端末の IPv4 アドレス（ループバックと 169.254 を除く）。機器側の設定に入れるために表示する
+    Function("localAddresses") { () -> [[String: String]] in
+      return ConductorNetModule.localAddresses()
+    }
+  }
+
+  static func localAddresses() -> [[String: String]] {
+    var result: [[String: String]] = []
+    var head: UnsafeMutablePointer<ifaddrs>?
+    guard getifaddrs(&head) == 0, let first = head else { return result }
+    defer { freeifaddrs(head) }
+    var cursor: UnsafeMutablePointer<ifaddrs>? = first
+    while let ifa = cursor {
+      defer { cursor = ifa.pointee.ifa_next }
+      let flags = Int32(ifa.pointee.ifa_flags)
+      guard (flags & IFF_UP) != 0, (flags & IFF_LOOPBACK) == 0 else { continue }
+      guard let addr = ifa.pointee.ifa_addr, addr.pointee.sa_family == UInt8(AF_INET) else { continue }
+      var host = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+      let len = socklen_t(addr.pointee.sa_len)
+      guard getnameinfo(addr, len, &host, socklen_t(host.count), nil, 0, NI_NUMERICHOST) == 0 else { continue }
+      let ip = String(cString: host)
+      if ip.hasPrefix("169.254.") { continue }
+      let name = String(cString: ifa.pointee.ifa_name)
+      result.append(["interface": name, "address": ip])
+    }
+    return result
   }
 
   // MARK: - 接続

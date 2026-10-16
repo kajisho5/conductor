@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, Switch, TextInput, View } from 'react-native';
+import { ScrollView, Switch, TextInput, View } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import { variableNameError } from '@/model/buttonEdits';
 import {
   addCustomVariable,

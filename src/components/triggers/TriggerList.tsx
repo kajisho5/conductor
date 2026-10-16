@@ -1,4 +1,5 @@
-import { Pressable, ScrollView, Switch, View } from 'react-native';
+import { ScrollView, Switch, View } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import { describeTrigger, updateTrigger } from '@/model/triggers';
 import type { Show } from '@/model/types';
 import { useShowStore } from '@/stores/show';

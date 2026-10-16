@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { ActionSheetIOS, Platform, Pressable, ScrollView, TextInput, View, findNodeHandle } from 'react-native';
+import { ActionSheetIOS, Platform, ScrollView, TextInput, View, findNodeHandle } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import type { Show } from '@/model/types';
 import { useRuntimeStore } from '@/stores/runtime';
 import { useShowStore, visibleButtonCount } from '@/stores/show';

@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
-import { Alert, Pressable, ScrollView, View } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import { Stack, useFocusEffect } from 'expo-router';
 import { useShowStore } from '@/stores/show';
 import { createShow, deleteShowFiles, duplicateShowFiles, listShows, type ShowSummary } from '@/storage/shows';

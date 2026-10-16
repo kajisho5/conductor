@@ -1,4 +1,5 @@
-import { Pressable, View, type ColorValue, type StyleProp, type ViewStyle } from 'react-native';
+import { View, type ColorValue, type StyleProp, type ViewStyle } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import type { SFSymbol } from 'expo-symbols';
 import { color, MIN_TAP, radius } from '@/theme/tokens';
 import { AppText } from './AppText';

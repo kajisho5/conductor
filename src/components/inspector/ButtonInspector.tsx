@@ -41,6 +41,7 @@ export function ButtonInspector({ cell, button, show, compact }: { cell: CellRef
   const page = show.pages.find((p) => p.id === cell.pageId);
   return (
     <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
       contentContainerStyle={{ padding: compact ? 16 : 20, paddingBottom: 48 }}
       keyboardDismissMode="interactive"
       keyboardShouldPersistTaps="handled"

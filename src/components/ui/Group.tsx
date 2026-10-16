@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Pressable, Switch, View, type ColorValue } from 'react-native';
+import { Switch, View, type ColorValue } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import type { SFSymbol } from 'expo-symbols';
 import { color, MIN_TAP, radius } from '@/theme/tokens';
 import { AppText } from './AppText';

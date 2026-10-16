@@ -1,4 +1,4 @@
-import type { ConductorNet, ConductorNetEvents } from '../modules/conductor-net/src';
+import { interfaceLabel, lanAddresses, type ConductorNet, type ConductorNetEvents } from '../modules/conductor-net/src';
 import { DeviceManager, RECONNECT_STEPS_MS } from '@/engine/devices';
 import { getActionDef, getDefinition } from '@/drivers/registry';
 import { newDevice } from '@/model/devices';
@@ -23,6 +23,9 @@ class FakeNet implements ConductorNet {
   }
   async close(id: string) {
     this.closed.push(id);
+  }
+  localAddresses() {
+    return [];
   }
   async closeAll() {}
   addListener<K extends keyof ConductorNetEvents>(event: K, listener: ConductorNetEvents[K]) {
@@ -209,5 +212,19 @@ describe('機器の接続', () => {
     expect(useRuntimeStore.getState().deviceValues[d.id]).toEqual({ last_status: '200', last_body: 'played' });
     code = 500;
     expect(await m.send(d, a, { method: 'GET', path: '/x' })).toEqual({ ok: false, reason: '応答 500' });
+  });
+});
+
+describe('この端末の IP', () => {
+  test('LAN のアドレスだけ残し、名前を付ける', () => {
+    const list = lanAddresses([
+      { interface: 'en0', address: '192.168.10.20' },
+      { interface: 'pdp_ip0', address: '10.1.2.3' },
+      { interface: 'utun3', address: '10.8.0.2' },
+      { interface: 'bridge100', address: '172.20.10.1' },
+      { interface: 'en5', address: '192.168.0.50' },
+    ]);
+    expect(list.map((a) => a.address)).toEqual(['192.168.10.20', '172.20.10.1', '192.168.0.50']);
+    expect(list.map((a) => interfaceLabel(a.interface))).toEqual(['Wi-Fi', 'インターネット共有', '有線 LAN']);
   });
 });

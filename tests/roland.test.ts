@@ -96,6 +96,9 @@ class NodeNet implements ConductorNet {
     this.socks.get(id)?.destroy();
     this.socks.delete(id);
   }
+  localAddresses() {
+    return [];
+  }
   async closeAll() {
     for (const id of [...this.socks.keys()]) await this.close(id);
   }

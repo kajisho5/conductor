@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { Pressable, Switch, TextInput, View } from 'react-native';
+import { Switch, TextInput, View } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import { describeFeedback, deviceLabel, driverIdOf } from '@/engine/describe';
 import { getFeedbackDef } from '@/drivers/registry';
 import {

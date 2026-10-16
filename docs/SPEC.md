@@ -384,6 +384,7 @@ export interface DriverInstance {
 - 実装（M5）：通信手順 `atem`（`src/drivers/atem.ts`）。HELLO → NewSessionId に ack → AckRequest のパケットのコマンドを解析して ack → `InCm` で「接続中」。送信は AckRequest、ack が来なければ 200ms ごとに 3 回まで送り直し、来なければ「送れなかった」。5 秒何も届かなければ接続し直す【確認済：atem-connection の atemSocketChild。実機は未確認】
 - 送るコマンド：CPgI / CPvI / DCut / DAut / FtbA / MAct / CDsL / CAuS。受けるコマンド：_pin / PrgI / PrvI / TlSr / InPr / FtbS / DskS / AuxS / InCm【確認済：同ライブラリの serialize / deserialize】。DSK の AUTO（DDsA）は本体の版で中身が変わるので入れない
 - 模擬機器：`npm run mock:atem`
+- 【未実装・オーナー要望メモ 2026-10-17】メディアプールのスチル操作：①メディアプレーヤーに出すスチルを選ぶ ②スチルを消す ③スチル一覧（名前・空き）を変数にする ④iPhone / iPad の画像をスチルとして入れる（ATEM の解像度・形式へ変換し、ファイル転送の手順で送る。①〜③より大きい作業）。atem-connection の該当部分を参考にする。着手は未定
 
 ### 8.5 Roland の USB / Bluetooth MIDI（M5）
 - Swift の `modules/conductor-midi`（CoreMIDI。kajisho5/crosspoint の crosspoint-midi を元にした）

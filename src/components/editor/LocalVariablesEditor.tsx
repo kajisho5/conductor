@@ -1,4 +1,5 @@
-import { Pressable, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
+import { Tap as Pressable } from '@/components/ui/Tap';
 import { newLocalVariable, variableNameError } from '@/model/buttonEdits';
 import type { LocalVariable } from '@/model/types';
 import { color, MIN_TAP, radius, type as typeStyles } from '@/theme/tokens';
