@@ -1,4 +1,33 @@
+# --- Node / Expo ---
+node_modules/
+.expo/
+dist/
+web-build/
+npm-debug.*
+*.tsbuildinfo
+
+# --- Native ---
+# ios/ はコミットする（runway の TestFlight 基盤がワークスペースを直接ビルドするため）。
+# app.config.ts やネイティブ依存を変えたら `npx expo prebuild --platform ios --clean --no-install` を再実行してコミット
+/ios/Pods/
+/ios/build/
+/ios/.xcode.env.local
+/android/
+
+# --- 秘密情報（GitHub Secrets だけに置く）---
+.env
+.env*.local
+*.p8
+*.p12
+*.key
+*.pem
+*.mobileprovision
+*.jks
+
+# --- 出力 / OS ---
+build/
+*.ipa
+*.dSYM.zip
+.DS_Store
 __pycache__/
 *.pyc
-.DS_Store
-node_modules/

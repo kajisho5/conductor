@@ -1,0 +1,21 @@
+# kajisho5/runway の共通 TestFlight 基盤で配る（Mac 不要）。Secrets は runway の sync-secrets が配る（リポジトリに鍵を置かない）。
+name: testflight
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  ios:
+    uses: kajisho5/runway/.github/workflows/apple-testflight.yml@main
+    with:
+      bundle_id: com.seventhwell.conductor
+      workspace: ios/conductor.xcworkspace
+      scheme: conductor
+      node_version: "22"
+      pre_build: npm ci && cd ios && pod install
+    secrets: inherit

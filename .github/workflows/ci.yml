@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CI: 1
+  EXPO_NO_TELEMETRY: 1
+
+jobs:
+  test:
+    name: test / typecheck / doctor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test -- --ci
+      - run: npx expo-doctor
+
+  ios-build:
+    name: iOS build (simulator, no signing)
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Select Xcode 26
+        run: |
+          xcode=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | grep -vi beta | sort -V | tail -n 1)
+          [ -n "$xcode" ] || { echo "::error::No Xcode 26 on this runner"; exit 1; }
+          sudo xcode-select -s "$xcode/Contents/Developer"
+          xcodebuild -version
+      - run: npm ci
+      - name: コミット済み ios/ が app.config.ts・依存と一致するか
+        run: |
+          npx expo prebuild --platform ios --no-install
+          git diff --name-only -- ios | grep -v 'project.pbxproj' > /tmp/drift.txt || true
+          if ! diff <(git show HEAD:ios/conductor.xcodeproj/project.pbxproj | sed -E 's/[0-9A-F]{24}/UUID/g') \
+                    <(sed -E 's/[0-9A-F]{24}/UUID/g' ios/conductor.xcodeproj/project.pbxproj) > /tmp/pbx.diff; then
+            echo "project.pbxproj" >> /tmp/drift.txt
+          fi
+          if [ -s /tmp/drift.txt ]; then
+            echo "::error::ios/ が古いです。'npx expo prebuild --platform ios --clean --no-install' を実行してコミットしてください"
+            cat /tmp/drift.txt; head -40 /tmp/pbx.diff; exit 1
+          fi
+      - name: pod install
+        working-directory: ios
+        run: pod install
+      - name: xcodebuild (Debug, iphonesimulator)
+        run: |
+          set -o pipefail
+          xcodebuild -workspace ios/conductor.xcworkspace -scheme conductor -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build 2>&1 | tee xcodebuild.log | grep -E "error:|BUILD (SUCCEEDED|FAILED)" || true
+          grep -q "BUILD SUCCEEDED" xcodebuild.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xcodebuild-log
+          path: xcodebuild.log
+          retention-days: 7

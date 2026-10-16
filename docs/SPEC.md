@@ -334,6 +334,16 @@ export interface DriverInstance {
 - 通信は Swift の Expo Module（`modules/conductor-net`）で Network.framework（`NWConnection`）を使い、TCP・UDP を扱う。TS 側はバイト列の組み立てと解析だけ。HTTP は `fetch`。MIDI（USB/Bluetooth）は後のマイルストーンで `modules/conductor-midi`（CoreMIDI）。
 - 再接続：切断後 1, 2, 4, 8 秒…最大 30 秒間隔で再試行。アプリが裏に回ったら全接続を閉じ、前面に戻ったら再接続（iOS 制約）。
 
+### 7.1 ドライバ定義の配信と更新（オーナー決定 2026-10-17）
+
+- ドライバは「定義（JSON のデータ）」と「アプリに組み込んだ汎用エンジン」に分ける。定義に入れるのは、送る文字列・バイト列のテンプレート、応答の解析パターン、動作・状態表示・変数・プリセットの一覧、設定項目、根拠（`evidence`）だけ。**コード（JS・Swift）は入れない**
+- 定義は kajisho5 の GitHub リポジトリで管理し、Cloudflare（R2 または Pages）から配る。アプリは起動時と「機器」画面で更新を確かめ、取り込む
+- 各定義に `id`・`version`・`minAppVersion`・ハッシュ（または署名）を持たせる。検証に通らない定義・`minAppVersion` を満たさない定義は使わない。取得できない時は前回取り込んだ版、それも無ければアプリに同梱の版で動く（オフラインの現場でも動く）
+- 表現しきれない複雑なバイナリプロトコル（ATEM など）はアプリに組み込みのまま、アプリの更新で直す
+- JS バンドル全体の差し替え（expo-updates 等）は使わない
+- 根拠：App Review Guidelines 2.5.2（機能を追加・変更するコードのダウンロード・実行を禁止）https://developer.apple.com/app-store/review/guidelines/ 。定義は実行するコードではなくデータとして扱う【推測：審査での扱いは提出時に確認】
+- 入れる時期：M2（汎用エンジンと同時）で同梱の定義を JSON 化、配信と更新は M3 以降
+
 ## 8. 対応機器と通信仕様（優先順）
 
 | 順 | 機器 | 理由 |
@@ -493,6 +503,8 @@ conductor/
 1. 長押しが成立しても「離した時」の動作は実行する（Companion と同じ）
 2. 本番に入る時に「ロックしますか？」と聞く（3.4）
 3. iPhone 縦は 4 列ずつ表示。スワイプ中に誤ってボタンが押されないようにする（3.5）
+4. ドライバは JSON の定義として GitHub / Cloudflare から更新できるようにする。コードは配らない（7.1）
+5. iPhone Duo にも対応する：外側画面は compact、内側画面は regular の構成。どのポーズでも同じ機能（HIG Designing for iPhone Duo）
 
 ## 参考資料
 

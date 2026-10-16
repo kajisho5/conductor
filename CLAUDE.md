@@ -9,13 +9,14 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 3. 1 と 2 を出したら止めてオーナーの確認を待つ。承認前に実装コードを書かない
 4. 実装後はマイルストーンごとに テスト / 型チェック / expo-doctor を通してコミット → push → TestFlight
 
-現在の段階：**Step 1・2 提出済み、オーナー承認待ち**。画面の考え方は Companion の管理画面（左ボタン盤＋右設定欄）に合わせることでオーナーと合意済み。
+現在の段階：**SPEC・デザイン承認済み。M1 実装済み（feat/m1）**。次は M2（動作エンジン・汎用 TCP/UDP/OSC/HTTP・`conductor-net`・ドライバ定義の JSON 化）。画面は Companion の管理画面（左ボタン盤＋右設定欄）の考え方。iPhone Duo も対象（外側 compact／内側 regular）。
 
 ## 決まっていること（オーナー合意）
 - 作る：ボタン（ページ・ボタン編集・プリセット）／本番画面／機器／トリガー／変数（自分で作る・式・内部・機器）／画像／設定（書き出し・読み込み、ログ、グリッド、スリープ防止）
 - 作らない：外部コントローラ（USB ボタン盤）、Remote、Protocols（外部から操作される API）、Modules 画面、Action Recorder、日の出/日の入りイベント、HTTPS、利用統計
 - 物理ボタン盤の代わりに iPhone / iPad の画面そのものにボタンを並べる
 - ボタンを押したことが一目で分かる表現にする（押下中・送信成功・失敗の区別）
+- ドライバは JSON の定義として GitHub / Cloudflare から更新できるようにする。コード（JS・Swift）は配らない（SPEC 7.1）
 
 ## 技術
 - Expo（Development Build）＋ React Native ＋ TypeScript strict ＋ NativeWind。WebView・素の HTML で UI を作らない
