@@ -26,6 +26,8 @@ interface ShowState {
   restore: (show: Show) => void;
 
   createButton: (ref: CellRef) => ButtonModel | null;
+  /** できあいのボタン（プリセットなど）を空きマスに置く。埋まっていれば何もしない */
+  placeButton: (ref: CellRef, button: ButtonModel) => boolean;
   updateButton: (ref: CellRef, patch: Partial<Pick<ButtonModel, 'name' | 'notes' | 'options'>>) => void;
   updateStyle: (ref: CellRef, patch: Partial<ButtonStyle>) => void;
   /** ボタンの中身を作り替える（動作・状態表示などの編集。src/model/buttonEdits.ts の関数を渡す） */
@@ -152,6 +154,13 @@ export const useShowStore = create<ShowState>((set, get) => {
       const b = newButton({ name: '' });
       commit(setButtonAt(show, ref, b));
       return b;
+    },
+
+    placeButton: (ref, button) => {
+      const show = get().show;
+      if (!show || getButton(show, ref)) return false;
+      commit(setButtonAt(show, ref, button));
+      return true;
     },
 
     updateButton: (ref, patch) => {

@@ -129,5 +129,126 @@
       "title": "通信しない（アプリ内で値だけ変える）",
       "status": "確認済"
     }
+  ],
+  "presets": [
+    {
+      "id": "pgm1",
+      "category": "PGM",
+      "name": "PGM CAM 1",
+      "text": "PGM\nCAM 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "demo.set",
+        "options": {
+          "key": "pgm",
+          "value": "CAM 1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "demo.equals",
+          "options": {
+            "key": "pgm",
+            "value": "CAM 1"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm2",
+      "category": "PGM",
+      "name": "PGM CAM 2",
+      "text": "PGM\nCAM 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "demo.set",
+        "options": {
+          "key": "pgm",
+          "value": "CAM 2"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "demo.equals",
+          "options": {
+            "key": "pgm",
+            "value": "CAM 2"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm3",
+      "category": "PGM",
+      "name": "PGM CAM 3",
+      "text": "PGM\nCAM 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "demo.set",
+        "options": {
+          "key": "pgm",
+          "value": "CAM 3"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "demo.equals",
+          "options": {
+            "key": "pgm",
+            "value": "CAM 3"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm4",
+      "category": "PGM",
+      "name": "PGM CAM 4",
+      "text": "PGM\nCAM 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "demo.set",
+        "options": {
+          "key": "pgm",
+          "value": "CAM 4"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "demo.equals",
+          "options": {
+            "key": "pgm",
+            "value": "CAM 4"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "toggle",
+      "category": "ON / OFF",
+      "name": "ON / OFF",
+      "text": "ON/OFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "demo.toggle",
+        "options": {
+          "key": "sw1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "demo.equals",
+          "options": {
+            "key": "sw1",
+            "value": "ON"
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    }
   ]
 }

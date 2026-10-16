@@ -1,7 +1,7 @@
 import type { OptionValue } from '@/model/types';
 import { BytesError, concat, parseHex, unescapeText, utf8Decode } from './bytes';
 import { encodeOscMessage, oscArgFrom, type OscArg } from './osc';
-import type { ActionDef, CompareOp, DriverDefinition, FeedbackDef, FieldDef, ReceiveRule } from './types';
+import type { ActionDef, CompareOp, DeriveRule, DriverDefinition, FeedbackDef, FieldDef, ReceiveRule } from './types';
 
 /**
  * 汎用エンジン（SPEC 7.1）：定義（データ）どおりに送信内容を組み立て、受信を解析し、状態表示を判定する。
@@ -112,6 +112,11 @@ export function compare(op: string, a: string, b: string): boolean {
       return numeric && na >= nb;
     case 'lte':
       return numeric && na <= nb;
+    case 'bits': {
+      const va = parseInt(a, 16);
+      const mask = Number(b);
+      return Number.isFinite(va) && Number.isFinite(mask) && (va & mask) !== 0;
+    }
     default:
       return false;
   }
@@ -164,6 +169,19 @@ export class ReceiveParser {
     }
     return { updates, items };
   }
+}
+
+/** 変数の更新に derive を当てて、作られる変数も足す（元の更新は残す） */
+export function applyDerive(rules: DeriveRule[] | undefined, updates: Record<string, string>): Record<string, string> {
+  if (!rules || rules.length === 0) return updates;
+  const out = { ...updates };
+  for (const r of rules) {
+    const v = updates[r.from];
+    if (v === undefined) continue;
+    const key = r.map ? v.toUpperCase() : v;
+    out[r.variable] = r.map ? (r.map[key] ?? r.map[v] ?? r.default ?? v) : v;
+  }
+  return out;
 }
 
 /* ---------- 要約 ---------- */

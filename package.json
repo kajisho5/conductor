@@ -1,6 +1,6 @@
 {
   "name": "conductor",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
@@ -9,7 +9,8 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "doctor": "expo-doctor",
-    "mock": "node mock/server.mjs"
+    "mock": "node mock/server.mjs",
+    "mock:roland": "node mock/roland.mjs"
   },
   "dependencies": {
     "@react-native-segmented-control/segmented-control": "2.5.7",

@@ -1,0 +1,1405 @@
+{
+  "format": 1,
+  "id": "roland-v160hd",
+  "name": "Roland V-160HD",
+  "category": "映像スイッチャー",
+  "version": "1.0.0",
+  "minAppVersion": "0.3.0",
+  "transport": "tcp",
+  "session": "roland-lan",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.0.10",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 8023,
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "id": "password",
+      "label": "パスワード（4 桁）",
+      "type": "text",
+      "help": "本体の LAN CONTROL で決めた NETWORK PASSWORD",
+      "mono": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "pgm",
+      "name": "PGM を選ぶ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "select",
+          "default": "20",
+          "choices": [
+            {
+              "id": "20",
+              "label": "INPUT 1"
+            },
+            {
+              "id": "21",
+              "label": "INPUT 2"
+            },
+            {
+              "id": "22",
+              "label": "INPUT 3"
+            },
+            {
+              "id": "23",
+              "label": "INPUT 4"
+            },
+            {
+              "id": "24",
+              "label": "INPUT 5"
+            },
+            {
+              "id": "25",
+              "label": "INPUT 6"
+            },
+            {
+              "id": "26",
+              "label": "INPUT 7"
+            },
+            {
+              "id": "27",
+              "label": "INPUT 8"
+            },
+            {
+              "id": "28",
+              "label": "INPUT 9"
+            },
+            {
+              "id": "29",
+              "label": "INPUT 10"
+            },
+            {
+              "id": "2A",
+              "label": "INPUT 11"
+            },
+            {
+              "id": "2B",
+              "label": "INPUT 12"
+            },
+            {
+              "id": "2C",
+              "label": "INPUT 13"
+            },
+            {
+              "id": "2D",
+              "label": "INPUT 14"
+            },
+            {
+              "id": "2E",
+              "label": "INPUT 15"
+            },
+            {
+              "id": "2F",
+              "label": "INPUT 16"
+            },
+            {
+              "id": "30",
+              "label": "INPUT 17"
+            },
+            {
+              "id": "31",
+              "label": "INPUT 18"
+            },
+            {
+              "id": "32",
+              "label": "INPUT 19"
+            },
+            {
+              "id": "33",
+              "label": "INPUT 20"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:002100,{{option.input}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PGM {{option.input}}"
+    },
+    {
+      "id": "pst",
+      "name": "PST（プレビュー）を選ぶ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "select",
+          "default": "20",
+          "choices": [
+            {
+              "id": "20",
+              "label": "INPUT 1"
+            },
+            {
+              "id": "21",
+              "label": "INPUT 2"
+            },
+            {
+              "id": "22",
+              "label": "INPUT 3"
+            },
+            {
+              "id": "23",
+              "label": "INPUT 4"
+            },
+            {
+              "id": "24",
+              "label": "INPUT 5"
+            },
+            {
+              "id": "25",
+              "label": "INPUT 6"
+            },
+            {
+              "id": "26",
+              "label": "INPUT 7"
+            },
+            {
+              "id": "27",
+              "label": "INPUT 8"
+            },
+            {
+              "id": "28",
+              "label": "INPUT 9"
+            },
+            {
+              "id": "29",
+              "label": "INPUT 10"
+            },
+            {
+              "id": "2A",
+              "label": "INPUT 11"
+            },
+            {
+              "id": "2B",
+              "label": "INPUT 12"
+            },
+            {
+              "id": "2C",
+              "label": "INPUT 13"
+            },
+            {
+              "id": "2D",
+              "label": "INPUT 14"
+            },
+            {
+              "id": "2E",
+              "label": "INPUT 15"
+            },
+            {
+              "id": "2F",
+              "label": "INPUT 16"
+            },
+            {
+              "id": "30",
+              "label": "INPUT 17"
+            },
+            {
+              "id": "31",
+              "label": "INPUT 18"
+            },
+            {
+              "id": "32",
+              "label": "INPUT 19"
+            },
+            {
+              "id": "33",
+              "label": "INPUT 20"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:002101,{{option.input}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PST {{option.input}}"
+    },
+    {
+      "id": "cut",
+      "name": "CUT",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0B001E,01;DTH:0B001E,00;",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "CUT"
+    },
+    {
+      "id": "auto",
+      "name": "AUTO",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0B001F,01;DTH:0B001F,00;",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "AUTO"
+    },
+    {
+      "id": "memory",
+      "name": "シーンメモリーを呼び出す",
+      "options": [
+        {
+          "id": "n",
+          "label": "メモリー",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "MEMORY 1"
+            },
+            {
+              "id": "01",
+              "label": "MEMORY 2"
+            },
+            {
+              "id": "02",
+              "label": "MEMORY 3"
+            },
+            {
+              "id": "03",
+              "label": "MEMORY 4"
+            },
+            {
+              "id": "04",
+              "label": "MEMORY 5"
+            },
+            {
+              "id": "05",
+              "label": "MEMORY 6"
+            },
+            {
+              "id": "06",
+              "label": "MEMORY 7"
+            },
+            {
+              "id": "07",
+              "label": "MEMORY 8"
+            },
+            {
+              "id": "08",
+              "label": "MEMORY 9"
+            },
+            {
+              "id": "09",
+              "label": "MEMORY 10"
+            },
+            {
+              "id": "0A",
+              "label": "MEMORY 11"
+            },
+            {
+              "id": "0B",
+              "label": "MEMORY 12"
+            },
+            {
+              "id": "0C",
+              "label": "MEMORY 13"
+            },
+            {
+              "id": "0D",
+              "label": "MEMORY 14"
+            },
+            {
+              "id": "0E",
+              "label": "MEMORY 15"
+            },
+            {
+              "id": "0F",
+              "label": "MEMORY 16"
+            },
+            {
+              "id": "10",
+              "label": "MEMORY 17"
+            },
+            {
+              "id": "11",
+              "label": "MEMORY 18"
+            },
+            {
+              "id": "12",
+              "label": "MEMORY 19"
+            },
+            {
+              "id": "13",
+              "label": "MEMORY 20"
+            },
+            {
+              "id": "14",
+              "label": "MEMORY 21"
+            },
+            {
+              "id": "15",
+              "label": "MEMORY 22"
+            },
+            {
+              "id": "16",
+              "label": "MEMORY 23"
+            },
+            {
+              "id": "17",
+              "label": "MEMORY 24"
+            },
+            {
+              "id": "18",
+              "label": "MEMORY 25"
+            },
+            {
+              "id": "19",
+              "label": "MEMORY 26"
+            },
+            {
+              "id": "1A",
+              "label": "MEMORY 27"
+            },
+            {
+              "id": "1B",
+              "label": "MEMORY 28"
+            },
+            {
+              "id": "1C",
+              "label": "MEMORY 29"
+            },
+            {
+              "id": "1D",
+              "label": "MEMORY 30"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0A0000,{{option.n}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "メモリー {{option.n}}"
+    },
+    {
+      "id": "macro",
+      "name": "マクロを実行",
+      "options": [
+        {
+          "id": "n",
+          "label": "マクロ番号（1–100）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "MCREX:MACRO{{option.n}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "マクロ {{option.n}}"
+    },
+    {
+      "id": "dth",
+      "name": "アドレスに書く（DTH）",
+      "options": [
+        {
+          "id": "addr",
+          "label": "アドレス（16 進 6 桁）",
+          "type": "text",
+          "placeholder": "002100",
+          "pattern": "^[0-9A-Fa-f]{6}$",
+          "mono": true
+        },
+        {
+          "id": "value",
+          "label": "値（16 進 2 桁ずつ）",
+          "type": "text",
+          "placeholder": "20",
+          "pattern": "^([0-9A-Fa-f]{2})+$",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:{{option.addr}},{{option.value}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "DTH {{option.addr}} = {{option.value}}"
+    },
+    {
+      "id": "command",
+      "name": "命令を送る（簡易制御コマンド）",
+      "options": [
+        {
+          "id": "cmd",
+          "label": "命令",
+          "type": "text",
+          "placeholder": "SEQNX;",
+          "help": "末尾の ; まで入れてください",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.cmd}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "{{option.cmd}}"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "pgm_is",
+      "name": "PGM が入力",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "INPUT 1"
+            },
+            {
+              "id": "2",
+              "label": "INPUT 2"
+            },
+            {
+              "id": "3",
+              "label": "INPUT 3"
+            },
+            {
+              "id": "4",
+              "label": "INPUT 4"
+            },
+            {
+              "id": "5",
+              "label": "INPUT 5"
+            },
+            {
+              "id": "6",
+              "label": "INPUT 6"
+            },
+            {
+              "id": "7",
+              "label": "INPUT 7"
+            },
+            {
+              "id": "8",
+              "label": "INPUT 8"
+            },
+            {
+              "id": "9",
+              "label": "INPUT 9"
+            },
+            {
+              "id": "10",
+              "label": "INPUT 10"
+            },
+            {
+              "id": "11",
+              "label": "INPUT 11"
+            },
+            {
+              "id": "12",
+              "label": "INPUT 12"
+            },
+            {
+              "id": "13",
+              "label": "INPUT 13"
+            },
+            {
+              "id": "14",
+              "label": "INPUT 14"
+            },
+            {
+              "id": "15",
+              "label": "INPUT 15"
+            },
+            {
+              "id": "16",
+              "label": "INPUT 16"
+            },
+            {
+              "id": "17",
+              "label": "INPUT 17"
+            },
+            {
+              "id": "18",
+              "label": "INPUT 18"
+            },
+            {
+              "id": "19",
+              "label": "INPUT 19"
+            },
+            {
+              "id": "20",
+              "label": "INPUT 20"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "pgm",
+        "op": "eq",
+        "value": "{{option.input}}"
+      },
+      "summary": "PGM が INPUT {{option.input}}"
+    },
+    {
+      "id": "pst_is",
+      "name": "PST が入力",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "INPUT 1"
+            },
+            {
+              "id": "2",
+              "label": "INPUT 2"
+            },
+            {
+              "id": "3",
+              "label": "INPUT 3"
+            },
+            {
+              "id": "4",
+              "label": "INPUT 4"
+            },
+            {
+              "id": "5",
+              "label": "INPUT 5"
+            },
+            {
+              "id": "6",
+              "label": "INPUT 6"
+            },
+            {
+              "id": "7",
+              "label": "INPUT 7"
+            },
+            {
+              "id": "8",
+              "label": "INPUT 8"
+            },
+            {
+              "id": "9",
+              "label": "INPUT 9"
+            },
+            {
+              "id": "10",
+              "label": "INPUT 10"
+            },
+            {
+              "id": "11",
+              "label": "INPUT 11"
+            },
+            {
+              "id": "12",
+              "label": "INPUT 12"
+            },
+            {
+              "id": "13",
+              "label": "INPUT 13"
+            },
+            {
+              "id": "14",
+              "label": "INPUT 14"
+            },
+            {
+              "id": "15",
+              "label": "INPUT 15"
+            },
+            {
+              "id": "16",
+              "label": "INPUT 16"
+            },
+            {
+              "id": "17",
+              "label": "INPUT 17"
+            },
+            {
+              "id": "18",
+              "label": "INPUT 18"
+            },
+            {
+              "id": "19",
+              "label": "INPUT 19"
+            },
+            {
+              "id": "20",
+              "label": "INPUT 20"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "pst",
+        "op": "eq",
+        "value": "{{option.input}}"
+      },
+      "summary": "PST が INPUT {{option.input}}"
+    },
+    {
+      "id": "tally",
+      "name": "タリー",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "INPUT 1"
+            },
+            {
+              "id": "2",
+              "label": "INPUT 2"
+            },
+            {
+              "id": "3",
+              "label": "INPUT 3"
+            },
+            {
+              "id": "4",
+              "label": "INPUT 4"
+            },
+            {
+              "id": "5",
+              "label": "INPUT 5"
+            },
+            {
+              "id": "6",
+              "label": "INPUT 6"
+            },
+            {
+              "id": "7",
+              "label": "INPUT 7"
+            },
+            {
+              "id": "8",
+              "label": "INPUT 8"
+            },
+            {
+              "id": "9",
+              "label": "INPUT 9"
+            },
+            {
+              "id": "10",
+              "label": "INPUT 10"
+            }
+          ]
+        },
+        {
+          "id": "state",
+          "label": "状態",
+          "type": "select",
+          "default": "PGM",
+          "choices": [
+            {
+              "id": "PGM",
+              "label": "PGM"
+            },
+            {
+              "id": "PST",
+              "label": "PST"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "tally_{{option.input}}",
+        "op": "contains",
+        "value": "{{option.state}}"
+      },
+      "summary": "INPUT {{option.input}} が {{option.state}}"
+    }
+  ],
+  "variables": [
+    {
+      "id": "pgm",
+      "name": "PGM の入力番号"
+    },
+    {
+      "id": "pst",
+      "name": "PST の入力番号"
+    },
+    {
+      "id": "model",
+      "name": "機種名"
+    },
+    {
+      "id": "version",
+      "name": "本体のバージョン"
+    },
+    {
+      "id": "last_reply",
+      "name": "最後の応答（簡易制御コマンド）"
+    },
+    {
+      "id": "tally_1",
+      "name": "INPUT 1 のタリー"
+    },
+    {
+      "id": "tally_2",
+      "name": "INPUT 2 のタリー"
+    },
+    {
+      "id": "tally_3",
+      "name": "INPUT 3 のタリー"
+    },
+    {
+      "id": "tally_4",
+      "name": "INPUT 4 のタリー"
+    },
+    {
+      "id": "tally_5",
+      "name": "INPUT 5 のタリー"
+    },
+    {
+      "id": "tally_6",
+      "name": "INPUT 6 のタリー"
+    },
+    {
+      "id": "tally_7",
+      "name": "INPUT 7 のタリー"
+    },
+    {
+      "id": "tally_8",
+      "name": "INPUT 8 のタリー"
+    },
+    {
+      "id": "tally_9",
+      "name": "INPUT 9 のタリー"
+    },
+    {
+      "id": "tally_10",
+      "name": "INPUT 10 のタリー"
+    }
+  ],
+  "onConnect": [
+    "VER;",
+    "DTH:0C0100,01;",
+    "RQH:002100,000002;",
+    "RQH:0C0000,00002A;"
+  ],
+  "poll": [
+    {
+      "data": "RQH:002100,000002;",
+      "intervalMs": 1000
+    }
+  ],
+  "derive": [
+    {
+      "variable": "pgm",
+      "from": "addr_002100",
+      "map": {
+        "20": "1",
+        "21": "2",
+        "22": "3",
+        "23": "4",
+        "24": "5",
+        "25": "6",
+        "26": "7",
+        "27": "8",
+        "28": "9",
+        "29": "10",
+        "2A": "11",
+        "2B": "12",
+        "2C": "13",
+        "2D": "14",
+        "2E": "15",
+        "2F": "16",
+        "30": "17",
+        "31": "18",
+        "32": "19",
+        "33": "20"
+      },
+      "default": "?"
+    },
+    {
+      "variable": "pst",
+      "from": "addr_002101",
+      "map": {
+        "20": "1",
+        "21": "2",
+        "22": "3",
+        "23": "4",
+        "24": "5",
+        "25": "6",
+        "26": "7",
+        "27": "8",
+        "28": "9",
+        "29": "10",
+        "2A": "11",
+        "2B": "12",
+        "2C": "13",
+        "2D": "14",
+        "2E": "15",
+        "2F": "16",
+        "30": "17",
+        "31": "18",
+        "32": "19",
+        "33": "20"
+      },
+      "default": "?"
+    },
+    {
+      "variable": "tally_1",
+      "from": "addr_0C0020",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_2",
+      "from": "addr_0C0021",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_3",
+      "from": "addr_0C0022",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_4",
+      "from": "addr_0C0023",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_5",
+      "from": "addr_0C0024",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_6",
+      "from": "addr_0C0025",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_7",
+      "from": "addr_0C0026",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_8",
+      "from": "addr_0C0027",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_9",
+      "from": "addr_0C0028",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    },
+    {
+      "variable": "tally_10",
+      "from": "addr_0C0029",
+      "map": {
+        "00": "OFF",
+        "01": "PGM",
+        "02": "PST",
+        "03": "PGM+PST"
+      },
+      "default": "OFF"
+    }
+  ],
+  "presets": [
+    {
+      "id": "pgm1",
+      "category": "PGM",
+      "name": "PGM INPUT 1",
+      "text": "PGM\nIN 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "input": "20"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "input": "1"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm2",
+      "category": "PGM",
+      "name": "PGM INPUT 2",
+      "text": "PGM\nIN 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "input": "21"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "input": "2"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm3",
+      "category": "PGM",
+      "name": "PGM INPUT 3",
+      "text": "PGM\nIN 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "input": "22"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "input": "3"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm4",
+      "category": "PGM",
+      "name": "PGM INPUT 4",
+      "text": "PGM\nIN 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "input": "23"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "input": "4"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm5",
+      "category": "PGM",
+      "name": "PGM INPUT 5",
+      "text": "PGM\nIN 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "input": "24"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "input": "5"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm6",
+      "category": "PGM",
+      "name": "PGM INPUT 6",
+      "text": "PGM\nIN 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "input": "25"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "input": "6"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm7",
+      "category": "PGM",
+      "name": "PGM INPUT 7",
+      "text": "PGM\nIN 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "input": "26"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "input": "7"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm8",
+      "category": "PGM",
+      "name": "PGM INPUT 8",
+      "text": "PGM\nIN 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "input": "27"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "input": "8"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pst1",
+      "category": "PST",
+      "name": "PST INPUT 1",
+      "text": "PST\nIN 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pst",
+        "options": {
+          "input": "20"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pst_is",
+          "options": {
+            "input": "1"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pst2",
+      "category": "PST",
+      "name": "PST INPUT 2",
+      "text": "PST\nIN 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pst",
+        "options": {
+          "input": "21"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pst_is",
+          "options": {
+            "input": "2"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pst3",
+      "category": "PST",
+      "name": "PST INPUT 3",
+      "text": "PST\nIN 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pst",
+        "options": {
+          "input": "22"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pst_is",
+          "options": {
+            "input": "3"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pst4",
+      "category": "PST",
+      "name": "PST INPUT 4",
+      "text": "PST\nIN 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pst",
+        "options": {
+          "input": "23"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pst_is",
+          "options": {
+            "input": "4"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pst5",
+      "category": "PST",
+      "name": "PST INPUT 5",
+      "text": "PST\nIN 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pst",
+        "options": {
+          "input": "24"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pst_is",
+          "options": {
+            "input": "5"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pst6",
+      "category": "PST",
+      "name": "PST INPUT 6",
+      "text": "PST\nIN 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pst",
+        "options": {
+          "input": "25"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pst_is",
+          "options": {
+            "input": "6"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pst7",
+      "category": "PST",
+      "name": "PST INPUT 7",
+      "text": "PST\nIN 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pst",
+        "options": {
+          "input": "26"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pst_is",
+          "options": {
+            "input": "7"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pst8",
+      "category": "PST",
+      "name": "PST INPUT 8",
+      "text": "PST\nIN 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pst",
+        "options": {
+          "input": "27"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pst_is",
+          "options": {
+            "input": "8"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "cut",
+      "category": "トランジション",
+      "name": "CUT",
+      "text": "CUT",
+      "backgroundColor": "#E9E9EC",
+      "action": {
+        "definitionId": "cut",
+        "options": {}
+      }
+    },
+    {
+      "id": "auto",
+      "category": "トランジション",
+      "name": "AUTO",
+      "text": "AUTO",
+      "backgroundColor": "#F2C200",
+      "action": {
+        "definitionId": "auto",
+        "options": {}
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Roland V-160HD Remote Control Guide（LAN・アドレスマップ）",
+      "url": "https://static.roland.com/assets/media/pdf/V-160HD_Control_eng06_W.pdf",
+      "status": "確認済"
+    },
+    {
+      "title": "Roland Support「V-160HD LAN and RS-232 Control Tips」（TCP 8023、LF 終端、stx 省略、パスワード）",
+      "url": "https://support.roland.com/hc/en-us/articles/7816887053083-V-160HD-LAN-and-RS-232-Control-Tips",
+      "status": "確認済"
+    },
+    {
+      "title": "Roland「LAN/RS-232 簡易制御コマンド」Ver.02（CUT; ATO; MCREX など。V-160HD 3.5+ / V-80HD 1.3+ / VR-120HD 2.2+）",
+      "url": "https://static.roland.com/assets/media/pdf/LAN_RS-232_Basic_Control_Commands_eng02_W.pdf",
+      "status": "確認済"
+    },
+    {
+      "title": "kajisho5/crosspoint の LAN 実装（認証の手順・受信の区切り・ack）",
+      "status": "確認済",
+      "note": "認証文字列「Enter password:」「Welcome to 機種名.」は V-160HD で確認。他機種は同じと推測"
+    },
+    {
+      "title": "実機での確認",
+      "status": "不明",
+      "note": "この定義はまだ実機で通していない。機器の画面の「最近のログ」（詳細）で送受信を確かめる"
+    },
+    {
+      "title": "CUT / AUTO は 0B001E / 0B001F に 01 → 00（押して離す）",
+      "status": "確認済"
+    },
+    {
+      "title": "タリーの並び・値（0C0000 から）",
+      "status": "確認済",
+      "note": "自発通知の有無は機種で違う。通知が無い機種は 0.5 秒ごとに問い合わせる"
+    }
+  ]
+}

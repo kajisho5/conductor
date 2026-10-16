@@ -1,6 +1,6 @@
-import { PresetsPanel } from '@/components/inspector/Inspector';
+import { PresetsPanel } from '@/components/inspector/PresetsPanel';
 
 /** compact のプリセットシート（regular は設定欄の「プリセット」） */
 export default function PresetsSheet() {
-  return <PresetsPanel />;
+  return <PresetsPanel compact />;
 }

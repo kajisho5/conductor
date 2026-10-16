@@ -42,7 +42,8 @@ export interface ActionDef {
   summary?: string;
 }
 
-export type CompareOp = 'eq' | 'neq' | 'contains' | 'gt' | 'lt' | 'gte' | 'lte';
+/** bits：値（16 進）と比べる数のビットが 1 つでも重なれば真 */
+export type CompareOp = 'eq' | 'neq' | 'contains' | 'gt' | 'lt' | 'gte' | 'lte' | 'bits';
 
 export interface FeedbackDef {
   id: string;
@@ -65,6 +66,21 @@ export interface ReceiveRule {
   set: { variable: string; value: string }[];
 }
 
+/** 受け取った変数から別の変数を作る（例：addr_002100 の 16 進 → pgm の入力番号） */
+export interface DeriveRule {
+  variable: string;
+  from: string;
+  /** 値の対応表。無い値は default（省略時は元の値） */
+  map?: Record<string, string>;
+  default?: string;
+}
+
+/** 定期的に送る問い合わせ（接続中だけ） */
+export interface PollDef {
+  data: string;
+  intervalMs: number;
+}
+
 export interface PresetDef {
   id: string;
   category: string;
@@ -72,6 +88,8 @@ export interface PresetDef {
   text: string;
   backgroundColor?: string;
   action: { definitionId: string; options: Record<string, string | number | boolean> };
+  /** 一緒に入れる状態表示（例：PGM なら赤） */
+  feedbacks?: { definitionId: string; options: Record<string, string | number | boolean>; backgroundColor: string }[];
 }
 
 export interface Evidence {
@@ -99,6 +117,15 @@ export interface DriverDefinition {
   /** 受信の区切り方（tcp/udp）。line = 改行ごと、message = 受け取った塊ごと */
   receiveSplit?: 'line' | 'message';
   receive?: ReceiveRule[];
+  /**
+   * アプリに組み込んだ通信手順の名前（定義では表せない認証・区切り・ack 待ちをする）。
+   * roland-lan：Roland の LAN 制御（パスワード認証、`;` 区切り、ack 待ち、DTH を addr_XXXXXX の変数へ展開）
+   */
+  session?: 'roland-lan';
+  /** 接続できた直後に送る（テンプレート可、{{config.x}}） */
+  onConnect?: string[];
+  poll?: PollDef[];
+  derive?: DeriveRule[];
   /** HTTP の応答を入れる変数（status / body） */
   httpResponse?: { status?: string; body?: string };
   presets?: PresetDef[];

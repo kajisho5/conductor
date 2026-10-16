@@ -5,6 +5,7 @@ import { color } from '@/theme/tokens';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Segmented } from '@/components/ui/Segmented';
 import { ButtonInspector } from './ButtonInspector';
+import { PresetsPanel } from './PresetsPanel';
 import { PagePanel } from './PagePanel';
 
 /** iPad（regular）の右の設定欄：ボタン／ページ／プリセット（SPEC 3.1） */
@@ -47,15 +48,5 @@ export function Inspector({ show, width }: { show: Show; width: number }) {
         {segment === 'presets' ? <PresetsPanel /> : null}
       </View>
     </View>
-  );
-}
-
-export function PresetsPanel() {
-  return (
-    <EmptyState
-      icon="square.stack.3d.up"
-      title="プリセットのある機器がありません"
-      message="プリセットは機器のドライバが用意する、できあいのボタンです。対応する機器を追加すると、ここに並びます。"
-    />
   );
 }

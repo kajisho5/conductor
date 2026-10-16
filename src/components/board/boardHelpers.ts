@@ -4,6 +4,9 @@ import type { ButtonModel, Page, Show } from '@/model/types';
 import type { CellRef } from '@/stores/show';
 import { useShowStore } from '@/stores/show';
 import { useUiStore, type CellOp } from '@/stores/ui';
+import { getDefinition } from '@/drivers/registry';
+import { buttonFromPreset } from '@/model/presets';
+import { haptic } from '@/engine/haptics';
 
 export function positionLabel(pageNumber: number, key: string): string {
   const c = parseKey(key);
@@ -60,4 +63,17 @@ export function openCellMenu(ref: CellRef, anchor: View | null): void {
       else if (i === 3) deleteCell(ref);
     },
   );
+}
+
+/** 選んだプリセットを空きマスに置く。続けて別のマスにも置ける（終わるまで選んだまま） */
+export function placePreset(show: Show, pick: { deviceId: string; presetId: string }, ref: CellRef): boolean {
+  const device = show.devices.find((d) => d.id === pick.deviceId);
+  const preset = device ? getDefinition(device.driverId)?.presets?.find((p) => p.id === pick.presetId) : undefined;
+  if (!device || !preset) {
+    useUiStore.getState().pickPreset(null);
+    return false;
+  }
+  const ok = useShowStore.getState().placeButton(ref, buttonFromPreset(device, preset));
+  if (!ok && show.settings.haptics) haptic('error');
+  return ok;
 }

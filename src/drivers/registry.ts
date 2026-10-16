@@ -3,6 +3,9 @@ import tcpDef from './defs/generic-tcp.json';
 import udpDef from './defs/generic-udp.json';
 import oscDef from './defs/generic-osc.json';
 import httpDef from './defs/generic-http.json';
+import rolandV160hd from './defs/roland-v160hd.json';
+import rolandV80hd from './defs/roland-v80hd.json';
+import rolandVr120hd from './defs/roland-vr120hd.json';
 import type { ActionDef, DriverDefinition, FeedbackDef, FieldDef } from './types';
 
 /**
@@ -19,6 +22,7 @@ export class DefinitionError extends Error {
 
 const FIELD_TYPES = new Set(['text', 'textarea', 'number', 'select', 'boolean']);
 const TRANSPORTS = new Set(['tcp', 'udp', 'osc', 'http', 'demo', 'internal']);
+const SESSIONS = new Set(['roland-lan']);
 const SEND_KINDS = new Set(['bytes', 'osc', 'http', 'builtin']);
 
 function isObj(v: unknown): v is Record<string, unknown> {
@@ -56,6 +60,8 @@ export function validateDefinition(raw: unknown): DriverDefinition {
   }
   if (!/^[a-z0-9][a-z0-9-]*$/.test(String(raw.id))) throw new DefinitionError(`定義の id が正しくありません：${String(raw.id)}`);
   if (!TRANSPORTS.has(String(raw.transport))) throw new DefinitionError(`通信方式が不明です：${String(raw.transport)}`);
+  if (raw.session !== undefined && !SESSIONS.has(String(raw.session)))
+    throw new DefinitionError(`通信手順が不明です：${String(raw.session)}`);
   checkFields(`${String(raw.id)} の設定`, raw.configFields);
   if (!Array.isArray(raw.actions) || !Array.isArray(raw.feedbacks) || !Array.isArray(raw.variables) || !Array.isArray(raw.evidence)) {
     throw new DefinitionError(`${String(raw.id)}：actions / feedbacks / variables / evidence のどれかがありません`);
@@ -152,7 +158,9 @@ export const INTERNAL_DEFINITION: DriverDefinition = {
   evidence: [],
 };
 
-const BUNDLED: DriverDefinition[] = [tcpDef, udpDef, oscDef, httpDef, demoDef].map((d) => validateDefinition(d));
+const BUNDLED: DriverDefinition[] = [rolandV160hd, rolandV80hd, rolandVr120hd, tcpDef, udpDef, oscDef, httpDef, demoDef].map((d) =>
+  validateDefinition(d),
+);
 
 const byId = new Map<string, DriverDefinition>(BUNDLED.map((d) => [d.id, d]));
 

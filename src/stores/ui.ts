@@ -18,6 +18,10 @@ interface UiState {
   pending: { op: CellOp; from: CellRef } | null;
   /** compact 幅で表示中の列ブロック（0 = 1–4 列） */
   columnBlock: number;
+  /** プリセットを選んで、置くマスを待っている */
+  pendingPreset: { deviceId: string; presetId: string } | null;
+  /** プリセットタブで表示中の機器 */
+  presetDeviceId: string | null;
   /** compact の編集シートを開く直前のショー（［キャンセル］でここへ戻す） */
   sheetSnapshot: Show | null;
 
@@ -28,6 +32,8 @@ interface UiState {
   clearOp: () => void;
   setColumnBlock: (n: number) => void;
   setSheetSnapshot: (s: Show | null) => void;
+  pickPreset: (p: { deviceId: string; presetId: string } | null) => void;
+  setPresetDevice: (id: string | null) => void;
 }
 
 export const useUiStore = create<UiState>((set) => ({
@@ -37,14 +43,18 @@ export const useUiStore = create<UiState>((set) => ({
   pending: null,
   columnBlock: 0,
   sheetSnapshot: null,
+  pendingPreset: null,
+  presetDeviceId: null,
 
   select: (ref) => set({ selected: ref }),
   setSegment: (segment) => set({ segment }),
   setTab: (tab) => set({ tab }),
-  startOp: (op, from) => set({ pending: { op, from } }),
+  startOp: (op, from) => set({ pending: { op, from }, pendingPreset: null }),
   clearOp: () => set({ pending: null }),
   setColumnBlock: (columnBlock) => set({ columnBlock }),
   setSheetSnapshot: (sheetSnapshot) => set({ sheetSnapshot }),
+  pickPreset: (pendingPreset) => set({ pendingPreset, pending: null }),
+  setPresetDevice: (presetDeviceId) => set({ presetDeviceId }),
 }));
 
 export const OP_LABEL: Record<CellOp, string> = {

@@ -1,6 +1,7 @@
 import { getConductorNet, type ConductorNet, type NetState } from '../../modules/conductor-net/src';
 import { fromBase64, printable, toBase64 } from '@/drivers/bytes';
-import { buildPayload, PayloadError, ReceiveParser, withDefaults, type Values } from '@/drivers/engine';
+import { buildPayload, PayloadError, withDefaults, type Values } from '@/drivers/engine';
+import { createSession, type Session, type SessionIO } from '@/drivers/sessions';
 import { getDefinition } from '@/drivers/registry';
 import type { ActionDef, DriverDefinition } from '@/drivers/types';
 import type { Device, Show } from '@/model/types';
@@ -27,7 +28,8 @@ interface Conn {
   key: string;
   /** ネイティブ側の接続 ID（開き直すたびに変える。古い接続のイベントを無視するため） */
   netId: string;
-  parser: ReceiveParser;
+  /** 口が開いている間の通信手順（認証・ack 待ち・受信の解析） */
+  session: Session | null;
   attempt: number;
   retry: ReturnType<typeof setTimeout> | null;
   wanted: boolean;
@@ -120,7 +122,7 @@ export class DeviceManager {
       config: withDefaults(def.configFields, device.config),
       key: configKey(device),
       netId: '',
-      parser: new ReceiveParser(def),
+      session: null,
       attempt: 0,
       retry: null,
       wanted: device.enabled,
@@ -185,8 +187,10 @@ export class DeviceManager {
     const rt = useRuntimeStore.getState();
     if (state === 'ready') {
       c.attempt = 0;
-      rt.setDeviceStatus(c.device.id, 'connected');
       log('info', c.device.label, '接続しました', c.device.id);
+      c.session?.dispose();
+      c.session = createSession(this.sessionIO(c, netId));
+      c.session.ready();
     } else if (state === 'connecting') {
       rt.setDeviceStatus(c.device.id, c.attempt > 0 ? 'reconnecting' : 'connecting');
     } else if (state === 'waiting') {
@@ -218,8 +222,31 @@ export class DeviceManager {
     if (!c || c.netId !== netId) return;
     const bytes = fromBase64(base64);
     log('debug', c.device.label, `受信 ${printable(bytes)}`, c.device.id);
-    const { updates } = c.parser.feed(bytes);
-    if (Object.keys(updates).length > 0) useRuntimeStore.getState().setDeviceValues(c.device.id, updates);
+    c.session?.data(bytes);
+  }
+
+  /** 通信手順に渡す口（この接続が古くなったら何もしない） */
+  private sessionIO(c: Conn, netId: string): SessionIO {
+    const alive = () => c.netId === netId && this.conns.get(c.device.id) === c;
+    return {
+      def: c.def,
+      config: c.config,
+      write: async (bytes) => {
+        const net = this.net();
+        if (!net || !alive()) throw new Error(`${c.device.label} に接続していません`);
+        await net.send(netId, toBase64(bytes));
+      },
+      setStatus: (status, error) => {
+        if (alive()) useRuntimeStore.getState().setDeviceStatus(c.device.id, status, error);
+      },
+      setValues: (updates) => {
+        if (alive()) useRuntimeStore.getState().setDeviceValues(c.device.id, updates);
+      },
+      log: (level, message) => log(level, c.device.label, message, c.device.id),
+      fail: (reason) => {
+        if (alive()) this.failed(c, reason);
+      },
+    };
   }
 
   private clearRetry(c: Conn): void {
@@ -228,6 +255,8 @@ export class DeviceManager {
   }
 
   private async closeNet(c: Conn): Promise<void> {
+    c.session?.dispose();
+    c.session = null;
     if (!c.netId) return;
     const netId = c.netId;
     this.byNetId.delete(netId);
@@ -260,17 +289,11 @@ export class DeviceManager {
     }
     if (payload.kind === 'builtin') return { ok: false, reason: `${action.name} はこの機器では使えません` };
     if (payload.kind === 'bytes') {
-      const net = this.net();
-      if (!net || !c.netId) return { ok: false, reason: `${device.label} に接続していません` };
-      log('debug', device.label, `送信 ${printable(payload.bytes)}`, device.id);
-      try {
-        await net.send(c.netId, toBase64(payload.bytes));
-        return { ok: true };
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : String(e);
-        log('error', device.label, `送れませんでした：${msg}`, device.id);
-        return { ok: false, reason: msg };
-      }
+      if (!c.session) return { ok: false, reason: `${device.label} に接続していません` };
+      if (c.def.session !== 'roland-lan') log('debug', device.label, `送信 ${printable(payload.bytes)}`, device.id);
+      const r = await c.session.send(payload.bytes);
+      if (!r.ok) log('error', device.label, `${action.name}：送れませんでした（${r.reason}）`, device.id);
+      return r;
     }
     return this.sendHttp(c, payload);
   }

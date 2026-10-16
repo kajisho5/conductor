@@ -11,7 +11,7 @@ import { board, color } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
 import { PillButton } from '@/components/ui/Buttons';
 import { Segmented } from '@/components/ui/Segmented';
-import { completeOp, currentPage, deleteCell, openCellMenu, positionLabel, topBarText } from './boardHelpers';
+import { completeOp, currentPage, deleteCell, openCellMenu, placePreset, positionLabel, topBarText } from './boardHelpers';
 import { EditTile } from './EditTile';
 
 /**
@@ -26,6 +26,7 @@ export function EditBoard({ show, onOpenEditor }: { show: Show; onOpenEditor?: (
   const pageNumber = useRuntimeStore((s) => s.pageNumber);
   const selected = useUiStore((s) => s.selected);
   const pending = useUiStore((s) => s.pending);
+  const pendingPreset = useUiStore((s) => s.pendingPreset);
   const block = useUiStore((s) => s.columnBlock);
   const page = currentPage(show, pageNumber);
   const { columns, rows } = show.grid;
@@ -57,6 +58,10 @@ export function EditBoard({ show, onOpenEditor }: { show: Show; onOpenEditor?: (
 
   const onCell = (key: string) => {
     const ref = { pageId: page.id, key };
+    if (pendingPreset) {
+      if (placePreset(show, pendingPreset, ref)) useUiStore.getState().select(ref);
+      return;
+    }
     if (pending) {
       completeOp(pending.op, pending.from, ref);
       return;
@@ -87,7 +92,7 @@ export function EditBoard({ show, onOpenEditor }: { show: Show; onOpenEditor?: (
                 height={cell}
                 radius={narrow ? 10 : 12}
                 selected={sel?.key === key}
-                target={!!pending && !(pending.from.pageId === page.id && pending.from.key === key)}
+                target={(!!pending && !(pending.from.pageId === page.id && pending.from.key === key)) || (!!pendingPreset && !b)}
                 topBar={topBarText(show, b, page.number, key)}
                 label={positionLabel(page.number, key)}
                 onPress={() => onCell(key)}
@@ -129,7 +134,14 @@ export function EditBoard({ show, onOpenEditor }: { show: Show; onOpenEditor?: (
             accessibilityLabel="表示する列"
           />
         ) : null}
-        {pending ? (
+        {pendingPreset ? (
+          <>
+            <AppText variant="subhead" tone="label2">
+              置く空きマスをタップ
+            </AppText>
+            <PillButton label="終わる" onPress={() => useUiStore.getState().pickPreset(null)} />
+          </>
+        ) : pending ? (
           <>
             <AppText variant="subhead" tone="label2">
               {`${OP_LABEL[pending.op]}先のマスをタップ`}

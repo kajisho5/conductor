@@ -20,6 +20,9 @@ const PREFIX: Record<string, string> = {
   'generic-osc': 'OSC',
   'generic-http': 'HTTP',
   demo: 'DEMO',
+  'roland-v160hd': 'V160HD',
+  'roland-v80hd': 'V80HD',
+  'roland-vr120hd': 'VR120HD',
 };
 
 /** 重ならない名前（TCP-1, TCP-2 …） */

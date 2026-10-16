@@ -343,6 +343,9 @@ export interface DriverInstance {
 - JS バンドル全体の差し替え（expo-updates 等）は使わない
 - 根拠：App Review Guidelines 2.5.2（機能を追加・変更するコードのダウンロード・実行を禁止）https://developer.apple.com/app-store/review/guidelines/ 。定義は実行するコードではなくデータとして扱う【推測：審査での扱いは提出時に確認】
 - 入れる時期：M2（汎用エンジンと同時）で同梱の定義を JSON 化、配信と更新は M3 以降
+- 定義で使える項目（M3 時点）：`configFields` `actions`（送信形式 bytes / osc / http / builtin）`feedbacks`（比べ方 eq neq contains gt lt gte lte bits）`variables` `receive`（正規表現で変数へ）`derive`（変数から変数を対応表で作る）`onConnect`（接続直後に送る）`poll`（定期的な問い合わせ）`presets`（状態表示つき）`evidence`
+- 定義では表せない手順（認証・区切り・ack 待ち）は、アプリに組み込んだ「通信手順」を `session` の名前で選ぶ。M3 は `roland-lan` だけ（`src/drivers/sessions.ts`）
+- 定義は `scripts/drivers/` のスクリプトから生成する（手で JSON を直さない）
 
 ## 8. 対応機器と通信仕様（優先順）
 
@@ -365,7 +368,12 @@ export interface DriverInstance {
 - LAN では stx を省略可、チェックサム不要、改行は LF【確認済：Roland サポート記事「V-160HD LAN and RS-232 Control Tips」】
 - パスワード：本体 MENU > LAN CONTROL > NETWORK PASSWORD で 4 桁。送り方は接続時に 1 回／毎コマンド前など機器設定次第【確認済：同記事】→ 実際の手順は crosspoint の実機観測に合わせる【実装前に確認】
 - 押しっぱなし型のボタンは、値 00 を送って離す必要がある【確認済：同記事】
-- 例：PGM 選択 アドレス `002100`（値 = 入力番号 − 1）【推測：SysEx 表から読み取り。実機で確認】、タリー `0C0000` から（読み取り専用）【推測】
+- PGM 選択 アドレス `002100`、PST `002101`、値 = 0x1F + 入力番号（INPUT 1 = `20`）【確認済：資料。kajisho5/crosspoint のプロファイル。実機は未確認】。V-80HD は `001500`・0x28 + n、VR-120HD は `001B00`・0x1C + n【推測：crosspoint のプロファイル】
+- タリー：`0C0000` から（読み取り専用）。V-160HD は 32 番目から XPT 1–10、値 0 OFF / 1 PGM / 2 PVW / 3 両方。`DTH:0C0100,01;` で変化を自発通知【確認済：crosspoint の実装】。V-80HD・VR-120HD は通知の有無が【不明】なので 0.5 秒ごとに問い合わせる
+- CUT / AUTO：V-160HD は `0B001E` / `0B001F` に 01 → 00。V-80HD・VR-120HD は簡易制御コマンド `CUT;` `ATO;`【確認済：資料「LAN/RS-232 簡易制御コマンド」Ver.02】
+- 認証：接続 → `Enter password:` → パスワード＋LF → `Welcome to 機種名.`。3 秒案内が無ければ `VER;` を送って応答を見る。受信は `;` `\n` 0x06 で区切る（ack は 0x06 か `ACK`）【確認済：crosspoint の実装と模擬機器】
+- 「送れた」は ack を受けた時、`ERR:n` は「送れなかった」（理由つき）。1.5 秒 ack が無ければ「送れなかった」。命令の間は 20ms 以上あける
+- 模擬機器：`npm run mock:roland`（`--model v160hd|v80hd|vr120hd --password 0000`）
 - 状態の変化を機器が自分から知らせる記載はない【確認済：ガイドの「機器から送られるコマンド」はエラーとフロー制御だけ】→ 状態は定期問い合わせ（既定 250ms、設定可）
 - V-80HD / VR-120HD は同じ方式と見込むが、アドレス表は機種ごとに確認【推測】
 
