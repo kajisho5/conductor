@@ -547,7 +547,9 @@ def ipad_show():
         (3, 1): dict(state="failed"),       # MIC 2 送れなかった
     }
     s += grid(24, 82, 154, 196, 12, mode="run", overrides=ov, fs=26, r=14)
+    s += R(24, 900, IW - 48, 76, "rgba(118,118,128,0.10)", r=14)
     s += page_bar(IW / 2, 920, sel=0, pages=("本番", "VTR", "音声", "照明"))
+    s += T(44, 944, "← スワイプでページ →", 12, 500, C["label3"])
     s += T(IW - 24, 990, "ロック解除・編集に戻る：右上を 1.5 秒長押し", 12, 400, C["label3"], "end")
     return ipad_frame_common(s)
 
@@ -759,8 +761,9 @@ def ipad_settings():
             {"icon": ("warn", B["orange"]), "t": "状態アイコンを表示", "sw": True},
         ]},
         {"header": "本番", "rows": [
-            {"icon": ("lock", B["neutral"]), "t": "本番で自動ロック", "sw": True},
+            {"icon": ("lock", B["neutral"]), "t": "本番に入る時のロック", "r": "毎回聞く", "chev": True},
             {"icon": ("hand", B["neutral"]), "t": "ロック解除の長押し", "r": "1.5 秒", "chev": True},
+            {"icon": ("grid", B["neutral"]), "t": "ボタンの上でもスワイプで切替", "sw": False},
             {"icon": ("wave", B["teal"]), "t": "押した時の振動", "sw": True},
             {"icon": ("sun", B["orange"]), "t": "画面スリープ防止", "r": "本番中だけ", "chev": True},
         ]},
@@ -918,10 +921,31 @@ def iphone_show():
     s += R(PW - 16 - 40, 60, 40, 32, C["fill3"], r=16) + icon("lock", PW - 16 - 29, 67, 18, C["label"])
     ov = {(1, 2): dict(state="pressing"), (2, 1): dict(state="sent"), (3, 1): dict(state="failed")}
     s += grid(14, 108, 85, 132, 8, mode="run", overrides=ov, fs=17, r=12, cols=4)
-    s += segmented(PW / 2 - 90, 676, 180, ["1–4 列", "5–8 列"], 0, 28, 12)
-    s += page_bar(PW / 2, 724, sel=0, pages=("本番", "VTR", "音声"), h=32)
-    s += T(PW / 2, 790, "解除：右上を長押し", 11, 400, C["label3"], "middle")
+    s += R(10, 664, PW - 20, 112, "rgba(118,118,128,0.10)", r=16)
+    s += segmented(PW / 2 - 90, 674, 180, ["1–4 列", "5–8 列"], 0, 28, 12)
+    s += page_bar(PW / 2, 712, sel=0, pages=("本番", "VTR", "音声"), h=32)
+    s += T(PW / 2, 766, "← この帯を左右スワイプで切替 →", 11, 500, C["label3"], "middle")
+    s += T(PW / 2, 800, "ボタンの上ではスワイプしない（誤操作防止）", 11, 400, C["label3"], "middle")
     s += k.home_indicator(PW, PH)
+    return s
+
+
+def iphone_lock_ask():
+    s = iphone_buttons()
+    s += R(0, 0, PW, PH, "rgba(0,0,0,0.45)")
+    x, w = 8, PW - 16
+    y0 = PH - 34 - 8 - 60 - 8 - 3 * 57 - 76
+    s += R(x, y0, w, 76 + 3 * 57 - 57, "rgba(44,44,46,0.97)", r=14)
+    s += T(PW / 2, y0 + 28, "ロックしますか？", 13, 600, C["label2"], "middle")
+    s += T(PW / 2, y0 + 50, "ロック中はボタンとページ切替だけ操作できます。", 12, 400, C["label2"], "middle")
+    s += T(PW / 2, y0 + 67, "解除は右上を 1.5 秒長押し。", 12, 400, C["label2"], "middle")
+    yy = y0 + 76
+    for i, t in enumerate(["ロックして本番へ", "ロックせずに本番へ"]):
+        s += L(x, yy, x + w, yy, C["sep"], 0.7)
+        s += T(PW / 2, yy + 36, t, 20, 600 if i == 0 else 400, C["blue"], "middle")
+        yy += 57
+    yc = yy + 8
+    s += R(x, yc, w, 57, "rgba(44,44,46,0.97)", r=14) + T(PW / 2, yc + 36, "キャンセル", 20, 600, C["blue"], "middle")
     return s
 
 
@@ -989,7 +1013,7 @@ def iphone_settings():
             {"icon": ("list", B["neutral"]), "t": "ログ", "r": "警告 1", "rc": C["orange"], "chev": True},
         ]},
         {"header": "本番", "rows": [
-            {"icon": ("lock", B["neutral"]), "t": "本番で自動ロック", "sw": True},
+            {"icon": ("lock", B["neutral"]), "t": "本番のロック", "r": "毎回聞く", "chev": True},
             {"icon": ("wave", B["teal"]), "t": "押した時の振動", "sw": True},
             {"icon": ("sun", B["orange"]), "t": "スリープ防止", "r": "本番中", "chev": True},
         ]},
@@ -1106,7 +1130,7 @@ FILES = {
     "05-ipad-presets.svg": lambda: ipad_doc(ipad_buttons_presets, "iPad / ボタン：プリセット",
                                             "機器ごとのできあいのボタン。長押しで空きマスへドラッグ"),
     "06-ipad-show.svg": lambda: ipad_doc(ipad_show, "iPad / 本番",
-                                         "ボタンだけを大きく表示。ロック中はボタンとページ切替だけ操作できる",
+                                         "ボタンだけを大きく表示。ロック中はボタンとページ切替だけ。ページ切替は下の帯（ボタンの上ではスワイプしない）",
                                          ["図の中の押下表現：PST CAM 3＝押している／AUTO＝送れた／OPENING＝長押し判定中／MIC 2＝送れなかった／REC＝機器が未接続"]),
     "07-ipad-devices.svg": lambda: ipad_doc(ipad_devices, "iPad / 機器", "一覧 → 選んだ機器の設定。⋯ から 変数・ログ・診断・複製・削除"),
     "08-ipad-triggers.svg": lambda: ipad_doc(ipad_triggers, "iPad / トリガー", "きっかけ（どれか）→ 条件（すべて）→ 動作"),
@@ -1120,6 +1144,7 @@ FILES = {
         (iphone_edit_feedback, PW, PH, "ボタンを編集：状態表示"),
     ], "iPhone / ボタン"),
     "21-iphone-show-devices.svg": lambda: phones_doc([
+        (iphone_lock_ask, PW, PH, "本番に入る時（ロック確認）"),
         (iphone_show, PW, PH, "本番"),
         (iphone_devices, PW, PH, "機器"),
         (iphone_triggers, PW, PH, "トリガー"),

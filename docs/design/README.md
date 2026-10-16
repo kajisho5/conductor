@@ -18,7 +18,7 @@
 | `10-ipad-images.svg` | 画像 |
 | `11-ipad-settings.svg` | 設定・ログ |
 | `20-iphone-buttons.svg` | iPhone：ボタン盤、ボタンを編集（動作・見た目・状態表示） |
-| `21-iphone-show-devices.svg` | iPhone：本番・機器・トリガー |
+| `21-iphone-show-devices.svg` | iPhone：本番に入る時のロック確認・本番・機器・トリガー |
 | `22-iphone-variables-settings.svg` | iPhone：変数・設定 |
 
 機器名・ショー名・アドレスはすべて架空（DEMO-SW-A、DEMO-SHOW、/demo/… など）。
