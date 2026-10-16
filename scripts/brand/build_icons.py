@@ -36,6 +36,7 @@ TALLY = "#FF453A"         # タリー（PGM の赤）
 WHITE = "#FFFFFF"
 DARK_TOP = "#2C2C2E"      # 背景グラデーション（ダーク）
 DARK_BOTTOM = "#0B0B0D"
+DARK_INK = "#E5E5EA"      # c（ダーク）
 
 # 形（1024 グリッド）
 CX, CY, R = 488, 512, 268
@@ -57,6 +58,16 @@ def ring_d():
             f"A{rc} {rc} 0 0 0 {i1[0]:.2f} {i1[1]:.2f} "
             f"A{ri} {ri} 0 1 1 {i0[0]:.2f} {i0[1]:.2f} "
             f"A{rc} {rc} 0 0 0 {o0[0]:.2f} {o0[1]:.2f} Z")
+
+
+# 前景（c＋タリー）の外接範囲の中心を 1024 の中央に合わせるずらし量（apple-hig：主要コンテンツは中央に）
+CENTER_DX = 512 - ((CX - R - STROKE / 2) + (TALLY_BOX[0] + TALLY_BOX[2])) / 2   # +17
+ICON_FG = f'transform="translate({CENTER_DX:.1f},0)"'
+
+
+def fg(body):
+    """アプリアイコン用の前景グループ（中央寄せ）。"""
+    return f"<g {ICON_FG}>{body}</g>"
 
 
 def ring_path(color, ox=0.0, oy=0.0, scale=1.0):
@@ -84,7 +95,8 @@ def bg_light(gid="bg"):
 
 
 def icon_light():
-    return svg(1024, 1024, bg_light() + ring_path(INK) + tally(TALLY), "conductor icon")
+    # apple-hig：1024×1024、角丸なし・不透明
+    return svg(1024, 1024, bg_light() + fg(ring_path(INK) + tally(TALLY)), "conductor icon")
 
 
 def bg_dark(gid="bgd"):
@@ -94,13 +106,15 @@ def bg_dark(gid="bgd"):
 
 
 def icon_dark():
-    # HIG：標準アイコンを元に、落ち着いた配色で。透過させない（Expo：透過ピクセル不可）
-    return svg(1024, 1024, bg_dark() + ring_path(WHITE) + tally(TALLY), "conductor icon dark")
+    # apple-hig：dark はライトを基にした落ち着いた配色、フラット画像なら透過背景（システムが暗い背景を敷く）
+    # 白は明るすぎないよう少し落とす（App icons：avoid excessively bright images）
+    return svg(1024, 1024, fg(ring_path(DARK_INK) + tally(TALLY)), "conductor icon dark")
 
 
 def icon_tinted():
     # ティント用：グレースケールのみ（Gray Gamma 相当）・不透過。色はシステムが付ける
-    return svg(1024, 1024, rr(0, 0, 1024, 1024, 0, "#000000") + ring_path("#E6E6E6") + tally("#8C8C8C"), "conductor icon tinted")
+    # apple-hig：tinted はグレースケール（色はシステムが付ける）
+    return svg(1024, 1024, rr(0, 0, 1024, 1024, 0, "#000000") + fg(ring_path("#E6E6E6") + tally("#8C8C8C")), "conductor icon tinted")
 
 
 def layer_background():
@@ -108,11 +122,11 @@ def layer_background():
 
 
 def layer_ring():
-    return svg(1024, 1024, ring_path(INK), "layer ring")
+    return svg(1024, 1024, fg(ring_path(INK)), "layer ring")
 
 
 def layer_tally():
-    return svg(1024, 1024, tally(TALLY), "layer tally")
+    return svg(1024, 1024, fg(tally(TALLY)), "layer tally")
 
 
 # ---------------------------------------------------------------------------
@@ -181,7 +195,7 @@ def sheet():
     y = 190
     s += rr(40, y, W - 80, 380, 24, "#FFFFFF")
     s += f'<text x="72" y="{y + 44}" font-family="{JP}" font-size="22" font-weight="700" fill="#1C1C1E">アプリアイコン</text>'
-    items = [(icon_light(), "標準 icon.png", None), (icon_dark(), "ダーク icon-dark.png", None),
+    items = [(icon_light(), "標準 icon.png", None), (icon_dark(), "ダーク icon-dark.png（透過）", "#121214"),
              (icon_tinted(), "ティント icon-tinted.png（グレーのみ）", None)]
     for i, (sv, lab, under) in enumerate(items):
         x = 72 + i * 380
@@ -222,6 +236,16 @@ def sheet():
     return svg(W, H, s, "conductor brand sheet")
 
 
+def embed_srgb(path):
+    """apple-hig（Color / Images）：画像にカラープロファイルを含める。sRGB を埋め込む。"""
+    from PIL import Image, ImageCms  # noqa: PLC0415
+
+    im = Image.open(path)
+    im.load()
+    prof = ImageCms.ImageCmsProfile(ImageCms.createProfile("sRGB")).tobytes()
+    im.save(path, icc_profile=prof)
+
+
 def write(path, text):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -252,7 +276,9 @@ def main():
         write(os.path.join(BRAND, name), text)
     os.makedirs(ASSETS, exist_ok=True)
     for src, dst in [("icon-light.svg", "icon.png"), ("icon-dark.svg", "icon-dark.png"), ("icon-tinted.svg", "icon-tinted.png")]:
-        cairosvg.svg2png(bytestring=files[src].encode("utf-8"), write_to=os.path.join(ASSETS, dst), output_width=1024, output_height=1024)
+        out = os.path.join(ASSETS, dst)
+        cairosvg.svg2png(bytestring=files[src].encode("utf-8"), write_to=out, output_width=1024, output_height=1024)
+        embed_srgb(out)
         print("wrote", os.path.join("assets/images", dst))
     sh = sheet()
     write(os.path.join(BRAND, "brand-sheet.svg"), sh)
