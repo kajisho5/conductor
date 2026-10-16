@@ -34,6 +34,8 @@ PAPER_TOP = "#F7F7F9"     # 背景グラデーション（標準）
 PAPER_BOTTOM = "#DADAE0"
 TALLY = "#FF453A"         # タリー（PGM の赤）
 WHITE = "#FFFFFF"
+DARK_TOP = "#2C2C2E"      # 背景グラデーション（ダーク）
+DARK_BOTTOM = "#0B0B0D"
 
 # 形（1024 グリッド）
 CX, CY, R = 488, 512, 268
@@ -42,19 +44,29 @@ A0, A1 = math.radians(40), math.radians(320)
 TALLY_BOX = (676, 432, 160, 160, 38)
 
 
-def ring_path(color, sw=STROKE, ox=0.0, oy=0.0, scale=1.0):
-    x0, y0 = CX + R * math.cos(A0), CY - R * math.sin(A0)
-    x1, y1 = CX + R * math.cos(A1), CY - R * math.sin(A1)
-    return (f'<path transform="translate({ox},{oy}) scale({scale})" d="M{x0:.1f} {y0:.1f} A{R} {R} 0 1 0 {x1:.1f} {y1:.1f}" '
-            f'fill="none" stroke="{color}" stroke-width="{sw}" stroke-linecap="round"/>')
+def ring_d():
+    """c の形を「塗りの輪郭」で表したパス（線ではなく面。HIG：レイヤーはアウトライン化したベクター）。"""
+    ro, ri, rc = R + STROKE / 2, R - STROKE / 2, STROKE / 2
+
+    def pt(r, a):
+        return CX + r * math.cos(a), CY - r * math.sin(a)
+
+    o0, o1 = pt(ro, A0), pt(ro, A1)
+    i0, i1 = pt(ri, A0), pt(ri, A1)
+    return (f"M{o0[0]:.2f} {o0[1]:.2f} A{ro} {ro} 0 1 0 {o1[0]:.2f} {o1[1]:.2f} "
+            f"A{rc} {rc} 0 0 0 {i1[0]:.2f} {i1[1]:.2f} "
+            f"A{ri} {ri} 0 1 1 {i0[0]:.2f} {i0[1]:.2f} "
+            f"A{rc} {rc} 0 0 0 {o0[0]:.2f} {o0[1]:.2f} Z")
 
 
-def tally(color, edge=True, ox=0.0, oy=0.0, scale=1.0):
+def ring_path(color, ox=0.0, oy=0.0, scale=1.0):
+    return f'<path transform="translate({ox},{oy}) scale({scale})" d="{ring_d()}" fill="{color}"/>'
+
+
+def tally(color, edge=False, ox=0.0, oy=0.0, scale=1.0):
+    """タリー（赤いボタン）。光沢・縁取りなどの効果は付けない（HIG：効果はシステムに任せる）。"""
     x, y, w, h, r = TALLY_BOX
-    s = f'<g transform="translate({ox},{oy}) scale({scale})">' + rr(x, y, w, h, r, color)
-    if edge:
-        s += rr(x, y, w, h, r, "none", 'stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="10"')
-    return s + "</g>"
+    return f'<g transform="translate({ox},{oy}) scale({scale})">' + rr(x, y, w, h, r, color) + "</g>"
 
 
 def svg(w, h, body, title):
@@ -75,14 +87,20 @@ def icon_light():
     return svg(1024, 1024, bg_light() + ring_path(INK) + tally(TALLY), "conductor icon")
 
 
+def bg_dark(gid="bgd"):
+    return (f'<defs><linearGradient id="{gid}" x1="0" y1="0" x2="0" y2="1">'
+            f'<stop offset="0" stop-color="{DARK_TOP}"/><stop offset="1" stop-color="{DARK_BOTTOM}"/></linearGradient></defs>'
+            + rr(0, 0, 1024, 1024, 0, f"url(#{gid})"))
+
+
 def icon_dark():
-    # HIG：ダークは透過背景（システムが暗い背景を敷く）
-    return svg(1024, 1024, ring_path(WHITE) + tally(TALLY), "conductor icon dark")
+    # HIG：標準アイコンを元に、落ち着いた配色で。透過させない（Expo：透過ピクセル不可）
+    return svg(1024, 1024, bg_dark() + ring_path(WHITE) + tally(TALLY), "conductor icon dark")
 
 
 def icon_tinted():
-    # HIG：ティントはグレースケール・透過背景（システムが色を付ける）
-    return svg(1024, 1024, ring_path(WHITE) + tally("#9A9A9A", edge=False), "conductor icon tinted")
+    # ティント用：グレースケールのみ（Gray Gamma 相当）・不透過。色はシステムが付ける
+    return svg(1024, 1024, rr(0, 0, 1024, 1024, 0, "#000000") + ring_path("#E6E6E6") + tally("#8C8C8C"), "conductor icon tinted")
 
 
 def layer_background():
@@ -163,8 +181,8 @@ def sheet():
     y = 190
     s += rr(40, y, W - 80, 380, 24, "#FFFFFF")
     s += f'<text x="72" y="{y + 44}" font-family="{JP}" font-size="22" font-weight="700" fill="#1C1C1E">アプリアイコン</text>'
-    items = [(icon_light(), "標準 icon.png", None), (icon_dark(), "ダーク icon-dark.png（透過）", "#121214"),
-             (icon_tinted(), "ティント icon-tinted.png（グレー）", "#2A3A55")]
+    items = [(icon_light(), "標準 icon.png", None), (icon_dark(), "ダーク icon-dark.png", None),
+             (icon_tinted(), "ティント icon-tinted.png（グレーのみ）", None)]
     for i, (sv, lab, under) in enumerate(items):
         x = 72 + i * 380
         s += rounded(sv, x, y + 70, 240, f"i{i}", under)
@@ -179,7 +197,7 @@ def sheet():
     # レイヤー
     y += 404
     s += rr(40, y, W - 80, 250, 24, "#FFFFFF")
-    s += f'<text x="72" y="{y + 44}" font-family="{JP}" font-size="22" font-weight="700" fill="#1C1C1E">Icon Composer 用レイヤー（背景＋前景 2 枚。光沢・影はシステムが付ける）</text>'
+    s += f'<text x="72" y="{y + 44}" font-family="{JP}" font-size="22" font-weight="700" fill="#1C1C1E">Icon Composer 用レイヤー（前景 2 枚はアウトライン化した面。背景は Icon Composer のグラデーション指定を推奨）</text>'
     for i, (sv, lab, under) in enumerate([(layer_background(), "layer-background", None), (layer_ring(), "layer-ring", "#F0F0F3"),
                                            (layer_tally(), "layer-tally", "#F0F0F3")]):
         x = 72 + i * 220
