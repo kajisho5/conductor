@@ -213,7 +213,7 @@ def sidebar(sel, h=IH):
         ("buttons", "grid", "ボタン", None, None, None),
         ("show", "showplay", "本番", None, None, None),
         ("devices", "cable", "機器", "4/5", "warn", None),
-        ("triggers", "bolt", "トリガー", None, None, "1"),
+        ("triggers", "bolt", "トリガー", None, None, None),
         ("variables", "dollar", "変数", None, None, None),
         ("images", "photo", "画像", None, None, None),
         ("settings", "gear", "設定", None, None, None),
@@ -262,37 +262,21 @@ def buttons_center(selected=(0, 1)):
     s += L(SB, 0, SB, IH, C["sep"], 0.7)
     s += T(SB + 20, 50, "ボタン", 17, 600) + T(SB + 20, 68, "DEMO-SHOW", 12, 400, C["label2"])
     cx = 590
-    s += circle_btn(cx - 106, 50, "chev-l", 16, isz=14)
-    s += R(cx - 82, 34, 164, 32, C["fill3"], r=16)
+    s += circle_btn(cx - 108, 50, "chev-l", 22, isz=16)
+    s += R(cx - 82, 28, 164, 44, C["fill3"], r=22)
     s += T(cx - 6, 55, "1  本番", 15, 600, anchor="middle") + icon("chev-d", cx + 28, 44, 12, C["label2"], 2.6)
-    s += circle_btn(cx + 106, 50, "chev-r", 16, isz=14)
+    s += circle_btn(cx + 108, 50, "chev-r", 22, isz=16)
     c, w = chip(GX1 - 20 - 96 - 10 - 64, 36, "4/5", "warn", h=28, size=13)
     s += c
     o, w = prominent(GX1 - 20, 33, "本番", "showplay")
     s += o
-    s += T(SB + 20, 100, "ボタンを押すと右側で設定できます。長押しでコピー・移動・削除。", 13, 400, C["label2"])
     s += grid(SB + 20, 116, 71, 71, 8, selected=selected, fs=13)
     y = 116 + 4 * 71 + 3 * 8 + 18
     x = SB + 20
     for lab, ic in [("コピー", "dup"), ("移動", "drag"), ("入れ替え", "redo"), ("削除", "trash")]:
-        o, w = pill_btn(x, y, lab, ic)
+        o, w = pill_btn(x, y, lab, ic, h=44)
         s += o
-        x += w + 8
-    o, w = pill_btn(x, y, "ページを空にする", None, C["red"])
-    s += o
-    # 凡例（盤の下）
-    y += 64
-    s += T(SB + 20, y, "盤の見方", 13, 600, C["label2"])
-    legend = [("selected", "選択中（青枠）"), ("offline", "機器が未接続（暗転＋⚠）"), ("empty", "空きマス（押すと新規作成）")]
-    for i, (st, lab) in enumerate(legend):
-        yy = y + 14 + i * 50
-        if st == "selected":
-            s += tile(SB + 26, yy + 6, 36, 36, "", None, B["neutral"], "selected", r=8)
-        elif st == "offline":
-            s += tile(SB + 26, yy + 6, 36, 36, "", None, B["red"], "offline", r=8)
-        else:
-            s += tile(SB + 26, yy + 6, 36, 36, state="empty", r=8)
-        s += T(SB + 78, yy + 30, lab, 15, 400, C["label"])
+        x += w + 10
     return s
 
 
@@ -301,18 +285,16 @@ def inspector_head(tab=0, btn=None, title="PGM CAM 2", pos="ページ 1 · 1行�
     s = R(GX1, 0, INS_W, IH, C["bg2"]) + L(GX1, 0, GX1, IH, C["sep"], 0.7)
     ix = GX1 + 20
     iw = INS_W - 40
-    s += segmented(ix, 34, iw, ["ボタン編集", "ページ", "プリセット"], tab)
+    s += segmented(ix, 34, iw, ["ボタン", "ページ", "プリセット"], tab)
     if tab != 0:
         return s, ix, iw, 88
     s += tile(ix, 88, 92, 92, r=12, fs=17, **btn)
     tx = ix + 108
     s += T(tx, 104, pos, 13, 400, C["label2"])
     s += T(tx, 128, title, 17, 600)
-    o, w = pill_btn(tx, 144, "テスト", "play")
+    o, w = pill_btn(tx, 138, "テスト", "play", h=44)
     s += o
-    o2, w2 = pill_btn(tx + w + 8, 144, "停止", "stop", C["label"])
-    s += o2
-    s += circle_btn(tx + w + w2 + 32, 160, "ellipsis", 16, color=C["blue"], isz=16)
+    s += circle_btn(tx + w + 30, 160, "ellipsis", 22, color=C["blue"], isz=18)
     s += R(ix, 196, iw, 44, C["fill3"], r=10) + T(ix + 14, 224, "メモ", 15, 400, C["label3"])
     return s, ix, iw, 256
 
@@ -469,7 +451,7 @@ def ipad_buttons_pages():
     s = buttons_center(selected=None)
     ins, ix, iw, y = inspector_head(1)
     s += ins
-    s += T(ix + 16, y + 14, "ページの追加・並べ替え・名前変更。左右スワイプで複製・削除。", 13, 400, C["label2"])
+    s += T(ix + 16, y + 14, "左右スワイプで複製・削除。右端をドラッグで並べ替え", 13, 400, C["label2"])
     y += 28
     pages = [("1", "本番", "20 ボタン", True), ("2", "VTR", "9 ボタン", False), ("3", "音声", "14 ボタン", False), ("4", "照明", "6 ボタン", False), ("5", "予備", "0 ボタン", False)]
     s += R(ix, y, iw, 60 * len(pages), C["bg3"], r=12)
@@ -492,6 +474,7 @@ def ipad_buttons_pages():
         {"t": "名前", "r": "本番", "rc": C["label"]},
         {"t": "書き出す", "chev": True},
         {"t": "ページを複製", "chev": True},
+        {"t": "ページを空にする", "tc": C["red"]},
         {"t": "ページを削除", "tc": C["red"]},
     ]}], sec_gap=0, card=C["bg3"])
     s += g
@@ -565,7 +548,7 @@ def list_column(title, rows, plus=True, search="検索", footer=None, sel_index=
     s = L(SB, 0, SB, IH, C["sep"], 0.7)
     s += T(LX + 20, 118, title, 34, 700)
     if plus:
-        s += circle_btn(LX + LW - 36, 50, "plus", 18, color=C["blue"], isz=16)
+        s += circle_btn(LX + LW - 40, 50, "plus", 22, color=C["blue"], isz=18)
     s += R(LX + 16, 134, LW - 32, 36, C["fill3"], r=10) + icon("search", LX + 26, 143, 18, C["label2"]) + T(LX + 50, 158, search, 17, 400, C["label2"])
     y = 188
     cw = LW - 32
@@ -610,7 +593,7 @@ def ipad_devices():
     ], footer=["ローカルネットワーク：許可済み", "この iPad：192.168.10.5"])
     dw = IW - DX
     s += T(DX + dw / 2, 50, "DEMO-SW-A", 17, 600, anchor="middle")
-    s += circle_btn(IW - 36, 50, "ellipsis", 18, color=C["blue"], isz=18)
+    s += circle_btn(IW - 40, 50, "ellipsis", 22, color=C["blue"], isz=18)
     cx0 = DX + 24
     cw = dw - 48
     s += R(cx0, 84, cw, 92, C["bg2"], r=12)
@@ -720,7 +703,7 @@ def ipad_images():
     s += L(SB, 0, SB, IH, C["sep"], 0.7)
     x0 = SB + 24
     s += T(x0, 118, "画像", 34, 700)
-    s += circle_btn(GX1 - 36, 50, "plus", 18, color=C["blue"], isz=16)
+    s += circle_btn(GX1 - 40, 50, "plus", 22, color=C["blue"], isz=18)
     names = [("logo-white", B["dark"]), ("cam-icon", B["blue"]), ("mic-icon", B["teal"]), ("rec-dot", B["red"]),
              ("arrow-next", B["neutral"]), ("demo-bg", B["purple"])]
     for i, (n, col) in enumerate(names):
@@ -826,7 +809,6 @@ def iphone_buttons():
     s += o
     c, w = chip(16, 106, "機器 4/5", "warn", h=26, size=12)
     s += c
-    s += T(PW - 16, 124, "ボタンを押すと設定", 12, 400, C["label3"], "end")
     s += phone_grid(150, selected=(0, 1))
     s += segmented(PW / 2 - 90, 536, 180, ["1–4 列", "5–8 列"], 0, 28, 12)
     s += T(PW / 2, 584, "左右スワイプで 5–8 列へ", 11, 400, C["label3"], "middle")
@@ -952,7 +934,7 @@ def iphone_lock_ask():
 def iphone_list(title, tab, rows, footer=None, plus=True):
     s = k.iphone_status()
     if plus:
-        s += circle_btn(PW - 36, 76, "plus", 18, color=C["blue"], isz=16)
+        s += circle_btn(PW - 38, 76, "plus", 22, color=C["blue"], isz=18)
     s += T(16, 140, title, 34, 700)
     s += R(16, 156, PW - 32, 36, C["fill3"], r=10) + icon("search", 26, 165, 18, C["label2"]) + T(50, 180, "検索", 17, 400, C["label2"])
     g, y = glist(16, 210, PW - 32, [{"rows": rows, "footer": footer}])
@@ -972,6 +954,21 @@ def iphone_devices():
     ], ["ローカルネットワーク：許可済み"])
 
 
+def iphone_devices_empty():
+    s = k.iphone_status()
+    s += circle_btn(PW - 38, 76, "plus", 22, color=C["blue"], isz=18)
+    s += T(16, 140, "機器", 34, 700)
+    s += icon2("cable", PW / 2 - 28, 300, 56, C["label3"], 1.6)
+    s += T(PW / 2, 400, "機器がありません", 22, 700, anchor="middle")
+    s += T(PW / 2, 432, "スイッチャーやミキサーを追加すると、", 15, 400, C["label2"], "middle")
+    s += T(PW / 2, 454, "ボタンから操作できます。", 15, 400, C["label2"], "middle")
+    o, w = prominent(PW / 2 + 70, 480, "機器を追加", "plus", h=44)
+    s += o
+    s += tabbar(1)
+    s += k.home_indicator(PW, PH)
+    return s
+
+
 def iphone_triggers():
     return iphone_list("トリガー", 2, [
         {"icon": ("clock", C["orange"]), "t": "本番開始", "s": "毎日 19:00:00", "h": 64, "sw": True},
@@ -983,7 +980,7 @@ def iphone_triggers():
 
 def iphone_variables():
     s = k.iphone_status()
-    s += circle_btn(PW - 36, 76, "plus", 18, color=C["blue"], isz=16)
+    s += circle_btn(PW - 38, 76, "plus", 22, color=C["blue"], isz=18)
     s += T(16, 140, "変数", 34, 700)
     s += segmented(16, 158, PW - 32, ["自分で作る", "式", "内部", "機器"], 3, 32, 12)
     s += popup(16, 200, PW - 32, "DEMO-SW-A", 34)
@@ -1152,7 +1149,8 @@ FILES = {
     "22-iphone-variables-settings.svg": lambda: phones_doc([
         (iphone_variables, PW, PH, "変数"),
         (iphone_settings, PW, PH, "設定"),
-    ], "iPhone / 変数・設定"),
+        (iphone_devices_empty, PW, PH, "空の状態（機器がまだ無い）"),
+    ], "iPhone / 変数・設定・空の状態"),
 }
 
 
