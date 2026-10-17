@@ -512,6 +512,11 @@ export interface DriverInstance {
 - ゲイン・ペデスタル・タリー・プリセットの内容と動き方・SD 収録は公開 OSS のモジュールの送信で補った。シャッター・ND・シーンの番号は機種で違う【推測】
 - 定義は `scripts/drivers/build_panasonic.py` から作る
 
+### 8.16 Allen & Heath Qu シリーズ（MIDI over TCP・オーナー指示 2026-10-17）
+- 接続：TCP **51325**（同時に 1 接続）。ミュートは `9N CH 7F/3F 9N CH 00`、フェーダー NRPN 17、送り NRPN 20、パン NRPN 16、ミュートグループ / DCA 割り当て NRPN 5C / 40、シーン `BN 00 00 BN 20 00 CN SS`【確認済：「Qu MIDI Protocol V1.9」】
+- 動作 49（入力・ステレオ・FX・ミックス・グループ・マトリクス・DCA・ミュートグループのミュート、フェーダー（資料の dB 表・数値）、送り、パン、割り当て、シーン、カスタムレイヤー、MMC、MIDI をそのまま）
+- 定義は `scripts/drivers/build_allenheath_qu.py` から作る
+
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。
 - 公式アプリや他社ソフトの通信の解析結果も根拠に使ってよい（2026-10-17 オーナー指示）。evidence の note に「〇〇の通信の観測」と出典を書く。

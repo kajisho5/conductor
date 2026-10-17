@@ -1,0 +1,2957 @@
+{
+  "format": 1,
+  "id": "allenheath-qu",
+  "name": "Allen & Heath Qu シリーズ",
+  "category": "音響ミキサー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "tcp",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.1.60",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 51325,
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "id": "midich",
+      "label": "MIDI チャンネル",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 15,
+      "help": "本体の Setup / Control / MIDI のチャンネル"
+    }
+  ],
+  "actions": [
+    {
+      "id": "mute_ip",
+      "name": "入力のミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:31|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:31|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "fader_ip",
+      "name": "入力のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} {{option.va}}"
+    },
+    {
+      "id": "fader_ip_raw",
+      "name": "入力のフェーダー（数値）",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "v",
+          "label": "値（0–127。0 dB = 98）",
+          "type": "number",
+          "default": 98,
+          "min": 0,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.v|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} = {{option.v}}"
+    },
+    {
+      "id": "send_ip",
+      "name": "入力の送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "to",
+          "label": "送り先",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Mix 1"
+            },
+            {
+              "id": "01",
+              "label": "Mix 2"
+            },
+            {
+              "id": "02",
+              "label": "Mix 3"
+            },
+            {
+              "id": "03",
+              "label": "Mix 4"
+            },
+            {
+              "id": "04",
+              "label": "Mix 5-6"
+            },
+            {
+              "id": "05",
+              "label": "Mix 7-8"
+            },
+            {
+              "id": "06",
+              "label": "Mix 9-10"
+            },
+            {
+              "id": "08",
+              "label": "Grp 1-2"
+            },
+            {
+              "id": "09",
+              "label": "Grp 3-4"
+            },
+            {
+              "id": "0A",
+              "label": "Grp 5-6"
+            },
+            {
+              "id": "0B",
+              "label": "Grp 7-8"
+            },
+            {
+              "id": "0C",
+              "label": "MTX 1-2"
+            },
+            {
+              "id": "0D",
+              "label": "MTX 3-4"
+            },
+            {
+              "id": "10",
+              "label": "FX 1"
+            },
+            {
+              "id": "11",
+              "label": "FX 2"
+            },
+            {
+              "id": "12",
+              "label": "FX 3"
+            },
+            {
+              "id": "13",
+              "label": "FX 4"
+            }
+          ]
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 20 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 {{option.to}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → {{option.to}}"
+    },
+    {
+      "id": "pan_ip",
+      "name": "入力のパン",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "to",
+          "label": "対象",
+          "type": "select",
+          "default": "07",
+          "choices": [
+            {
+              "id": "07",
+              "label": "LR"
+            },
+            {
+              "id": "04",
+              "label": "Mix 5-6"
+            },
+            {
+              "id": "05",
+              "label": "Mix 7-8"
+            },
+            {
+              "id": "06",
+              "label": "Mix 9-10"
+            },
+            {
+              "id": "08",
+              "label": "Grp 1-2"
+            },
+            {
+              "id": "09",
+              "label": "Grp 3-4"
+            },
+            {
+              "id": "0A",
+              "label": "Grp 5-6"
+            },
+            {
+              "id": "0B",
+              "label": "Grp 7-8"
+            },
+            {
+              "id": "0C",
+              "label": "MTX 1-2"
+            },
+            {
+              "id": "0D",
+              "label": "MTX 3-4"
+            }
+          ]
+        },
+        {
+          "id": "pan",
+          "label": "パン（0 左 – 37 中央 – 74 右）",
+          "type": "number",
+          "default": 37,
+          "min": 0,
+          "max": 74
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 16 {{config.midich|lin:1:175|hexu}} 06 {{option.pan|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.to}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} パン {{option.pan}}"
+    },
+    {
+      "id": "mg_ip",
+      "name": "入力をミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 5C {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → MG {{option.g}}"
+    },
+    {
+      "id": "dca_ip",
+      "name": "入力を DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → DCA {{option.g}}"
+    },
+    {
+      "id": "mute_st",
+      "name": "ステレオ入力のミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:63|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:63|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ入力 {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "fader_st",
+      "name": "ステレオ入力のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ入力 {{option.n}} {{option.va}}"
+    },
+    {
+      "id": "fader_st_raw",
+      "name": "ステレオ入力のフェーダー（数値）",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "値（0–127。0 dB = 98）",
+          "type": "number",
+          "default": 98,
+          "min": 0,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.v|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ入力 {{option.n}} = {{option.v}}"
+    },
+    {
+      "id": "send_st",
+      "name": "ステレオ入力の送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "to",
+          "label": "送り先",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Mix 1"
+            },
+            {
+              "id": "01",
+              "label": "Mix 2"
+            },
+            {
+              "id": "02",
+              "label": "Mix 3"
+            },
+            {
+              "id": "03",
+              "label": "Mix 4"
+            },
+            {
+              "id": "04",
+              "label": "Mix 5-6"
+            },
+            {
+              "id": "05",
+              "label": "Mix 7-8"
+            },
+            {
+              "id": "06",
+              "label": "Mix 9-10"
+            },
+            {
+              "id": "08",
+              "label": "Grp 1-2"
+            },
+            {
+              "id": "09",
+              "label": "Grp 3-4"
+            },
+            {
+              "id": "0A",
+              "label": "Grp 5-6"
+            },
+            {
+              "id": "0B",
+              "label": "Grp 7-8"
+            },
+            {
+              "id": "0C",
+              "label": "MTX 1-2"
+            },
+            {
+              "id": "0D",
+              "label": "MTX 3-4"
+            },
+            {
+              "id": "10",
+              "label": "FX 1"
+            },
+            {
+              "id": "11",
+              "label": "FX 2"
+            },
+            {
+              "id": "12",
+              "label": "FX 3"
+            },
+            {
+              "id": "13",
+              "label": "FX 4"
+            }
+          ]
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 20 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 {{option.to}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ入力 {{option.n}} → {{option.to}}"
+    },
+    {
+      "id": "pan_st",
+      "name": "ステレオ入力のパン",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "to",
+          "label": "対象",
+          "type": "select",
+          "default": "07",
+          "choices": [
+            {
+              "id": "07",
+              "label": "LR"
+            },
+            {
+              "id": "04",
+              "label": "Mix 5-6"
+            },
+            {
+              "id": "05",
+              "label": "Mix 7-8"
+            },
+            {
+              "id": "06",
+              "label": "Mix 9-10"
+            },
+            {
+              "id": "08",
+              "label": "Grp 1-2"
+            },
+            {
+              "id": "09",
+              "label": "Grp 3-4"
+            },
+            {
+              "id": "0A",
+              "label": "Grp 5-6"
+            },
+            {
+              "id": "0B",
+              "label": "Grp 7-8"
+            },
+            {
+              "id": "0C",
+              "label": "MTX 1-2"
+            },
+            {
+              "id": "0D",
+              "label": "MTX 3-4"
+            }
+          ]
+        },
+        {
+          "id": "pan",
+          "label": "パン（0 左 – 37 中央 – 74 右）",
+          "type": "number",
+          "default": 37,
+          "min": 0,
+          "max": 74
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 16 {{config.midich|lin:1:175|hexu}} 06 {{option.pan|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.to}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ入力 {{option.n}} パン {{option.pan}}"
+    },
+    {
+      "id": "mg_st",
+      "name": "ステレオ入力をミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 5C {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ入力 {{option.n}} → MG {{option.g}}"
+    },
+    {
+      "id": "dca_st",
+      "name": "ステレオ入力を DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ入力 {{option.n}} → DCA {{option.g}}"
+    },
+    {
+      "id": "mute_fxr",
+      "name": "FX リターンのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:7|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:7|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "fader_fxr",
+      "name": "FX リターンのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:7|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} {{option.va}}"
+    },
+    {
+      "id": "fader_fxr_raw",
+      "name": "FX リターンのフェーダー（数値）",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "v",
+          "label": "値（0–127。0 dB = 98）",
+          "type": "number",
+          "default": 98,
+          "min": 0,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:7|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.v|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} = {{option.v}}"
+    },
+    {
+      "id": "send_fxr",
+      "name": "FX リターンの送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "to",
+          "label": "送り先",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Mix 1"
+            },
+            {
+              "id": "01",
+              "label": "Mix 2"
+            },
+            {
+              "id": "02",
+              "label": "Mix 3"
+            },
+            {
+              "id": "03",
+              "label": "Mix 4"
+            },
+            {
+              "id": "04",
+              "label": "Mix 5-6"
+            },
+            {
+              "id": "05",
+              "label": "Mix 7-8"
+            },
+            {
+              "id": "06",
+              "label": "Mix 9-10"
+            },
+            {
+              "id": "08",
+              "label": "Grp 1-2"
+            },
+            {
+              "id": "09",
+              "label": "Grp 3-4"
+            },
+            {
+              "id": "0A",
+              "label": "Grp 5-6"
+            },
+            {
+              "id": "0B",
+              "label": "Grp 7-8"
+            },
+            {
+              "id": "0C",
+              "label": "MTX 1-2"
+            },
+            {
+              "id": "0D",
+              "label": "MTX 3-4"
+            },
+            {
+              "id": "10",
+              "label": "FX 1"
+            },
+            {
+              "id": "11",
+              "label": "FX 2"
+            },
+            {
+              "id": "12",
+              "label": "FX 3"
+            },
+            {
+              "id": "13",
+              "label": "FX 4"
+            }
+          ]
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:7|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 20 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 {{option.to}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} → {{option.to}}"
+    },
+    {
+      "id": "pan_fxr",
+      "name": "FX リターンのパン",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "to",
+          "label": "対象",
+          "type": "select",
+          "default": "07",
+          "choices": [
+            {
+              "id": "07",
+              "label": "LR"
+            },
+            {
+              "id": "04",
+              "label": "Mix 5-6"
+            },
+            {
+              "id": "05",
+              "label": "Mix 7-8"
+            },
+            {
+              "id": "06",
+              "label": "Mix 9-10"
+            },
+            {
+              "id": "08",
+              "label": "Grp 1-2"
+            },
+            {
+              "id": "09",
+              "label": "Grp 3-4"
+            },
+            {
+              "id": "0A",
+              "label": "Grp 5-6"
+            },
+            {
+              "id": "0B",
+              "label": "Grp 7-8"
+            },
+            {
+              "id": "0C",
+              "label": "MTX 1-2"
+            },
+            {
+              "id": "0D",
+              "label": "MTX 3-4"
+            }
+          ]
+        },
+        {
+          "id": "pan",
+          "label": "パン（0 左 – 37 中央 – 74 右）",
+          "type": "number",
+          "default": 37,
+          "min": 0,
+          "max": 74
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:7|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 16 {{config.midich|lin:1:175|hexu}} 06 {{option.pan|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.to}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} パン {{option.pan}}"
+    },
+    {
+      "id": "mg_fxr",
+      "name": "FX リターンをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:7|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 5C {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} → MG {{option.g}}"
+    },
+    {
+      "id": "dca_fxr",
+      "name": "FX リターンを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:7|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} → DCA {{option.g}}"
+    },
+    {
+      "id": "mute_fxs",
+      "name": "FX センドのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:-1|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:-1|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "FX センド {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "fader_fxs",
+      "name": "FX センドのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "FX センド {{option.n}} {{option.va}}"
+    },
+    {
+      "id": "fader_fxs_raw",
+      "name": "FX センドのフェーダー（数値）",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "v",
+          "label": "値（0–127。0 dB = 98）",
+          "type": "number",
+          "default": 98,
+          "min": 0,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.v|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "FX センド {{option.n}} = {{option.v}}"
+    },
+    {
+      "id": "mg_fxs",
+      "name": "FX センドをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 5C {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "FX センド {{option.n}} → MG {{option.g}}"
+    },
+    {
+      "id": "dca_fxs",
+      "name": "FX センドを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "FX センド {{option.n}} → DCA {{option.g}}"
+    },
+    {
+      "id": "mute_mix",
+      "name": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）のミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）（1–7）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 7
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:95|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:95|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10） {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "fader_mix",
+      "name": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）（1–7）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 7
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:95|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10） {{option.n}} {{option.va}}"
+    },
+    {
+      "id": "fader_mix_raw",
+      "name": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）のフェーダー（数値）",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）（1–7）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 7
+        },
+        {
+          "id": "v",
+          "label": "値（0–127。0 dB = 98）",
+          "type": "number",
+          "default": 98,
+          "min": 0,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:95|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.v|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10） {{option.n}} = {{option.v}}"
+    },
+    {
+      "id": "mg_mix",
+      "name": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）をミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）（1–7）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 7
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:95|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 5C {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10） {{option.n}} → MG {{option.g}}"
+    },
+    {
+      "id": "dca_mix",
+      "name": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）を DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10）（1–7）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 7
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:95|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "ミックス（1–4 モノ・5–7 は 5-6 / 7-8 / 9-10） {{option.n}} → DCA {{option.g}}"
+    },
+    {
+      "id": "mute_grp",
+      "name": "グループ（1-2 / 3-4 / 5-6 / 7-8）のミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "グループ（1-2 / 3-4 / 5-6 / 7-8）（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:103|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:103|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "グループ（1-2 / 3-4 / 5-6 / 7-8） {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "fader_grp",
+      "name": "グループ（1-2 / 3-4 / 5-6 / 7-8）のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "グループ（1-2 / 3-4 / 5-6 / 7-8）（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:103|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "グループ（1-2 / 3-4 / 5-6 / 7-8） {{option.n}} {{option.va}}"
+    },
+    {
+      "id": "fader_grp_raw",
+      "name": "グループ（1-2 / 3-4 / 5-6 / 7-8）のフェーダー（数値）",
+      "options": [
+        {
+          "id": "n",
+          "label": "グループ（1-2 / 3-4 / 5-6 / 7-8）（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "v",
+          "label": "値（0–127。0 dB = 98）",
+          "type": "number",
+          "default": 98,
+          "min": 0,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:103|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.v|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "グループ（1-2 / 3-4 / 5-6 / 7-8） {{option.n}} = {{option.v}}"
+    },
+    {
+      "id": "mg_grp",
+      "name": "グループ（1-2 / 3-4 / 5-6 / 7-8）をミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "グループ（1-2 / 3-4 / 5-6 / 7-8）（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:103|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 5C {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "グループ（1-2 / 3-4 / 5-6 / 7-8） {{option.n}} → MG {{option.g}}"
+    },
+    {
+      "id": "dca_grp",
+      "name": "グループ（1-2 / 3-4 / 5-6 / 7-8）を DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "グループ（1-2 / 3-4 / 5-6 / 7-8）（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:103|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "グループ（1-2 / 3-4 / 5-6 / 7-8） {{option.n}} → DCA {{option.g}}"
+    },
+    {
+      "id": "mute_mtx",
+      "name": "マトリクス（1-2 / 3-4）のミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "マトリクス（1-2 / 3-4）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:107|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:107|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "マトリクス（1-2 / 3-4） {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "fader_mtx",
+      "name": "マトリクス（1-2 / 3-4）のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "マトリクス（1-2 / 3-4）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "va",
+          "label": "レベル",
+          "type": "select",
+          "default": "62",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "+10 dB"
+            },
+            {
+              "id": "72",
+              "label": "+5 dB"
+            },
+            {
+              "id": "62",
+              "label": "0 dB"
+            },
+            {
+              "id": "4F",
+              "label": "−5 dB"
+            },
+            {
+              "id": "3F",
+              "label": "−10 dB"
+            },
+            {
+              "id": "36",
+              "label": "−15 dB"
+            },
+            {
+              "id": "2F",
+              "label": "−20 dB"
+            },
+            {
+              "id": "27",
+              "label": "−25 dB"
+            },
+            {
+              "id": "1F",
+              "label": "−30 dB"
+            },
+            {
+              "id": "17",
+              "label": "−35 dB"
+            },
+            {
+              "id": "10",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0C",
+              "label": "−45 dB"
+            },
+            {
+              "id": "00",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:107|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.va}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "マトリクス（1-2 / 3-4） {{option.n}} {{option.va}}"
+    },
+    {
+      "id": "fader_mtx_raw",
+      "name": "マトリクス（1-2 / 3-4）のフェーダー（数値）",
+      "options": [
+        {
+          "id": "n",
+          "label": "マトリクス（1-2 / 3-4）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "v",
+          "label": "値（0–127。0 dB = 98）",
+          "type": "number",
+          "default": 98,
+          "min": 0,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:107|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.v|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "マトリクス（1-2 / 3-4） {{option.n}} = {{option.v}}"
+    },
+    {
+      "id": "mg_mtx",
+      "name": "マトリクス（1-2 / 3-4）をミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "マトリクス（1-2 / 3-4）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:107|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 5C {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "マトリクス（1-2 / 3-4） {{option.n}} → MG {{option.g}}"
+    },
+    {
+      "id": "dca_mtx",
+      "name": "マトリクス（1-2 / 3-4）を DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "マトリクス（1-2 / 3-4）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "g",
+          "label": "グループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "63",
+          "choices": [
+            {
+              "id": "63",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-1",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:107|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.g|plus:on|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 07",
+        "encoding": "hex"
+      },
+      "summary": "マトリクス（1-2 / 3-4） {{option.n}} → DCA {{option.g}}"
+    },
+    {
+      "id": "mute_dca",
+      "name": "DCAのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:15|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:15|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "mute_mg",
+      "name": "ミュートグループのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミュートグループ（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:79|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:79|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ミュートグループ {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "scene",
+      "name": "シーンを呼び出す",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン（1–100）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 00 00 {{config.midich|lin:1:175|hexu}} 20 00 {{config.midich|lin:1:191|hexu}} {{option.scene|lin:1:-1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "シーン {{option.scene}}"
+    },
+    {
+      "id": "strip_key",
+      "name": "カスタムレイヤーのキー",
+      "options": [
+        {
+          "id": "k",
+          "label": "キー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Mute"
+            },
+            {
+              "id": "32",
+              "label": "Sel"
+            },
+            {
+              "id": "64",
+              "label": "PAFL"
+            }
+          ]
+        },
+        {
+          "id": "n",
+          "label": "ストリップ（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:144|hexu}} {{option.n|lin:1:-1|plus:k|hexu|pad2}} 7F {{config.midich|lin:1:144|hexu}} {{option.n|lin:1:-1|plus:k|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ストリップ {{option.n}}"
+    },
+    {
+      "id": "strip_fader",
+      "name": "カスタムレイヤーのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ストリップ（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "v",
+          "label": "値（0–127）",
+          "type": "number",
+          "default": 98,
+          "min": 0,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} {{option.n|lin:1:-1|hexu|pad2}} {{option.v|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ストリップ {{option.n}} = {{option.v}}"
+    },
+    {
+      "id": "mmc",
+      "name": "MMC（レコーダー）",
+      "options": [
+        {
+          "id": "tc",
+          "label": "操作",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "停止"
+            },
+            {
+              "id": "02",
+              "label": "再生"
+            },
+            {
+              "id": "09",
+              "label": "一時停止"
+            },
+            {
+              "id": "06",
+              "label": "録音"
+            },
+            {
+              "id": "04",
+              "label": "早送り"
+            },
+            {
+              "id": "05",
+              "label": "巻き戻し"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 7F 7F 06 {{option.tc}} F7",
+        "encoding": "hex"
+      },
+      "summary": "MMC {{option.tc}}"
+    },
+    {
+      "id": "daw_bank",
+      "name": "DAW のバンク",
+      "options": [
+        {
+          "id": "k",
+          "label": "向き",
+          "type": "select",
+          "default": "7E",
+          "choices": [
+            {
+              "id": "7E",
+              "label": "上"
+            },
+            {
+              "id": "7F",
+              "label": "下"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:144|hexu}} {{option.k}} 7F {{config.midich|lin:1:144|hexu}} {{option.k}} 00",
+        "encoding": "hex"
+      },
+      "summary": "バンク {{option.k}}"
+    },
+    {
+      "id": "command",
+      "name": "MIDI を送る（16 進）",
+      "options": [
+        {
+          "id": "hex",
+          "label": "MIDI（16 進）",
+          "type": "text",
+          "placeholder": "90 20 7F 90 20 00",
+          "pattern": "^([0-9A-Fa-f]{2} ?)+$",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.hex}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.hex}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "presets": [
+    {
+      "id": "mute_ip1",
+      "category": "ミュート",
+      "name": "入力 1 をミュート",
+      "text": "MUTE\nCH 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 1,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip2",
+      "category": "ミュート",
+      "name": "入力 2 をミュート",
+      "text": "MUTE\nCH 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 2,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip3",
+      "category": "ミュート",
+      "name": "入力 3 をミュート",
+      "text": "MUTE\nCH 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 3,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip4",
+      "category": "ミュート",
+      "name": "入力 4 をミュート",
+      "text": "MUTE\nCH 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 4,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip5",
+      "category": "ミュート",
+      "name": "入力 5 をミュート",
+      "text": "MUTE\nCH 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 5,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip6",
+      "category": "ミュート",
+      "name": "入力 6 をミュート",
+      "text": "MUTE\nCH 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 6,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip7",
+      "category": "ミュート",
+      "name": "入力 7 をミュート",
+      "text": "MUTE\nCH 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 7,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip8",
+      "category": "ミュート",
+      "name": "入力 8 をミュート",
+      "text": "MUTE\nCH 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 8,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip9",
+      "category": "ミュート",
+      "name": "入力 9 をミュート",
+      "text": "MUTE\nCH 9",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 9,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip10",
+      "category": "ミュート",
+      "name": "入力 10 をミュート",
+      "text": "MUTE\nCH 10",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 10,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip11",
+      "category": "ミュート",
+      "name": "入力 11 をミュート",
+      "text": "MUTE\nCH 11",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 11,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip12",
+      "category": "ミュート",
+      "name": "入力 12 をミュート",
+      "text": "MUTE\nCH 12",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 12,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip13",
+      "category": "ミュート",
+      "name": "入力 13 をミュート",
+      "text": "MUTE\nCH 13",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 13,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip14",
+      "category": "ミュート",
+      "name": "入力 14 をミュート",
+      "text": "MUTE\nCH 14",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 14,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip15",
+      "category": "ミュート",
+      "name": "入力 15 をミュート",
+      "text": "MUTE\nCH 15",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 15,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip16",
+      "category": "ミュート",
+      "name": "入力 16 をミュート",
+      "text": "MUTE\nCH 16",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_ip",
+        "options": {
+          "n": 16,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "scene1",
+      "category": "シーン",
+      "name": "シーン 1",
+      "text": "SCENE\n1",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 1
+        }
+      }
+    },
+    {
+      "id": "scene2",
+      "category": "シーン",
+      "name": "シーン 2",
+      "text": "SCENE\n2",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 2
+        }
+      }
+    },
+    {
+      "id": "scene3",
+      "category": "シーン",
+      "name": "シーン 3",
+      "text": "SCENE\n3",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 3
+        }
+      }
+    },
+    {
+      "id": "scene4",
+      "category": "シーン",
+      "name": "シーン 4",
+      "text": "SCENE\n4",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 4
+        }
+      }
+    },
+    {
+      "id": "scene5",
+      "category": "シーン",
+      "name": "シーン 5",
+      "text": "SCENE\n5",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 5
+        }
+      }
+    },
+    {
+      "id": "scene6",
+      "category": "シーン",
+      "name": "シーン 6",
+      "text": "SCENE\n6",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 6
+        }
+      }
+    },
+    {
+      "id": "scene7",
+      "category": "シーン",
+      "name": "シーン 7",
+      "text": "SCENE\n7",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 7
+        }
+      }
+    },
+    {
+      "id": "scene8",
+      "category": "シーン",
+      "name": "シーン 8",
+      "text": "SCENE\n8",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 8
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Allen & Heath「Qu MIDI Protocol V1.9」：TCP 51325、チャンネル番号の表、ミュート、NRPN 17 / 20 / 16 / 5C / 40、シーン、カスタムレイヤー、MMC",
+      "url": "https://www.allen-heath.com/content/uploads/2023/06/Qu_MIDI_Protocol_V1.9.pdf",
+      "status": "確認済"
+    },
+    {
+      "title": "TCP の MIDI の接続は同時に 1 つだけ",
+      "status": "確認済"
+    },
+    {
+      "title": "受信（本体からの状態）はまだ使っていない",
+      "status": "確認済"
+    }
+  ]
+}

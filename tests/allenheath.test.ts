@@ -95,3 +95,26 @@ describe('Allen & Heath dLive・Avantis', () => {
     }
   });
 });
+
+describe('Allen & Heath Qu', () => {
+  function q(actionId: string, o: Record<string, string | number> = {}) {
+    const d = getDefinition('allenheath-qu')!;
+    const a = getActionDef('allenheath-qu', actionId)!;
+    const p = buildPayload(d, a, { ...withDefaults(a.options, {}), ...o }, withDefaults(d.configFields, {}));
+    if (p.kind !== 'bytes') throw new Error('bytes ではない');
+    return hex(p.bytes);
+  }
+  it('資料の形', () => {
+    expect(q('mute_ip', { n: 1, on: '7F' })).toBe('90 20 7F 90 20 00');
+    expect(q('mute_mg', { n: 4, on: '3F' })).toBe('90 53 3F 90 53 00');
+    expect(q('fader_mix', { n: 7, va: '62' })).toBe('B0 63 66 B0 62 17 B0 06 62 B0 26 07');
+    expect(q('send_ip', { n: 32, to: '13', va: '7F' })).toBe('B0 63 3F B0 62 20 B0 06 7F B0 26 13');
+    expect(q('pan_st', { n: 1, to: '07', pan: 37 })).toBe('B0 63 40 B0 62 16 B0 06 25 B0 26 07');
+    expect(q('dca_ip', { n: 1, g: 4, on: '63' }).endsWith('B0 06 43 B0 26 07')).toBe(true);
+    expect(q('mg_ip', { n: 1, g: 1, on: '-1' }).endsWith('B0 06 00 B0 26 07')).toBe(true);
+    expect(q('scene', { scene: 100 })).toBe('B0 00 00 B0 20 00 C0 63');
+    expect(q('strip_key', { k: '32', n: 1 })).toBe('91 20 7F 91 20 00');
+    expect(q('mmc', { tc: '02' })).toBe('F0 7F 7F 06 02 F7');
+    for (const a of getDefinition('allenheath-qu')!.actions) if (a.id !== 'command') expect(q(a.id)).toMatch(/^[89BCF][0-9A-F]( [0-9A-F]{2})+$/);
+  });
+});
