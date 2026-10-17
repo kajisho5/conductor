@@ -1,0 +1,3184 @@
+{
+  "format": 1,
+  "id": "yamaha-osc",
+  "name": "Yamaha DM3 / RIVAGE PM（OSC）",
+  "category": "音響ミキサー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "osc",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.0.128",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 49900,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "actions": [
+    {
+      "id": "InCh_on",
+      "name": "入力チャンネルの ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/Fader/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} ON={{option.on}}"
+    },
+    {
+      "id": "InCh_level",
+      "name": "入力チャンネルのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "InCh_off",
+      "name": "入力チャンネルのフェーダーを −∞",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "-32768"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} −∞"
+    },
+    {
+      "id": "InCh_name",
+      "name": "入力チャンネルの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "name",
+          "label": "名前（8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[^\"\\\\]{0,8}$"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/Label/Name/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "InCh_color",
+      "name": "入力チャンネルの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "Blue",
+          "choices": [
+            {
+              "id": "Blue",
+              "label": "Blue"
+            },
+            {
+              "id": "Orange",
+              "label": "Orange"
+            },
+            {
+              "id": "Yellow",
+              "label": "Yellow"
+            },
+            {
+              "id": "Purple",
+              "label": "Purple"
+            },
+            {
+              "id": "Cyan",
+              "label": "Cyan"
+            },
+            {
+              "id": "Magenta",
+              "label": "Magenta"
+            },
+            {
+              "id": "Red",
+              "label": "Red"
+            },
+            {
+              "id": "Green",
+              "label": "Green"
+            },
+            {
+              "id": "Off",
+              "label": "Off"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/Label/Color/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} 色 {{option.color}}"
+    },
+    {
+      "id": "InCh_tost_on",
+      "name": "入力チャンネルをステレオへ送る",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "送る"
+            },
+            {
+              "id": "0",
+              "label": "送らない"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/ToSt/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} → ST {{option.on}}"
+    },
+    {
+      "id": "InCh_tost_pan",
+      "name": "入力チャンネルのパン（ステレオ）",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "pan",
+          "label": "パン（−63 左 – 0 中央 – 63 右）",
+          "type": "number",
+          "default": 0,
+          "min": -63,
+          "max": 63
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/ToSt/Pan/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.pan}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} パン {{option.pan}}"
+    },
+    {
+      "id": "InCh_tomix_level",
+      "name": "入力チャンネル → MIX のレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/ToMix/Level/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} → MIX {{option.mix}} {{option.db}} dB"
+    },
+    {
+      "id": "InCh_tomix_on",
+      "name": "入力チャンネル → MIX の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/ToMix/On/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} → MIX {{option.mix}} ON={{option.on}}"
+    },
+    {
+      "id": "InCh_tomix_pan",
+      "name": "入力チャンネル → MIX のパン",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "pan",
+          "label": "パン（−63 左 – 0 中央 – 63 右）",
+          "type": "number",
+          "default": 0,
+          "min": -63,
+          "max": 63
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/ToMix/Pan/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.pan}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} → MIX {{option.mix}} パン {{option.pan}}"
+    },
+    {
+      "id": "InCh_tomtrx_level",
+      "name": "入力チャンネル → MATRIX のレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "mtx",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/ToMtrx/Level/{{option.n}}/{{option.mtx}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} → MTX {{option.mtx}} {{option.db}} dB"
+    },
+    {
+      "id": "InCh_tomtrx_on",
+      "name": "入力チャンネル → MATRIX の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力チャンネル（1–288）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "mtx",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/InCh/ToMtrx/On/{{option.n}}/{{option.mtx}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "入力チャンネル {{option.n}} → MTX {{option.mtx}} ON={{option.on}}"
+    },
+    {
+      "id": "StInCh_on",
+      "name": "ステレオ入力の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/Fader/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} ON={{option.on}}"
+    },
+    {
+      "id": "StInCh_level",
+      "name": "ステレオ入力のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "StInCh_off",
+      "name": "ステレオ入力のフェーダーを −∞",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "-32768"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} −∞"
+    },
+    {
+      "id": "StInCh_name",
+      "name": "ステレオ入力の名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "name",
+          "label": "名前（8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[^\"\\\\]{0,8}$"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/Label/Name/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "StInCh_color",
+      "name": "ステレオ入力の色",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "Blue",
+          "choices": [
+            {
+              "id": "Blue",
+              "label": "Blue"
+            },
+            {
+              "id": "Orange",
+              "label": "Orange"
+            },
+            {
+              "id": "Yellow",
+              "label": "Yellow"
+            },
+            {
+              "id": "Purple",
+              "label": "Purple"
+            },
+            {
+              "id": "Cyan",
+              "label": "Cyan"
+            },
+            {
+              "id": "Magenta",
+              "label": "Magenta"
+            },
+            {
+              "id": "Red",
+              "label": "Red"
+            },
+            {
+              "id": "Green",
+              "label": "Green"
+            },
+            {
+              "id": "Off",
+              "label": "Off"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/Label/Color/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} 色 {{option.color}}"
+    },
+    {
+      "id": "StInCh_tost_on",
+      "name": "ステレオ入力をステレオへ送る",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "送る"
+            },
+            {
+              "id": "0",
+              "label": "送らない"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/ToSt/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} → ST {{option.on}}"
+    },
+    {
+      "id": "StInCh_tost_pan",
+      "name": "ステレオ入力のパン（ステレオ）",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "pan",
+          "label": "パン（−63 左 – 0 中央 – 63 右）",
+          "type": "number",
+          "default": 0,
+          "min": -63,
+          "max": 63
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/ToSt/Pan/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.pan}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} パン {{option.pan}}"
+    },
+    {
+      "id": "StInCh_tomix_level",
+      "name": "ステレオ入力 → MIX のレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/ToMix/Level/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} → MIX {{option.mix}} {{option.db}} dB"
+    },
+    {
+      "id": "StInCh_tomix_on",
+      "name": "ステレオ入力 → MIX の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/ToMix/On/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} → MIX {{option.mix}} ON={{option.on}}"
+    },
+    {
+      "id": "StInCh_tomix_pan",
+      "name": "ステレオ入力 → MIX のパン",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "pan",
+          "label": "パン（−63 左 – 0 中央 – 63 右）",
+          "type": "number",
+          "default": 0,
+          "min": -63,
+          "max": 63
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/ToMix/Pan/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.pan}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} → MIX {{option.mix}} パン {{option.pan}}"
+    },
+    {
+      "id": "StInCh_tomtrx_level",
+      "name": "ステレオ入力 → MATRIX のレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mtx",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/ToMtrx/Level/{{option.n}}/{{option.mtx}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} → MTX {{option.mtx}} {{option.db}} dB"
+    },
+    {
+      "id": "StInCh_tomtrx_on",
+      "name": "ステレオ入力 → MATRIX の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ入力（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mtx",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/StInCh/ToMtrx/On/{{option.n}}/{{option.mtx}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "ステレオ入力 {{option.n}} → MTX {{option.mtx}} ON={{option.on}}"
+    },
+    {
+      "id": "FxRtnCh_on",
+      "name": "FX リターンの ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/Fader/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} ON={{option.on}}"
+    },
+    {
+      "id": "FxRtnCh_level",
+      "name": "FX リターンのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "FxRtnCh_off",
+      "name": "FX リターンのフェーダーを −∞",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "-32768"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} −∞"
+    },
+    {
+      "id": "FxRtnCh_name",
+      "name": "FX リターンの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "name",
+          "label": "名前（8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[^\"\\\\]{0,8}$"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/Label/Name/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "FxRtnCh_color",
+      "name": "FX リターンの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "Blue",
+          "choices": [
+            {
+              "id": "Blue",
+              "label": "Blue"
+            },
+            {
+              "id": "Orange",
+              "label": "Orange"
+            },
+            {
+              "id": "Yellow",
+              "label": "Yellow"
+            },
+            {
+              "id": "Purple",
+              "label": "Purple"
+            },
+            {
+              "id": "Cyan",
+              "label": "Cyan"
+            },
+            {
+              "id": "Magenta",
+              "label": "Magenta"
+            },
+            {
+              "id": "Red",
+              "label": "Red"
+            },
+            {
+              "id": "Green",
+              "label": "Green"
+            },
+            {
+              "id": "Off",
+              "label": "Off"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/Label/Color/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} 色 {{option.color}}"
+    },
+    {
+      "id": "FxRtnCh_tost_on",
+      "name": "FX リターンをステレオへ送る",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "送る"
+            },
+            {
+              "id": "0",
+              "label": "送らない"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/ToSt/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} → ST {{option.on}}"
+    },
+    {
+      "id": "FxRtnCh_tost_pan",
+      "name": "FX リターンのパン（ステレオ）",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "pan",
+          "label": "パン（−63 左 – 0 中央 – 63 右）",
+          "type": "number",
+          "default": 0,
+          "min": -63,
+          "max": 63
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/ToSt/Pan/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.pan}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} パン {{option.pan}}"
+    },
+    {
+      "id": "FxRtnCh_tomix_level",
+      "name": "FX リターン → MIX のレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/ToMix/Level/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} → MIX {{option.mix}} {{option.db}} dB"
+    },
+    {
+      "id": "FxRtnCh_tomix_on",
+      "name": "FX リターン → MIX の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/ToMix/On/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} → MIX {{option.mix}} ON={{option.on}}"
+    },
+    {
+      "id": "FxRtnCh_tomix_pan",
+      "name": "FX リターン → MIX のパン",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mix",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "pan",
+          "label": "パン（−63 左 – 0 中央 – 63 右）",
+          "type": "number",
+          "default": 0,
+          "min": -63,
+          "max": 63
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/ToMix/Pan/{{option.n}}/{{option.mix}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.pan}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} → MIX {{option.mix}} パン {{option.pan}}"
+    },
+    {
+      "id": "FxRtnCh_tomtrx_level",
+      "name": "FX リターン → MATRIX のレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mtx",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/ToMtrx/Level/{{option.n}}/{{option.mtx}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} → MTX {{option.mtx}} {{option.db}} dB"
+    },
+    {
+      "id": "FxRtnCh_tomtrx_on",
+      "name": "FX リターン → MATRIX の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mtx",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/FxRtnCh/ToMtrx/On/{{option.n}}/{{option.mtx}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "FX リターン {{option.n}} → MTX {{option.mtx}} ON={{option.on}}"
+    },
+    {
+      "id": "Mix_on",
+      "name": "MIXの ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mix/Fader/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "MIX {{option.n}} ON={{option.on}}"
+    },
+    {
+      "id": "Mix_level",
+      "name": "MIXのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mix/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "MIX {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "Mix_off",
+      "name": "MIXのフェーダーを −∞",
+      "options": [
+        {
+          "id": "n",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mix/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "-32768"
+          }
+        ]
+      },
+      "summary": "MIX {{option.n}} −∞"
+    },
+    {
+      "id": "Mix_name",
+      "name": "MIXの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "name",
+          "label": "名前（8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[^\"\\\\]{0,8}$"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mix/Label/Name/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      },
+      "summary": "MIX {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "Mix_color",
+      "name": "MIXの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "Blue",
+          "choices": [
+            {
+              "id": "Blue",
+              "label": "Blue"
+            },
+            {
+              "id": "Orange",
+              "label": "Orange"
+            },
+            {
+              "id": "Yellow",
+              "label": "Yellow"
+            },
+            {
+              "id": "Purple",
+              "label": "Purple"
+            },
+            {
+              "id": "Cyan",
+              "label": "Cyan"
+            },
+            {
+              "id": "Magenta",
+              "label": "Magenta"
+            },
+            {
+              "id": "Red",
+              "label": "Red"
+            },
+            {
+              "id": "Green",
+              "label": "Green"
+            },
+            {
+              "id": "Off",
+              "label": "Off"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mix/Label/Color/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "MIX {{option.n}} 色 {{option.color}}"
+    },
+    {
+      "id": "Mix_tomtrx_level",
+      "name": "MIX → MATRIX のレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "mtx",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mix/ToMtrx/Level/{{option.n}}/{{option.mtx}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "MIX {{option.n}} → MTX {{option.mtx}} {{option.db}} dB"
+    },
+    {
+      "id": "Mix_tomtrx_on",
+      "name": "MIX → MATRIX の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "mtx",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mix/ToMtrx/On/{{option.n}}/{{option.mtx}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "MIX {{option.n}} → MTX {{option.mtx}} ON={{option.on}}"
+    },
+    {
+      "id": "Mix_tost_on",
+      "name": "MIX をステレオへ送る",
+      "options": [
+        {
+          "id": "n",
+          "label": "MIX（1–72）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 72
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "送る"
+            },
+            {
+              "id": "0",
+              "label": "送らない"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mix/ToSt/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "MIX {{option.n}} → ST {{option.on}}"
+    },
+    {
+      "id": "Mtrx_on",
+      "name": "MATRIXの ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mtrx/Fader/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "MATRIX {{option.n}} ON={{option.on}}"
+    },
+    {
+      "id": "Mtrx_level",
+      "name": "MATRIXのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mtrx/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "MATRIX {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "Mtrx_off",
+      "name": "MATRIXのフェーダーを −∞",
+      "options": [
+        {
+          "id": "n",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mtrx/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "-32768"
+          }
+        ]
+      },
+      "summary": "MATRIX {{option.n}} −∞"
+    },
+    {
+      "id": "Mtrx_name",
+      "name": "MATRIXの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "name",
+          "label": "名前（8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[^\"\\\\]{0,8}$"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mtrx/Label/Name/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      },
+      "summary": "MATRIX {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "Mtrx_color",
+      "name": "MATRIXの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "MATRIX（1–36）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 36
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "Blue",
+          "choices": [
+            {
+              "id": "Blue",
+              "label": "Blue"
+            },
+            {
+              "id": "Orange",
+              "label": "Orange"
+            },
+            {
+              "id": "Yellow",
+              "label": "Yellow"
+            },
+            {
+              "id": "Purple",
+              "label": "Purple"
+            },
+            {
+              "id": "Cyan",
+              "label": "Cyan"
+            },
+            {
+              "id": "Magenta",
+              "label": "Magenta"
+            },
+            {
+              "id": "Red",
+              "label": "Red"
+            },
+            {
+              "id": "Green",
+              "label": "Green"
+            },
+            {
+              "id": "Off",
+              "label": "Off"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mtrx/Label/Color/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "MATRIX {{option.n}} 色 {{option.color}}"
+    },
+    {
+      "id": "St_on",
+      "name": "ステレオ（ST）の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ（ST）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/St/Fader/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "ステレオ（ST） {{option.n}} ON={{option.on}}"
+    },
+    {
+      "id": "St_level",
+      "name": "ステレオ（ST）のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ（ST）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/St/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "ステレオ（ST） {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "St_off",
+      "name": "ステレオ（ST）のフェーダーを −∞",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ（ST）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/St/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "-32768"
+          }
+        ]
+      },
+      "summary": "ステレオ（ST） {{option.n}} −∞"
+    },
+    {
+      "id": "St_name",
+      "name": "ステレオ（ST）の名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ（ST）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "name",
+          "label": "名前（8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[^\"\\\\]{0,8}$"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/St/Label/Name/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      },
+      "summary": "ステレオ（ST） {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "St_color",
+      "name": "ステレオ（ST）の色",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ（ST）（1–2）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 2
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "Blue",
+          "choices": [
+            {
+              "id": "Blue",
+              "label": "Blue"
+            },
+            {
+              "id": "Orange",
+              "label": "Orange"
+            },
+            {
+              "id": "Yellow",
+              "label": "Yellow"
+            },
+            {
+              "id": "Purple",
+              "label": "Purple"
+            },
+            {
+              "id": "Cyan",
+              "label": "Cyan"
+            },
+            {
+              "id": "Magenta",
+              "label": "Magenta"
+            },
+            {
+              "id": "Red",
+              "label": "Red"
+            },
+            {
+              "id": "Green",
+              "label": "Green"
+            },
+            {
+              "id": "Off",
+              "label": "Off"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/St/Label/Color/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "ステレオ（ST） {{option.n}} 色 {{option.color}}"
+    },
+    {
+      "id": "Mono_on",
+      "name": "モノ（C）の ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ（C）（1–1）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mono/Fader/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "モノ（C） {{option.n}} ON={{option.on}}"
+    },
+    {
+      "id": "Mono_level",
+      "name": "モノ（C）のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ（C）（1–1）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mono/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "モノ（C） {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "Mono_off",
+      "name": "モノ（C）のフェーダーを −∞",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ（C）（1–1）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/Mono/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "-32768"
+          }
+        ]
+      },
+      "summary": "モノ（C） {{option.n}} −∞"
+    },
+    {
+      "id": "DCA_on",
+      "name": "DCAの ON / OFF",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–24）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 24
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（音が出る）"
+            },
+            {
+              "id": "0",
+              "label": "OFF（ミュート）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/DCA/Fader/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "DCA {{option.n}} ON={{option.on}}"
+    },
+    {
+      "id": "DCA_level",
+      "name": "DCAのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–24）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 24
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−138 で −∞、+10 まで）",
+          "type": "number",
+          "default": 0,
+          "min": -138,
+          "max": 10,
+          "help": "資料の値は dB × 100（−∞ は −32768）"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/DCA/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.db|lin:100:0}}"
+          }
+        ]
+      },
+      "summary": "DCA {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "DCA_off",
+      "name": "DCAのフェーダーを −∞",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–24）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 24
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/DCA/Fader/Level/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "-32768"
+          }
+        ]
+      },
+      "summary": "DCA {{option.n}} −∞"
+    },
+    {
+      "id": "DCA_name",
+      "name": "DCAの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–24）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 24
+        },
+        {
+          "id": "name",
+          "label": "名前（8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[^\"\\\\]{0,8}$"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/DCA/Label/Name/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      },
+      "summary": "DCA {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "DCA_color",
+      "name": "DCAの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–24）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 24
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "Blue",
+          "choices": [
+            {
+              "id": "Blue",
+              "label": "Blue"
+            },
+            {
+              "id": "Orange",
+              "label": "Orange"
+            },
+            {
+              "id": "Yellow",
+              "label": "Yellow"
+            },
+            {
+              "id": "Purple",
+              "label": "Purple"
+            },
+            {
+              "id": "Cyan",
+              "label": "Cyan"
+            },
+            {
+              "id": "Magenta",
+              "label": "Magenta"
+            },
+            {
+              "id": "Red",
+              "label": "Red"
+            },
+            {
+              "id": "Green",
+              "label": "Green"
+            },
+            {
+              "id": "Off",
+              "label": "Off"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/DCA/Label/Color/{{option.n}}/1",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "DCA {{option.n}} 色 {{option.color}}"
+    },
+    {
+      "id": "mute_grp",
+      "name": "ミュートグループ",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミュートグループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ミュートする"
+            },
+            {
+              "id": "0",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/MIXER:Current/MuteGrpCtrl/On/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "ミュートグループ {{option.n}} {{option.on}}"
+    },
+    {
+      "id": "scene_recall",
+      "name": "シーンを呼び出す",
+      "options": [
+        {
+          "id": "bank",
+          "label": "バンク",
+          "type": "select",
+          "default": "scene_a",
+          "choices": [
+            {
+              "id": "scene_a",
+              "label": "A"
+            },
+            {
+              "id": "scene_b",
+              "label": "B"
+            }
+          ]
+        },
+        {
+          "id": "scene",
+          "label": "シーン（0–99）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 99
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/ssrecall_ex",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.bank}}"
+          },
+          {
+            "type": "i",
+            "value": "{{option.scene}}"
+          }
+        ]
+      },
+      "summary": "シーン {{option.bank}} {{option.scene}}"
+    },
+    {
+      "id": "head_amp",
+      "name": "ヘッドアンプのゲイン（本体の入力）",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "gain",
+          "label": "ゲイン（0–64 dB）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 64
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/IO:Current/InCh/HAGain/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.gain}}"
+          }
+        ]
+      },
+      "summary": "HA {{option.n}} {{option.gain}} dB"
+    },
+    {
+      "id": "phantom",
+      "name": "ファンタム電源（本体の入力）",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/yosc:req/set/IO:Current/InCh/48VOn/{{option.n}}/1",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "+48V {{option.n}} {{option.on}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "presets": [
+    {
+      "id": "on1",
+      "category": "ON / OFF",
+      "name": "入力 1 を OFF",
+      "text": "CH 1\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 1,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on2",
+      "category": "ON / OFF",
+      "name": "入力 2 を OFF",
+      "text": "CH 2\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 2,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on3",
+      "category": "ON / OFF",
+      "name": "入力 3 を OFF",
+      "text": "CH 3\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 3,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on4",
+      "category": "ON / OFF",
+      "name": "入力 4 を OFF",
+      "text": "CH 4\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 4,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on5",
+      "category": "ON / OFF",
+      "name": "入力 5 を OFF",
+      "text": "CH 5\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 5,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on6",
+      "category": "ON / OFF",
+      "name": "入力 6 を OFF",
+      "text": "CH 6\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 6,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on7",
+      "category": "ON / OFF",
+      "name": "入力 7 を OFF",
+      "text": "CH 7\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 7,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on8",
+      "category": "ON / OFF",
+      "name": "入力 8 を OFF",
+      "text": "CH 8\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 8,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on9",
+      "category": "ON / OFF",
+      "name": "入力 9 を OFF",
+      "text": "CH 9\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 9,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on10",
+      "category": "ON / OFF",
+      "name": "入力 10 を OFF",
+      "text": "CH 10\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 10,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on11",
+      "category": "ON / OFF",
+      "name": "入力 11 を OFF",
+      "text": "CH 11\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 11,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on12",
+      "category": "ON / OFF",
+      "name": "入力 12 を OFF",
+      "text": "CH 12\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 12,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on13",
+      "category": "ON / OFF",
+      "name": "入力 13 を OFF",
+      "text": "CH 13\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 13,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on14",
+      "category": "ON / OFF",
+      "name": "入力 14 を OFF",
+      "text": "CH 14\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 14,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on15",
+      "category": "ON / OFF",
+      "name": "入力 15 を OFF",
+      "text": "CH 15\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 15,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "on16",
+      "category": "ON / OFF",
+      "name": "入力 16 を OFF",
+      "text": "CH 16\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 16,
+          "on": "0"
+        }
+      }
+    },
+    {
+      "id": "onon1",
+      "category": "ON / OFF",
+      "name": "入力 1 を ON",
+      "text": "CH 1\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 1,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon2",
+      "category": "ON / OFF",
+      "name": "入力 2 を ON",
+      "text": "CH 2\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 2,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon3",
+      "category": "ON / OFF",
+      "name": "入力 3 を ON",
+      "text": "CH 3\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 3,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon4",
+      "category": "ON / OFF",
+      "name": "入力 4 を ON",
+      "text": "CH 4\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 4,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon5",
+      "category": "ON / OFF",
+      "name": "入力 5 を ON",
+      "text": "CH 5\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 5,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon6",
+      "category": "ON / OFF",
+      "name": "入力 6 を ON",
+      "text": "CH 6\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 6,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon7",
+      "category": "ON / OFF",
+      "name": "入力 7 を ON",
+      "text": "CH 7\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 7,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon8",
+      "category": "ON / OFF",
+      "name": "入力 8 を ON",
+      "text": "CH 8\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 8,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon9",
+      "category": "ON / OFF",
+      "name": "入力 9 を ON",
+      "text": "CH 9\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 9,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon10",
+      "category": "ON / OFF",
+      "name": "入力 10 を ON",
+      "text": "CH 10\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 10,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon11",
+      "category": "ON / OFF",
+      "name": "入力 11 を ON",
+      "text": "CH 11\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 11,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon12",
+      "category": "ON / OFF",
+      "name": "入力 12 を ON",
+      "text": "CH 12\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 12,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon13",
+      "category": "ON / OFF",
+      "name": "入力 13 を ON",
+      "text": "CH 13\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 13,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon14",
+      "category": "ON / OFF",
+      "name": "入力 14 を ON",
+      "text": "CH 14\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 14,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon15",
+      "category": "ON / OFF",
+      "name": "入力 15 を ON",
+      "text": "CH 15\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 15,
+          "on": "1"
+        }
+      }
+    },
+    {
+      "id": "onon16",
+      "category": "ON / OFF",
+      "name": "入力 16 を ON",
+      "text": "CH 16\nON",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "InCh_on",
+        "options": {
+          "n": 16,
+          "on": "1"
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Yamaha「DM3 OSC Specifications V1.00」：UDP 49900、/yosc:req/set/MIXER:Current/<パス>/X/Y、値の範囲、ssrecall_ex、IO:Current/InCh/HAGain・48VOn",
+      "url": "https://fi.yamaha.com/files/download/other_assets/2/2063222/DM3_osc_specs_v100_en.pdf",
+      "status": "確認済"
+    },
+    {
+      "title": "Yamaha「RIVAGE PM OSC Specifications V1.02」",
+      "url": "https://it.yamaha.com/files/download/other_assets/5/1407565/RIVAGE_PM_osc_specs_v102_en.pdf",
+      "status": "確認済",
+      "note": "チャンネル数は機種で違う"
+    }
+  ]
+}

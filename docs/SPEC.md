@@ -528,6 +528,13 @@ export interface DriverInstance {
 - 配信の定義にある旧来のリモートの手順（WebSocket）の定義はそのまま残す（別の手順のため）
 - 定義は `scripts/drivers/build_propresenter.py` から作る
 
+### 8.19 Yamaha デジタルミキサー（RCP・OSC・オーナー指示 2026-10-17）
+- `yamaha-rcp`：CL / QL / TF / DM3 / DM7 / RIVAGE PM。TCP **49280** に `set MIXER:Current/<パス> X Y 値`（X・Y は 0 から）を 1 行ずつ【確認済：公開 OSS のモジュールの送信】
+- `yamaha-osc`：DM3 / RIVAGE PM の公式 OSC。UDP **49900** に `/yosc:req/set/MIXER:Current/<パス>/X/Y 値`（X・Y は 1 から）【確認済：「DM3 OSC Specifications V1.00」「RIVAGE PM OSC Specifications V1.02」】
+- パスと値の範囲は公式資料（Fader/On・Fader/Level（dB × 100、−∞ は −32768）・ToSt・ToMix・ToMtrx・Label・MuteGrpCtrl など）。動作は RCP 69・OSC 66（ON / OFF・フェーダー・−∞・名前・色・送り・パン・ミュートグループ・シーン・ヘッドアンプ（OSC））
+- 機種ごとのチャンネル数・DCA / Mono / MuteMaster の有無は【推測】。配信の定義にある RCP の定義（ラベル・パッチ・キューなど）はそのまま残す
+- 定義は `scripts/drivers/build_yamaha.py` から作る
+
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。
 - 公式アプリや他社ソフトの通信の解析結果も根拠に使ってよい（2026-10-17 オーナー指示）。evidence の note に「〇〇の通信の観測」と出典を書く。
