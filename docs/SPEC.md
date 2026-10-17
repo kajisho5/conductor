@@ -506,6 +506,12 @@ export interface DriverInstance {
 - 受信（状態表示）はまだ。色名は資料に無いので【推測】
 - 定義は `scripts/drivers/build_allenheath_dlive.py` から作る
 
+### 8.15 Panasonic リモートカメラ AW-HE / AW-UE（HTTP・オーナー指示 2026-10-17）
+- 接続：HTTP の GET `/cgi-bin/aw_ptz?cmd=%23…&res=1`（雲台）・`/cgi-bin/aw_cam?cmd=…&res=1`（カメラ）【確認済：「HD Integrated Camera Interface Specifications V1.07E」】
+- 動作 45：8 方向のパン・チルト（速さ 1–49）、止める・ホーム・位置、ズーム / フォーカス（速さ・位置・AF・ワンタッチ AF）、アイリス、ゲイン、シャッター、ペデスタル、ND、AWB / ABB、カラーバー、シーン、プリセット（呼び出し・記憶・内容・速さ・時間）、電源、タリー、設置の向き、SD 収録、命令をそのまま
+- ゲイン・ペデスタル・タリー・プリセットの内容と動き方・SD 収録は公開 OSS のモジュールの送信で補った。シャッター・ND・シーンの番号は機種で違う【推測】
+- 定義は `scripts/drivers/build_panasonic.py` から作る
+
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。
 - 公式アプリや他社ソフトの通信の解析結果も根拠に使ってよい（2026-10-17 オーナー指示）。evidence の note に「〇〇の通信の観測」と出典を書く。

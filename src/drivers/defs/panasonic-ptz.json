@@ -1,0 +1,1588 @@
+{
+  "format": 1,
+  "id": "panasonic-ptz",
+  "name": "Panasonic リモートカメラ（AW-HE / AW-UE）",
+  "category": "カメラ",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "http",
+  "configFields": [
+    {
+      "id": "baseUrl",
+      "label": "URL の先頭",
+      "type": "text",
+      "default": "http://192.168.0.10",
+      "placeholder": "http://192.168.0.10",
+      "pattern": "^https?://.+",
+      "mono": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "move_left",
+      "name": "パン・チルト 左",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS{{option.speed|lin:-1:50|pad2}}50&res=1"
+      },
+      "summary": "左 {{option.speed}}"
+    },
+    {
+      "id": "move_right",
+      "name": "パン・チルト 右",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS{{option.speed|lin:1:50|pad2}}50&res=1"
+      },
+      "summary": "右 {{option.speed}}"
+    },
+    {
+      "id": "move_up",
+      "name": "パン・チルト 上",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS50{{option.speed|lin:1:50|pad2}}&res=1"
+      },
+      "summary": "上 {{option.speed}}"
+    },
+    {
+      "id": "move_down",
+      "name": "パン・チルト 下",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS50{{option.speed|lin:-1:50|pad2}}&res=1"
+      },
+      "summary": "下 {{option.speed}}"
+    },
+    {
+      "id": "move_upleft",
+      "name": "パン・チルト 左上",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS{{option.speed|lin:-1:50|pad2}}{{option.speed|lin:1:50|pad2}}&res=1"
+      },
+      "summary": "左上 {{option.speed}}"
+    },
+    {
+      "id": "move_upright",
+      "name": "パン・チルト 右上",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS{{option.speed|lin:1:50|pad2}}{{option.speed|lin:1:50|pad2}}&res=1"
+      },
+      "summary": "右上 {{option.speed}}"
+    },
+    {
+      "id": "move_downleft",
+      "name": "パン・チルト 左下",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS{{option.speed|lin:-1:50|pad2}}{{option.speed|lin:-1:50|pad2}}&res=1"
+      },
+      "summary": "左下 {{option.speed}}"
+    },
+    {
+      "id": "move_downright",
+      "name": "パン・チルト 右下",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS{{option.speed|lin:1:50|pad2}}{{option.speed|lin:-1:50|pad2}}&res=1"
+      },
+      "summary": "右下 {{option.speed}}"
+    },
+    {
+      "id": "stop",
+      "name": "パン・チルトを止める",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23PTS5050&res=1"
+      }
+    },
+    {
+      "id": "home",
+      "name": "ホームへ",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23APC80008000&res=1"
+      }
+    },
+    {
+      "id": "position",
+      "name": "パン・チルトの位置",
+      "options": [
+        {
+          "id": "pan",
+          "label": "パン（16 進 4 桁の 10 進。32768 が中央）",
+          "type": "number",
+          "default": 32768,
+          "min": 0,
+          "max": 65535
+        },
+        {
+          "id": "tilt",
+          "label": "チルト（32768 が水平）",
+          "type": "number",
+          "default": 32768,
+          "min": 0,
+          "max": 65535
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23APC{{option.pan|hexu|pad4}}{{option.tilt|hexu|pad4}}&res=1"
+      },
+      "summary": "パン {{option.pan}} チルト {{option.tilt}}"
+    },
+    {
+      "id": "zoom_in",
+      "name": "ズームイン",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23Z{{option.speed|lin:1:50|pad2}}&res=1"
+      }
+    },
+    {
+      "id": "zoom_out",
+      "name": "ズームアウト",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23Z{{option.speed|lin:-1:50|pad2}}&res=1"
+      }
+    },
+    {
+      "id": "zoom_stop",
+      "name": "ズームを止める",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23Z50&res=1"
+      }
+    },
+    {
+      "id": "zoom_position",
+      "name": "ズームの位置",
+      "options": [
+        {
+          "id": "v",
+          "label": "位置（1365 ワイド – 4095 テレ）",
+          "type": "number",
+          "default": 1365,
+          "min": 1365,
+          "max": 4095
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23AXZ{{option.v|hexu}}&res=1"
+      },
+      "summary": "ズーム {{option.v}}"
+    },
+    {
+      "id": "focus_far",
+      "name": "フォーカス 遠く",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23F{{option.speed|lin:1:50|pad2}}&res=1"
+      }
+    },
+    {
+      "id": "focus_near",
+      "name": "フォーカス 近く",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（1–49）",
+          "type": "number",
+          "default": 25,
+          "min": 1,
+          "max": 49,
+          "help": "49 がいちばん速い"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23F{{option.speed|lin:-1:50|pad2}}&res=1"
+      }
+    },
+    {
+      "id": "focus_stop",
+      "name": "フォーカスを止める",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23F50&res=1"
+      }
+    },
+    {
+      "id": "focus_position",
+      "name": "フォーカスの位置",
+      "options": [
+        {
+          "id": "v",
+          "label": "位置（1365 近く – 4095 遠く）",
+          "type": "number",
+          "default": 2730,
+          "min": 1365,
+          "max": 4095
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23AXF{{option.v|hexu}}&res=1"
+      },
+      "summary": "フォーカス {{option.v}}"
+    },
+    {
+      "id": "focus_mode",
+      "name": "フォーカスの方式",
+      "options": [
+        {
+          "id": "v",
+          "label": "方式",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "オート"
+            },
+            {
+              "id": "0",
+              "label": "マニュアル"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23D1{{option.v}}&res=1"
+      },
+      "summary": "AF {{option.v}}"
+    },
+    {
+      "id": "focus_one_touch",
+      "name": "ワンタッチ AF",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OSE:69:1&res=1"
+      }
+    },
+    {
+      "id": "iris_mode",
+      "name": "アイリスの方式",
+      "options": [
+        {
+          "id": "v",
+          "label": "方式",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "オート"
+            },
+            {
+              "id": "0",
+              "label": "マニュアル"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23D3{{option.v}}&res=1"
+      },
+      "summary": "オートアイリス {{option.v}}"
+    },
+    {
+      "id": "iris_level",
+      "name": "アイリス（1–99）",
+      "options": [
+        {
+          "id": "v",
+          "label": "アイリス（1 閉 – 99 開）",
+          "type": "number",
+          "default": 50,
+          "min": 1,
+          "max": 99
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23I{{option.v|pad2}}&res=1"
+      },
+      "summary": "アイリス {{option.v}}"
+    },
+    {
+      "id": "iris_set",
+      "name": "アイリスの位置",
+      "options": [
+        {
+          "id": "v",
+          "label": "位置（1365 閉 – 4095 開）",
+          "type": "number",
+          "default": 2730,
+          "min": 1365,
+          "max": 4095
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23AXI{{option.v|hexu}}&res=1"
+      },
+      "summary": "アイリス {{option.v}}"
+    },
+    {
+      "id": "gain_set",
+      "name": "ゲイン",
+      "options": [
+        {
+          "id": "v",
+          "label": "ゲイン",
+          "type": "select",
+          "default": "08",
+          "choices": [
+            {
+              "id": "80",
+              "label": "オート"
+            },
+            {
+              "id": "08",
+              "label": "0 dB"
+            },
+            {
+              "id": "09",
+              "label": "1 dB"
+            },
+            {
+              "id": "0A",
+              "label": "2 dB"
+            },
+            {
+              "id": "0B",
+              "label": "3 dB"
+            },
+            {
+              "id": "0C",
+              "label": "4 dB"
+            },
+            {
+              "id": "0D",
+              "label": "5 dB"
+            },
+            {
+              "id": "0E",
+              "label": "6 dB"
+            },
+            {
+              "id": "0F",
+              "label": "7 dB"
+            },
+            {
+              "id": "10",
+              "label": "8 dB"
+            },
+            {
+              "id": "11",
+              "label": "9 dB"
+            },
+            {
+              "id": "12",
+              "label": "10 dB"
+            },
+            {
+              "id": "13",
+              "label": "11 dB"
+            },
+            {
+              "id": "14",
+              "label": "12 dB"
+            },
+            {
+              "id": "15",
+              "label": "13 dB"
+            },
+            {
+              "id": "16",
+              "label": "14 dB"
+            },
+            {
+              "id": "17",
+              "label": "15 dB"
+            },
+            {
+              "id": "18",
+              "label": "16 dB"
+            },
+            {
+              "id": "19",
+              "label": "17 dB"
+            },
+            {
+              "id": "1A",
+              "label": "18 dB"
+            },
+            {
+              "id": "1B",
+              "label": "19 dB"
+            },
+            {
+              "id": "1C",
+              "label": "20 dB"
+            },
+            {
+              "id": "1D",
+              "label": "21 dB"
+            },
+            {
+              "id": "1E",
+              "label": "22 dB"
+            },
+            {
+              "id": "1F",
+              "label": "23 dB"
+            },
+            {
+              "id": "20",
+              "label": "24 dB"
+            },
+            {
+              "id": "21",
+              "label": "25 dB"
+            },
+            {
+              "id": "22",
+              "label": "26 dB"
+            },
+            {
+              "id": "23",
+              "label": "27 dB"
+            },
+            {
+              "id": "24",
+              "label": "28 dB"
+            },
+            {
+              "id": "25",
+              "label": "29 dB"
+            },
+            {
+              "id": "26",
+              "label": "30 dB"
+            },
+            {
+              "id": "27",
+              "label": "31 dB"
+            },
+            {
+              "id": "28",
+              "label": "32 dB"
+            },
+            {
+              "id": "29",
+              "label": "33 dB"
+            },
+            {
+              "id": "2A",
+              "label": "34 dB"
+            },
+            {
+              "id": "2B",
+              "label": "35 dB"
+            },
+            {
+              "id": "2C",
+              "label": "36 dB"
+            },
+            {
+              "id": "2D",
+              "label": "37 dB"
+            },
+            {
+              "id": "2E",
+              "label": "38 dB"
+            },
+            {
+              "id": "2F",
+              "label": "39 dB"
+            },
+            {
+              "id": "30",
+              "label": "40 dB"
+            },
+            {
+              "id": "31",
+              "label": "41 dB"
+            },
+            {
+              "id": "32",
+              "label": "42 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OGU:{{option.v}}&res=1"
+      },
+      "summary": "ゲイン {{option.v}}"
+    },
+    {
+      "id": "shutter_set",
+      "name": "シャッター",
+      "options": [
+        {
+          "id": "v",
+          "label": "シャッター",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "OFF"
+            },
+            {
+              "id": "2",
+              "label": "1/60"
+            },
+            {
+              "id": "3",
+              "label": "1/100"
+            },
+            {
+              "id": "4",
+              "label": "1/120"
+            },
+            {
+              "id": "5",
+              "label": "1/250"
+            },
+            {
+              "id": "6",
+              "label": "1/500"
+            },
+            {
+              "id": "7",
+              "label": "1/1000"
+            },
+            {
+              "id": "8",
+              "label": "1/2000"
+            },
+            {
+              "id": "9",
+              "label": "1/4000"
+            },
+            {
+              "id": "A",
+              "label": "1/10000"
+            },
+            {
+              "id": "B",
+              "label": "シンクロスキャン"
+            },
+            {
+              "id": "C",
+              "label": "ELC"
+            },
+            {
+              "id": "D",
+              "label": "1/24"
+            },
+            {
+              "id": "E",
+              "label": "1/25"
+            },
+            {
+              "id": "F",
+              "label": "1/30"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OSH:{{option.v}}&res=1"
+      },
+      "summary": "シャッター {{option.v}}"
+    },
+    {
+      "id": "pedestal_set",
+      "name": "ペデスタル",
+      "options": [
+        {
+          "id": "v",
+          "label": "ペデスタル（−150 – 150）",
+          "type": "number",
+          "default": 0,
+          "min": -150,
+          "max": 150
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OTP:{{option.v|lin:1:150|hexu|pad3}}&res=1"
+      },
+      "summary": "ペデスタル {{option.v}}"
+    },
+    {
+      "id": "nd_set",
+      "name": "ND フィルター",
+      "options": [
+        {
+          "id": "v",
+          "label": "ND",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "スルー"
+            },
+            {
+              "id": "1",
+              "label": "1/4"
+            },
+            {
+              "id": "2",
+              "label": "1/16"
+            },
+            {
+              "id": "3",
+              "label": "1/64"
+            },
+            {
+              "id": "8",
+              "label": "オート（対応機種）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OFT:{{option.v}}&res=1"
+      },
+      "summary": "ND {{option.v}}"
+    },
+    {
+      "id": "awb",
+      "name": "オートホワイトバランスを実行",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OWS&res=0"
+      }
+    },
+    {
+      "id": "abb",
+      "name": "オートブラックバランスを実行",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OAS&res=0"
+      }
+    },
+    {
+      "id": "color_bar",
+      "name": "カラーバー",
+      "options": [
+        {
+          "id": "v",
+          "label": "表示",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "カラーバー"
+            },
+            {
+              "id": "0",
+              "label": "カメラ"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=DCB:{{option.v}}&res=1"
+      },
+      "summary": "カラーバー {{option.v}}"
+    },
+    {
+      "id": "scene",
+      "name": "シーンファイル",
+      "options": [
+        {
+          "id": "v",
+          "label": "シーン",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "シーン 1"
+            },
+            {
+              "id": "2",
+              "label": "シーン 2"
+            },
+            {
+              "id": "3",
+              "label": "シーン 3"
+            },
+            {
+              "id": "4",
+              "label": "シーン 4"
+            },
+            {
+              "id": "5",
+              "label": "シーン 5"
+            },
+            {
+              "id": "6",
+              "label": "シーン 6"
+            },
+            {
+              "id": "7",
+              "label": "シーン 7"
+            },
+            {
+              "id": "8",
+              "label": "シーン 8"
+            },
+            {
+              "id": "9",
+              "label": "シーン 9"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=XSF:{{option.v}}&res=1"
+      },
+      "summary": "シーン {{option.v}}"
+    },
+    {
+      "id": "preset_recall",
+      "name": "プリセットを呼び出す",
+      "options": [
+        {
+          "id": "n",
+          "label": "プリセット番号（1–100）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23R{{option.n|lin:1:-1|pad2}}&res=1"
+      },
+      "summary": "プリセット {{option.n}}"
+    },
+    {
+      "id": "preset_save",
+      "name": "プリセットに記憶",
+      "options": [
+        {
+          "id": "n",
+          "label": "プリセット番号（1–100）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23M{{option.n|lin:1:-1|pad2}}&res=1"
+      },
+      "summary": "プリセット {{option.n}} に記憶"
+    },
+    {
+      "id": "preset_mode",
+      "name": "プリセットで戻す内容",
+      "options": [
+        {
+          "id": "v",
+          "label": "内容",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "A：PTZ・アイリス・WB / 色"
+            },
+            {
+              "id": "1",
+              "label": "B：PTZ・アイリス"
+            },
+            {
+              "id": "2",
+              "label": "C：PTZ だけ"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OSE:71:{{option.v}}&res=1"
+      },
+      "summary": "プリセットの内容 {{option.v}}"
+    },
+    {
+      "id": "preset_speed",
+      "name": "プリセットへ動く速さ",
+      "options": [
+        {
+          "id": "v",
+          "label": "速さ",
+          "type": "select",
+          "default": "999",
+          "choices": [
+            {
+              "id": "999",
+              "label": "30（速い）"
+            },
+            {
+              "id": "975",
+              "label": "29"
+            },
+            {
+              "id": "950",
+              "label": "28"
+            },
+            {
+              "id": "925",
+              "label": "27"
+            },
+            {
+              "id": "900",
+              "label": "26"
+            },
+            {
+              "id": "875",
+              "label": "25"
+            },
+            {
+              "id": "850",
+              "label": "24"
+            },
+            {
+              "id": "825",
+              "label": "23"
+            },
+            {
+              "id": "800",
+              "label": "22"
+            },
+            {
+              "id": "775",
+              "label": "21"
+            },
+            {
+              "id": "750",
+              "label": "20"
+            },
+            {
+              "id": "725",
+              "label": "19"
+            },
+            {
+              "id": "700",
+              "label": "18"
+            },
+            {
+              "id": "675",
+              "label": "17"
+            },
+            {
+              "id": "650",
+              "label": "16"
+            },
+            {
+              "id": "625",
+              "label": "15"
+            },
+            {
+              "id": "600",
+              "label": "14"
+            },
+            {
+              "id": "575",
+              "label": "13"
+            },
+            {
+              "id": "550",
+              "label": "12"
+            },
+            {
+              "id": "525",
+              "label": "11"
+            },
+            {
+              "id": "500",
+              "label": "10"
+            },
+            {
+              "id": "475",
+              "label": "9"
+            },
+            {
+              "id": "450",
+              "label": "8"
+            },
+            {
+              "id": "425",
+              "label": "7"
+            },
+            {
+              "id": "400",
+              "label": "6"
+            },
+            {
+              "id": "375",
+              "label": "5"
+            },
+            {
+              "id": "350",
+              "label": "4"
+            },
+            {
+              "id": "325",
+              "label": "3"
+            },
+            {
+              "id": "300",
+              "label": "2"
+            },
+            {
+              "id": "275",
+              "label": "1（遅い）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23UPVS{{option.v}}&res=1"
+      },
+      "summary": "プリセットの速さ {{option.v}}"
+    },
+    {
+      "id": "preset_time",
+      "name": "プリセットへ動く時間",
+      "options": [
+        {
+          "id": "v",
+          "label": "秒（1–99）",
+          "type": "number",
+          "default": 3,
+          "min": 1,
+          "max": 99
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23UPVS0{{option.v|pad2}}&res=1"
+      },
+      "summary": "プリセットの時間 {{option.v}} 秒"
+    },
+    {
+      "id": "preset_speed_mode",
+      "name": "プリセットの動き方",
+      "options": [
+        {
+          "id": "v",
+          "label": "方式",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "速さで決める"
+            },
+            {
+              "id": "1",
+              "label": "時間で決める"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=OSJ:29:{{option.v}}&res=1"
+      }
+    },
+    {
+      "id": "power",
+      "name": "電源",
+      "options": [
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "入れる"
+            },
+            {
+              "id": "0",
+              "label": "スタンバイ"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23O{{option.v}}&res=1"
+      },
+      "summary": "電源 {{option.v}}"
+    },
+    {
+      "id": "tally_red",
+      "name": "赤タリー",
+      "options": [
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=TLR:{{option.v}}&res=1"
+      },
+      "summary": "赤タリー {{option.v}}"
+    },
+    {
+      "id": "tally_green",
+      "name": "緑タリー",
+      "options": [
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd=TLG:{{option.v}}&res=1"
+      },
+      "summary": "緑タリー {{option.v}}"
+    },
+    {
+      "id": "install",
+      "name": "設置の向き",
+      "options": [
+        {
+          "id": "v",
+          "label": "向き",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "据え置き"
+            },
+            {
+              "id": "1",
+              "label": "吊り下げ"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23INS{{option.v}}&res=1"
+      }
+    },
+    {
+      "id": "sd_record",
+      "name": "SD カードの収録",
+      "options": [
+        {
+          "id": "v",
+          "label": "操作",
+          "type": "select",
+          "default": "start",
+          "choices": [
+            {
+              "id": "start",
+              "label": "始める"
+            },
+            {
+              "id": "end",
+              "label": "止める"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/sdctrl?save={{option.v}}"
+      },
+      "summary": "SD {{option.v}}"
+    },
+    {
+      "id": "command_ptz",
+      "name": "雲台の命令を送る",
+      "options": [
+        {
+          "id": "cmd",
+          "label": "命令（# の後ろ）",
+          "type": "text",
+          "default": "PTS5050",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_ptz?cmd=%23{{option.cmd|url}}&res=1"
+      },
+      "summary": "#{{option.cmd}}"
+    },
+    {
+      "id": "command_cam",
+      "name": "カメラの命令を送る",
+      "options": [
+        {
+          "id": "cmd",
+          "label": "命令",
+          "type": "text",
+          "default": "OGU:08",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/cgi-bin/aw_cam?cmd={{option.cmd|url}}&res=1"
+      },
+      "summary": "{{option.cmd}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "httpResponse": {
+    "status": "last_status",
+    "body": "last_reply"
+  },
+  "presets": [
+    {
+      "id": "move_left",
+      "category": "パン・チルト",
+      "name": "左",
+      "text": "左",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "move_left",
+        "options": {
+          "speed": 25
+        }
+      }
+    },
+    {
+      "id": "move_right",
+      "category": "パン・チルト",
+      "name": "右",
+      "text": "右",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "move_right",
+        "options": {
+          "speed": 25
+        }
+      }
+    },
+    {
+      "id": "move_up",
+      "category": "パン・チルト",
+      "name": "上",
+      "text": "上",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "move_up",
+        "options": {
+          "speed": 25
+        }
+      }
+    },
+    {
+      "id": "move_down",
+      "category": "パン・チルト",
+      "name": "下",
+      "text": "下",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "move_down",
+        "options": {
+          "speed": 25
+        }
+      }
+    },
+    {
+      "id": "stop",
+      "category": "パン・チルト",
+      "name": "止める",
+      "text": "STOP",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "stop",
+        "options": {}
+      }
+    },
+    {
+      "id": "home",
+      "category": "パン・チルト",
+      "name": "ホーム",
+      "text": "HOME",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "home",
+        "options": {}
+      }
+    },
+    {
+      "id": "p1",
+      "category": "プリセット",
+      "name": "プリセット 1",
+      "text": "PRESET\n1",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 1
+        }
+      }
+    },
+    {
+      "id": "p2",
+      "category": "プリセット",
+      "name": "プリセット 2",
+      "text": "PRESET\n2",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 2
+        }
+      }
+    },
+    {
+      "id": "p3",
+      "category": "プリセット",
+      "name": "プリセット 3",
+      "text": "PRESET\n3",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 3
+        }
+      }
+    },
+    {
+      "id": "p4",
+      "category": "プリセット",
+      "name": "プリセット 4",
+      "text": "PRESET\n4",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 4
+        }
+      }
+    },
+    {
+      "id": "p5",
+      "category": "プリセット",
+      "name": "プリセット 5",
+      "text": "PRESET\n5",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 5
+        }
+      }
+    },
+    {
+      "id": "p6",
+      "category": "プリセット",
+      "name": "プリセット 6",
+      "text": "PRESET\n6",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 6
+        }
+      }
+    },
+    {
+      "id": "p7",
+      "category": "プリセット",
+      "name": "プリセット 7",
+      "text": "PRESET\n7",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 7
+        }
+      }
+    },
+    {
+      "id": "p8",
+      "category": "プリセット",
+      "name": "プリセット 8",
+      "text": "PRESET\n8",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 8
+        }
+      }
+    },
+    {
+      "id": "tally_on",
+      "category": "タリー",
+      "name": "赤タリー ON",
+      "text": "TALLY\nON",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "tally_red",
+        "options": {
+          "v": "1"
+        }
+      }
+    },
+    {
+      "id": "tally_off",
+      "category": "タリー",
+      "name": "赤タリー OFF",
+      "text": "TALLY\nOFF",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "tally_red",
+        "options": {
+          "v": "0"
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Panasonic「HD Integrated Camera Interface Specifications V1.07E」：aw_ptz / aw_cam の URL、#PTS・#APC・#Z・#AXZ・#F・#AXF・#D1・#I・#AXI・#D3・#M・#R・#UPVS・#O・#INS、OSE:69:1・ORS・OSH・OFT・DCB・XSF・OWS・OAS",
+      "url": "https://ap.connect.panasonic.com/sites/default/files/media/document/2019-02/HDIntegratedCamera_InterfaceSpecifications-V1.07E.pdf",
+      "status": "確認済"
+    },
+    {
+      "title": "ゲイン（OGU）・ペデスタル（OTP）・プリセットの内容（OSE:71）・動き方（OSJ:29）・タリー（TLR / TLG）・SD 収録：公開 OSS のモジュール panasonic-ptz（MIT）を conductor-drivers の Actions で動かした送信",
+      "status": "確認済"
+    },
+    {
+      "title": "シャッター・ND・シーンの番号は機種と映像の形式で変わる",
+      "status": "推測",
+      "note": "機種の説明書で確かめる"
+    }
+  ]
+}
