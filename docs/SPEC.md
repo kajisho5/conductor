@@ -431,9 +431,12 @@ export interface DriverInstance {
 - UDP ポート 9910【確認済：atem-connection 3.10.3 のソース】
 - Node 依存のライブラリなので、そのままは使わず、TS で必要な部分（接続手順・PGM/PST・CUT/AUTO・タリー・DSK・マクロ）を書き直す。ライセンス表記を設定 > ライセンスに入れる
 - 実装（M5）：通信手順 `atem`（`src/drivers/atem.ts`）。HELLO → NewSessionId に ack → AckRequest のパケットのコマンドを解析して ack → `InCm` で「接続中」。送信は AckRequest、ack が来なければ 200ms ごとに 3 回まで送り直し、来なければ「送れなかった」。5 秒何も届かなければ接続し直す【確認済：atem-connection の atemSocketChild。実機は未確認】
-- 送るコマンド：CPgI / CPvI / DCut / DAut / FtbA / MAct / CDsL / CAuS。受けるコマンド：_pin / PrgI / PrvI / TlSr / InPr / FtbS / DskS / AuxS / InCm【確認済：同ライブラリの serialize / deserialize】。DSK の AUTO（DDsA）は本体の版で中身が変わるので入れない
+- 送るコマンド：CPgI / CPvI / DCut / DAut / FtbA / MAct / CDsL / CAuS【確認済：同ライブラリの serialize / deserialize】
+- 追加（2026-10-17 オーナー指示「Companion にある機器は同等に」）：動作 43。T バー（CTPs）・PREV TRANS（CTPr）・トランジションの種類と次の対象（CTTp）・時間（CTMx / CTDp / CTWp）・FTB の時間（FtbC）、上流キーの ON AIR・フィル・キー信号・種類（CKOn / CKeF / CKeC / CKTp）、DSK の AUTO・TIE・時間・フィル・キー信号（DDsA / CDsT / CDsR / CDsF / CDsC）、マクロの停止・続行・ループ（MAct / MRCP）、メディアプレーヤーの素材・再生・ループ・頭出し（MPSS / SCPS）、スチルの取り込み・消去（Capt / CSTL）、SuperSource の箱（CSBP）、マルチビューの窓・配置（CMvI / CMvP）、入力名（CInL）、収録・配信（RcTM / StrR）、音声の ON / OFF / AFV・フェーダー・マスター（CAMI / CAMM、Fairlight は CFSP / CFMP）、起動時の状態の保存・消去（SRsv / SRcl）。ON / OFF の動作は「切り替え」を選べる（今の変数で決める）
+- 受けるコマンド：_pin / _ver / PrgI / PrvI / TlSr / InPr / FtbS / FtbP / TrSS / TrPr / TrPs / TMxP / KeOn / KeBP / DskS / DskP / AuxS / MRPr / MPCE / RCPS / RTMS / StRS / MvIn / SSBP / AMIP / FASP / InCm
+- 版で並びが変わるもの（DDsA・CSBP）は `_ver` で切り替える。Fairlight の音源 ID は本体から届いた FASP を入力ごとに覚えて使う（届いていない入力は CAMI）【推測：実機で確かめる】
 - 模擬機器：`npm run mock:atem`
-- 【未実装・オーナー要望メモ 2026-10-17】メディアプールのスチル操作：①メディアプレーヤーに出すスチルを選ぶ ②スチルを消す ③スチル一覧（名前・空き）を変数にする ④iPhone / iPad の画像をスチルとして入れる（ATEM の解像度・形式へ変換し、ファイル転送の手順で送る。①〜③より大きい作業）。atem-connection の該当部分を参考にする。着手は未定
+- 【一部実装・オーナー要望メモ 2026-10-17】メディアプールのスチル操作：①メディアプレーヤーに出すスチルを選ぶ（実装済）②スチルを消す（実装済）③スチル一覧（名前・空き）を変数にする ④iPhone / iPad の画像をスチルとして入れる（ATEM の解像度・形式へ変換し、ファイル転送の手順で送る。①〜③より大きい作業）。atem-connection の該当部分を参考にする。着手は未定
 
 ### 8.5 Roland の USB / Bluetooth MIDI（M5）
 - Swift の `modules/conductor-midi`（CoreMIDI。kajisho5/crosspoint の crosspoint-midi を元にした）
