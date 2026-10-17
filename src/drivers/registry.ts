@@ -21,6 +21,7 @@ import dliveDef from './defs/allenheath-dlive.json';
 import avantisDef from './defs/allenheath-avantis.json';
 import quDef from './defs/allenheath-qu.json';
 import cqDef from './defs/allenheath-cq.json';
+import propresenterDef from './defs/propresenter.json';
 import panasonicDef from './defs/panasonic-ptz.json';
 import type { ActionDef, DriverDefinition, FeedbackDef, FieldDef } from './types';
 
@@ -287,7 +288,7 @@ export const INTERNAL_DEFINITION: DriverDefinition = {
   evidence: [],
 };
 
-const BUNDLED: DriverDefinition[] = [rolandV160hd, rolandV80hd, rolandVr120hd, atemDef, oseeDef, hyperdeckDef, videohubDef, viscaDef, panasonicDef, obsDef, vmixDef, qlabDef, x32Def, wingDef, sqDef, quDef, cqDef, dliveDef, avantisDef, tcpDef, udpDef, oscDef, httpDef, demoDef].map((d) =>
+const BUNDLED: DriverDefinition[] = [rolandV160hd, rolandV80hd, rolandVr120hd, atemDef, oseeDef, hyperdeckDef, videohubDef, viscaDef, panasonicDef, obsDef, vmixDef, qlabDef, propresenterDef, x32Def, wingDef, sqDef, quDef, cqDef, dliveDef, avantisDef, tcpDef, udpDef, oscDef, httpDef, demoDef].map((d) =>
   validateDefinition(d),
 );
 

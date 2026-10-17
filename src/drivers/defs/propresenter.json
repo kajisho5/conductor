@@ -1,0 +1,1323 @@
+{
+  "format": 1,
+  "id": "propresenter",
+  "name": "ProPresenter 7",
+  "category": "プレゼンテーション",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "http",
+  "configFields": [
+    {
+      "id": "baseUrl",
+      "label": "URL の先頭",
+      "type": "text",
+      "default": "http://192.168.0.10:50001",
+      "placeholder": "http://192.168.0.10:50001",
+      "pattern": "^https?://.+",
+      "mono": true,
+      "help": "ProPresenter の設定 > ネットワーク で API を有効にし、そのポートを入れる"
+    }
+  ],
+  "actions": [
+    {
+      "id": "next",
+      "name": "次へ（スライド・項目）",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/trigger/next"
+      },
+      "summary": "次へ"
+    },
+    {
+      "id": "previous",
+      "name": "前へ（スライド・項目）",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/trigger/previous"
+      },
+      "summary": "前へ"
+    },
+    {
+      "id": "pres_next",
+      "name": "プレゼンテーションの次のキュー",
+      "options": [
+        {
+          "id": "which",
+          "label": "対象",
+          "type": "select",
+          "default": "active",
+          "choices": [
+            {
+              "id": "active",
+              "label": "再生中"
+            },
+            {
+              "id": "focused",
+              "label": "選んでいる"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/presentation/{{option.which}}/next/trigger"
+      },
+      "summary": "{{option.which}} 次"
+    },
+    {
+      "id": "pres_previous",
+      "name": "プレゼンテーションの前のキュー",
+      "options": [
+        {
+          "id": "which",
+          "label": "対象",
+          "type": "select",
+          "default": "active",
+          "choices": [
+            {
+              "id": "active",
+              "label": "再生中"
+            },
+            {
+              "id": "focused",
+              "label": "選んでいる"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/presentation/{{option.which}}/previous/trigger"
+      },
+      "summary": "{{option.which}} 前"
+    },
+    {
+      "id": "pres_retrigger",
+      "name": "プレゼンテーションを最初から",
+      "options": [
+        {
+          "id": "which",
+          "label": "対象",
+          "type": "select",
+          "default": "active",
+          "choices": [
+            {
+              "id": "active",
+              "label": "再生中"
+            },
+            {
+              "id": "focused",
+              "label": "選んでいる"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/presentation/{{option.which}}/trigger"
+      },
+      "summary": "{{option.which}} 最初から"
+    },
+    {
+      "id": "pres_index",
+      "name": "プレゼンテーションのキューを指定",
+      "options": [
+        {
+          "id": "which",
+          "label": "対象",
+          "type": "select",
+          "default": "active",
+          "choices": [
+            {
+              "id": "active",
+              "label": "再生中"
+            },
+            {
+              "id": "focused",
+              "label": "選んでいる"
+            }
+          ]
+        },
+        {
+          "id": "index",
+          "label": "キューの番号（0 から）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 9999
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/presentation/{{option.which}}/{{option.index}}/trigger"
+      },
+      "summary": "{{option.which}} キュー {{option.index}}"
+    },
+    {
+      "id": "pres_group",
+      "name": "プレゼンテーションのグループ",
+      "options": [
+        {
+          "id": "which",
+          "label": "対象",
+          "type": "select",
+          "default": "active",
+          "choices": [
+            {
+              "id": "active",
+              "label": "再生中"
+            },
+            {
+              "id": "focused",
+              "label": "選んでいる"
+            }
+          ]
+        },
+        {
+          "id": "group",
+          "label": "グループの名前・番号・UUID",
+          "type": "text",
+          "default": "Chorus",
+          "placeholder": "Chorus"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/presentation/{{option.which}}/group/{{option.group|url}}/trigger"
+      },
+      "summary": "グループ {{option.group}}"
+    },
+    {
+      "id": "pres_uuid",
+      "name": "プレゼンテーションを指定して出す",
+      "options": [
+        {
+          "id": "uuid",
+          "label": "プレゼンテーション（UUID・名前）",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-PRESENTATION"
+        },
+        {
+          "id": "index",
+          "label": "キューの番号（0 から）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 9999
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/presentation/{{option.uuid|url}}/{{option.index}}/trigger"
+      },
+      "summary": "{{option.uuid}} {{option.index}}"
+    },
+    {
+      "id": "library_trigger",
+      "name": "ライブラリのプレゼンテーション",
+      "options": [
+        {
+          "id": "lib",
+          "label": "ライブラリ",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-LIBRARY"
+        },
+        {
+          "id": "pres",
+          "label": "プレゼンテーション",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-SONG"
+        },
+        {
+          "id": "index",
+          "label": "キューの番号（0 から）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 9999
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/library/{{option.lib|url}}/{{option.pres|url}}/{{option.index}}/trigger"
+      },
+      "summary": "{{option.lib}} / {{option.pres}}"
+    },
+    {
+      "id": "pres_focus",
+      "name": "プレゼンテーションを選ぶ",
+      "options": [
+        {
+          "id": "to",
+          "label": "対象",
+          "type": "select",
+          "default": "next",
+          "choices": [
+            {
+              "id": "next",
+              "label": "次"
+            },
+            {
+              "id": "previous",
+              "label": "前"
+            },
+            {
+              "id": "active",
+              "label": "再生中"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/presentation/{{option.to}}/focus"
+      },
+      "summary": "選ぶ {{option.to}}"
+    },
+    {
+      "id": "pres_timeline",
+      "name": "タイムライン",
+      "options": [
+        {
+          "id": "which",
+          "label": "対象",
+          "type": "select",
+          "default": "active",
+          "choices": [
+            {
+              "id": "active",
+              "label": "再生中"
+            },
+            {
+              "id": "focused",
+              "label": "選んでいる"
+            }
+          ]
+        },
+        {
+          "id": "op",
+          "label": "操作",
+          "type": "select",
+          "default": "play",
+          "choices": [
+            {
+              "id": "play",
+              "label": "再生"
+            },
+            {
+              "id": "pause",
+              "label": "一時停止"
+            },
+            {
+              "id": "rewind",
+              "label": "巻き戻し"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/presentation/{{option.which}}/timeline/{{option.op}}"
+      },
+      "summary": "タイムライン {{option.op}}"
+    },
+    {
+      "id": "playlist_next",
+      "name": "プレイリストの次の項目",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/playlist/focused/next/trigger"
+      },
+      "summary": "プレイリスト 次"
+    },
+    {
+      "id": "playlist_previous",
+      "name": "プレイリストの前の項目",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/playlist/focused/previous/trigger"
+      },
+      "summary": "プレイリスト 前"
+    },
+    {
+      "id": "playlist_index",
+      "name": "プレイリストの項目を指定",
+      "options": [
+        {
+          "id": "pl",
+          "label": "プレイリスト（名前・番号・UUID）",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-PLAYLIST"
+        },
+        {
+          "id": "index",
+          "label": "キューの番号（0 から）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 9999
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/playlist/{{option.pl|url}}/{{option.index}}/trigger"
+      },
+      "summary": "{{option.pl}} の {{option.index}}"
+    },
+    {
+      "id": "playlist_focus",
+      "name": "プレイリストを選ぶ",
+      "options": [
+        {
+          "id": "to",
+          "label": "対象",
+          "type": "select",
+          "default": "next",
+          "choices": [
+            {
+              "id": "next",
+              "label": "次"
+            },
+            {
+              "id": "previous",
+              "label": "前"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/playlist/{{option.to}}/focus"
+      },
+      "summary": "プレイリスト {{option.to}}"
+    },
+    {
+      "id": "clear_layer",
+      "name": "レイヤーを消す",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "select",
+          "default": "slide",
+          "choices": [
+            {
+              "id": "slide",
+              "label": "スライド"
+            },
+            {
+              "id": "media",
+              "label": "メディア"
+            },
+            {
+              "id": "video_input",
+              "label": "ビデオ入力"
+            },
+            {
+              "id": "audio",
+              "label": "音声"
+            },
+            {
+              "id": "props",
+              "label": "プロップ"
+            },
+            {
+              "id": "messages",
+              "label": "メッセージ"
+            },
+            {
+              "id": "announcements",
+              "label": "アナウンス"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/clear/layer/{{option.layer}}"
+      },
+      "summary": "消す {{option.layer}}"
+    },
+    {
+      "id": "clear_group",
+      "name": "クリアグループ",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/clear/group/{{option.id|url}}/trigger"
+      },
+      "summary": "クリアグループ {{option.id}}"
+    },
+    {
+      "id": "media_next",
+      "name": "メディアの次",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/trigger/media/next"
+      },
+      "summary": "メディア 次"
+    },
+    {
+      "id": "media_previous",
+      "name": "メディアの前",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/trigger/media/previous"
+      },
+      "summary": "メディア 前"
+    },
+    {
+      "id": "media_item",
+      "name": "メディアの項目",
+      "options": [
+        {
+          "id": "pl",
+          "label": "メディアのプレイリスト",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-MEDIA"
+        },
+        {
+          "id": "item",
+          "label": "項目（名前・番号・UUID）",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/media/playlist/{{option.pl|url}}/{{option.item|url}}/trigger"
+      },
+      "summary": "メディア {{option.pl}} / {{option.item}}"
+    },
+    {
+      "id": "audio_next",
+      "name": "音声の次",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/trigger/audio/next"
+      },
+      "summary": "音声 次"
+    },
+    {
+      "id": "audio_previous",
+      "name": "音声の前",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/trigger/audio/previous"
+      },
+      "summary": "音声 前"
+    },
+    {
+      "id": "audio_item",
+      "name": "音声の項目",
+      "options": [
+        {
+          "id": "pl",
+          "label": "音声のプレイリスト",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-AUDIO"
+        },
+        {
+          "id": "item",
+          "label": "項目（名前・番号・UUID）",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/audio/playlist/{{option.pl|url}}/{{option.item|url}}/trigger"
+      },
+      "summary": "音声 {{option.pl}} / {{option.item}}"
+    },
+    {
+      "id": "video_input",
+      "name": "ビデオ入力",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/video_inputs/{{option.id|url}}/trigger"
+      },
+      "summary": "ビデオ入力 {{option.id}}"
+    },
+    {
+      "id": "transport_play",
+      "name": "再生（レイヤー）",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "select",
+          "default": "presentation",
+          "choices": [
+            {
+              "id": "presentation",
+              "label": "プレゼンテーション"
+            },
+            {
+              "id": "announcement",
+              "label": "アナウンス"
+            },
+            {
+              "id": "audio",
+              "label": "音声"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/transport/{{option.layer}}/play"
+      },
+      "summary": "再生 {{option.layer}}"
+    },
+    {
+      "id": "transport_pause",
+      "name": "一時停止（レイヤー）",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "select",
+          "default": "presentation",
+          "choices": [
+            {
+              "id": "presentation",
+              "label": "プレゼンテーション"
+            },
+            {
+              "id": "announcement",
+              "label": "アナウンス"
+            },
+            {
+              "id": "audio",
+              "label": "音声"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/transport/{{option.layer}}/pause"
+      },
+      "summary": "一時停止 {{option.layer}}"
+    },
+    {
+      "id": "transport_end",
+      "name": "最後へ（レイヤー）",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "select",
+          "default": "presentation",
+          "choices": [
+            {
+              "id": "presentation",
+              "label": "プレゼンテーション"
+            },
+            {
+              "id": "announcement",
+              "label": "アナウンス"
+            },
+            {
+              "id": "audio",
+              "label": "音声"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/transport/{{option.layer}}/go_to_end"
+      },
+      "summary": "最後へ {{option.layer}}"
+    },
+    {
+      "id": "transport_time",
+      "name": "再生位置（レイヤー）",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "select",
+          "default": "presentation",
+          "choices": [
+            {
+              "id": "presentation",
+              "label": "プレゼンテーション"
+            },
+            {
+              "id": "announcement",
+              "label": "アナウンス"
+            },
+            {
+              "id": "audio",
+              "label": "音声"
+            }
+          ]
+        },
+        {
+          "id": "sec",
+          "label": "秒",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 86400
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "PUT",
+        "path": "/v1/transport/{{option.layer}}/time",
+        "contentType": "application/json",
+        "body": "{{option.sec}}"
+      },
+      "summary": "{{option.layer}} {{option.sec}} 秒"
+    },
+    {
+      "id": "ann_next",
+      "name": "アナウンスの次",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/announcement/active/next/trigger"
+      },
+      "summary": "アナウンス 次"
+    },
+    {
+      "id": "ann_previous",
+      "name": "アナウンスの前",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/announcement/active/previous/trigger"
+      },
+      "summary": "アナウンス 前"
+    },
+    {
+      "id": "ann_index",
+      "name": "アナウンスのキューを指定",
+      "options": [
+        {
+          "id": "index",
+          "label": "キューの番号（0 から）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 9999
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/announcement/active/{{option.index}}/trigger"
+      },
+      "summary": "アナウンス {{option.index}}"
+    },
+    {
+      "id": "ann_timeline",
+      "name": "アナウンスのタイムライン",
+      "options": [
+        {
+          "id": "op",
+          "label": "操作",
+          "type": "select",
+          "default": "play",
+          "choices": [
+            {
+              "id": "play",
+              "label": "再生"
+            },
+            {
+              "id": "pause",
+              "label": "一時停止"
+            },
+            {
+              "id": "rewind",
+              "label": "巻き戻し"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/announcement/active/timeline/{{option.op}}"
+      },
+      "summary": "アナウンス {{option.op}}"
+    },
+    {
+      "id": "macro",
+      "name": "マクロ",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/macro/{{option.id|url}}/trigger"
+      },
+      "summary": "マクロ {{option.id}}"
+    },
+    {
+      "id": "look",
+      "name": "ルック",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/look/{{option.id|url}}/trigger"
+      },
+      "summary": "ルック {{option.id}}"
+    },
+    {
+      "id": "prop",
+      "name": "プロップを出す",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/prop/{{option.id|url}}/trigger"
+      },
+      "summary": "プロップ {{option.id}}"
+    },
+    {
+      "id": "prop_clear",
+      "name": "プロップを消す",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/prop/{{option.id|url}}/clear"
+      },
+      "summary": "プロップを消す {{option.id}}"
+    },
+    {
+      "id": "message",
+      "name": "メッセージを出す",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "POST",
+        "path": "/v1/message/{{option.id|url}}/trigger",
+        "contentType": "application/json",
+        "body": "[]"
+      },
+      "summary": "メッセージ {{option.id}}"
+    },
+    {
+      "id": "message_text",
+      "name": "メッセージを出す（文字を入れて）",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "token",
+          "label": "差し込みの名前",
+          "type": "text",
+          "default": "Name",
+          "placeholder": "Name",
+          "pattern": "^[^\"\\\\]*$"
+        },
+        {
+          "id": "text",
+          "label": "文字",
+          "type": "text",
+          "default": "",
+          "pattern": "^[^\"\\\\]*$"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "POST",
+        "path": "/v1/message/{{option.id|url}}/trigger",
+        "contentType": "application/json",
+        "body": "[{\"name\":\"{{option.token}}\",\"text\":{\"text\":\"{{option.text}}\"}}]"
+      },
+      "summary": "メッセージ {{option.id}}"
+    },
+    {
+      "id": "message_clear",
+      "name": "メッセージを消す",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/message/{{option.id|url}}/clear"
+      },
+      "summary": "メッセージを消す {{option.id}}"
+    },
+    {
+      "id": "stage_message",
+      "name": "ステージにメッセージ",
+      "options": [
+        {
+          "id": "text",
+          "label": "文字",
+          "type": "text",
+          "default": "",
+          "pattern": "^[^\"\\\\]*$"
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "PUT",
+        "path": "/v1/stage/message",
+        "contentType": "application/json",
+        "body": "\"{{option.text}}\""
+      },
+      "summary": "ステージ {{option.text}}"
+    },
+    {
+      "id": "stage_message_clear",
+      "name": "ステージのメッセージを消す",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "DELETE",
+        "path": "/v1/stage/message"
+      },
+      "summary": "ステージを消す"
+    },
+    {
+      "id": "timer",
+      "name": "タイマー",
+      "options": [
+        {
+          "id": "id",
+          "label": "名前・番号・UUID",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "op",
+          "label": "操作",
+          "type": "select",
+          "default": "start",
+          "choices": [
+            {
+              "id": "start",
+              "label": "始める"
+            },
+            {
+              "id": "stop",
+              "label": "止める"
+            },
+            {
+              "id": "reset",
+              "label": "リセット"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/timer/{{option.id|url}}/{{option.op}}"
+      },
+      "summary": "タイマー {{option.id}} {{option.op}}"
+    },
+    {
+      "id": "timers_all",
+      "name": "すべてのタイマー",
+      "options": [
+        {
+          "id": "op",
+          "label": "操作",
+          "type": "select",
+          "default": "start",
+          "choices": [
+            {
+              "id": "start",
+              "label": "始める"
+            },
+            {
+              "id": "stop",
+              "label": "止める"
+            },
+            {
+              "id": "reset",
+              "label": "リセット"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/timers/{{option.op}}"
+      },
+      "summary": "タイマー すべて {{option.op}}"
+    },
+    {
+      "id": "audience_screens",
+      "name": "観客用の画面",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "PUT",
+        "path": "/v1/status/audience_screens",
+        "contentType": "application/json",
+        "body": "{{option.on}}"
+      },
+      "summary": "観客用 {{option.on}}"
+    },
+    {
+      "id": "stage_screens",
+      "name": "ステージの画面",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "PUT",
+        "path": "/v1/status/stage_screens",
+        "contentType": "application/json",
+        "body": "{{option.on}}"
+      },
+      "summary": "ステージ {{option.on}}"
+    },
+    {
+      "id": "capture",
+      "name": "収録・配信（キャプチャ）",
+      "options": [
+        {
+          "id": "op",
+          "label": "操作",
+          "type": "select",
+          "default": "start",
+          "choices": [
+            {
+              "id": "start",
+              "label": "始める"
+            },
+            {
+              "id": "stop",
+              "label": "止める"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/capture/{{option.op}}"
+      },
+      "summary": "キャプチャ {{option.op}}"
+    },
+    {
+      "id": "find_mouse",
+      "name": "マウスの場所を表示",
+      "options": [],
+      "send": {
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/find_my_mouse"
+      }
+    },
+    {
+      "id": "request",
+      "name": "リクエストを送る（そのまま）",
+      "options": [
+        {
+          "id": "method",
+          "label": "方式",
+          "type": "select",
+          "default": "GET",
+          "choices": [
+            {
+              "id": "GET",
+              "label": "GET"
+            },
+            {
+              "id": "PUT",
+              "label": "PUT"
+            },
+            {
+              "id": "POST",
+              "label": "POST"
+            },
+            {
+              "id": "DELETE",
+              "label": "DELETE"
+            }
+          ]
+        },
+        {
+          "id": "path",
+          "label": "パス",
+          "type": "text",
+          "default": "/v1/trigger/next",
+          "placeholder": "/v1/trigger/next"
+        },
+        {
+          "id": "body",
+          "label": "本文（JSON）",
+          "type": "textarea",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "http",
+        "method": "{{option.method}}",
+        "path": "{{option.path}}",
+        "contentType": "application/json",
+        "body": "{{option.body}}"
+      },
+      "summary": "{{option.method}} {{option.path}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "httpResponse": {
+    "status": "last_status",
+    "body": "last_reply"
+  },
+  "presets": [
+    {
+      "id": "next",
+      "category": "スライド",
+      "name": "次へ",
+      "text": "NEXT",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "next",
+        "options": {}
+      }
+    },
+    {
+      "id": "prev",
+      "category": "スライド",
+      "name": "前へ",
+      "text": "PREV",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "previous",
+        "options": {}
+      }
+    },
+    {
+      "id": "clear_slide",
+      "category": "消す",
+      "name": "スライドを消す",
+      "text": "CLEAR\nSLIDE",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "clear_layer",
+        "options": {
+          "layer": "slide"
+        }
+      }
+    },
+    {
+      "id": "clear_media",
+      "category": "消す",
+      "name": "メディアを消す",
+      "text": "CLEAR\nMEDIA",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "clear_layer",
+        "options": {
+          "layer": "media"
+        }
+      }
+    },
+    {
+      "id": "clear_audio",
+      "category": "消す",
+      "name": "音声を消す",
+      "text": "CLEAR\nAUDIO",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "clear_layer",
+        "options": {
+          "layer": "audio"
+        }
+      }
+    },
+    {
+      "id": "clear_props",
+      "category": "消す",
+      "name": "プロップを消す",
+      "text": "CLEAR\nPROPS",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "clear_layer",
+        "options": {
+          "layer": "props"
+        }
+      }
+    },
+    {
+      "id": "clear_messages",
+      "category": "消す",
+      "name": "メッセージを消す",
+      "text": "CLEAR\nMSG",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "clear_layer",
+        "options": {
+          "layer": "messages"
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "ProPresenter API 1.0（OpenAPI）：/v1/trigger・presentation・playlist・clear・media・audio・video_inputs・transport・announcement・macro・look・prop・message・stage・timer・status・capture、既定ポート 50001",
+      "url": "https://openapi.propresenter.com/",
+      "status": "確認済",
+      "note": "npm の @alxpark/propresenter-mcp（MIT）1.0.1 に同梱された swagger.json で読んだ"
+    },
+    {
+      "title": "状態（今のスライドなど）の受け取りはまだ",
+      "status": "確認済"
+    }
+  ]
+}

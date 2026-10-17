@@ -32,3 +32,24 @@ describe('QLab', () => {
     for (const a of def.actions) expect(address(a.id).address.startsWith('/')).toBe(true);
   });
 });
+
+describe('ProPresenter', () => {
+  const pp = getDefinition('propresenter')!;
+  function req(actionId: string, o: Record<string, string | number> = {}) {
+    const a = getActionDef('propresenter', actionId)!;
+    const p = buildPayload(pp, a, { ...withDefaults(a.options, {}), ...o }, withDefaults(pp.configFields, {}));
+    if (p.kind !== 'http') throw new Error('http ではない');
+    return p;
+  }
+  it('API の URL と本文', () => {
+    expect(req('next').url).toBe('http://192.168.0.10:50001/v1/trigger/next');
+    expect(req('pres_index', { which: 'active', index: 3 }).url).toBe('http://192.168.0.10:50001/v1/presentation/active/3/trigger');
+    expect(req('clear_layer', { layer: 'slide' }).url).toContain('/v1/clear/layer/slide');
+    expect(req('macro', { id: 'DEMO MACRO' }).url).toContain('/v1/macro/DEMO%20MACRO/trigger');
+    const st = req('stage_message', { text: 'DEMO' });
+    expect([st.method, st.body, st.headers['Content-Type']]).toEqual(['PUT', '"DEMO"', 'application/json']);
+    expect(req('stage_message_clear').method).toBe('DELETE');
+    expect(JSON.parse(req('message_text', { id: '1', token: 'Name', text: 'DEMO' }).body!)).toEqual([{ name: 'Name', text: { text: 'DEMO' } }]);
+    for (const a of pp.actions) expect(req(a.id).url).toMatch(/^http:\/\/192\.168\.0\.10:50001\/v1\/\S*$/);
+  });
+});
