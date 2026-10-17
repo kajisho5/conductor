@@ -1,7 +1,7 @@
 import ExpoModulesCore
 import Foundation
 import ImageIO
-import IOKit
+// IOKit は Swift のモジュールとして iOS の SDK に無いので、PanelDriverShared.h（IOKitLib.h を含む）経由で使う
 import UIKit
 
 /// kIOReturnNotPermitted（iokit_common_err(0x2e2)）。C のマクロは Swift に入らないので値で持つ
