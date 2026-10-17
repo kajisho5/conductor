@@ -1,0 +1,5985 @@
+{
+  "format": 1,
+  "id": "vmix",
+  "name": "vMix",
+  "category": "映像スイッチャー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "tcp",
+  "receiveSplit": "line",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.10.60",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 8099,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "onConnect": [
+    "SUBSCRIBE TALLY\\r\\n",
+    "SUBSCRIBE ACTS\\r\\n",
+    "TALLY\\r\\n"
+  ],
+  "actions": [
+    {
+      "id": "preview",
+      "name": "プレビューに入力",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "mix",
+          "label": "ミックス",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "メイン"
+            },
+            {
+              "id": "1",
+              "label": "ミックス 2"
+            },
+            {
+              "id": "2",
+              "label": "ミックス 3"
+            },
+            {
+              "id": "3",
+              "label": "ミックス 4"
+            },
+            {
+              "id": "4",
+              "label": "ミックス 5"
+            },
+            {
+              "id": "5",
+              "label": "ミックス 6"
+            },
+            {
+              "id": "6",
+              "label": "ミックス 7"
+            },
+            {
+              "id": "7",
+              "label": "ミックス 8"
+            },
+            {
+              "id": "8",
+              "label": "ミックス 9"
+            },
+            {
+              "id": "9",
+              "label": "ミックス 10"
+            },
+            {
+              "id": "10",
+              "label": "ミックス 11"
+            },
+            {
+              "id": "11",
+              "label": "ミックス 12"
+            },
+            {
+              "id": "12",
+              "label": "ミックス 13"
+            },
+            {
+              "id": "13",
+              "label": "ミックス 14"
+            },
+            {
+              "id": "14",
+              "label": "ミックス 15"
+            },
+            {
+              "id": "15",
+              "label": "ミックス 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION PreviewInput Input={{option.input|url}}&Mix={{option.mix}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "PVW {{option.input}}"
+    },
+    {
+      "id": "program",
+      "name": "番組に入力（そのまま切り替え）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "mix",
+          "label": "ミックス",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "メイン"
+            },
+            {
+              "id": "1",
+              "label": "ミックス 2"
+            },
+            {
+              "id": "2",
+              "label": "ミックス 3"
+            },
+            {
+              "id": "3",
+              "label": "ミックス 4"
+            },
+            {
+              "id": "4",
+              "label": "ミックス 5"
+            },
+            {
+              "id": "5",
+              "label": "ミックス 6"
+            },
+            {
+              "id": "6",
+              "label": "ミックス 7"
+            },
+            {
+              "id": "7",
+              "label": "ミックス 8"
+            },
+            {
+              "id": "8",
+              "label": "ミックス 9"
+            },
+            {
+              "id": "9",
+              "label": "ミックス 10"
+            },
+            {
+              "id": "10",
+              "label": "ミックス 11"
+            },
+            {
+              "id": "11",
+              "label": "ミックス 12"
+            },
+            {
+              "id": "12",
+              "label": "ミックス 13"
+            },
+            {
+              "id": "13",
+              "label": "ミックス 14"
+            },
+            {
+              "id": "14",
+              "label": "ミックス 15"
+            },
+            {
+              "id": "15",
+              "label": "ミックス 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ActiveInput Input={{option.input|url}}&Mix={{option.mix}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "PGM {{option.input}}"
+    },
+    {
+      "id": "cut_direct",
+      "name": "番組に入力（CUT、プレビューを変えない）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION CutDirect Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "CUT → {{option.input}}"
+    },
+    {
+      "id": "cut",
+      "name": "CUT",
+      "options": [
+        {
+          "id": "mix",
+          "label": "ミックス",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "メイン"
+            },
+            {
+              "id": "1",
+              "label": "ミックス 2"
+            },
+            {
+              "id": "2",
+              "label": "ミックス 3"
+            },
+            {
+              "id": "3",
+              "label": "ミックス 4"
+            },
+            {
+              "id": "4",
+              "label": "ミックス 5"
+            },
+            {
+              "id": "5",
+              "label": "ミックス 6"
+            },
+            {
+              "id": "6",
+              "label": "ミックス 7"
+            },
+            {
+              "id": "7",
+              "label": "ミックス 8"
+            },
+            {
+              "id": "8",
+              "label": "ミックス 9"
+            },
+            {
+              "id": "9",
+              "label": "ミックス 10"
+            },
+            {
+              "id": "10",
+              "label": "ミックス 11"
+            },
+            {
+              "id": "11",
+              "label": "ミックス 12"
+            },
+            {
+              "id": "12",
+              "label": "ミックス 13"
+            },
+            {
+              "id": "13",
+              "label": "ミックス 14"
+            },
+            {
+              "id": "14",
+              "label": "ミックス 15"
+            },
+            {
+              "id": "15",
+              "label": "ミックス 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Cut Mix={{option.mix}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "CUT"
+    },
+    {
+      "id": "fade",
+      "name": "AUTO（フェード）",
+      "options": [
+        {
+          "id": "duration",
+          "label": "時間（ミリ秒）",
+          "type": "number",
+          "default": 1000,
+          "min": 0,
+          "max": 60000
+        },
+        {
+          "id": "mix",
+          "label": "ミックス",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "メイン"
+            },
+            {
+              "id": "1",
+              "label": "ミックス 2"
+            },
+            {
+              "id": "2",
+              "label": "ミックス 3"
+            },
+            {
+              "id": "3",
+              "label": "ミックス 4"
+            },
+            {
+              "id": "4",
+              "label": "ミックス 5"
+            },
+            {
+              "id": "5",
+              "label": "ミックス 6"
+            },
+            {
+              "id": "6",
+              "label": "ミックス 7"
+            },
+            {
+              "id": "7",
+              "label": "ミックス 8"
+            },
+            {
+              "id": "8",
+              "label": "ミックス 9"
+            },
+            {
+              "id": "9",
+              "label": "ミックス 10"
+            },
+            {
+              "id": "10",
+              "label": "ミックス 11"
+            },
+            {
+              "id": "11",
+              "label": "ミックス 12"
+            },
+            {
+              "id": "12",
+              "label": "ミックス 13"
+            },
+            {
+              "id": "13",
+              "label": "ミックス 14"
+            },
+            {
+              "id": "14",
+              "label": "ミックス 15"
+            },
+            {
+              "id": "15",
+              "label": "ミックス 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Fade Duration={{option.duration}}&Mix={{option.mix}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "フェード {{option.duration}}ms"
+    },
+    {
+      "id": "transition_effect",
+      "name": "トランジション（種類を選んで）",
+      "options": [
+        {
+          "id": "effect",
+          "label": "種類",
+          "type": "select",
+          "default": "Fade",
+          "choices": [
+            {
+              "id": "Fade",
+              "label": "Fade"
+            },
+            {
+              "id": "Cut",
+              "label": "Cut"
+            },
+            {
+              "id": "Merge",
+              "label": "Merge"
+            },
+            {
+              "id": "Wipe",
+              "label": "Wipe"
+            },
+            {
+              "id": "Slide",
+              "label": "Slide"
+            },
+            {
+              "id": "Fly",
+              "label": "Fly"
+            },
+            {
+              "id": "CrossZoom",
+              "label": "CrossZoom"
+            },
+            {
+              "id": "FlyRotate",
+              "label": "FlyRotate"
+            },
+            {
+              "id": "Cube",
+              "label": "Cube"
+            },
+            {
+              "id": "CubeZoom",
+              "label": "CubeZoom"
+            },
+            {
+              "id": "VerticalWipe",
+              "label": "VerticalWipe"
+            },
+            {
+              "id": "VerticalSlide",
+              "label": "VerticalSlide"
+            },
+            {
+              "id": "Zoom",
+              "label": "Zoom"
+            },
+            {
+              "id": "BarnDoor",
+              "label": "BarnDoor"
+            },
+            {
+              "id": "VerticalBarnDoor",
+              "label": "VerticalBarnDoor"
+            },
+            {
+              "id": "CircleWipe",
+              "label": "CircleWipe"
+            },
+            {
+              "id": "Stinger1",
+              "label": "Stinger1"
+            },
+            {
+              "id": "Stinger2",
+              "label": "Stinger2"
+            },
+            {
+              "id": "Stinger3",
+              "label": "Stinger3"
+            },
+            {
+              "id": "Stinger4",
+              "label": "Stinger4"
+            }
+          ]
+        },
+        {
+          "id": "duration",
+          "label": "時間（ミリ秒）",
+          "type": "number",
+          "default": 1000,
+          "min": 0,
+          "max": 60000
+        },
+        {
+          "id": "input",
+          "label": "入力（空ならプレビュー）",
+          "type": "text",
+          "default": ""
+        },
+        {
+          "id": "mix",
+          "label": "ミックス",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "メイン"
+            },
+            {
+              "id": "1",
+              "label": "ミックス 2"
+            },
+            {
+              "id": "2",
+              "label": "ミックス 3"
+            },
+            {
+              "id": "3",
+              "label": "ミックス 4"
+            },
+            {
+              "id": "4",
+              "label": "ミックス 5"
+            },
+            {
+              "id": "5",
+              "label": "ミックス 6"
+            },
+            {
+              "id": "6",
+              "label": "ミックス 7"
+            },
+            {
+              "id": "7",
+              "label": "ミックス 8"
+            },
+            {
+              "id": "8",
+              "label": "ミックス 9"
+            },
+            {
+              "id": "9",
+              "label": "ミックス 10"
+            },
+            {
+              "id": "10",
+              "label": "ミックス 11"
+            },
+            {
+              "id": "11",
+              "label": "ミックス 12"
+            },
+            {
+              "id": "12",
+              "label": "ミックス 13"
+            },
+            {
+              "id": "13",
+              "label": "ミックス 14"
+            },
+            {
+              "id": "14",
+              "label": "ミックス 15"
+            },
+            {
+              "id": "15",
+              "label": "ミックス 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.effect}} Duration={{option.duration}}&Input={{option.input|url}}&Mix={{option.mix}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.effect}} {{option.duration}}ms"
+    },
+    {
+      "id": "transition_n",
+      "name": "トランジション 1〜4 のボタン",
+      "options": [
+        {
+          "id": "n",
+          "label": "トランジション",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "トランジション 1"
+            },
+            {
+              "id": "2",
+              "label": "トランジション 2"
+            },
+            {
+              "id": "3",
+              "label": "トランジション 3"
+            },
+            {
+              "id": "4",
+              "label": "トランジション 4"
+            }
+          ]
+        },
+        {
+          "id": "mix",
+          "label": "ミックス",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "メイン"
+            },
+            {
+              "id": "1",
+              "label": "ミックス 2"
+            },
+            {
+              "id": "2",
+              "label": "ミックス 3"
+            },
+            {
+              "id": "3",
+              "label": "ミックス 4"
+            },
+            {
+              "id": "4",
+              "label": "ミックス 5"
+            },
+            {
+              "id": "5",
+              "label": "ミックス 6"
+            },
+            {
+              "id": "6",
+              "label": "ミックス 7"
+            },
+            {
+              "id": "7",
+              "label": "ミックス 8"
+            },
+            {
+              "id": "8",
+              "label": "ミックス 9"
+            },
+            {
+              "id": "9",
+              "label": "ミックス 10"
+            },
+            {
+              "id": "10",
+              "label": "ミックス 11"
+            },
+            {
+              "id": "11",
+              "label": "ミックス 12"
+            },
+            {
+              "id": "12",
+              "label": "ミックス 13"
+            },
+            {
+              "id": "13",
+              "label": "ミックス 14"
+            },
+            {
+              "id": "14",
+              "label": "ミックス 15"
+            },
+            {
+              "id": "15",
+              "label": "ミックス 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Transition{{option.n}} Mix={{option.mix}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "トランジション {{option.n}}"
+    },
+    {
+      "id": "stinger",
+      "name": "スティンガー",
+      "options": [
+        {
+          "id": "n",
+          "label": "スティンガー",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "スティンガー 1"
+            },
+            {
+              "id": "2",
+              "label": "スティンガー 2"
+            },
+            {
+              "id": "3",
+              "label": "スティンガー 3"
+            },
+            {
+              "id": "4",
+              "label": "スティンガー 4"
+            }
+          ]
+        },
+        {
+          "id": "input",
+          "label": "入力（空ならプレビュー）",
+          "type": "text",
+          "default": ""
+        },
+        {
+          "id": "mix",
+          "label": "ミックス",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "メイン"
+            },
+            {
+              "id": "1",
+              "label": "ミックス 2"
+            },
+            {
+              "id": "2",
+              "label": "ミックス 3"
+            },
+            {
+              "id": "3",
+              "label": "ミックス 4"
+            },
+            {
+              "id": "4",
+              "label": "ミックス 5"
+            },
+            {
+              "id": "5",
+              "label": "ミックス 6"
+            },
+            {
+              "id": "6",
+              "label": "ミックス 7"
+            },
+            {
+              "id": "7",
+              "label": "ミックス 8"
+            },
+            {
+              "id": "8",
+              "label": "ミックス 9"
+            },
+            {
+              "id": "9",
+              "label": "ミックス 10"
+            },
+            {
+              "id": "10",
+              "label": "ミックス 11"
+            },
+            {
+              "id": "11",
+              "label": "ミックス 12"
+            },
+            {
+              "id": "12",
+              "label": "ミックス 13"
+            },
+            {
+              "id": "13",
+              "label": "ミックス 14"
+            },
+            {
+              "id": "14",
+              "label": "ミックス 15"
+            },
+            {
+              "id": "15",
+              "label": "ミックス 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Stinger{{option.n}} Input={{option.input|url}}&Mix={{option.mix}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "スティンガー {{option.n}}"
+    },
+    {
+      "id": "set_transition_effect",
+      "name": "トランジション 1〜4 の種類",
+      "options": [
+        {
+          "id": "n",
+          "label": "トランジション",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "トランジション 1"
+            },
+            {
+              "id": "2",
+              "label": "トランジション 2"
+            },
+            {
+              "id": "3",
+              "label": "トランジション 3"
+            },
+            {
+              "id": "4",
+              "label": "トランジション 4"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "種類",
+          "type": "select",
+          "default": "Fade",
+          "choices": [
+            {
+              "id": "Fade",
+              "label": "Fade"
+            },
+            {
+              "id": "Cut",
+              "label": "Cut"
+            },
+            {
+              "id": "Merge",
+              "label": "Merge"
+            },
+            {
+              "id": "Wipe",
+              "label": "Wipe"
+            },
+            {
+              "id": "Slide",
+              "label": "Slide"
+            },
+            {
+              "id": "Fly",
+              "label": "Fly"
+            },
+            {
+              "id": "CrossZoom",
+              "label": "CrossZoom"
+            },
+            {
+              "id": "FlyRotate",
+              "label": "FlyRotate"
+            },
+            {
+              "id": "Cube",
+              "label": "Cube"
+            },
+            {
+              "id": "CubeZoom",
+              "label": "CubeZoom"
+            },
+            {
+              "id": "VerticalWipe",
+              "label": "VerticalWipe"
+            },
+            {
+              "id": "VerticalSlide",
+              "label": "VerticalSlide"
+            },
+            {
+              "id": "Zoom",
+              "label": "Zoom"
+            },
+            {
+              "id": "BarnDoor",
+              "label": "BarnDoor"
+            },
+            {
+              "id": "VerticalBarnDoor",
+              "label": "VerticalBarnDoor"
+            },
+            {
+              "id": "CircleWipe",
+              "label": "CircleWipe"
+            },
+            {
+              "id": "Stinger1",
+              "label": "Stinger1"
+            },
+            {
+              "id": "Stinger2",
+              "label": "Stinger2"
+            },
+            {
+              "id": "Stinger3",
+              "label": "Stinger3"
+            },
+            {
+              "id": "Stinger4",
+              "label": "Stinger4"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetTransitionEffect{{option.n}} Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "トランジション {{option.n}} を {{option.value}}"
+    },
+    {
+      "id": "set_transition_duration",
+      "name": "トランジション 1〜4 の時間",
+      "options": [
+        {
+          "id": "n",
+          "label": "トランジション",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "トランジション 1"
+            },
+            {
+              "id": "2",
+              "label": "トランジション 2"
+            },
+            {
+              "id": "3",
+              "label": "トランジション 3"
+            },
+            {
+              "id": "4",
+              "label": "トランジション 4"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "時間（ミリ秒）",
+          "type": "number",
+          "default": 1000,
+          "min": 0,
+          "max": 60000
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetTransitionDuration{{option.n}} Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "トランジション {{option.n}} {{option.value}}ms"
+    },
+    {
+      "id": "fader",
+      "name": "T バー",
+      "options": [
+        {
+          "id": "value",
+          "label": "位置（0〜255）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetFader Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "T バー {{option.value}}"
+    },
+    {
+      "id": "ftb",
+      "name": "FTB（フェード・トゥ・ブラック）",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION FadeToBlack",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "FTB"
+    },
+    {
+      "id": "quick_play",
+      "name": "クイックプレイ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION QuickPlay Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "クイックプレイ {{option.input}}"
+    },
+    {
+      "id": "preview_next",
+      "name": "プレビューを次の入力へ",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION PreviewInputNext",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      }
+    },
+    {
+      "id": "preview_prev",
+      "name": "プレビューを前の入力へ",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION PreviewInputPrevious",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      }
+    },
+    {
+      "id": "overlay",
+      "name": "オーバーレイ",
+      "options": [
+        {
+          "id": "overlay",
+          "label": "オーバーレイ",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "オーバーレイ 1"
+            },
+            {
+              "id": "2",
+              "label": "オーバーレイ 2"
+            },
+            {
+              "id": "3",
+              "label": "オーバーレイ 3"
+            },
+            {
+              "id": "4",
+              "label": "オーバーレイ 4"
+            }
+          ]
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "In",
+              "label": "入れる"
+            },
+            {
+              "id": "Out",
+              "label": "出す"
+            },
+            {
+              "id": "Off",
+              "label": "消す（すぐ）"
+            },
+            {
+              "id": "Zoom",
+              "label": "ズーム"
+            }
+          ]
+        },
+        {
+          "id": "input",
+          "label": "入力（空なら今の入力）",
+          "type": "text",
+          "default": "1"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION OverlayInput{{option.overlay}}{{option.how}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "OVL {{option.overlay}} {{option.how}} {{option.input}}"
+    },
+    {
+      "id": "overlay_last",
+      "name": "オーバーレイに最後の入力",
+      "options": [
+        {
+          "id": "overlay",
+          "label": "オーバーレイ",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "オーバーレイ 1"
+            },
+            {
+              "id": "2",
+              "label": "オーバーレイ 2"
+            },
+            {
+              "id": "3",
+              "label": "オーバーレイ 3"
+            },
+            {
+              "id": "4",
+              "label": "オーバーレイ 4"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION OverlayInput{{option.overlay}}Last",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "OVL {{option.overlay}} 直前"
+    },
+    {
+      "id": "overlay_preview",
+      "name": "オーバーレイをプレビューに",
+      "options": [
+        {
+          "id": "overlay",
+          "label": "オーバーレイ",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "オーバーレイ 1"
+            },
+            {
+              "id": "2",
+              "label": "オーバーレイ 2"
+            },
+            {
+              "id": "3",
+              "label": "オーバーレイ 3"
+            },
+            {
+              "id": "4",
+              "label": "オーバーレイ 4"
+            }
+          ]
+        },
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION PreviewOverlayInput{{option.overlay}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "OVL {{option.overlay}} PVW {{option.input}}"
+    },
+    {
+      "id": "overlay_all_off",
+      "name": "オーバーレイをすべて消す",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION OverlayInputAllOff",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      }
+    },
+    {
+      "id": "multiview_overlay",
+      "name": "マルチビューのレイヤー",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 10
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION MultiViewOverlay{{option.how}} Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} レイヤー {{option.value}} {{option.how}}"
+    },
+    {
+      "id": "layer",
+      "name": "レイヤーの表示",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 10
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "OnOff",
+          "choices": [
+            {
+              "id": "OnOff",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Layer{{option.how}} Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} レイヤー {{option.value}} {{option.how}}"
+    },
+    {
+      "id": "set_layer",
+      "name": "レイヤーに入力を入れる",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "レイヤー,入力",
+          "type": "text",
+          "default": "1,2",
+          "placeholder": "1,2"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetLayer Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} ← {{option.value}}"
+    },
+    {
+      "id": "audio",
+      "name": "入力の音声",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Audio{{option.how}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "音声 {{option.input}} {{option.how}}"
+    },
+    {
+      "id": "audio_auto",
+      "name": "入力の音声 AUTO",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION AudioAuto{{option.how}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "AUTO {{option.input}} {{option.how}}"
+    },
+    {
+      "id": "audio_bus",
+      "name": "入力をバスへ送る",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "bus",
+          "label": "バス",
+          "type": "select",
+          "default": "M",
+          "choices": [
+            {
+              "id": "M",
+              "label": "マスター"
+            },
+            {
+              "id": "A",
+              "label": "バス A"
+            },
+            {
+              "id": "B",
+              "label": "バス B"
+            },
+            {
+              "id": "C",
+              "label": "バス C"
+            },
+            {
+              "id": "D",
+              "label": "バス D"
+            },
+            {
+              "id": "E",
+              "label": "バス E"
+            },
+            {
+              "id": "F",
+              "label": "バス F"
+            },
+            {
+              "id": "G",
+              "label": "バス G"
+            }
+          ]
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION AudioBus{{option.how}} Input={{option.input|url}}&Value={{option.bus}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} → {{option.bus}} {{option.how}}"
+    },
+    {
+      "id": "volume",
+      "name": "入力の音量",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "音量（0〜100）",
+          "type": "number",
+          "default": 100,
+          "min": 0,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetVolume Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "音量 {{option.input}} {{option.value}}"
+    },
+    {
+      "id": "volume_fade",
+      "name": "入力の音量をフェード",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "volume",
+          "label": "音量（0〜100）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 100
+        },
+        {
+          "id": "duration",
+          "label": "時間（ミリ秒）",
+          "type": "number",
+          "default": 1000,
+          "min": 0,
+          "max": 60000
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetVolumeFade Input={{option.input|url}}&Value={{option.volume}},{{option.duration}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "音量 {{option.input}} → {{option.volume}}"
+    },
+    {
+      "id": "volume_step",
+      "name": "入力の音量を上げ下げ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "変える量（+5 / -5 など）",
+          "type": "text",
+          "default": "+5"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetVolume Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "音量 {{option.input}} {{option.value}}"
+    },
+    {
+      "id": "gain",
+      "name": "入力のゲイン",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "ゲイン（0〜24 dB）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 24
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetGain Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "ゲイン {{option.input}} {{option.value}}"
+    },
+    {
+      "id": "balance",
+      "name": "入力のバランス",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "バランス（-1〜1）",
+          "type": "number",
+          "default": 0,
+          "min": -1,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetBalance Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "バランス {{option.input}} {{option.value}}"
+    },
+    {
+      "id": "solo",
+      "name": "入力のソロ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Solo{{option.how}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "ソロ {{option.input}} {{option.how}}"
+    },
+    {
+      "id": "solo_all_off",
+      "name": "ソロをすべて切る",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SoloAllOff",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      }
+    },
+    {
+      "id": "master_audio",
+      "name": "マスターの音声",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION MasterAudio{{option.how}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "マスター {{option.how}}"
+    },
+    {
+      "id": "master_volume",
+      "name": "マスターの音量",
+      "options": [
+        {
+          "id": "value",
+          "label": "音量（0〜100）",
+          "type": "number",
+          "default": 100,
+          "min": 0,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetMasterVolume Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "マスター {{option.value}}"
+    },
+    {
+      "id": "master_volume_fade",
+      "name": "マスターの音量をフェード",
+      "options": [
+        {
+          "id": "volume",
+          "label": "音量（0〜100）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 100
+        },
+        {
+          "id": "duration",
+          "label": "時間（ミリ秒）",
+          "type": "number",
+          "default": 1000,
+          "min": 0,
+          "max": 60000
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetMasterVolumeFade Value={{option.volume}},{{option.duration}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "マスター → {{option.volume}}"
+    },
+    {
+      "id": "bus_audio",
+      "name": "バスの音声",
+      "options": [
+        {
+          "id": "bus",
+          "label": "バス",
+          "type": "select",
+          "default": "A",
+          "choices": [
+            {
+              "id": "A",
+              "label": "バス A"
+            },
+            {
+              "id": "B",
+              "label": "バス B"
+            },
+            {
+              "id": "C",
+              "label": "バス C"
+            },
+            {
+              "id": "D",
+              "label": "バス D"
+            },
+            {
+              "id": "E",
+              "label": "バス E"
+            },
+            {
+              "id": "F",
+              "label": "バス F"
+            },
+            {
+              "id": "G",
+              "label": "バス G"
+            }
+          ]
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION BusXAudio{{option.how}} Value={{option.bus}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "バス {{option.bus}} {{option.how}}"
+    },
+    {
+      "id": "bus_volume",
+      "name": "バスの音量",
+      "options": [
+        {
+          "id": "bus",
+          "label": "バス",
+          "type": "select",
+          "default": "A",
+          "choices": [
+            {
+              "id": "A",
+              "label": "バス A"
+            },
+            {
+              "id": "B",
+              "label": "バス B"
+            },
+            {
+              "id": "C",
+              "label": "バス C"
+            },
+            {
+              "id": "D",
+              "label": "バス D"
+            },
+            {
+              "id": "E",
+              "label": "バス E"
+            },
+            {
+              "id": "F",
+              "label": "バス F"
+            },
+            {
+              "id": "G",
+              "label": "バス G"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "音量（0〜100）",
+          "type": "number",
+          "default": 100,
+          "min": 0,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetBus{{option.bus}}Volume Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "バス {{option.bus}} {{option.value}}"
+    },
+    {
+      "id": "bus_send_master",
+      "name": "バスをマスターへ送る",
+      "options": [
+        {
+          "id": "bus",
+          "label": "バス",
+          "type": "select",
+          "default": "A",
+          "choices": [
+            {
+              "id": "A",
+              "label": "バス A"
+            },
+            {
+              "id": "B",
+              "label": "バス B"
+            },
+            {
+              "id": "C",
+              "label": "バス C"
+            },
+            {
+              "id": "D",
+              "label": "バス D"
+            },
+            {
+              "id": "E",
+              "label": "バス E"
+            },
+            {
+              "id": "F",
+              "label": "バス F"
+            },
+            {
+              "id": "G",
+              "label": "バス G"
+            }
+          ]
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION BusXSendToMaster{{option.how}} Value={{option.bus}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "バス {{option.bus}} → マスター {{option.how}}"
+    },
+    {
+      "id": "headphones_volume",
+      "name": "ヘッドホンの音量",
+      "options": [
+        {
+          "id": "value",
+          "label": "音量（0〜100）",
+          "type": "number",
+          "default": 100,
+          "min": 0,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetHeadphonesVolume Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "ヘッドホン {{option.value}}"
+    },
+    {
+      "id": "streaming",
+      "name": "配信",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "StartStop",
+          "choices": [
+            {
+              "id": "StartStop",
+              "label": "切り替え"
+            },
+            {
+              "id": "Start",
+              "label": "始める"
+            },
+            {
+              "id": "Stop",
+              "label": "止める"
+            }
+          ]
+        },
+        {
+          "id": "stream",
+          "label": "配信先",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "すべて"
+            },
+            {
+              "id": "0",
+              "label": "配信 1"
+            },
+            {
+              "id": "1",
+              "label": "配信 2"
+            },
+            {
+              "id": "2",
+              "label": "配信 3"
+            },
+            {
+              "id": "3",
+              "label": "配信 4"
+            },
+            {
+              "id": "4",
+              "label": "配信 5"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.how}}Streaming Value={{option.stream}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "配信 {{option.how}}"
+    },
+    {
+      "id": "recording",
+      "name": "録画",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "StartStop",
+          "choices": [
+            {
+              "id": "StartStop",
+              "label": "切り替え"
+            },
+            {
+              "id": "Start",
+              "label": "始める"
+            },
+            {
+              "id": "Stop",
+              "label": "止める"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.how}}Recording",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "録画 {{option.how}}"
+    },
+    {
+      "id": "external",
+      "name": "外部出力",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "StartStop",
+          "choices": [
+            {
+              "id": "StartStop",
+              "label": "切り替え"
+            },
+            {
+              "id": "Start",
+              "label": "始める"
+            },
+            {
+              "id": "Stop",
+              "label": "止める"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.how}}External",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "外部出力 {{option.how}}"
+    },
+    {
+      "id": "multicorder",
+      "name": "マルチコーダー",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "StartStop",
+          "choices": [
+            {
+              "id": "StartStop",
+              "label": "切り替え"
+            },
+            {
+              "id": "Start",
+              "label": "始める"
+            },
+            {
+              "id": "Stop",
+              "label": "止める"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.how}}MultiCorder",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "マルチコーダー {{option.how}}"
+    },
+    {
+      "id": "srt_output",
+      "name": "SRT 出力",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "StartStop",
+          "choices": [
+            {
+              "id": "StartStop",
+              "label": "切り替え"
+            },
+            {
+              "id": "Start",
+              "label": "始める"
+            },
+            {
+              "id": "Stop",
+              "label": "止める"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "出力",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "出力 1"
+            },
+            {
+              "id": "1",
+              "label": "出力 2"
+            },
+            {
+              "id": "2",
+              "label": "出力 3"
+            },
+            {
+              "id": "3",
+              "label": "出力 4"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.how}}SRTOutput Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "SRT {{option.value}} {{option.how}}"
+    },
+    {
+      "id": "fullscreen",
+      "name": "フルスクリーン",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Fullscreen{{option.how}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "フルスクリーン {{option.how}}"
+    },
+    {
+      "id": "set_output",
+      "name": "出力の中身",
+      "options": [
+        {
+          "id": "output",
+          "label": "出力",
+          "type": "select",
+          "default": "2",
+          "choices": [
+            {
+              "id": "2",
+              "label": "出力 2"
+            },
+            {
+              "id": "3",
+              "label": "出力 3"
+            },
+            {
+              "id": "4",
+              "label": "出力 4"
+            },
+            {
+              "id": "External2",
+              "label": "外部出力 2"
+            },
+            {
+              "id": "Fullscreen",
+              "label": "フルスクリーン"
+            },
+            {
+              "id": "Fullscreen2",
+              "label": "フルスクリーン 2"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "中身",
+          "type": "select",
+          "default": "Output",
+          "choices": [
+            {
+              "id": "Output",
+              "label": "番組"
+            },
+            {
+              "id": "Preview",
+              "label": "プレビュー"
+            },
+            {
+              "id": "MultiView",
+              "label": "マルチビュー"
+            },
+            {
+              "id": "Input",
+              "label": "入力（下で選ぶ）"
+            },
+            {
+              "id": "Replay",
+              "label": "リプレイ"
+            }
+          ]
+        },
+        {
+          "id": "input",
+          "label": "入力（中身が入力の時）",
+          "type": "text",
+          "default": "1"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetOutput{{option.output}} Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "出力 {{option.output}} ← {{option.value}}"
+    },
+    {
+      "id": "snapshot",
+      "name": "スナップショット（番組）",
+      "options": [
+        {
+          "id": "value",
+          "label": "保存先（空なら既定）",
+          "type": "text",
+          "default": ""
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Snapshot Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "スナップショット"
+    },
+    {
+      "id": "snapshot_input",
+      "name": "スナップショット（入力）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "保存先（空なら既定）",
+          "type": "text",
+          "default": ""
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SnapshotInput Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "スナップショット {{option.input}}"
+    },
+    {
+      "id": "play",
+      "name": "再生",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Play Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "再生 {{option.input}}"
+    },
+    {
+      "id": "pause",
+      "name": "一時停止",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Pause Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "一時停止 {{option.input}}"
+    },
+    {
+      "id": "play_pause",
+      "name": "再生 / 一時停止",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION PlayPause Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "再生/停止 {{option.input}}"
+    },
+    {
+      "id": "restart",
+      "name": "最初から",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Restart Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "最初から {{option.input}}"
+    },
+    {
+      "id": "loop",
+      "name": "ループ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Loop{{option.how}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "ループ {{option.input}} {{option.how}}"
+    },
+    {
+      "id": "next_item",
+      "name": "次の項目（リスト・写真）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION NextItem Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "次 {{option.input}}"
+    },
+    {
+      "id": "previous_item",
+      "name": "前の項目（リスト・写真）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION PreviousItem Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "前 {{option.input}}"
+    },
+    {
+      "id": "select_index",
+      "name": "項目を選ぶ（リスト・写真）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "番号（1 から）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 9999
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SelectIndex Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} の {{option.value}}"
+    },
+    {
+      "id": "position",
+      "name": "再生位置",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "位置（ミリ秒）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 86400000
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetPosition Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.value}}ms"
+    },
+    {
+      "id": "rate",
+      "name": "再生の速さ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "速さ（1 が等速）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetRate Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} ×{{option.value}}"
+    },
+    {
+      "id": "mark",
+      "name": "イン点・アウト点",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "In",
+          "choices": [
+            {
+              "id": "In",
+              "label": "イン点"
+            },
+            {
+              "id": "Out",
+              "label": "アウト点"
+            },
+            {
+              "id": "Reset",
+              "label": "消す"
+            },
+            {
+              "id": "ResetIn",
+              "label": "イン点を消す"
+            },
+            {
+              "id": "ResetOut",
+              "label": "アウト点を消す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Mark{{option.how}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.how}}"
+    },
+    {
+      "id": "auto_play",
+      "name": "自動再生",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "On",
+          "choices": [
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION AutoPlay{{option.how}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "自動再生 {{option.input}} {{option.how}}"
+    },
+    {
+      "id": "list_shuffle",
+      "name": "リストをシャッフル",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ListShuffle Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "シャッフル {{option.input}}"
+    },
+    {
+      "id": "list_add",
+      "name": "リストにファイルを足す",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "ファイルのパス",
+          "type": "text",
+          "default": "",
+          "placeholder": "C:\\video\\demo.mp4"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ListAdd Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} に足す"
+    },
+    {
+      "id": "list_remove_all",
+      "name": "リストを空にする",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ListRemoveAll Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} を空に"
+    },
+    {
+      "id": "zoom",
+      "name": "ズーム",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "ズーム（1 が等倍）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 5
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetZoom Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} ズーム {{option.value}}"
+    },
+    {
+      "id": "pan",
+      "name": "パン（位置）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "axis",
+          "label": "向き",
+          "type": "select",
+          "default": "X",
+          "choices": [
+            {
+              "id": "X",
+              "label": "横"
+            },
+            {
+              "id": "Y",
+              "label": "縦"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "位置（-2〜2）",
+          "type": "number",
+          "default": 0,
+          "min": -2,
+          "max": 2
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetPan{{option.axis}} Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} パン{{option.axis}} {{option.value}}"
+    },
+    {
+      "id": "alpha",
+      "name": "透明度",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "不透明度（0〜255）",
+          "type": "number",
+          "default": 255,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetAlpha Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} α {{option.value}}"
+    },
+    {
+      "id": "crop",
+      "name": "クロップ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "X1,Y1,X2,Y2（0〜1）",
+          "type": "text",
+          "default": "0,0,1,1"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetCrop Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} クロップ {{option.value}}"
+    },
+    {
+      "id": "effect",
+      "name": "エフェクト 1〜4",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "n",
+          "label": "エフェクト",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "エフェクト 1"
+            },
+            {
+              "id": "2",
+              "label": "エフェクト 2"
+            },
+            {
+              "id": "3",
+              "label": "エフェクト 3"
+            },
+            {
+              "id": "4",
+              "label": "エフェクト 4"
+            }
+          ]
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "ON"
+            },
+            {
+              "id": "Off",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Effect{{option.n}}{{option.how}} Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} エフェクト {{option.n}} {{option.how}}"
+    },
+    {
+      "id": "colour_auto",
+      "name": "色補正を自動に",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ColourCorrectionAuto Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "色補正 自動 {{option.input}}"
+    },
+    {
+      "id": "colour_reset",
+      "name": "色補正を戻す",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ColourCorrectionReset Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "色補正 戻す {{option.input}}"
+    },
+    {
+      "id": "input_name",
+      "name": "入力の名前",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "名前",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-CAM"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetInputName Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} → {{option.value}}"
+    },
+    {
+      "id": "reset_input",
+      "name": "入力をつなぎ直す",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ResetInput Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リセット {{option.input}}"
+    },
+    {
+      "id": "set_text",
+      "name": "タイトルの文字",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "name",
+          "label": "欄の名前",
+          "type": "text",
+          "default": "Headline.Text",
+          "placeholder": "Headline.Text"
+        },
+        {
+          "id": "value",
+          "label": "文字",
+          "type": "text",
+          "default": ""
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetText Input={{option.input|url}}&SelectedName={{option.name|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.name}}"
+    },
+    {
+      "id": "set_text_colour",
+      "name": "タイトルの文字の色",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "name",
+          "label": "欄の名前",
+          "type": "text",
+          "default": "Headline.Text"
+        },
+        {
+          "id": "value",
+          "label": "色（#RRGGBB）",
+          "type": "text",
+          "default": "#FFFFFF"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetTextColour Input={{option.input|url}}&SelectedName={{option.name|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.name}} 色"
+    },
+    {
+      "id": "set_text_visible",
+      "name": "タイトルの文字の表示",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "name",
+          "label": "欄の名前",
+          "type": "text",
+          "default": "Headline.Text"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "表示"
+            },
+            {
+              "id": "Off",
+              "label": "隠す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetTextVisible{{option.how}} Input={{option.input|url}}&SelectedName={{option.name|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.name}} {{option.how}}"
+    },
+    {
+      "id": "set_image",
+      "name": "タイトルの画像",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "name",
+          "label": "欄の名前",
+          "type": "text",
+          "default": "Image1.Source"
+        },
+        {
+          "id": "value",
+          "label": "画像のパス・URL",
+          "type": "text",
+          "default": ""
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetImage Input={{option.input|url}}&SelectedName={{option.name|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.name}} 画像"
+    },
+    {
+      "id": "set_image_visible",
+      "name": "タイトルの画像の表示",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "name",
+          "label": "欄の名前",
+          "type": "text",
+          "default": "Image1.Source"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "切り替え"
+            },
+            {
+              "id": "On",
+              "label": "表示"
+            },
+            {
+              "id": "Off",
+              "label": "隠す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetImageVisible{{option.how}} Input={{option.input|url}}&SelectedName={{option.name|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.name}} {{option.how}}"
+    },
+    {
+      "id": "title_preset",
+      "name": "タイトルのプリセット",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "Next",
+          "choices": [
+            {
+              "id": "Next",
+              "label": "次へ"
+            },
+            {
+              "id": "Previous",
+              "label": "前へ"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.how}}TitlePreset Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.how}}"
+    },
+    {
+      "id": "select_title_preset",
+      "name": "タイトルのプリセットを選ぶ",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "番号（0 から）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 999
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SelectTitlePreset Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} プリセット {{option.value}}"
+    },
+    {
+      "id": "title_animation",
+      "name": "タイトルのアニメーション",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "アニメーション",
+          "type": "select",
+          "default": "TransitionIn",
+          "choices": [
+            {
+              "id": "TransitionIn",
+              "label": "イン"
+            },
+            {
+              "id": "TransitionOut",
+              "label": "アウト"
+            },
+            {
+              "id": "Page1",
+              "label": "ページ 1"
+            },
+            {
+              "id": "Page2",
+              "label": "ページ 2"
+            },
+            {
+              "id": "Continuous",
+              "label": "連続"
+            },
+            {
+              "id": "DataChangeIn",
+              "label": "データ変化 イン"
+            },
+            {
+              "id": "DataChangeOut",
+              "label": "データ変化 アウト"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION TitleBeginAnimation Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.value}}"
+    },
+    {
+      "id": "countdown",
+      "name": "カウントダウン",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "Start",
+          "choices": [
+            {
+              "id": "Start",
+              "label": "始める"
+            },
+            {
+              "id": "Stop",
+              "label": "止める"
+            },
+            {
+              "id": "Pause",
+              "label": "一時停止"
+            },
+            {
+              "id": "Suspend",
+              "label": "中断"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.how}}Countdown Input={{option.input|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} カウントダウン {{option.how}}"
+    },
+    {
+      "id": "set_countdown",
+      "name": "カウントダウンの時間",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "時間（hh:mm:ss）",
+          "type": "text",
+          "default": "00:05:00"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetCountdown Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.value}}"
+    },
+    {
+      "id": "adjust_countdown",
+      "name": "カウントダウンを足し引き",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1",
+          "help": "番号・名前・キーのどれでも"
+        },
+        {
+          "id": "value",
+          "label": "秒（マイナスで減らす）",
+          "type": "number",
+          "default": 60,
+          "min": -86400,
+          "max": 86400
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION AdjustCountdown Input={{option.input|url}}&Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.input}} {{option.value}} 秒"
+    },
+    {
+      "id": "playlist",
+      "name": "プレイリスト",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "StartPlayList",
+          "choices": [
+            {
+              "id": "StartPlayList",
+              "label": "始める"
+            },
+            {
+              "id": "StopPlayList",
+              "label": "止める"
+            },
+            {
+              "id": "NextPlayListEntry",
+              "label": "次へ"
+            },
+            {
+              "id": "PreviousPlayListEntry",
+              "label": "前へ"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.how}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "プレイリスト {{option.how}}"
+    },
+    {
+      "id": "select_playlist",
+      "name": "プレイリストを選ぶ",
+      "options": [
+        {
+          "id": "value",
+          "label": "プレイリストの名前",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-LIST"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SelectPlayList Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "プレイリスト {{option.value}}"
+    },
+    {
+      "id": "script_start",
+      "name": "スクリプトを始める",
+      "options": [
+        {
+          "id": "value",
+          "label": "スクリプトの名前",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-SCRIPT"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ScriptStart Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "スクリプト {{option.value}}"
+    },
+    {
+      "id": "script_stop",
+      "name": "スクリプトを止める",
+      "options": [
+        {
+          "id": "value",
+          "label": "スクリプトの名前",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-SCRIPT"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ScriptStop Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "スクリプト停止 {{option.value}}"
+    },
+    {
+      "id": "script_stop_all",
+      "name": "スクリプトをすべて止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ScriptStopAll",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      }
+    },
+    {
+      "id": "dynamic_input",
+      "name": "動的入力を決める",
+      "options": [
+        {
+          "id": "n",
+          "label": "番号",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "動的入力 1"
+            },
+            {
+              "id": "2",
+              "label": "動的入力 2"
+            },
+            {
+              "id": "3",
+              "label": "動的入力 3"
+            },
+            {
+              "id": "4",
+              "label": "動的入力 4"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "入力",
+          "type": "text",
+          "default": "1"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetDynamicInput{{option.n}} Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "動的入力 {{option.n}} = {{option.value}}"
+    },
+    {
+      "id": "dynamic_value",
+      "name": "動的な値を決める",
+      "options": [
+        {
+          "id": "n",
+          "label": "番号",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "動的な値 1"
+            },
+            {
+              "id": "2",
+              "label": "動的な値 2"
+            },
+            {
+              "id": "3",
+              "label": "動的な値 3"
+            },
+            {
+              "id": "4",
+              "label": "動的な値 4"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "値",
+          "type": "text",
+          "default": ""
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION SetDynamicValue{{option.n}} Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "動的な値 {{option.n}} = {{option.value}}"
+    },
+    {
+      "id": "key_press",
+      "name": "ショートカットのキーを押す",
+      "options": [
+        {
+          "id": "value",
+          "label": "キー",
+          "type": "text",
+          "default": "F1"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION KeyPress Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "キー {{option.value}}"
+    },
+    {
+      "id": "undo",
+      "name": "元に戻す（入力の削除）",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Undo",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      }
+    },
+    {
+      "id": "replay_mark",
+      "name": "リプレイのイン・アウト",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "MarkIn",
+          "choices": [
+            {
+              "id": "MarkIn",
+              "label": "イン"
+            },
+            {
+              "id": "MarkOut",
+              "label": "アウト"
+            },
+            {
+              "id": "MarkCancel",
+              "label": "取り消し"
+            },
+            {
+              "id": "MarkInLive",
+              "label": "イン（ライブ）"
+            },
+            {
+              "id": "MarkInRecorded",
+              "label": "イン（録画）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Replay{{option.how}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リプレイ {{option.how}}"
+    },
+    {
+      "id": "replay_mark_in_out",
+      "name": "リプレイの直近を記録",
+      "options": [
+        {
+          "id": "how",
+          "label": "起点",
+          "type": "select",
+          "default": "",
+          "choices": [
+            {
+              "id": "",
+              "label": "今の再生位置"
+            },
+            {
+              "id": "Live",
+              "label": "ライブ"
+            },
+            {
+              "id": "Recorded",
+              "label": "録画"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "長さ（秒）",
+          "type": "number",
+          "default": 10,
+          "min": 1,
+          "max": 600
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ReplayMarkInOut{{option.how}} Value={{option.value|url}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リプレイ 直近 {{option.value}} 秒"
+    },
+    {
+      "id": "replay_play",
+      "name": "リプレイの再生",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "PlayLastEvent",
+          "choices": [
+            {
+              "id": "PlayLastEvent",
+              "label": "最後のイベント"
+            },
+            {
+              "id": "PlaySelectedEvent",
+              "label": "選んだイベント"
+            },
+            {
+              "id": "PlayLastEventToOutput",
+              "label": "最後のイベントを番組へ"
+            },
+            {
+              "id": "PlaySelectedEventToOutput",
+              "label": "選んだイベントを番組へ"
+            },
+            {
+              "id": "PlayAllEvents",
+              "label": "すべて"
+            },
+            {
+              "id": "PlayPause",
+              "label": "再生 / 一時停止"
+            },
+            {
+              "id": "Pause",
+              "label": "一時停止"
+            },
+            {
+              "id": "Play",
+              "label": "再生"
+            },
+            {
+              "id": "StopEvents",
+              "label": "イベントを止める"
+            },
+            {
+              "id": "JumpToNow",
+              "label": "今へ"
+            }
+          ]
+        },
+        {
+          "id": "channel",
+          "label": "チャンネル",
+          "type": "select",
+          "default": "Current",
+          "choices": [
+            {
+              "id": "Current",
+              "label": "今のチャンネル"
+            },
+            {
+              "id": "A",
+              "label": "A"
+            },
+            {
+              "id": "B",
+              "label": "B"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Replay{{option.how}} Channel={{option.channel}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リプレイ {{option.how}}"
+    },
+    {
+      "id": "replay_live",
+      "name": "リプレイをライブ / 録画",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "LiveToggle",
+          "choices": [
+            {
+              "id": "LiveToggle",
+              "label": "切り替え"
+            },
+            {
+              "id": "Live",
+              "label": "ライブ"
+            },
+            {
+              "id": "Recorded",
+              "label": "録画"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Replay{{option.how}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リプレイ {{option.how}}"
+    },
+    {
+      "id": "replay_speed",
+      "name": "リプレイの速さ",
+      "options": [
+        {
+          "id": "value",
+          "label": "速さ（0〜1）",
+          "type": "number",
+          "default": 0.5,
+          "min": 0,
+          "max": 1
+        },
+        {
+          "id": "channel",
+          "label": "チャンネル",
+          "type": "select",
+          "default": "Current",
+          "choices": [
+            {
+              "id": "Current",
+              "label": "今のチャンネル"
+            },
+            {
+              "id": "A",
+              "label": "A"
+            },
+            {
+              "id": "B",
+              "label": "B"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ReplaySetSpeed Value={{option.value}}&Channel={{option.channel}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リプレイ ×{{option.value}}"
+    },
+    {
+      "id": "replay_camera",
+      "name": "リプレイのカメラ",
+      "options": [
+        {
+          "id": "n",
+          "label": "カメラ",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "2",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "3",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "4",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "5",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "6",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "7",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "8",
+              "label": "カメラ 8"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ReplayCamera{{option.n}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リプレイ カメラ {{option.n}}"
+    },
+    {
+      "id": "replay_select_event",
+      "name": "リプレイのイベントを選ぶ",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "Next",
+          "choices": [
+            {
+              "id": "Next",
+              "label": "次"
+            },
+            {
+              "id": "Previous",
+              "label": "前"
+            },
+            {
+              "id": "First",
+              "label": "最初"
+            },
+            {
+              "id": "Last",
+              "label": "最後"
+            }
+          ]
+        },
+        {
+          "id": "channel",
+          "label": "チャンネル",
+          "type": "select",
+          "default": "Current",
+          "choices": [
+            {
+              "id": "Current",
+              "label": "今のチャンネル"
+            },
+            {
+              "id": "A",
+              "label": "A"
+            },
+            {
+              "id": "B",
+              "label": "B"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION ReplaySelect{{option.how}}Event Channel={{option.channel}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リプレイ {{option.how}}"
+    },
+    {
+      "id": "replay_recording",
+      "name": "リプレイの録画",
+      "options": [
+        {
+          "id": "how",
+          "label": "操作",
+          "type": "select",
+          "default": "StartStop",
+          "choices": [
+            {
+              "id": "StartStop",
+              "label": "切り替え"
+            },
+            {
+              "id": "Start",
+              "label": "始める"
+            },
+            {
+              "id": "Stop",
+              "label": "止める"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION Replay{{option.how}}Recording",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "リプレイ録画 {{option.how}}"
+    },
+    {
+      "id": "function",
+      "name": "関数を送る（そのまま）",
+      "options": [
+        {
+          "id": "fn",
+          "label": "関数",
+          "type": "text",
+          "default": "Cut",
+          "placeholder": "Cut"
+        },
+        {
+          "id": "query",
+          "label": "クエリ（Input=1&Value=… の形）",
+          "type": "text",
+          "default": "",
+          "placeholder": "Input=1"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "FUNCTION {{option.fn}} {{option.query}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.fn}} {{option.query}}"
+    },
+    {
+      "id": "command",
+      "name": "命令を送る（1 行）",
+      "options": [
+        {
+          "id": "cmd",
+          "label": "命令",
+          "type": "text",
+          "default": "TALLY",
+          "placeholder": "TALLY"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.cmd}}",
+        "encoding": "text",
+        "terminator": "\\r\\n"
+      },
+      "summary": "{{option.cmd}}"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "program_is",
+      "name": "番組（タリー）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "tally_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "番組が {{option.input}}"
+    },
+    {
+      "id": "preview_is",
+      "name": "プレビュー（タリー）",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "tally_{{option.input}}",
+        "op": "eq",
+        "value": "2"
+      },
+      "summary": "プレビューが {{option.input}}"
+    },
+    {
+      "id": "overlay_on",
+      "name": "オーバーレイに入力が出ている",
+      "options": [
+        {
+          "id": "overlay",
+          "label": "オーバーレイ",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "オーバーレイ 1"
+            },
+            {
+              "id": "2",
+              "label": "オーバーレイ 2"
+            },
+            {
+              "id": "3",
+              "label": "オーバーレイ 3"
+            },
+            {
+              "id": "4",
+              "label": "オーバーレイ 4"
+            }
+          ]
+        },
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "act_Overlay{{option.overlay}}_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "OVL {{option.overlay}} に {{option.input}}"
+    },
+    {
+      "id": "streaming",
+      "name": "配信中",
+      "options": [],
+      "compare": {
+        "variable": "act_Streaming",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "配信中"
+    },
+    {
+      "id": "recording",
+      "name": "録画中",
+      "options": [],
+      "compare": {
+        "variable": "act_Recording",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "録画中"
+    },
+    {
+      "id": "external",
+      "name": "外部出力中",
+      "options": [],
+      "compare": {
+        "variable": "act_External",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "外部出力中"
+    },
+    {
+      "id": "multicorder",
+      "name": "マルチコーダー中",
+      "options": [],
+      "compare": {
+        "variable": "act_MultiCorder",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "マルチコーダー中"
+    },
+    {
+      "id": "fullscreen",
+      "name": "フルスクリーン中",
+      "options": [],
+      "compare": {
+        "variable": "act_Fullscreen",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "フルスクリーン中"
+    },
+    {
+      "id": "ftb",
+      "name": "FTB 中",
+      "options": [],
+      "compare": {
+        "variable": "act_FadeToBlack",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "FTB 中"
+    },
+    {
+      "id": "master_audio",
+      "name": "マスターの音声が ON",
+      "options": [],
+      "compare": {
+        "variable": "act_MasterAudio",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "マスターの音声が ON"
+    },
+    {
+      "id": "input_playing",
+      "name": "入力が再生中",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "act_InputPlaying_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "入力が再生中（{{option.input}}）"
+    },
+    {
+      "id": "input_audio",
+      "name": "入力の音声が ON",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "act_InputAudio_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "入力の音声が ON（{{option.input}}）"
+    },
+    {
+      "id": "input_solo",
+      "name": "入力のソロが ON",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "act_InputSolo_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "入力のソロが ON（{{option.input}}）"
+    },
+    {
+      "id": "input_master_audio",
+      "name": "入力のマスター送りが ON",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "act_InputMasterAudio_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "入力のマスター送りが ON（{{option.input}}）"
+    },
+    {
+      "id": "input_bus_a",
+      "name": "入力のバス A 送りが ON",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "act_InputBusAAudio_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "入力のバス A 送りが ON（{{option.input}}）"
+    },
+    {
+      "id": "input_bus_b",
+      "name": "入力のバス B 送りが ON",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "compare": {
+        "variable": "act_InputBusBAudio_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "入力のバス B 送りが ON（{{option.input}}）"
+    },
+    {
+      "id": "bus_audio_on",
+      "name": "バスの音声が ON",
+      "options": [
+        {
+          "id": "bus",
+          "label": "バス",
+          "type": "select",
+          "default": "A",
+          "choices": [
+            {
+              "id": "A",
+              "label": "バス A"
+            },
+            {
+              "id": "B",
+              "label": "バス B"
+            },
+            {
+              "id": "C",
+              "label": "バス C"
+            },
+            {
+              "id": "D",
+              "label": "バス D"
+            },
+            {
+              "id": "E",
+              "label": "バス E"
+            },
+            {
+              "id": "F",
+              "label": "バス F"
+            },
+            {
+              "id": "G",
+              "label": "バス G"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "act_Bus{{option.bus}}Audio",
+        "op": "eq",
+        "value": "1"
+      },
+      "summary": "バス {{option.bus}} が ON"
+    }
+  ],
+  "variables": [
+    {
+      "id": "program",
+      "name": "番組の入力（番号）"
+    },
+    {
+      "id": "preview",
+      "name": "プレビューの入力（番号）"
+    },
+    {
+      "id": "tally",
+      "name": "タリーの並び（0 なし・1 番組・2 プレビュー）"
+    },
+    {
+      "id": "last_reply",
+      "name": "最後の返事"
+    },
+    {
+      "id": "act_Streaming",
+      "name": "配信（1 / 0）"
+    },
+    {
+      "id": "act_Recording",
+      "name": "録画（1 / 0）"
+    },
+    {
+      "id": "act_External",
+      "name": "外部出力（1 / 0）"
+    },
+    {
+      "id": "act_MultiCorder",
+      "name": "マルチコーダー（1 / 0）"
+    },
+    {
+      "id": "act_Fullscreen",
+      "name": "フルスクリーン（1 / 0）"
+    },
+    {
+      "id": "act_FadeToBlack",
+      "name": "FTB （1 / 0）"
+    },
+    {
+      "id": "act_MasterAudio",
+      "name": "マスターの音声（1 / 0）"
+    },
+    {
+      "id": "tally_1",
+      "name": "入力 1 のタリー"
+    },
+    {
+      "id": "tally_2",
+      "name": "入力 2 のタリー"
+    },
+    {
+      "id": "tally_3",
+      "name": "入力 3 のタリー"
+    },
+    {
+      "id": "tally_4",
+      "name": "入力 4 のタリー"
+    },
+    {
+      "id": "tally_5",
+      "name": "入力 5 のタリー"
+    },
+    {
+      "id": "tally_6",
+      "name": "入力 6 のタリー"
+    },
+    {
+      "id": "tally_7",
+      "name": "入力 7 のタリー"
+    },
+    {
+      "id": "tally_8",
+      "name": "入力 8 のタリー"
+    },
+    {
+      "id": "tally_9",
+      "name": "入力 9 のタリー"
+    },
+    {
+      "id": "tally_10",
+      "name": "入力 10 のタリー"
+    },
+    {
+      "id": "tally_11",
+      "name": "入力 11 のタリー"
+    },
+    {
+      "id": "tally_12",
+      "name": "入力 12 のタリー"
+    },
+    {
+      "id": "tally_13",
+      "name": "入力 13 のタリー"
+    },
+    {
+      "id": "tally_14",
+      "name": "入力 14 のタリー"
+    },
+    {
+      "id": "tally_15",
+      "name": "入力 15 のタリー"
+    },
+    {
+      "id": "tally_16",
+      "name": "入力 16 のタリー"
+    },
+    {
+      "id": "tally_17",
+      "name": "入力 17 のタリー"
+    },
+    {
+      "id": "tally_18",
+      "name": "入力 18 のタリー"
+    },
+    {
+      "id": "tally_19",
+      "name": "入力 19 のタリー"
+    },
+    {
+      "id": "tally_20",
+      "name": "入力 20 のタリー"
+    },
+    {
+      "id": "act_InputVolume_1",
+      "name": "入力 1 の音量"
+    },
+    {
+      "id": "act_InputVolume_2",
+      "name": "入力 2 の音量"
+    },
+    {
+      "id": "act_InputVolume_3",
+      "name": "入力 3 の音量"
+    },
+    {
+      "id": "act_InputVolume_4",
+      "name": "入力 4 の音量"
+    },
+    {
+      "id": "act_InputVolume_5",
+      "name": "入力 5 の音量"
+    },
+    {
+      "id": "act_InputVolume_6",
+      "name": "入力 6 の音量"
+    },
+    {
+      "id": "act_InputVolume_7",
+      "name": "入力 7 の音量"
+    },
+    {
+      "id": "act_InputVolume_8",
+      "name": "入力 8 の音量"
+    },
+    {
+      "id": "act_MasterVolume",
+      "name": "マスターの音量"
+    }
+  ],
+  "receive": [
+    {
+      "match": "^TALLY OK (\\d)",
+      "set": [
+        {
+          "variable": "tally_1",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_2",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_3",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_4",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_5",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_6",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_7",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_8",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_9",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_10",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_11",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_12",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_13",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_14",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_15",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_16",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_17",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_18",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_19",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_20",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_21",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_22",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_23",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_24",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_25",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_26",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_27",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_28",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_29",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_30",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_31",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_32",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_33",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_34",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_35",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_36",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_37",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_38",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_39",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d(\\d)",
+      "set": [
+        {
+          "variable": "tally_40",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^TALLY OK (\\d+)",
+      "set": [
+        {
+          "variable": "tally",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^ACTS OK Input (\\d+) 1$",
+      "set": [
+        {
+          "variable": "program",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^ACTS OK InputPreview (\\d+) 1$",
+      "set": [
+        {
+          "variable": "preview",
+          "value": "$1"
+        }
+      ]
+    },
+    {
+      "match": "^ACTS OK (\\w+) (\\d+) ([-\\d.]+)$",
+      "set": [
+        {
+          "variable": "act_$1_$2",
+          "value": "$3"
+        }
+      ]
+    },
+    {
+      "match": "^ACTS OK (\\w+) ([-\\d.]+)$",
+      "set": [
+        {
+          "variable": "act_$1",
+          "value": "$2"
+        }
+      ]
+    },
+    {
+      "match": "^FUNCTION (OK|ER) ?(.*)$",
+      "set": [
+        {
+          "variable": "last_reply",
+          "value": "$1 $2"
+        }
+      ]
+    },
+    {
+      "match": "^VERSION OK (.*)$",
+      "set": [
+        {
+          "variable": "version",
+          "value": "$1"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "id": "pvw1",
+      "category": "プレビュー",
+      "name": "プレビュー 入力 1",
+      "text": "PVW\n1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "preview",
+        "options": {
+          "input": "1",
+          "mix": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "preview_is",
+          "options": {
+            "input": 1
+          },
+          "backgroundColor": "#1F9E48"
+        },
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 1
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pvw2",
+      "category": "プレビュー",
+      "name": "プレビュー 入力 2",
+      "text": "PVW\n2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "preview",
+        "options": {
+          "input": "2",
+          "mix": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "preview_is",
+          "options": {
+            "input": 2
+          },
+          "backgroundColor": "#1F9E48"
+        },
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 2
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pvw3",
+      "category": "プレビュー",
+      "name": "プレビュー 入力 3",
+      "text": "PVW\n3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "preview",
+        "options": {
+          "input": "3",
+          "mix": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "preview_is",
+          "options": {
+            "input": 3
+          },
+          "backgroundColor": "#1F9E48"
+        },
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 3
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pvw4",
+      "category": "プレビュー",
+      "name": "プレビュー 入力 4",
+      "text": "PVW\n4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "preview",
+        "options": {
+          "input": "4",
+          "mix": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "preview_is",
+          "options": {
+            "input": 4
+          },
+          "backgroundColor": "#1F9E48"
+        },
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 4
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pvw5",
+      "category": "プレビュー",
+      "name": "プレビュー 入力 5",
+      "text": "PVW\n5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "preview",
+        "options": {
+          "input": "5",
+          "mix": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "preview_is",
+          "options": {
+            "input": 5
+          },
+          "backgroundColor": "#1F9E48"
+        },
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 5
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pvw6",
+      "category": "プレビュー",
+      "name": "プレビュー 入力 6",
+      "text": "PVW\n6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "preview",
+        "options": {
+          "input": "6",
+          "mix": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "preview_is",
+          "options": {
+            "input": 6
+          },
+          "backgroundColor": "#1F9E48"
+        },
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 6
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pvw7",
+      "category": "プレビュー",
+      "name": "プレビュー 入力 7",
+      "text": "PVW\n7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "preview",
+        "options": {
+          "input": "7",
+          "mix": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "preview_is",
+          "options": {
+            "input": 7
+          },
+          "backgroundColor": "#1F9E48"
+        },
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 7
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pvw8",
+      "category": "プレビュー",
+      "name": "プレビュー 入力 8",
+      "text": "PVW\n8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "preview",
+        "options": {
+          "input": "8",
+          "mix": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "preview_is",
+          "options": {
+            "input": 8
+          },
+          "backgroundColor": "#1F9E48"
+        },
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 8
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm1",
+      "category": "番組",
+      "name": "番組 入力 1",
+      "text": "PGM\n1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cut_direct",
+        "options": {
+          "input": "1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 1
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm2",
+      "category": "番組",
+      "name": "番組 入力 2",
+      "text": "PGM\n2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cut_direct",
+        "options": {
+          "input": "2"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 2
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm3",
+      "category": "番組",
+      "name": "番組 入力 3",
+      "text": "PGM\n3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cut_direct",
+        "options": {
+          "input": "3"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 3
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm4",
+      "category": "番組",
+      "name": "番組 入力 4",
+      "text": "PGM\n4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cut_direct",
+        "options": {
+          "input": "4"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 4
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm5",
+      "category": "番組",
+      "name": "番組 入力 5",
+      "text": "PGM\n5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cut_direct",
+        "options": {
+          "input": "5"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 5
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm6",
+      "category": "番組",
+      "name": "番組 入力 6",
+      "text": "PGM\n6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cut_direct",
+        "options": {
+          "input": "6"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 6
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm7",
+      "category": "番組",
+      "name": "番組 入力 7",
+      "text": "PGM\n7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cut_direct",
+        "options": {
+          "input": "7"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 7
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm8",
+      "category": "番組",
+      "name": "番組 入力 8",
+      "text": "PGM\n8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cut_direct",
+        "options": {
+          "input": "8"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "program_is",
+          "options": {
+            "input": 8
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "cut",
+      "category": "トランジション",
+      "name": "CUT",
+      "text": "CUT",
+      "backgroundColor": "#E9E9EC",
+      "action": {
+        "definitionId": "cut",
+        "options": {
+          "mix": "0"
+        }
+      }
+    },
+    {
+      "id": "fade",
+      "category": "トランジション",
+      "name": "フェード",
+      "text": "FADE",
+      "backgroundColor": "#F2C200",
+      "action": {
+        "definitionId": "fade",
+        "options": {
+          "duration": 1000,
+          "mix": "0"
+        }
+      }
+    },
+    {
+      "id": "ftb",
+      "category": "トランジション",
+      "name": "FTB",
+      "text": "FTB",
+      "backgroundColor": "#050505",
+      "action": {
+        "definitionId": "ftb",
+        "options": {}
+      },
+      "feedbacks": [
+        {
+          "definitionId": "ftb",
+          "options": {},
+          "backgroundColor": "#6E1616"
+        }
+      ]
+    },
+    {
+      "id": "trans1",
+      "category": "トランジション",
+      "name": "トランジション 1",
+      "text": "TRANS\n1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "transition_n",
+        "options": {
+          "n": "1",
+          "mix": "0"
+        }
+      }
+    },
+    {
+      "id": "trans2",
+      "category": "トランジション",
+      "name": "トランジション 2",
+      "text": "TRANS\n2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "transition_n",
+        "options": {
+          "n": "2",
+          "mix": "0"
+        }
+      }
+    },
+    {
+      "id": "trans3",
+      "category": "トランジション",
+      "name": "トランジション 3",
+      "text": "TRANS\n3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "transition_n",
+        "options": {
+          "n": "3",
+          "mix": "0"
+        }
+      }
+    },
+    {
+      "id": "trans4",
+      "category": "トランジション",
+      "name": "トランジション 4",
+      "text": "TRANS\n4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "transition_n",
+        "options": {
+          "n": "4",
+          "mix": "0"
+        }
+      }
+    },
+    {
+      "id": "ovl1",
+      "category": "オーバーレイ",
+      "name": "オーバーレイ 1",
+      "text": "OVL 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "overlay",
+        "options": {
+          "overlay": "1",
+          "how": "",
+          "input": "1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "overlay_on",
+          "options": {
+            "overlay": "1",
+            "input": 1
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "ovl2",
+      "category": "オーバーレイ",
+      "name": "オーバーレイ 2",
+      "text": "OVL 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "overlay",
+        "options": {
+          "overlay": "2",
+          "how": "",
+          "input": "1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "overlay_on",
+          "options": {
+            "overlay": "2",
+            "input": 1
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "ovl3",
+      "category": "オーバーレイ",
+      "name": "オーバーレイ 3",
+      "text": "OVL 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "overlay",
+        "options": {
+          "overlay": "3",
+          "how": "",
+          "input": "1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "overlay_on",
+          "options": {
+            "overlay": "3",
+            "input": 1
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "ovl4",
+      "category": "オーバーレイ",
+      "name": "オーバーレイ 4",
+      "text": "OVL 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "overlay",
+        "options": {
+          "overlay": "4",
+          "how": "",
+          "input": "1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "overlay_on",
+          "options": {
+            "overlay": "4",
+            "input": 1
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "stream",
+      "category": "出力",
+      "name": "配信",
+      "text": "STREAM",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "streaming",
+        "options": {
+          "how": "StartStop",
+          "stream": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "streaming",
+          "options": {},
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "record",
+      "category": "出力",
+      "name": "録画",
+      "text": "REC",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "recording",
+        "options": {
+          "how": "StartStop"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "recording",
+          "options": {},
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "external",
+      "category": "出力",
+      "name": "外部出力",
+      "text": "EXT",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "external",
+        "options": {
+          "how": "StartStop"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "external",
+          "options": {},
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "audio1",
+      "category": "音声",
+      "name": "入力 1 の音声",
+      "text": "AUDIO\n1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "audio",
+        "options": {
+          "input": "1",
+          "how": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "input_audio",
+          "options": {
+            "input": 1
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "audio2",
+      "category": "音声",
+      "name": "入力 2 の音声",
+      "text": "AUDIO\n2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "audio",
+        "options": {
+          "input": "2",
+          "how": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "input_audio",
+          "options": {
+            "input": 2
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "audio3",
+      "category": "音声",
+      "name": "入力 3 の音声",
+      "text": "AUDIO\n3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "audio",
+        "options": {
+          "input": "3",
+          "how": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "input_audio",
+          "options": {
+            "input": 3
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "audio4",
+      "category": "音声",
+      "name": "入力 4 の音声",
+      "text": "AUDIO\n4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "audio",
+        "options": {
+          "input": "4",
+          "how": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "input_audio",
+          "options": {
+            "input": 4
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "audio5",
+      "category": "音声",
+      "name": "入力 5 の音声",
+      "text": "AUDIO\n5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "audio",
+        "options": {
+          "input": "5",
+          "how": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "input_audio",
+          "options": {
+            "input": 5
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "audio6",
+      "category": "音声",
+      "name": "入力 6 の音声",
+      "text": "AUDIO\n6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "audio",
+        "options": {
+          "input": "6",
+          "how": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "input_audio",
+          "options": {
+            "input": 6
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "audio7",
+      "category": "音声",
+      "name": "入力 7 の音声",
+      "text": "AUDIO\n7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "audio",
+        "options": {
+          "input": "7",
+          "how": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "input_audio",
+          "options": {
+            "input": 7
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "audio8",
+      "category": "音声",
+      "name": "入力 8 の音声",
+      "text": "AUDIO\n8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "audio",
+        "options": {
+          "input": "8",
+          "how": ""
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "input_audio",
+          "options": {
+            "input": 8
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "title": "vMix ヘルプ「TCP API」：ポート 8099、\\r\\n 区切り、FUNCTION・TALLY・ACTS・SUBSCRIBE の形",
+      "url": "https://www.vmix.com/help28/TCPAPI.html",
+      "status": "確認済"
+    },
+    {
+      "title": "vMix ヘルプ「Shortcut Function Reference」：関数の名前と引数",
+      "url": "https://www.vmix.com/help28/ShortcutFunctionReference.html",
+      "status": "確認済"
+    },
+    {
+      "title": "vMix ヘルプ「Add/Edit Activator」：出来事の名前（Input・InputPreview・InputAudio・Recording など）",
+      "url": "https://www.vmix.com/help28/ActivatorsEdit.html",
+      "status": "確認済"
+    },
+    {
+      "title": "入力番号の無い出来事（Recording など）の ACTS の行の形、MultiCorder・Overlay1〜4 の出来事名",
+      "status": "推測",
+      "note": "資料に例が無い。機器の画面の「最近のログ」で受信の行を確かめる"
+    },
+    {
+      "title": "実機での確認",
+      "status": "不明",
+      "note": "この定義はまだ実機で通していない"
+    }
+  ]
+}

@@ -78,6 +78,9 @@ export function applyFilter(s: string, filter: string, mapping?: Record<string, 
       const h = (Number.isFinite(n) && n > 0 ? n : 0).toString(16);
       return filter === 'hexu' ? h.toUpperCase() : h;
     }
+    case 'url':
+      // URL のクエリ用（vMix の FUNCTION など）
+      return encodeURIComponent(s);
     case 'hexstr':
       return hexOfBytes(new TextEncoder().encode(s));
     case 'u8':
@@ -260,7 +263,9 @@ export class ReceiveParser {
       for (const r of this.rules) {
         const m = r.re.exec(item);
         if (!m) continue;
-        for (const s of r.set) updates[s.variable] = s.value.replace(/\$(\d)/g, (_x, d: string) => m[Number(d)] ?? '');
+        const sub = (t: string) => t.replace(/\$(\d)/g, (_x, d: string) => m[Number(d)] ?? '');
+        // 変数名にも $1… を使える（例 act_$1_$2）
+        for (const s of r.set) updates[sub(s.variable)] = sub(s.value);
       }
     }
     return { updates, items };
