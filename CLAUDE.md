@@ -49,6 +49,7 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 - `npm run mock:atem` — ATEM 風（UDP 9910）
 - `python3 scripts/drivers/build_roland.py` / `build_atem.py` — 定義 JSON を作り直す（JSON を手で直さない）
 - `python3 scripts/licenses/build_licenses.py` — ライセンス一覧（依存を変えたら作り直す）
+- `node scripts/drivers/bundle_remote.mjs ../conductor-drivers` — 配信の定義をアプリに同梱し直す（src/drivers/remote-bundle/。手で直さない）
 - バージョンや app.config.ts を変えたら `npx expo prebuild --platform ios --no-install`（tests/config.test.ts が食い違いを検出）
 - Linux では Swift（`modules/conductor-net/ios`）をコンパイルできない。CI の macOS ジョブ（シミュレータビルド）で確認する
 

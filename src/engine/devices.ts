@@ -1,6 +1,6 @@
 import { getConductorNet, type ConductorNet, type NetState } from '../../modules/conductor-net/src';
 import { fromBase64, printable, toBase64 } from '@/drivers/bytes';
-import { buildPayload, PayloadError, withDefaults, type Values } from '@/drivers/engine';
+import { buildPayloads, PayloadError, withDefaults, type Payload, type Values } from '@/drivers/engine';
 import { createSession, type Session, type SessionIO } from '@/drivers/sessions';
 import { MidiLink } from './midiLink';
 import type { ConductorMidi } from '../../modules/conductor-midi/src';
@@ -320,14 +320,23 @@ export class DeviceManager {
     if (!c) return { ok: false, reason: `${device.label} を準備していません` };
     const status = useRuntimeStore.getState().deviceStatus[device.id];
     if (status !== 'connected') return { ok: false, reason: `${device.label} に接続していません` };
-    let payload;
+    let payloads: Payload[];
     try {
-      payload = buildPayload(c.def, action, option, c.config);
+      payloads = buildPayloads(c.def, action, option, c.config);
     } catch (e) {
       const msg = e instanceof PayloadError ? e.message : String(e);
       log('error', device.label, `${action.name}：${msg}`, device.id);
       return { ok: false, reason: msg };
     }
+    // send と more を順に送る。途中で失敗したら残りは送らない
+    for (const payload of payloads) {
+      const r = await this.sendOne(c, device, action, option, payload);
+      if (!r.ok) return r;
+    }
+    return { ok: true };
+  }
+
+  private async sendOne(c: Conn, device: Device, action: ActionDef, option: Values, payload: Payload): Promise<SendResult> {
     if (payload.kind === 'builtin') {
       if (!c.session?.sendBuiltin) return { ok: false, reason: `${action.name} はこの機器では使えません` };
       const r = await c.session.sendBuiltin(payload.name, option);

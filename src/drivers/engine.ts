@@ -1,7 +1,7 @@
 import type { OptionValue } from '@/model/types';
 import { BytesError, concat, parseHex, unescapeText, utf8Decode } from './bytes';
 import { encodeOscMessage, oscArgFrom, type OscArg } from './osc';
-import type { ActionDef, CompareOp, DeriveRule, DriverDefinition, FeedbackDef, FieldDef, ReceiveRule } from './types';
+import type { ActionDef, CompareOp, DeriveRule, DriverDefinition, FeedbackDef, FieldDef, ReceiveRule, SendTemplate } from './types';
 
 /**
  * 汎用エンジン（SPEC 7.1）：定義（データ）どおりに送信内容を組み立て、受信を解析し、状態表示を判定する。
@@ -130,8 +130,17 @@ export class PayloadError extends Error {
 }
 
 export function buildPayload(def: DriverDefinition, action: ActionDef, option: Values, config: Values): Payload {
-  const send = action.send;
+  return buildSendPayload(def, action.send, { option, config, maps: action.maps });
+}
+
+/** 動作で送るもの全部（send と more）。順に送る */
+export function buildPayloads(def: DriverDefinition, action: ActionDef, option: Values, config: Values): Payload[] {
   const ctx = { option, config, maps: action.maps };
+  return [action.send, ...(action.more ?? [])].map((send) => buildSendPayload(def, send, ctx));
+}
+
+function buildSendPayload(def: DriverDefinition, send: SendTemplate, ctx: { option: Values; config: Values; maps?: TemplateMaps }): Payload {
+  const config = ctx.config;
   try {
     switch (send.kind) {
       case 'builtin':

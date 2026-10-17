@@ -1,6 +1,6 @@
 jest.mock('expo-constants', () => ({ __esModule: true, default: { expoConfig: { version: '0.6.0' } } }));
 
-import { buildPayload, renderTemplate } from '@/drivers/engine';
+import { buildPayload, buildPayloads, renderTemplate } from '@/drivers/engine';
 import { getDefinition, isRegistered, validateDefinition } from '@/drivers/registry';
 import {
   ensureDefinition,
@@ -149,5 +149,39 @@ describe('配信の定義', () => {
     const n = await fetchMissing(['m-demo-sw-c', 'generic-tcp', 'internal', 'm-missing']);
     expect(n).toBe(1);
     expect(isRegistered('m-demo-sw-c')).toBe(true);
+  });
+});
+
+describe('同梱の配信の定義', () => {
+  test('同梱の定義は全部アプリの検証を通り、既定値で送る内容を作れる', () => {
+    const defs = require('../src/drivers/remote-bundle/defs.json') as Record<string, unknown>;
+    const ids = Object.keys(defs);
+    expect(ids.length).toBeGreaterThan(100);
+    let built = 0;
+    for (const id of ids) {
+      const def = validateDefinition(defs[id]);
+      expect(def.id).toBe(id);
+      for (const a of def.actions) {
+        const opts: Record<string, string | number | boolean> = {};
+        for (const f of a.options) opts[f.id] = f.default ?? (f.type === 'number' ? 1 : f.type === 'boolean' ? false : 'A');
+        try {
+          buildPayloads(def, a, opts, { baseUrl: 'http://192.168.0.10', host: '192.168.0.10', port: 9000 });
+          built++;
+        } catch {
+          // 既定値が空で送れない動作もある（実際は入力してから送る）
+        }
+      }
+    }
+    expect(built).toBeGreaterThan(1000);
+  });
+
+  test('通信できなくても同梱の定義で機器を追加できる', async () => {
+    setFetcherForTesting(async () => {
+      throw new Error('offline');
+    });
+    const id = Object.keys(require('../src/drivers/remote-bundle/defs.json') as Record<string, unknown>)[0]!;
+    const def = await ensureDefinition(id);
+    expect(def.id).toBe(id);
+    expect(isRegistered(id)).toBe(true);
   });
 });

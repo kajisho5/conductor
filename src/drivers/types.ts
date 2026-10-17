@@ -42,6 +42,8 @@ export interface ActionDef {
   summary?: string;
   /** テンプレートの |map で使う「選んだ値 → 送る中身」の表（選択肢の id ごと） */
   maps?: Record<string, Record<string, string>>;
+  /** send の後に続けて送るもの（UDP の 2 通目以降・HTTP の 2 つ目以降など） */
+  more?: SendTemplate[];
 }
 
 /** bits：値（16 進）と比べる数のビットが 1 つでも重なれば真 */

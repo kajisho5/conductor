@@ -6,8 +6,9 @@ import type { DriverDefinition } from './types';
 
 /**
  * 配信されるドライバ定義（SPEC 7.1）。公開リポ kajisho5/conductor-drivers の JSON を読む。プログラムは取ってこない。
- * - index.json：定義の一覧（機器を追加する画面に出す）
- * - defs/<id>.json：機器ごとの定義。追加した時に取ってきて Documents/drivers/defs/ に残す（現場で通信できなくても使える）
+ * - アプリに同梱した版（src/drivers/remote-bundle/、scripts/drivers/bundle_remote.mjs で作る）があるので、通信できなくても全部使える
+ * - index.json：定義の一覧（機器を追加する画面に出す）。通信できれば新しい一覧に取り替える
+ * - defs/<id>.json：機器ごとの定義。同梱の版より新しければ取ってきて Documents/drivers/defs/ に残す
  */
 
 export const DRIVERS_BASE_URL = 'https://raw.githubusercontent.com/kajisho5/conductor-drivers/main';
@@ -115,6 +116,49 @@ function ensureDir(): void {
   if (!d.exists) d.create({ intermediates: true, idempotent: true });
 }
 
+/* ---------- 同梱の版 ---------- */
+
+let bundledIndexCache: CatalogEntry[] | null = null;
+let bundledDefsCache: Record<string, unknown> | null = null;
+
+/** 同梱の一覧（小さいので起動時に読む） */
+export function bundledCatalog(): CatalogEntry[] {
+  if (!bundledIndexCache) {
+    try {
+      bundledIndexCache = parseCatalog(require('./remote-bundle/index.json'));
+    } catch {
+      bundledIndexCache = [];
+    }
+  }
+  return bundledIndexCache;
+}
+
+/** 同梱の定義（大きいので使う時に初めて読む） */
+export function bundledDefinition(id: string): DriverDefinition | null {
+  if (!bundledDefsCache) {
+    try {
+      bundledDefsCache = require('./remote-bundle/defs.json') as Record<string, unknown>;
+    } catch {
+      bundledDefsCache = {};
+    }
+  }
+  const raw = bundledDefsCache[id];
+  if (!raw) return null;
+  try {
+    const def = validateDefinition(raw);
+    return versionAtLeast(appVersion(), def.minAppVersion) ? def : null;
+  } catch {
+    return null;
+  }
+}
+
+/** 一覧を合わせる（配信の版を優先し、同梱にしか無いものも残す） */
+export function mergeCatalog(remote: CatalogEntry[], bundled: CatalogEntry[]): CatalogEntry[] {
+  const byId = new Map(bundled.map((e) => [e.id, e]));
+  for (const e of remote) byId.set(e.id, e);
+  return [...byId.values()];
+}
+
 /* ---------- 一覧の状態（機器を追加する画面で使う） ---------- */
 
 interface CatalogState {
@@ -126,7 +170,7 @@ interface CatalogState {
   downloading: Record<string, boolean>;
 }
 
-export const useCatalogStore = create<CatalogState>(() => ({ entries: [], status: 'idle', downloading: {} }));
+export const useCatalogStore = create<CatalogState>(() => ({ entries: bundledCatalog(), status: 'idle', downloading: {} }));
 
 /** 保存してある一覧と定義を読む（起動時に 1 回。通信しない） */
 export function loadCached(): void {
@@ -134,7 +178,7 @@ export function loadCached(): void {
     const f = indexFile();
     if (f.exists) {
       const raw = JSON.parse(f.textSync()) as { fetchedAt?: string };
-      useCatalogStore.setState({ entries: parseCatalog(raw), status: 'ready', fetchedAt: raw.fetchedAt });
+      useCatalogStore.setState({ entries: mergeCatalog(parseCatalog(raw), bundledCatalog()), status: 'ready', fetchedAt: raw.fetchedAt });
     }
   } catch {
     // 壊れた一覧は使わない（次に取り直す）
@@ -145,7 +189,11 @@ export function loadCached(): void {
     if (!(entry instanceof File) || !entry.name.endsWith('.json')) continue;
     try {
       const def = validateDefinition(JSON.parse(entry.textSync()));
-      if (versionAtLeast(appVersion(), def.minAppVersion)) registerDefinition(def);
+      if (!versionAtLeast(appVersion(), def.minAppVersion)) continue;
+      // アプリの更新で同梱の版の方が新しくなっていれば、保存してある古い版は使わない
+      const bundled = bundledCatalog().find((e) => e.id === def.id);
+      if (bundled && bundled.version !== def.version && versionAtLeast(bundled.version, def.version)) continue;
+      registerDefinition(def);
     } catch {
       // 読めない定義は飛ばす
     }
@@ -157,7 +205,7 @@ export async function refreshCatalog(): Promise<CatalogEntry[]> {
   useCatalogStore.setState({ status: 'loading', error: undefined });
   try {
     const raw = await getJson(`${DRIVERS_BASE_URL}/index.json`);
-    const entries = parseCatalog(raw);
+    const entries = mergeCatalog(parseCatalog(raw), bundledCatalog());
     const fetchedAt = new Date().toISOString();
     if (!driversDir().exists) driversDir().create({ intermediates: true, idempotent: true });
     indexFile().write(JSON.stringify({ ...(raw as object), fetchedAt }));
@@ -170,15 +218,33 @@ export async function refreshCatalog(): Promise<CatalogEntry[]> {
   }
 }
 
-/** 機器の定義を取ってきて保存し、使えるようにする（すでにあればそのまま） */
+/**
+ * 機器の定義を使えるようにする（すでにあればそのまま）。
+ * 同梱の版が一覧の版と同じなら通信しない。新しい版があれば取ってきて保存し、取れなければ同梱の版を使う。
+ */
 export async function ensureDefinition(id: string, { force = false }: { force?: boolean } = {}): Promise<DriverDefinition> {
   if (!force && isRegistered(id)) {
     const d = getDefinition(id);
     if (d) return d;
   }
+  const bundled = bundledDefinition(id);
+  const entry = useCatalogStore.getState().entries.find((e) => e.id === id);
+  if (bundled && !force && (!entry || entry.version === bundled.version)) {
+    registerDefinition(bundled);
+    return bundled;
+  }
   useCatalogStore.setState((s) => ({ downloading: { ...s.downloading, [id]: true } }));
   try {
-    const raw = await getJson(`${DRIVERS_BASE_URL}/defs/${encodeURIComponent(id)}.json`);
+    let raw: unknown;
+    try {
+      raw = await getJson(`${DRIVERS_BASE_URL}/defs/${encodeURIComponent(id)}.json`);
+    } catch (e) {
+      if (bundled) {
+        registerDefinition(bundled);
+        return bundled;
+      }
+      throw e;
+    }
     let def: DriverDefinition;
     try {
       def = validateDefinition(raw);

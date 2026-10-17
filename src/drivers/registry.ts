@@ -75,6 +75,10 @@ export function validateDefinition(raw: unknown): DriverDefinition {
     if (actionIds.has(a.id)) throw new DefinitionError(`${String(raw.id)}：動作 ${a.id} が重複しています`);
     actionIds.add(a.id);
     checkFields(`${String(raw.id)} の動作 ${a.id}`, a.options);
+    if (a.more !== undefined) {
+      if (!Array.isArray(a.more) || a.more.some((m) => !isObj(m) || !SEND_KINDS.has(String(m.kind))))
+        throw new DefinitionError(`${String(raw.id)}：動作 ${a.id} の more の形が正しくありません`);
+    }
     if (a.maps !== undefined) {
       if (!isObj(a.maps)) throw new DefinitionError(`${String(raw.id)}：動作 ${a.id} の maps の形が正しくありません`);
       for (const m of Object.values(a.maps)) {
