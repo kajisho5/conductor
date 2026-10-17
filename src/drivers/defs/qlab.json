@@ -1,0 +1,1435 @@
+{
+  "format": 1,
+  "id": "qlab",
+  "name": "QLab 5",
+  "category": "ショーコントロール",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "osc",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.10.70",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 53000,
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "id": "prefix",
+      "label": "宛先のワークスペース",
+      "type": "text",
+      "default": "",
+      "placeholder": "/workspace/DEMO-SHOW",
+      "mono": true,
+      "pattern": "^(/workspace/[^\\s/]+)?$",
+      "help": "空ならすべてのワークスペース。1 つに絞る時は /workspace/名前（名前は空白なし・.qlab5 を付けない）"
+    }
+  ],
+  "actions": [
+    {
+      "id": "go",
+      "name": "GO",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/go",
+        "args": []
+      },
+      "summary": "GO"
+    },
+    {
+      "id": "go_cue",
+      "name": "キューから GO",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/go",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.cue}}"
+          }
+        ]
+      },
+      "summary": "GO {{option.cue}}"
+    },
+    {
+      "id": "stop",
+      "name": "すべて停止",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/stop",
+        "args": []
+      },
+      "summary": "停止"
+    },
+    {
+      "id": "pause",
+      "name": "すべて一時停止",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/pause",
+        "args": []
+      },
+      "summary": "一時停止"
+    },
+    {
+      "id": "resume",
+      "name": "すべて再開",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/resume",
+        "args": []
+      },
+      "summary": "再開"
+    },
+    {
+      "id": "panic",
+      "name": "パニック",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/panic",
+        "args": []
+      },
+      "summary": "パニック"
+    },
+    {
+      "id": "panic_in_time",
+      "name": "パニック（時間を決めて）",
+      "options": [
+        {
+          "id": "sec",
+          "label": "秒",
+          "type": "number",
+          "default": 2,
+          "min": 0,
+          "max": 600
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/panicInTime",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.sec}}"
+          }
+        ]
+      },
+      "summary": "パニック {{option.sec}} 秒"
+    },
+    {
+      "id": "hard_stop",
+      "name": "すぐ止める",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/hardStop",
+        "args": []
+      },
+      "summary": "すぐ止める"
+    },
+    {
+      "id": "reset",
+      "name": "リセット",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/reset",
+        "args": []
+      },
+      "summary": "リセット"
+    },
+    {
+      "id": "playhead",
+      "name": "再生ヘッドをキューへ",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/playhead/{{option.cue}}",
+        "args": []
+      },
+      "summary": "再生ヘッド → {{option.cue}}"
+    },
+    {
+      "id": "playhead_move",
+      "name": "再生ヘッドを前後へ",
+      "options": [
+        {
+          "id": "to",
+          "label": "向き",
+          "type": "select",
+          "default": "next",
+          "choices": [
+            {
+              "id": "next",
+              "label": "次"
+            },
+            {
+              "id": "previous",
+              "label": "前"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/playhead/{{option.to}}",
+        "args": []
+      },
+      "summary": "再生ヘッド {{option.to}}"
+    },
+    {
+      "id": "select",
+      "name": "キューを選ぶ",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/select/{{option.cue}}",
+        "args": []
+      },
+      "summary": "選ぶ {{option.cue}}"
+    },
+    {
+      "id": "select_move",
+      "name": "選ぶキューを前後へ",
+      "options": [
+        {
+          "id": "to",
+          "label": "向き",
+          "type": "select",
+          "default": "next",
+          "choices": [
+            {
+              "id": "next",
+              "label": "次"
+            },
+            {
+              "id": "previous",
+              "label": "前"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/select/{{option.to}}",
+        "args": []
+      },
+      "summary": "選ぶ {{option.to}}"
+    },
+    {
+      "id": "audition_go",
+      "name": "試聴で GO",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/auditionGo",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.cue}}"
+          }
+        ]
+      },
+      "summary": "試聴 {{option.cue}}"
+    },
+    {
+      "id": "show_mode",
+      "name": "ショーモード / 編集モード",
+      "options": [
+        {
+          "id": "on",
+          "label": "モード",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ショーモード"
+            },
+            {
+              "id": "0",
+              "label": "編集モード"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/showMode",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "モード {{option.on}}"
+    },
+    {
+      "id": "toggle_mode",
+      "name": "ショーモードと編集モードを切り替え",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/toggleEditShowMode",
+        "args": []
+      },
+      "summary": "モード切り替え"
+    },
+    {
+      "id": "connect",
+      "name": "ワークスペースにつなぐ（パスコード）",
+      "options": [
+        {
+          "id": "passcode",
+          "label": "パスコード",
+          "type": "text",
+          "default": "",
+          "placeholder": "1234"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/connect",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.passcode}}"
+          }
+        ]
+      },
+      "summary": "パスコード"
+    },
+    {
+      "id": "cue_method",
+      "name": "キューの操作",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "method",
+          "label": "操作",
+          "type": "select",
+          "default": "start",
+          "choices": [
+            {
+              "id": "start",
+              "label": "スタート"
+            },
+            {
+              "id": "stop",
+              "label": "停止"
+            },
+            {
+              "id": "pause",
+              "label": "一時停止"
+            },
+            {
+              "id": "resume",
+              "label": "再開"
+            },
+            {
+              "id": "togglePause",
+              "label": "一時停止 / 再開"
+            },
+            {
+              "id": "load",
+              "label": "読み込み"
+            },
+            {
+              "id": "preview",
+              "label": "プレビュー"
+            },
+            {
+              "id": "panic",
+              "label": "パニック（フェードして止める）"
+            },
+            {
+              "id": "hardStop",
+              "label": "すぐ止める"
+            },
+            {
+              "id": "reset",
+              "label": "リセット"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/{{option.method}}",
+        "args": []
+      },
+      "summary": "{{option.cue}} {{option.method}}"
+    },
+    {
+      "id": "cue_method_special",
+      "name": "キューの操作（選んでいる・再生ヘッド・再生中）",
+      "options": [
+        {
+          "id": "target",
+          "label": "対象",
+          "type": "select",
+          "default": "selected",
+          "choices": [
+            {
+              "id": "selected",
+              "label": "選んでいるキュー"
+            },
+            {
+              "id": "playhead",
+              "label": "再生ヘッドのキュー"
+            },
+            {
+              "id": "active",
+              "label": "再生中のキュー"
+            }
+          ]
+        },
+        {
+          "id": "method",
+          "label": "操作",
+          "type": "select",
+          "default": "start",
+          "choices": [
+            {
+              "id": "start",
+              "label": "スタート"
+            },
+            {
+              "id": "stop",
+              "label": "停止"
+            },
+            {
+              "id": "pause",
+              "label": "一時停止"
+            },
+            {
+              "id": "resume",
+              "label": "再開"
+            },
+            {
+              "id": "togglePause",
+              "label": "一時停止 / 再開"
+            },
+            {
+              "id": "load",
+              "label": "読み込み"
+            },
+            {
+              "id": "preview",
+              "label": "プレビュー"
+            },
+            {
+              "id": "panic",
+              "label": "パニック（フェードして止める）"
+            },
+            {
+              "id": "hardStop",
+              "label": "すぐ止める"
+            },
+            {
+              "id": "reset",
+              "label": "リセット"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.target}}/{{option.method}}",
+        "args": []
+      },
+      "summary": "{{option.target}} {{option.method}}"
+    },
+    {
+      "id": "cue_flagged",
+      "name": "キューの旗",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "toggle",
+          "choices": [
+            {
+              "id": "toggle",
+              "label": "切り替え"
+            },
+            {
+              "id": "1",
+              "label": "付ける"
+            },
+            {
+              "id": "0",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/flagged",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "{{option.cue}} 旗 {{option.on}}"
+    },
+    {
+      "id": "cue_armed",
+      "name": "キューの有効 / 無効",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "有効"
+            },
+            {
+              "id": "0",
+              "label": "無効"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/armed",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "{{option.cue}} armed {{option.on}}"
+    },
+    {
+      "id": "cue_prewait",
+      "name": "キューのプリウェイト",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "sec",
+          "label": "秒",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 3600
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/preWait",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.sec}}"
+          }
+        ]
+      },
+      "summary": "{{option.cue}} プリウェイト {{option.sec}}"
+    },
+    {
+      "id": "cue_duration",
+      "name": "キューの長さ",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "sec",
+          "label": "秒",
+          "type": "number",
+          "default": 5,
+          "min": 0,
+          "max": 36000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/duration",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.sec}}"
+          }
+        ]
+      },
+      "summary": "{{option.cue}} 長さ {{option.sec}}"
+    },
+    {
+      "id": "cue_name",
+      "name": "キューの名前",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "name",
+          "label": "名前",
+          "type": "text",
+          "default": "",
+          "placeholder": "DEMO-CUE"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/name",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      },
+      "summary": "{{option.cue}} → {{option.name}}"
+    },
+    {
+      "id": "cue_notes",
+      "name": "キューのメモ",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "notes",
+          "label": "メモ",
+          "type": "text",
+          "default": ""
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/notes",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.notes}}"
+          }
+        ]
+      },
+      "summary": "{{option.cue}} メモ"
+    },
+    {
+      "id": "cue_level",
+      "name": "オーディオキューの音量（マスター）",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "db",
+          "label": "dB",
+          "type": "number",
+          "default": 0,
+          "min": -60,
+          "max": 12
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/level/0/0",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.db}}"
+          }
+        ]
+      },
+      "summary": "{{option.cue}} {{option.db}} dB"
+    },
+    {
+      "id": "cue_color",
+      "name": "キューの色",
+      "options": [
+        {
+          "id": "cue",
+          "label": "キュー番号",
+          "type": "text",
+          "default": "1",
+          "placeholder": "1"
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "none",
+          "choices": [
+            {
+              "id": "none",
+              "label": "なし"
+            },
+            {
+              "id": "red",
+              "label": "赤"
+            },
+            {
+              "id": "orange",
+              "label": "オレンジ"
+            },
+            {
+              "id": "yellow",
+              "label": "黄"
+            },
+            {
+              "id": "green",
+              "label": "緑"
+            },
+            {
+              "id": "cyan",
+              "label": "シアン"
+            },
+            {
+              "id": "blue",
+              "label": "青"
+            },
+            {
+              "id": "purple",
+              "label": "紫"
+            },
+            {
+              "id": "magenta",
+              "label": "マゼンタ"
+            },
+            {
+              "id": "gray",
+              "label": "グレー"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/{{option.cue}}/colorName",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "{{option.cue}} 色 {{option.color}}"
+    },
+    {
+      "id": "live_fade_preview",
+      "name": "ライブフェードのプレビュー",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/liveFadePreview",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "ライブフェード {{option.on}}"
+    },
+    {
+      "id": "always_audition",
+      "name": "常に試聴",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/alwaysAudition",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "常に試聴 {{option.on}}"
+    },
+    {
+      "id": "audition_monitors",
+      "name": "試聴モニター",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/auditionMonitors",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "試聴モニター {{option.on}}"
+    },
+    {
+      "id": "override_window",
+      "name": "上書きの窓",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/overrideWindow",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "上書きの窓 {{option.on}}"
+    },
+    {
+      "id": "override",
+      "name": "入出力の上書き",
+      "options": [
+        {
+          "id": "which",
+          "label": "対象",
+          "type": "select",
+          "default": "midiInputEnabled",
+          "choices": [
+            {
+              "id": "midiInputEnabled",
+              "label": "MIDI 入力"
+            },
+            {
+              "id": "midiOutputEnabled",
+              "label": "MIDI 出力"
+            },
+            {
+              "id": "mscInputEnabled",
+              "label": "MSC 入力"
+            },
+            {
+              "id": "mscOutputEnabled",
+              "label": "MSC 出力"
+            },
+            {
+              "id": "sysexInputEnabled",
+              "label": "SysEx 入力"
+            },
+            {
+              "id": "sysexOutputEnabled",
+              "label": "SysEx 出力"
+            },
+            {
+              "id": "oscOutputEnabled",
+              "label": "OSC 出力（v4）"
+            },
+            {
+              "id": "timecodeInputEnabled",
+              "label": "タイムコード入力"
+            },
+            {
+              "id": "timecodeOutputEnabled",
+              "label": "タイムコード出力"
+            },
+            {
+              "id": "artNetEnabled",
+              "label": "Art-Net（v4）"
+            },
+            {
+              "id": "dmxOutputEnabled",
+              "label": "DMX 出力"
+            },
+            {
+              "id": "networkExternalInputEnabled",
+              "label": "外部ネットワーク入力"
+            },
+            {
+              "id": "networkExternalOutputEnabled",
+              "label": "外部ネットワーク出力"
+            },
+            {
+              "id": "networkLocalInputEnabled",
+              "label": "ローカルネットワーク入力"
+            },
+            {
+              "id": "networkLocalOutputEnabled",
+              "label": "ローカルネットワーク出力"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/overrides/{{option.which}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "{{option.which}} {{option.on}}"
+    },
+    {
+      "id": "add_slice",
+      "name": "選んでいるキューにスライス",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/selected/addSliceMarker",
+        "args": []
+      },
+      "summary": "スライス"
+    },
+    {
+      "id": "audition_preview",
+      "name": "選んでいるキューを試聴でプレビュー",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/selected/auditionPreview",
+        "args": []
+      },
+      "summary": "試聴プレビュー"
+    },
+    {
+      "id": "continue_mode",
+      "name": "選んでいるキューの続け方",
+      "options": [
+        {
+          "id": "mode",
+          "label": "続け方",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "続けない"
+            },
+            {
+              "id": "1",
+              "label": "自動で続ける"
+            },
+            {
+              "id": "2",
+              "label": "自動で追う"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/selected/continueMode",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mode}}"
+          }
+        ]
+      },
+      "summary": "続け方 {{option.mode}}"
+    },
+    {
+      "id": "selected_color",
+      "name": "選んでいるキューの色",
+      "options": [
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "none",
+          "choices": [
+            {
+              "id": "none",
+              "label": "なし"
+            },
+            {
+              "id": "red",
+              "label": "赤"
+            },
+            {
+              "id": "orange",
+              "label": "オレンジ"
+            },
+            {
+              "id": "yellow",
+              "label": "黄"
+            },
+            {
+              "id": "green",
+              "label": "緑"
+            },
+            {
+              "id": "cyan",
+              "label": "シアン"
+            },
+            {
+              "id": "blue",
+              "label": "青"
+            },
+            {
+              "id": "purple",
+              "label": "紫"
+            },
+            {
+              "id": "magenta",
+              "label": "マゼンタ"
+            },
+            {
+              "id": "gray",
+              "label": "グレー"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{config.prefix}}/cue/selected/colorName",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.color}}"
+          }
+        ]
+      },
+      "summary": "色 {{option.color}}"
+    },
+    {
+      "id": "message",
+      "name": "OSC を送る（値なし）",
+      "options": [
+        {
+          "id": "address",
+          "label": "アドレス",
+          "type": "text",
+          "default": "/go",
+          "placeholder": "/go"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{option.address}}",
+        "args": []
+      },
+      "summary": "{{option.address}}"
+    },
+    {
+      "id": "message_s",
+      "name": "OSC を送る（文字の値）",
+      "options": [
+        {
+          "id": "address",
+          "label": "アドレス",
+          "type": "text",
+          "default": "/go",
+          "placeholder": "/go"
+        },
+        {
+          "id": "value",
+          "label": "値",
+          "type": "text",
+          "default": "1"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{option.address}}",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "{{option.address}} {{option.value}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "presets": [
+    {
+      "id": "go",
+      "category": "再生",
+      "name": "GO",
+      "text": "GO",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "go",
+        "options": {}
+      }
+    },
+    {
+      "id": "stop",
+      "category": "再生",
+      "name": "停止",
+      "text": "STOP",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "stop",
+        "options": {}
+      }
+    },
+    {
+      "id": "panic",
+      "category": "再生",
+      "name": "パニック",
+      "text": "PANIC",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "panic",
+        "options": {}
+      }
+    },
+    {
+      "id": "pause",
+      "category": "再生",
+      "name": "一時停止",
+      "text": "PAUSE",
+      "backgroundColor": "#F2C200",
+      "action": {
+        "definitionId": "pause",
+        "options": {}
+      }
+    },
+    {
+      "id": "resume",
+      "category": "再生",
+      "name": "再開",
+      "text": "RESUME",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "resume",
+        "options": {}
+      }
+    },
+    {
+      "id": "next",
+      "category": "再生ヘッド",
+      "name": "次へ",
+      "text": "NEXT",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "playhead_move",
+        "options": {
+          "to": "next"
+        }
+      }
+    },
+    {
+      "id": "prev",
+      "category": "再生ヘッド",
+      "name": "前へ",
+      "text": "PREV",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "playhead_move",
+        "options": {
+          "to": "previous"
+        }
+      }
+    },
+    {
+      "id": "cue1",
+      "category": "キュー",
+      "name": "キュー 1 をスタート",
+      "text": "CUE\n1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cue_method",
+        "options": {
+          "cue": "1",
+          "method": "start"
+        }
+      }
+    },
+    {
+      "id": "cue2",
+      "category": "キュー",
+      "name": "キュー 2 をスタート",
+      "text": "CUE\n2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cue_method",
+        "options": {
+          "cue": "2",
+          "method": "start"
+        }
+      }
+    },
+    {
+      "id": "cue3",
+      "category": "キュー",
+      "name": "キュー 3 をスタート",
+      "text": "CUE\n3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cue_method",
+        "options": {
+          "cue": "3",
+          "method": "start"
+        }
+      }
+    },
+    {
+      "id": "cue4",
+      "category": "キュー",
+      "name": "キュー 4 をスタート",
+      "text": "CUE\n4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cue_method",
+        "options": {
+          "cue": "4",
+          "method": "start"
+        }
+      }
+    },
+    {
+      "id": "cue5",
+      "category": "キュー",
+      "name": "キュー 5 をスタート",
+      "text": "CUE\n5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cue_method",
+        "options": {
+          "cue": "5",
+          "method": "start"
+        }
+      }
+    },
+    {
+      "id": "cue6",
+      "category": "キュー",
+      "name": "キュー 6 をスタート",
+      "text": "CUE\n6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cue_method",
+        "options": {
+          "cue": "6",
+          "method": "start"
+        }
+      }
+    },
+    {
+      "id": "cue7",
+      "category": "キュー",
+      "name": "キュー 7 をスタート",
+      "text": "CUE\n7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cue_method",
+        "options": {
+          "cue": "7",
+          "method": "start"
+        }
+      }
+    },
+    {
+      "id": "cue8",
+      "category": "キュー",
+      "name": "キュー 8 をスタート",
+      "text": "CUE\n8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "cue_method",
+        "options": {
+          "cue": "8",
+          "method": "start"
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "QLab 5「OSC Dictionary v5」：ポート 53000、/workspace/{id}/go・stop・pause・resume・panic・panicInTime・hardStop・reset・playhead・select・auditionGo・showMode・connect、/cue/{番号}/flagged・preWait",
+      "url": "https://qlab.app/docs/v5/scripting/osc-dictionary-v5/",
+      "status": "確認済"
+    },
+    {
+      "title": "キューの操作（/cue/…/start・stop・pause・resume・togglePause・load・preview・panic・hardStop・reset、armed・duration・name・notes・level・colorName）",
+      "url": "https://qlab.app/docs/v5/scripting/osc-dictionary-v5/",
+      "status": "推測",
+      "note": "資料の取得で一部の節を読めなかった。実機で確かめる"
+    },
+    {
+      "title": "試聴・上書き・選んでいるキューのアドレス：公開 OSS のモジュール figure53-qlab-advance（MIT）を conductor-drivers の Actions で動かした送信",
+      "status": "確認済"
+    },
+    {
+      "title": "返事（UDP 53001）と状態の受け取りはまだ使っていない",
+      "status": "確認済"
+    }
+  ]
+}
