@@ -87,6 +87,19 @@ describe('VISCA over IP', () => {
     expect(hex(payload('visca-ip', 'zoom_in', { speed: 7 }))).toBe('81 01 04 07 27 FF');
     expect(hex(payload('visca-ip', 'preset_recall', { n: 64 }))).toBe('81 01 04 3F 02 3F FF');
     expect(hex(payload('visca-ip', 'home', {}))).toBe('81 01 06 04 FF');
+    // 画づくり（公開 OSS のモジュール sony-visca の送信と同じ）
+    expect(hex(payload('visca-ip', 'iris_set', { v: '0F' }))).toBe('81 01 04 4B 00 00 00 0F FF');
+    expect(hex(payload('visca-ip', 'shutter_set', { v: '1B' }))).toBe('81 01 04 4A 00 00 01 0B FF');
+    expect(hex(payload('visca-ip', 'gain_set', { v: '11' }))).toBe('81 01 04 4C 00 00 01 01 FF');
+    expect(hex(payload('visca-ip', 'bright_set', { v: '29' }))).toBe('81 01 04 4D 00 00 02 09 FF');
+    expect(hex(payload('visca-ip', 'expcomp_set', { v: '07' }))).toBe('81 01 04 4E 00 00 00 07 FF');
+    expect(hex(payload('visca-ip', 'wdr', { v: '02' }))).toBe('81 01 7E 04 00 02 FF');
+    expect(hex(payload('visca-ip', 'menu', { v: '06 06 10' }))).toBe('81 01 06 06 10 FF');
+    expect(hex(payload('visca-ip', 'wb_offset', { v: '02' }))).toBe('81 01 7E 01 2E 00 02 FF');
+    for (const a of getDefinition('visca-ip')!.actions) {
+      if (a.id === 'command') continue;
+      expect(hex(payload('visca-ip', a.id, {}))).toMatch(/^8[0-9A-F]( [0-9A-F]{2})* FF$/);
+    }
   });
   it('頭（種別・長さ・通し番号）と RESET', async () => {
     expect(hex(wrapVisca(Uint8Array.from([0x81, 0x01, 0x06, 0x04, 0xff]), 1))).toBe('01 00 00 05 00 00 00 01 81 01 06 04 FF');
