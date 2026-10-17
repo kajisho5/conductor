@@ -443,6 +443,16 @@ export interface DriverInstance {
 - CoreMIDI モジュールは同時に 1 つの機器だけ開くので、MIDI で使える機器は 1 台まで
 - Bluetooth の機器は機器の画面の「Bluetooth MIDI の機器を追加」（システムのピッカー）で追加。Bluetooth の許可はその時に聞かれる
 
+### 8.6 OSEE GoStream シリーズ（LAN・オーナー指示 2026-10-17）
+- 対象：Deck / Deck Plus / Duet / Duet 8 ISO / Omni 12 ISO（1 つの定義 `osee-gostream`。機種で違う入力名は選択肢に併記）
+- 接続：TCP **19010**。枠は 先頭 EB A6・種別 00（JSON）・長さ（2 バイト LE、JSON＋CRC）・JSON・CRC-16/MODBUS（2 バイト LE）【確認済：公開 OSS のモジュール osee-gostream-series（MIT）を conductor-drivers の Actions で動かした送信と一致】
+- 命令：`{"id":"pgmIndex","type":"set","value":[1]}` の形。返事・通知は type が res / pus。命令の id と値の形はオーナーの別アプリ kajisho5/osee_control_software（cutline。同じ OSS と各機種の説明書が根拠、Duet 8 ISO の実機で使用）から写した【推測：conductor では実機未確認】
+- 通信手順 `osee`（`src/drivers/osee.ts`）：定義の動作は JSON を 1 行に 1 つ書き、手順が枠と CRC を付ける。つながったら機種・入力・PGM/PVW・KEY/DSK・収録・配信などを問い合わせる。受信は変数にする（番号つきの値は `id_番号`。例 `keyOnAir_0`、真偽は 1 / 0）。10 秒静かなら `version` を問い合わせ、16 秒何も届かなければつなぎ直す（cutline と同じ）
+- 動作 37：PGM / PVW、CUT / AUTO / FTB、トランジションの種類と時間、PREV TRANS、FTB の時間・AFV、KEY・DSK（次のトランジション・ON AIR）、マルチソース、音声（ON / AFV / OFF・フェーダー）、収録・配信・配信先、マクロ、プレーヤー、スチル、PTZ（Omni）、命令を送る（JSON）
+- 状態表示：PGM / PVW が入力、KEY / DSK が ON AIR、PREV TRANS、FTB 中、収録中、配信中、音声が ON。変数：`pgm` `pvw`（入力名）ほか
+- 模擬機器：`npm run mock:osee`（TCP 19010）
+- 定義は `scripts/drivers/build_osee.py` から作る
+
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。
 - 公式アプリや他社ソフトの通信の解析・傍受はしない。

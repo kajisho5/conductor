@@ -11,7 +11,8 @@
     "doctor": "expo-doctor",
     "mock": "node mock/server.mjs",
     "mock:roland": "node mock/roland.mjs",
-    "mock:atem": "node mock/atem.mjs"
+    "mock:atem": "node mock/atem.mjs",
+    "mock:osee": "node mock/osee.mjs"
   },
   "dependencies": {
     "@react-native-segmented-control/segmented-control": "2.5.7",

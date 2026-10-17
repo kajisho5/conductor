@@ -48,7 +48,8 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 - `npm run mock` — 模擬機器（TCP 9001・UDP 9002・OSC 9003・HTTP 9004）。iPhone/iPad の機器設定にこのパソコンの IP を入れて確かめる
 - `npm run mock:roland` — Roland V シリーズ風（TCP 8023、`-- --model v160hd|v80hd|vr120hd --password 0000`）
 - `npm run mock:atem` — ATEM 風（UDP 9910）
-- `python3 scripts/drivers/build_roland.py` / `build_atem.py` — 定義 JSON を作り直す（JSON を手で直さない）
+- `npm run mock:osee` — OSEE GoStream 風（TCP 19010）
+- `python3 scripts/drivers/build_roland.py` / `build_atem.py` / `build_osee.py` — 定義 JSON を作り直す（JSON を手で直さない。build_roland.py は ../conductor-drivers の builtin/ を読む）
 - `python3 scripts/licenses/build_licenses.py` — ライセンス一覧（依存を変えたら作り直す）
 - `node scripts/drivers/bundle_remote.mjs ../conductor-drivers` — 配信の定義をアプリに同梱し直す（src/drivers/remote-bundle/。手で直さない）
 - バージョンや app.config.ts を変えたら `npx expo prebuild --platform ios --no-install`（tests/config.test.ts が食い違いを検出）

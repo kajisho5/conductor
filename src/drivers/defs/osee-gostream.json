@@ -1,0 +1,2223 @@
+{
+  "format": 1,
+  "id": "osee-gostream",
+  "name": "OSEE GoStream シリーズ（Deck / Duet / Duet 8 ISO / Omni 12 ISO）",
+  "category": "映像スイッチャー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "tcp",
+  "session": "osee",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.1.215",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 19010,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "actions": [
+    {
+      "id": "pgm",
+      "name": "PGM を選ぶ",
+      "options": [
+        {
+          "id": "src",
+          "label": "入力",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ブラック"
+            },
+            {
+              "id": "1",
+              "label": "入力 1"
+            },
+            {
+              "id": "2",
+              "label": "入力 2"
+            },
+            {
+              "id": "3",
+              "label": "入力 3"
+            },
+            {
+              "id": "4",
+              "label": "入力 4"
+            },
+            {
+              "id": "5",
+              "label": "入力 5"
+            },
+            {
+              "id": "6",
+              "label": "入力 6"
+            },
+            {
+              "id": "7",
+              "label": "入力 7"
+            },
+            {
+              "id": "8",
+              "label": "入力 8"
+            },
+            {
+              "id": "4001",
+              "label": "AUX 1（Duet 8 ISO は入力 5、Omni はプレーヤー 1）"
+            },
+            {
+              "id": "4002",
+              "label": "AUX 2（Duet 8 ISO は入力 6、Omni はプレーヤー 2）"
+            },
+            {
+              "id": "4003",
+              "label": "AUX 3（Duet 8 ISO は入力 7）"
+            },
+            {
+              "id": "4004",
+              "label": "AUX 4（Duet 8 ISO は入力 8）"
+            },
+            {
+              "id": "3010",
+              "label": "メディア 1（Omni は GFX 1）"
+            },
+            {
+              "id": "3020",
+              "label": "メディア 2（Omni は GFX 2）"
+            },
+            {
+              "id": "5001",
+              "label": "マルチソース（M/SRC）"
+            },
+            {
+              "id": "1000",
+              "label": "カラーバー"
+            },
+            {
+              "id": "2001",
+              "label": "カラー 1"
+            },
+            {
+              "id": "2002",
+              "label": "カラー 2"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"pgmIndex\",\"type\":\"set\",\"value\":[{{option.src}}]}",
+        "encoding": "text"
+      },
+      "summary": "PGM {{option.src}}"
+    },
+    {
+      "id": "pvw",
+      "name": "PVW（プレビュー）を選ぶ",
+      "options": [
+        {
+          "id": "src",
+          "label": "入力",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ブラック"
+            },
+            {
+              "id": "1",
+              "label": "入力 1"
+            },
+            {
+              "id": "2",
+              "label": "入力 2"
+            },
+            {
+              "id": "3",
+              "label": "入力 3"
+            },
+            {
+              "id": "4",
+              "label": "入力 4"
+            },
+            {
+              "id": "5",
+              "label": "入力 5"
+            },
+            {
+              "id": "6",
+              "label": "入力 6"
+            },
+            {
+              "id": "7",
+              "label": "入力 7"
+            },
+            {
+              "id": "8",
+              "label": "入力 8"
+            },
+            {
+              "id": "4001",
+              "label": "AUX 1（Duet 8 ISO は入力 5、Omni はプレーヤー 1）"
+            },
+            {
+              "id": "4002",
+              "label": "AUX 2（Duet 8 ISO は入力 6、Omni はプレーヤー 2）"
+            },
+            {
+              "id": "4003",
+              "label": "AUX 3（Duet 8 ISO は入力 7）"
+            },
+            {
+              "id": "4004",
+              "label": "AUX 4（Duet 8 ISO は入力 8）"
+            },
+            {
+              "id": "3010",
+              "label": "メディア 1（Omni は GFX 1）"
+            },
+            {
+              "id": "3020",
+              "label": "メディア 2（Omni は GFX 2）"
+            },
+            {
+              "id": "5001",
+              "label": "マルチソース（M/SRC）"
+            },
+            {
+              "id": "1000",
+              "label": "カラーバー"
+            },
+            {
+              "id": "2001",
+              "label": "カラー 1"
+            },
+            {
+              "id": "2002",
+              "label": "カラー 2"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"pvwIndex\",\"type\":\"set\",\"value\":[{{option.src}}]}",
+        "encoding": "text"
+      },
+      "summary": "PVW {{option.src}}"
+    },
+    {
+      "id": "cut",
+      "name": "CUT",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"cutTransition\",\"type\":\"set\"}",
+        "encoding": "text"
+      },
+      "summary": "CUT"
+    },
+    {
+      "id": "auto",
+      "name": "AUTO",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"autoTransition\",\"type\":\"set\"}",
+        "encoding": "text"
+      },
+      "summary": "AUTO"
+    },
+    {
+      "id": "ftb",
+      "name": "FTB（フェード・トゥ・ブラック）",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ftb\",\"type\":\"set\"}",
+        "encoding": "text"
+      },
+      "summary": "FTB"
+    },
+    {
+      "id": "transition_style",
+      "name": "トランジションの種類",
+      "options": [
+        {
+          "id": "style",
+          "label": "種類",
+          "type": "select",
+          "default": "\"Mix\"",
+          "choices": [
+            {
+              "id": "\"Mix\"",
+              "label": "MIX"
+            },
+            {
+              "id": "\"Dip\"",
+              "label": "DIP"
+            },
+            {
+              "id": "\"Wipe\"",
+              "label": "WIPE"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"transitionStyle\",\"type\":\"set\",\"value\":[{{option.style}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "transition_rate",
+      "name": "トランジションの時間",
+      "options": [
+        {
+          "id": "kind",
+          "label": "種類",
+          "type": "select",
+          "default": "transitionMixRate",
+          "choices": [
+            {
+              "id": "transitionMixRate",
+              "label": "MIX"
+            },
+            {
+              "id": "transitionDipRate",
+              "label": "DIP"
+            },
+            {
+              "id": "transitionWipeRate",
+              "label": "WIPE"
+            }
+          ]
+        },
+        {
+          "id": "sec",
+          "label": "時間（秒）",
+          "type": "number",
+          "default": 1,
+          "min": 0.5,
+          "max": 8,
+          "help": "0.5〜8 秒"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"{{option.kind}}\",\"type\":\"set\",\"value\":[{{option.sec}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "prev_trans",
+      "name": "プレビュートランジション（PREV TRANS）",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"previewTransition\",\"type\":\"set\",\"value\":[{{option.on}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "ftb_rate",
+      "name": "FTB の時間",
+      "options": [
+        {
+          "id": "sec",
+          "label": "時間（秒）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 8,
+          "help": "0〜8 秒"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ftbRate\",\"type\":\"set\",\"value\":[{{option.sec}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "ftb_afv",
+      "name": "FTB で音も絞る（AFV）",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ftbAfv\",\"type\":\"set\",\"value\":[{{option.on}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "key_next",
+      "name": "KEY を次のトランジションに入れる",
+      "options": [
+        {
+          "id": "i",
+          "label": "キー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "KEY 1"
+            },
+            {
+              "id": "1",
+              "label": "KEY 2"
+            },
+            {
+              "id": "2",
+              "label": "KEY 3"
+            },
+            {
+              "id": "3",
+              "label": "KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"keyEnable\",\"type\":\"set\",\"value\":[{{option.i}},{{option.on}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "key_on_air",
+      "name": "KEY を ON AIR",
+      "options": [
+        {
+          "id": "i",
+          "label": "キー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "KEY 1"
+            },
+            {
+              "id": "1",
+              "label": "KEY 2"
+            },
+            {
+              "id": "2",
+              "label": "KEY 3"
+            },
+            {
+              "id": "3",
+              "label": "KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"keyOnAir\",\"type\":\"set\",\"value\":[{{option.i}},{{option.on}}]}",
+        "encoding": "text"
+      },
+      "summary": "KEY {{option.i}} {{option.on}}"
+    },
+    {
+      "id": "dsk_next",
+      "name": "DSK を次のトランジションに入れる",
+      "options": [
+        {
+          "id": "i",
+          "label": "DSK",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "DSK 1"
+            },
+            {
+              "id": "1",
+              "label": "DSK 2"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"dskEnable\",\"type\":\"set\",\"value\":[{{option.i}},{{option.on}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "dsk_on_air",
+      "name": "DSK を ON AIR",
+      "options": [
+        {
+          "id": "i",
+          "label": "DSK",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "DSK 1"
+            },
+            {
+              "id": "1",
+              "label": "DSK 2"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"dskOnAir\",\"type\":\"set\",\"value\":[{{option.i}},{{option.on}}]}",
+        "encoding": "text"
+      },
+      "summary": "DSK {{option.i}} {{option.on}}"
+    },
+    {
+      "id": "multisource",
+      "name": "マルチソースを使う",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"multiSourceEnable\",\"type\":\"set\",\"value\":[{{option.on}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "audio_state",
+      "name": "音声の ON / AFV / OFF",
+      "options": [
+        {
+          "id": "src",
+          "label": "音声",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "入力 1"
+            },
+            {
+              "id": "2",
+              "label": "入力 2"
+            },
+            {
+              "id": "3",
+              "label": "入力 3"
+            },
+            {
+              "id": "4",
+              "label": "入力 4"
+            },
+            {
+              "id": "5",
+              "label": "入力 5"
+            },
+            {
+              "id": "6",
+              "label": "入力 6"
+            },
+            {
+              "id": "7",
+              "label": "入力 7"
+            },
+            {
+              "id": "8",
+              "label": "入力 8"
+            },
+            {
+              "id": "4001",
+              "label": "AUX 1"
+            },
+            {
+              "id": "4002",
+              "label": "AUX 2"
+            },
+            {
+              "id": "4003",
+              "label": "AUX 3"
+            },
+            {
+              "id": "4004",
+              "label": "AUX 4"
+            },
+            {
+              "id": "1301",
+              "label": "マイク 1"
+            },
+            {
+              "id": "1302",
+              "label": "マイク 2"
+            },
+            {
+              "id": "1303",
+              "label": "マイク 3"
+            },
+            {
+              "id": "1304",
+              "label": "マイク 4"
+            }
+          ]
+        },
+        {
+          "id": "state",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "2",
+              "label": "AFV"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"audioMixerEnable\",\"type\":\"set\",\"value\":[{{option.src}},{{option.state}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "audio_fader",
+      "name": "音声のフェーダー",
+      "options": [
+        {
+          "id": "src",
+          "label": "音声",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "入力 1"
+            },
+            {
+              "id": "2",
+              "label": "入力 2"
+            },
+            {
+              "id": "3",
+              "label": "入力 3"
+            },
+            {
+              "id": "4",
+              "label": "入力 4"
+            },
+            {
+              "id": "5",
+              "label": "入力 5"
+            },
+            {
+              "id": "6",
+              "label": "入力 6"
+            },
+            {
+              "id": "7",
+              "label": "入力 7"
+            },
+            {
+              "id": "8",
+              "label": "入力 8"
+            },
+            {
+              "id": "4001",
+              "label": "AUX 1"
+            },
+            {
+              "id": "4002",
+              "label": "AUX 2"
+            },
+            {
+              "id": "4003",
+              "label": "AUX 3"
+            },
+            {
+              "id": "4004",
+              "label": "AUX 4"
+            },
+            {
+              "id": "1301",
+              "label": "マイク 1"
+            },
+            {
+              "id": "1302",
+              "label": "マイク 2"
+            },
+            {
+              "id": "1303",
+              "label": "マイク 3"
+            },
+            {
+              "id": "1304",
+              "label": "マイク 4"
+            }
+          ]
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB）",
+          "type": "number",
+          "default": 0,
+          "min": -75,
+          "max": 10,
+          "help": "-75〜+10 dB（0.5 dB きざみ）"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"audioMixerFader\",\"type\":\"set\",\"value\":[{{option.src}},{{option.db}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "record_start",
+      "name": "収録を始める",
+      "options": [
+        {
+          "id": "iso",
+          "label": "収録",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "PGM"
+            },
+            {
+              "id": "1",
+              "label": "ISO（Duet 8 ISO・Omni）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"recordStart\",\"type\":\"set\",\"value\":[{{option.iso}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "record_stop",
+      "name": "収録を止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"recordStop\",\"type\":\"set\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "live",
+      "name": "配信",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"live\",\"type\":\"set\",\"value\":[{{option.on}}]}",
+        "encoding": "text"
+      },
+      "summary": "配信 {{option.on}}"
+    },
+    {
+      "id": "stream_dest",
+      "name": "配信先を使う",
+      "options": [
+        {
+          "id": "i",
+          "label": "配信先",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "配信先 1"
+            },
+            {
+              "id": "1",
+              "label": "配信先 2"
+            },
+            {
+              "id": "2",
+              "label": "配信先 3"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"liveStreamOutputEnable\",\"type\":\"set\",\"value\":[{{option.i}},{{option.on}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "macro_run",
+      "name": "マクロを実行",
+      "options": [
+        {
+          "id": "i",
+          "label": "マクロ番号（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"macroRunStart\",\"type\":\"set\",\"value\":[{{option.i|lin:1:-1}}]}",
+        "encoding": "text"
+      },
+      "summary": "マクロ {{option.i}}"
+    },
+    {
+      "id": "macro_stop",
+      "name": "マクロを止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"macroRunStop\",\"type\":\"set\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "macro_loop",
+      "name": "マクロを繰り返す",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"macroRunLoop\",\"type\":\"set\",\"value\":[{{option.on}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "macro_record_stop",
+      "name": "マクロの記録を終える",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"macroRecordStop\",\"type\":\"set\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "play_prev",
+      "name": "プレーヤー 前へ",
+      "options": [
+        {
+          "id": "p",
+          "label": "プレーヤー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "プレーヤー 1"
+            },
+            {
+              "id": "1",
+              "label": "プレーヤー 2"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"playPrev\",\"type\":\"set\",\"value\":[{{option.p}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "play_next",
+      "name": "プレーヤー 次へ",
+      "options": [
+        {
+          "id": "p",
+          "label": "プレーヤー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "プレーヤー 1"
+            },
+            {
+              "id": "1",
+              "label": "プレーヤー 2"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"playNext\",\"type\":\"set\",\"value\":[{{option.p}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "play_pause",
+      "name": "プレーヤー 再生 / 一時停止",
+      "options": [
+        {
+          "id": "p",
+          "label": "プレーヤー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "プレーヤー 1"
+            },
+            {
+              "id": "1",
+              "label": "プレーヤー 2"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "再生"
+            },
+            {
+              "id": "0",
+              "label": "一時停止"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"playPause\",\"type\":\"set\",\"value\":[{{option.p}},{{option.on}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "still_to_player",
+      "name": "スチルをメディアに出す",
+      "options": [
+        {
+          "id": "p",
+          "label": "プレーヤー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "プレーヤー 1"
+            },
+            {
+              "id": "1",
+              "label": "プレーヤー 2"
+            }
+          ]
+        },
+        {
+          "id": "n",
+          "label": "スチル番号（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"mediaPlayer\",\"type\":\"set\",\"value\":[{{option.p}},\"Still\",{{option.n|lin:1:-1}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "grab_still",
+      "name": "スチルを撮る（Omni 12 ISO）",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"grabStill\",\"type\":\"set\",\"value\":[]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "ptz_select",
+      "name": "PTZ カメラを選ぶ（Omni 12 ISO）",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ番号（1–）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ptzSelect\",\"type\":\"set\",\"value\":[{{option.cam|lin:1:-1}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "ptz_preset",
+      "name": "PTZ プリセットを呼び出す（Omni 12 ISO）",
+      "options": [
+        {
+          "id": "i",
+          "label": "プリセット番号（1–）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ptzPresetRun\",\"type\":\"set\",\"value\":[{{option.i|lin:1:-1}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "ptz_move",
+      "name": "PTZ を動かす（Omni 12 ISO）",
+      "options": [
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "0,9",
+          "choices": [
+            {
+              "id": "0,9",
+              "label": "上"
+            },
+            {
+              "id": "0,-9",
+              "label": "下"
+            },
+            {
+              "id": "-9,0",
+              "label": "左"
+            },
+            {
+              "id": "9,0",
+              "label": "右"
+            },
+            {
+              "id": "0,0",
+              "label": "止める"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ptzPanTilt\",\"type\":\"set\",\"value\":[{{option.dir}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "ptz_home",
+      "name": "PTZ をホームへ（Omni 12 ISO）",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ptzPanTiltHome\",\"type\":\"set\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "ptz_zoom",
+      "name": "PTZ ズーム（Omni 12 ISO）",
+      "options": [
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ズームイン（T）"
+            },
+            {
+              "id": "0",
+              "label": "ズームアウト（W）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ptzZoomStart\",\"type\":\"set\",\"value\":[{{option.dir}}]}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "ptz_zoom_stop",
+      "name": "PTZ ズームを止める（Omni 12 ISO）",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"ptzZoomStop\",\"type\":\"set\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "command",
+      "name": "命令を送る（JSON）",
+      "options": [
+        {
+          "id": "id",
+          "label": "命令の id",
+          "type": "text",
+          "placeholder": "pgmIndex",
+          "pattern": "^[A-Za-z0-9_]+$",
+          "mono": true
+        },
+        {
+          "id": "type",
+          "label": "種類",
+          "type": "select",
+          "default": "set",
+          "choices": [
+            {
+              "id": "set",
+              "label": "set（変える）"
+            },
+            {
+              "id": "get",
+              "label": "get（問い合わせる）"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "値（JSON の並び。空なら無し）",
+          "type": "text",
+          "placeholder": "1,true",
+          "mono": true,
+          "help": "文字は \"\" で囲む。例：0,\"Still\",3"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"id\":\"{{option.id}}\",\"type\":\"{{option.type}}\",\"value\":[{{option.value}}]}",
+        "encoding": "text"
+      },
+      "summary": "{{option.id}} {{option.value}}"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "pgm_is",
+      "name": "PGM が入力",
+      "options": [
+        {
+          "id": "src",
+          "label": "入力",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ブラック"
+            },
+            {
+              "id": "1",
+              "label": "入力 1"
+            },
+            {
+              "id": "2",
+              "label": "入力 2"
+            },
+            {
+              "id": "3",
+              "label": "入力 3"
+            },
+            {
+              "id": "4",
+              "label": "入力 4"
+            },
+            {
+              "id": "5",
+              "label": "入力 5"
+            },
+            {
+              "id": "6",
+              "label": "入力 6"
+            },
+            {
+              "id": "7",
+              "label": "入力 7"
+            },
+            {
+              "id": "8",
+              "label": "入力 8"
+            },
+            {
+              "id": "4001",
+              "label": "AUX 1（Duet 8 ISO は入力 5、Omni はプレーヤー 1）"
+            },
+            {
+              "id": "4002",
+              "label": "AUX 2（Duet 8 ISO は入力 6、Omni はプレーヤー 2）"
+            },
+            {
+              "id": "4003",
+              "label": "AUX 3（Duet 8 ISO は入力 7）"
+            },
+            {
+              "id": "4004",
+              "label": "AUX 4（Duet 8 ISO は入力 8）"
+            },
+            {
+              "id": "3010",
+              "label": "メディア 1（Omni は GFX 1）"
+            },
+            {
+              "id": "3020",
+              "label": "メディア 2（Omni は GFX 2）"
+            },
+            {
+              "id": "5001",
+              "label": "マルチソース（M/SRC）"
+            },
+            {
+              "id": "1000",
+              "label": "カラーバー"
+            },
+            {
+              "id": "2001",
+              "label": "カラー 1"
+            },
+            {
+              "id": "2002",
+              "label": "カラー 2"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "pgmIndex",
+        "op": "eq",
+        "value": "{{option.src}}"
+      },
+      "summary": "PGM が {{option.src}}"
+    },
+    {
+      "id": "pvw_is",
+      "name": "PVW が入力",
+      "options": [
+        {
+          "id": "src",
+          "label": "入力",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ブラック"
+            },
+            {
+              "id": "1",
+              "label": "入力 1"
+            },
+            {
+              "id": "2",
+              "label": "入力 2"
+            },
+            {
+              "id": "3",
+              "label": "入力 3"
+            },
+            {
+              "id": "4",
+              "label": "入力 4"
+            },
+            {
+              "id": "5",
+              "label": "入力 5"
+            },
+            {
+              "id": "6",
+              "label": "入力 6"
+            },
+            {
+              "id": "7",
+              "label": "入力 7"
+            },
+            {
+              "id": "8",
+              "label": "入力 8"
+            },
+            {
+              "id": "4001",
+              "label": "AUX 1（Duet 8 ISO は入力 5、Omni はプレーヤー 1）"
+            },
+            {
+              "id": "4002",
+              "label": "AUX 2（Duet 8 ISO は入力 6、Omni はプレーヤー 2）"
+            },
+            {
+              "id": "4003",
+              "label": "AUX 3（Duet 8 ISO は入力 7）"
+            },
+            {
+              "id": "4004",
+              "label": "AUX 4（Duet 8 ISO は入力 8）"
+            },
+            {
+              "id": "3010",
+              "label": "メディア 1（Omni は GFX 1）"
+            },
+            {
+              "id": "3020",
+              "label": "メディア 2（Omni は GFX 2）"
+            },
+            {
+              "id": "5001",
+              "label": "マルチソース（M/SRC）"
+            },
+            {
+              "id": "1000",
+              "label": "カラーバー"
+            },
+            {
+              "id": "2001",
+              "label": "カラー 1"
+            },
+            {
+              "id": "2002",
+              "label": "カラー 2"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "pvwIndex",
+        "op": "eq",
+        "value": "{{option.src}}"
+      },
+      "summary": "PVW が {{option.src}}"
+    },
+    {
+      "id": "key_on_air",
+      "name": "KEY が ON AIR",
+      "options": [
+        {
+          "id": "i",
+          "label": "キー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "KEY 1"
+            },
+            {
+              "id": "1",
+              "label": "KEY 2"
+            },
+            {
+              "id": "2",
+              "label": "KEY 3"
+            },
+            {
+              "id": "3",
+              "label": "KEY 4"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "keyOnAir_{{option.i}}",
+        "op": "eq",
+        "value": "1"
+      }
+    },
+    {
+      "id": "dsk_on_air",
+      "name": "DSK が ON AIR",
+      "options": [
+        {
+          "id": "i",
+          "label": "DSK",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "DSK 1"
+            },
+            {
+              "id": "1",
+              "label": "DSK 2"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "dskOnAir_{{option.i}}",
+        "op": "eq",
+        "value": "1"
+      }
+    },
+    {
+      "id": "prev_trans",
+      "name": "PREV TRANS が ON",
+      "options": [],
+      "compare": {
+        "variable": "previewTransition",
+        "op": "eq",
+        "value": "1"
+      }
+    },
+    {
+      "id": "ftb_on",
+      "name": "FTB 中",
+      "options": [],
+      "compare": {
+        "variable": "ftbStatus",
+        "op": "neq",
+        "value": "0"
+      }
+    },
+    {
+      "id": "recording",
+      "name": "収録中",
+      "options": [],
+      "compare": {
+        "variable": "recordStatus",
+        "op": "neq",
+        "value": "0"
+      }
+    },
+    {
+      "id": "live",
+      "name": "配信中",
+      "options": [],
+      "compare": {
+        "variable": "live",
+        "op": "eq",
+        "value": "1"
+      }
+    },
+    {
+      "id": "audio_on",
+      "name": "音声が ON",
+      "options": [
+        {
+          "id": "src",
+          "label": "音声",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "入力 1"
+            },
+            {
+              "id": "2",
+              "label": "入力 2"
+            },
+            {
+              "id": "3",
+              "label": "入力 3"
+            },
+            {
+              "id": "4",
+              "label": "入力 4"
+            },
+            {
+              "id": "5",
+              "label": "入力 5"
+            },
+            {
+              "id": "6",
+              "label": "入力 6"
+            },
+            {
+              "id": "7",
+              "label": "入力 7"
+            },
+            {
+              "id": "8",
+              "label": "入力 8"
+            },
+            {
+              "id": "4001",
+              "label": "AUX 1"
+            },
+            {
+              "id": "4002",
+              "label": "AUX 2"
+            },
+            {
+              "id": "4003",
+              "label": "AUX 3"
+            },
+            {
+              "id": "4004",
+              "label": "AUX 4"
+            },
+            {
+              "id": "1301",
+              "label": "マイク 1"
+            },
+            {
+              "id": "1302",
+              "label": "マイク 2"
+            },
+            {
+              "id": "1303",
+              "label": "マイク 3"
+            },
+            {
+              "id": "1304",
+              "label": "マイク 4"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "audioMixerEnable_{{option.src}}",
+        "op": "eq",
+        "value": "1"
+      }
+    }
+  ],
+  "variables": [
+    {
+      "id": "pgmIndex",
+      "name": "PGM の入力番号"
+    },
+    {
+      "id": "pvwIndex",
+      "name": "PVW の入力番号"
+    },
+    {
+      "id": "pgm",
+      "name": "PGM の入力名"
+    },
+    {
+      "id": "pvw",
+      "name": "PVW の入力名"
+    },
+    {
+      "id": "transitionStyle",
+      "name": "トランジションの種類"
+    },
+    {
+      "id": "recordStatus",
+      "name": "収録の状態"
+    },
+    {
+      "id": "recordDuration",
+      "name": "収録の時間"
+    },
+    {
+      "id": "live",
+      "name": "配信の状態"
+    },
+    {
+      "id": "deviceType",
+      "name": "機種の番号（10 = Duet 8 ISO、20 = Omni 12 ISO）"
+    },
+    {
+      "id": "deviceName",
+      "name": "本体の名前"
+    },
+    {
+      "id": "version",
+      "name": "ファームウェアの版"
+    }
+  ],
+  "derive": [
+    {
+      "variable": "pgm",
+      "from": "pgmIndex",
+      "map": {
+        "0": "ブラック",
+        "1": "入力 1",
+        "2": "入力 2",
+        "3": "入力 3",
+        "4": "入力 4",
+        "5": "入力 5",
+        "6": "入力 6",
+        "7": "入力 7",
+        "8": "入力 8",
+        "4001": "AUX 1",
+        "4002": "AUX 2",
+        "4003": "AUX 3",
+        "4004": "AUX 4",
+        "3010": "メディア 1",
+        "3020": "メディア 2",
+        "5001": "マルチソース",
+        "1000": "カラーバー",
+        "2001": "カラー 1",
+        "2002": "カラー 2"
+      },
+      "default": "?"
+    },
+    {
+      "variable": "pvw",
+      "from": "pvwIndex",
+      "map": {
+        "0": "ブラック",
+        "1": "入力 1",
+        "2": "入力 2",
+        "3": "入力 3",
+        "4": "入力 4",
+        "5": "入力 5",
+        "6": "入力 6",
+        "7": "入力 7",
+        "8": "入力 8",
+        "4001": "AUX 1",
+        "4002": "AUX 2",
+        "4003": "AUX 3",
+        "4004": "AUX 4",
+        "3010": "メディア 1",
+        "3020": "メディア 2",
+        "5001": "マルチソース",
+        "1000": "カラーバー",
+        "2001": "カラー 1",
+        "2002": "カラー 2"
+      },
+      "default": "?"
+    }
+  ],
+  "presets": [
+    {
+      "id": "pgm1",
+      "category": "PGM",
+      "name": "PGM 入力 1",
+      "text": "PGM\nIN 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "src": "1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "src": "1"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm2",
+      "category": "PGM",
+      "name": "PGM 入力 2",
+      "text": "PGM\nIN 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "src": "2"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "src": "2"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm3",
+      "category": "PGM",
+      "name": "PGM 入力 3",
+      "text": "PGM\nIN 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "src": "3"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "src": "3"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm4",
+      "category": "PGM",
+      "name": "PGM 入力 4",
+      "text": "PGM\nIN 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "src": "4"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "src": "4"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm5",
+      "category": "PGM",
+      "name": "PGM 入力 5",
+      "text": "PGM\nIN 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "src": "5"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "src": "5"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm6",
+      "category": "PGM",
+      "name": "PGM 入力 6",
+      "text": "PGM\nIN 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "src": "6"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "src": "6"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm7",
+      "category": "PGM",
+      "name": "PGM 入力 7",
+      "text": "PGM\nIN 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "src": "7"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "src": "7"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pgm8",
+      "category": "PGM",
+      "name": "PGM 入力 8",
+      "text": "PGM\nIN 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pgm",
+        "options": {
+          "src": "8"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pgm_is",
+          "options": {
+            "src": "8"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "pvw1",
+      "category": "PVW",
+      "name": "PVW 入力 1",
+      "text": "PVW\nIN 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pvw",
+        "options": {
+          "src": "1"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pvw_is",
+          "options": {
+            "src": "1"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pvw2",
+      "category": "PVW",
+      "name": "PVW 入力 2",
+      "text": "PVW\nIN 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pvw",
+        "options": {
+          "src": "2"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pvw_is",
+          "options": {
+            "src": "2"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pvw3",
+      "category": "PVW",
+      "name": "PVW 入力 3",
+      "text": "PVW\nIN 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pvw",
+        "options": {
+          "src": "3"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pvw_is",
+          "options": {
+            "src": "3"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pvw4",
+      "category": "PVW",
+      "name": "PVW 入力 4",
+      "text": "PVW\nIN 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pvw",
+        "options": {
+          "src": "4"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pvw_is",
+          "options": {
+            "src": "4"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pvw5",
+      "category": "PVW",
+      "name": "PVW 入力 5",
+      "text": "PVW\nIN 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pvw",
+        "options": {
+          "src": "5"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pvw_is",
+          "options": {
+            "src": "5"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pvw6",
+      "category": "PVW",
+      "name": "PVW 入力 6",
+      "text": "PVW\nIN 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pvw",
+        "options": {
+          "src": "6"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pvw_is",
+          "options": {
+            "src": "6"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pvw7",
+      "category": "PVW",
+      "name": "PVW 入力 7",
+      "text": "PVW\nIN 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pvw",
+        "options": {
+          "src": "7"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pvw_is",
+          "options": {
+            "src": "7"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "pvw8",
+      "category": "PVW",
+      "name": "PVW 入力 8",
+      "text": "PVW\nIN 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "pvw",
+        "options": {
+          "src": "8"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "pvw_is",
+          "options": {
+            "src": "8"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "cut",
+      "category": "トランジション",
+      "name": "CUT",
+      "text": "CUT",
+      "backgroundColor": "#E9E9EC",
+      "action": {
+        "definitionId": "cut",
+        "options": {}
+      }
+    },
+    {
+      "id": "auto",
+      "category": "トランジション",
+      "name": "AUTO",
+      "text": "AUTO",
+      "backgroundColor": "#F2C200",
+      "action": {
+        "definitionId": "auto",
+        "options": {}
+      }
+    },
+    {
+      "id": "ftb",
+      "category": "トランジション",
+      "name": "FTB",
+      "text": "FTB",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "ftb",
+        "options": {}
+      },
+      "feedbacks": [
+        {
+          "definitionId": "ftb_on",
+          "options": {},
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "rec",
+      "category": "収録・配信",
+      "name": "収録を始める",
+      "text": "REC",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "record_start",
+        "options": {
+          "iso": "0"
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "recording",
+          "options": {},
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "rec_stop",
+      "category": "収録・配信",
+      "name": "収録を止める",
+      "text": "REC\nSTOP",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "record_stop",
+        "options": {}
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "枠（先頭 EB A6・種別・長さ・JSON・CRC-16/MODBUS）とポート 19010",
+      "status": "確認済",
+      "note": "公開 OSS のモジュール osee-gostream-series（MIT）を conductor-drivers の Actions で動かして記録した送信と一致",
+      "url": "https://github.com/bitfocus/companion-module-osee-gostream-series"
+    },
+    {
+      "title": "命令の id と値の形（pgmIndex・cutTransition・keyOnAir など）",
+      "status": "推測",
+      "note": "オーナーの別アプリ kajisho5/osee_control_software（同じ OSS と各機種の説明書が根拠。Duet 8 ISO の実機で使用）の実装から写した。KEY は true / false、DSK は 1 / 0（cutline と同じ）。機器の画面の「最近のログ」（詳細）で送受信を確かめる"
+    },
+    {
+      "title": "PTZ・スチルを撮る は Omni 12 ISO のみ。FTB は Duet 8 ISO ではファームウェア 2.1.0 以降",
+      "status": "推測",
+      "note": "cutline の deviceProfiles と説明書"
+    }
+  ]
+}

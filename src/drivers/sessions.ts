@@ -4,6 +4,7 @@ import { printable, unescapeText, utf8Encode } from './bytes';
 import { applyDerive, ReceiveParser, renderTemplate, type Values } from './engine';
 import type { DriverDefinition } from './types';
 import { AtemSession } from './atem';
+import { OseeSession } from './osee';
 
 /**
  * 接続ごとの通信手順（SPEC 7 章）。DeviceManager が TCP/UDP の口を開き、その上でこれが動く。
@@ -439,5 +440,6 @@ export class RolandLanSession implements Session {
 export function createSession(io: SessionIO): Session {
   if (io.def.session === 'roland-lan') return new RolandLanSession(io);
   if (io.def.session === 'atem') return new AtemSession(io);
+  if (io.def.session === 'osee') return new OseeSession(io);
   return new RawSession(io);
 }

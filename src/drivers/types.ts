@@ -127,8 +127,9 @@ export interface DriverDefinition {
    * アプリに組み込んだ通信手順の名前（定義では表せない認証・区切り・ack 待ちをする）。
    * roland-lan：Roland の LAN 制御（パスワード認証、`;` 区切り、ack 待ち、DTH を addr_XXXXXX の変数へ展開）
    * atem：Blackmagic ATEM（UDP 9910。接続の手順・ack・コマンドの組み立てと解析。動作は builtin の名前で指定）
+   * osee：OSEE GoStream シリーズ（TCP 19010。JSON の命令に枠と CRC を付ける。受信の JSON を変数へ。動作は JSON を 1 行に 1 つ）
    */
-  session?: 'roland-lan' | 'atem';
+  session?: 'roland-lan' | 'atem' | 'osee';
   /** WebSocket の時の URL のパス（ws://ホスト:ポート の後ろ。例 /api/ws） */
   wsPath?: string;
   /** Roland の SysEx 機種 ID（16 進を空白区切り）。あれば設定「接続」で USB / Bluetooth MIDI も選べる */
