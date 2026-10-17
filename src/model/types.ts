@@ -150,11 +150,11 @@ export interface ShowSettings {
   keepAwake: 'showModeOnly' | 'always';
   /** 本番でボタンの上からもスワイプで切替（SPEC 3.5、既定 false） */
   showModeSwipe: boolean;
-  /** USB ボタン盤（SPEC 2.5、iPad のみ）。無ければ既定（src/engine/panel.ts の DEFAULT_USB_PANEL） */
+  /** Stream Deck（SPEC 2.5、iPad のみ）。無ければ既定（src/engine/panel.ts の DEFAULT_USB_PANEL） */
   usbPanel?: UsbPanelSettings;
 }
 
-/** USB ボタン盤の設定（SPEC 2.5） */
+/** Stream Deckの設定（SPEC 2.5） */
 export interface UsbPanelSettings {
   /** 'follow' = iPad と同じページ、数字 = 決まったページ */
   page: 'follow' | number;

@@ -20,7 +20,7 @@ import { pressDown, pressUp } from './press';
 import { log } from '@/stores/log';
 
 /**
- * USB ボタン盤（SPEC 2.5）。iPad のボタンの一部を、つないだボタン盤のキーにそのまま出し、キーの押下をボタンの押下にする。
+ * Stream Deck（SPEC 2.5）。iPad のボタンの一部を、つないだボタン盤のキーにそのまま出し、キーの押下をボタンの押下にする。
  * - 表示するページ：iPad と同じ（既定）／決まったページ。範囲：盤の何行目何列目からキーの数だけ
  * - 押せるのは本番画面、または「編集中も押せる」がオンの時
  * - 変わったキーだけネイティブで描き直す（ネイティブ側で同じ内容は送らない）
@@ -223,7 +223,7 @@ export class PanelController {
       native.addListener('onPanelsChanged', ({ panels }) => {
         this.gotEvent = true;
         usePanelStore.getState().setPanels(panels);
-        for (const p of panels) log('info', 'USB ボタン盤', `つながりました（${p.keyCount} キー・${p.columns} × ${p.rows}）`);
+        for (const p of panels) log('info', 'Stream Deck', `つながりました（${p.keyCount} キー・${p.columns} × ${p.rows}）`);
         if (panels.length === 0) this.releaseHeld();
         this.lastBrightness = {};
         this.schedule();
@@ -231,7 +231,7 @@ export class PanelController {
       native.addListener('onKey', ({ id, index, pressed }) => this.onKey(id, index, pressed)),
       native.addListener('onPanelError', (e) => {
         usePanelStore.getState().setError(e);
-        log('warn', 'USB ボタン盤', e.message);
+        log('warn', 'Stream Deck', e.message);
       }),
     );
     this.unsubs.push(
@@ -268,7 +268,7 @@ export class PanelController {
         if (!this.gotEvent) usePanelStore.getState().setPanels(panels);
         this.schedule();
       })
-      .catch((e: unknown) => log('warn', 'USB ボタン盤', `探せません：${e instanceof Error ? e.message : String(e)}`));
+      .catch((e: unknown) => log('warn', 'Stream Deck', `探せません：${e instanceof Error ? e.message : String(e)}`));
     this.updateClock();
   }
 
@@ -358,7 +358,7 @@ export class PanelController {
         void native.setBrightness(panel.id, settings.brightness);
       }
       void native.setKeys(panel.id, buildKeys(panel, settings, input)).catch((e: unknown) => {
-        log('warn', 'USB ボタン盤', `キーの表示を送れません：${e instanceof Error ? e.message : String(e)}`);
+        log('warn', 'Stream Deck', `キーの表示を送れません：${e instanceof Error ? e.message : String(e)}`);
       });
     }
   }

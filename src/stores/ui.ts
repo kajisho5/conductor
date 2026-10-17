@@ -26,7 +26,7 @@ interface UiState {
   presetDeviceId: string | null;
   /** compact の編集シートを開く直前のショー（［キャンセル］でここへ戻す） */
   sheetSnapshot: Show | null;
-  /** 本番画面を表示中（USB ボタン盤の「編集中も押せる」の判断に使う） */
+  /** 本番画面を表示中（Stream Deckの「編集中も押せる」の判断に使う） */
   inShowMode: boolean;
 
   select: (ref: CellRef | null) => void;

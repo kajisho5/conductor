@@ -14,7 +14,7 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 ## 決まっていること（オーナー合意）
 - 作る：ボタン（ページ・ボタン編集・プリセット）／本番画面／機器／トリガー／変数（自分で作る・式・内部・機器）／画像／設定（書き出し・読み込み、ログ、グリッド、スリープ防止）
 - 作らない：Remote、Protocols（外部から操作される API）、Modules 画面、Action Recorder、日の出/日の入りイベント、HTTPS、利用統計
-- 物理ボタン盤の代わりに iPhone / iPad の画面そのものにボタンを並べる。加えて iPad（M1 以降・USB-C）では USB ボタン盤のキーにもボタンを出す（2026-10-17 オーナー指示・承認済、SPEC 2.5。`modules/conductor-panel` ＋ `src/engine/panel.ts`。実機未確認）
+- 物理ボタン盤の代わりに iPhone / iPad の画面そのものにボタンを並べる。加えて iPad（M1 以降・USB-C）では Stream Deck のキーにもボタンを出す（2026-10-17 オーナー指示・承認済、SPEC 2.5。`modules/conductor-panel` ＋ `src/engine/panel.ts`。実機未確認）
 - ボタンを押したことが一目で分かる表現にする（押下中・送信成功・失敗の区別）
 - ドライバは JSON の定義として GitHub / Cloudflare から更新できるようにする。コード（JS・Swift）は配らない（SPEC 7.1）
 
@@ -32,7 +32,8 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 - 根拠のない値は【推測】【不明】と明記し、診断画面とログで実機確認できるようにする
 
 ## 名前・素材
-- Bitfocus / Companion / Elgato / Stream Deck の名前・ロゴ・画像を UI・ストア・コードの表示文字列に使わない。各メーカーのロゴも使わない
+- Bitfocus / Companion / Elgato の名前・ロゴ・画像を UI・ストア・コードの表示文字列に使わない。各メーカーのロゴも使わない
+- 例外：「Stream Deck」の名前だけは UI に使う（2026-10-17 オーナー指示。対応機器の名前として。ロゴ・製品画像は使わない）
 - UI 用語は docs/SPEC.md の用語表に従う（ボタン / 本番 / 機器 / トリガー / 変数 / 画像 / 設定）
 - サンプル・テスト・モックに実在の社名・人名・会場名を使わない（`DEMO-SW-A`、`DEMO-MIXER` 等）
 

@@ -7,7 +7,7 @@ import UIKit
 /// kIOReturnNotPermitted（iokit_common_err(0x2e2)）。C のマクロは Swift に入らないので値で持つ
 let panelIOReturnNotPermitted = IOReturn(bitPattern: 0xE000_02E2)
 
-/// USB ボタン盤（SPEC 2.5）。メーカーの DriverKit ドライバ（「StreamDeckDriver」という名前の IOService）に IOKit でつなぎ、
+/// Stream Deck（SPEC 2.5）。メーカーの DriverKit ドライバ（「StreamDeckDriver」という名前の IOService）に IOKit でつなぎ、
 /// キーの絵を送り、キーの押下を受け取る。ドライバとのやりとりの形は PanelDriverShared.h（MIT の公開 OSS、streamdeck-kit-ipad より）。
 /// 手順は公開 OSS の StreamDeckClient / InternalStreamDeckSession と同じ：
 ///   IOServiceOpen → getDriverVersion（major 1）→ getDeviceInfo / getDeviceCapabilities → subscribeToKeyActions（非同期）

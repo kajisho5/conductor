@@ -184,7 +184,7 @@
     "version": "",
     "license": "MIT",
     "use": "アプリに入っている",
-    "notice": "Copyright (c) 2023 Corsair Memory Inc.（USB ボタン盤のドライバとやりとりする定義）"
+    "notice": "Copyright (c) 2023 Corsair Memory Inc.（Stream Deckのドライバとやりとりする定義）"
   },
   {
     "name": "atem-connection",

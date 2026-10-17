@@ -1,13 +1,13 @@
 import { requireOptionalNativeModule, type EventSubscription, type NativeModule } from 'expo-modules-core';
 
 /**
- * conductor-panel の JS インターフェース（SPEC 2.5 USB ボタン盤）。ネイティブ（Swift / IOKit）は ios/ 配下。
+ * conductor-panel の JS インターフェース（SPEC 2.5 Stream Deck）。ネイティブ（Swift / IOKit）は ios/ 配下。
  * jest・Android・iPhone ではモジュールが無いか isSupported() が false。
  */
 
 export interface PanelInfo {
   id: string;
-  /** 機種名（ドライバが返す名前。UI には出さず「USB ボタン盤」と書く） */
+  /** 機種名（ドライバが返す名前） */
   product: string;
   keyCount: number;
   rows: number;

@@ -8,7 +8,7 @@ import { AppText } from '@/components/ui/AppText';
 import { IconButton } from '@/components/ui/Buttons';
 import { Row, Section, SwitchRow } from '@/components/ui/Group';
 
-/** 設定 > USB ボタン盤（SPEC 2.5、docs/design 12-ipad-usb-panel） */
+/** 設定 > Stream Deck（SPEC 2.5、docs/design 12-ipad-usb-panel） */
 
 /** メーカーの開発者資料の「はじめに」（SPEC 2.5 の根拠と同じページ） */
 const HELP_URL = 'https://docs.elgato.com/ipad/getting-started';
@@ -74,10 +74,10 @@ export default function UsbPanelScreen() {
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={{ padding: 16, paddingBottom: 48 }}>
       <Section
-        title="つないでいるボタン盤"
+        title="つないでいる Stream Deck"
         footer={
           error?.kind === 'entitlement'
-            ? 'このアプリにボタン盤を使う許可がありません。開発元にお知らせください。'
+            ? 'このアプリに Stream Deck を使う許可がありません。開発元にお知らせください。'
             : panels.length === 0
               ? 'USB-C でつなぐと、ここに出ます。出ない時は、メーカーの接続アプリを入れて iPad の設定でドライバをオンにしてください。'
               : undefined

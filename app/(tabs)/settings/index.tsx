@@ -111,7 +111,7 @@ export default function SettingsScreen() {
       {panelSupported ? (
         <Section>
           <Row
-            title="USB ボタン盤"
+            title="Stream Deck"
             icon="keyboard"
             value={panelCount > 0 ? '接続中' : 'つながっていません'}
             chevron

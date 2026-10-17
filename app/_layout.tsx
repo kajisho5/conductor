@@ -40,7 +40,7 @@ function useBootstrap(): string | null {
       useRuntimeStore.getState().setCustomValues(loadState(show.id));
       initDevices(show);
       triggerEngine.start(show);
-      // USB ボタン盤（iPad のみ。SPEC 2.5）
+      // Stream Deck（iPad のみ。SPEC 2.5）
       panelController.start();
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));

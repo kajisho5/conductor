@@ -749,7 +749,7 @@ def ipad_settings():
             {"icon": ("grid", B["neutral"]), "t": "ボタンの上でもスワイプで切替", "sw": False},
             {"icon": ("wave", B["teal"]), "t": "押した時の振動", "sw": True},
             {"icon": ("sun", B["orange"]), "t": "画面スリープ防止", "r": "本番中だけ", "chev": True},
-            {"icon": ("grid", B["indigo"]), "t": "USB ボタン盤", "r": "接続中", "rc": C["green"], "chev": True},
+            {"icon": ("grid", B["indigo"]), "t": "Stream Deck", "r": "接続中", "rc": C["green"], "chev": True},
         ]},
     ], sec_gap=24)
     s += g
@@ -780,10 +780,10 @@ def ipad_settings():
 
 
 # ---------------------------------------------------------------------------
-# iPad: 設定 > USB ボタン盤（M1 以降・USB-C の iPad だけ）
+# iPad: 設定 > Stream Deck（M1 以降・USB-C の iPad だけ。SPEC 2.5・2.5.1）
 # ---------------------------------------------------------------------------
 def usb_panel(x, y, cols, rows, key, gap, cells, title):
-    """つないだボタン盤の図。cells[r][c] = tile の引数（dict）または None"""
+    """つないだ Stream Deck の図。cells[r][c] = tile の引数（dict）または None"""
     pad = 22
     w = cols * key + (cols - 1) * gap + pad * 2
     h = rows * key + (rows - 1) * gap + pad * 2
@@ -801,59 +801,105 @@ def usb_panel(x, y, cols, rows, key, gap, cells, title):
     return out, w, h
 
 
-def ipad_usb_panel():
+# Stream Deck の機種（SPEC 2.5.1。値は StreamDeckKit（MIT）の機種表）
+SD_MODELS = [
+    ("Stream Deck Mini", 6, 3, 2, ""),
+    ("Stream Deck MK.2", 15, 5, 3, ""),
+    ("Stream Deck Neo", 8, 4, 2, "タッチキーは使いません"),
+    ("Stream Deck +", 8, 4, 2, "ダイヤルは使いません"),
+    ("Stream Deck XL", 32, 8, 4, ""),
+    ("Stream Deck + XL", 36, 9, 4, "ダイヤルは使いません"),
+    ("Stream Deck Pedal", 3, 3, 1, "絵は出ません"),
+]
+
+
+def model_glyph(x, y, cols, rows, color=None):
+    """機種の形の小さな図（40×28 に収める）"""
+    color = color or C["label2"]
+    gw, gh = 40, 28
+    cell = min((gw - (cols - 1) * 2) / cols, (gh - (rows - 1) * 2) / rows)
+    ox = x + (gw - (cols * cell + (cols - 1) * 2)) / 2
+    oy = y + (gh - (rows * cell + (rows - 1) * 2)) / 2
+    out = R(x - 4, y - 4, gw + 8, gh + 8, C["fill3"], r=7)
+    for r_ in range(rows):
+        for c in range(cols):
+            out += R(ox + c * (cell + 2), oy + r_ * (cell + 2), cell, cell, color, r=1.5)
+    return out
+
+
+def stream_deck_left(sel=0):
+    """左：登録した Stream Deck の一覧"""
     s = sidebar("settings")
     s += L(SB, 0, SB, IH, C["sep"], 0.7)
-    x0 = SB + 24
-    s += T(x0, 72, "‹ 設定", 17, 400, C["blue"])
-    s += T(x0, 118, "USB ボタン盤", 34, 700)
-    col_w = 470
-    g, y = glist(x0, 140, col_w, [
-        {"header": "つないでいるボタン盤", "rows": [
-            {"dot": "ok", "t": "15 キー（5 × 3）", "s": "接続中・USB-C", "h": 60},
-        ], "footer": None},
-        {"header": "表示", "rows": [
-            {"icon": ("grid", B["neutral"]), "t": "表示するページ", "r": "iPad と同じ", "chev": True},
-            {"icon": ("grid", B["neutral"]), "t": "表示する範囲", "r": "1 行目 1 列目から", "chev": True},
-            {"icon": ("sun", B["orange"]), "t": "明るさ", "r": "70%", "chev": True},
+    x0, lw = SB + 20, 380
+    s += T(x0, 50, "‹ 設定", 17, 400, C["blue"])
+    s += T(x0, 100, "Stream Deck", 34, 700)
+    # 登録していない機種がつながった時の帯
+    s += R(x0, 124, lw, 76, C["bg2"], r=12, stroke=C["orange"], sw=1.5)
+    s += status_dot(x0 + 20, 148, "warn", 5)
+    s += T(x0 + 36, 153, "登録していない Stream Deck", 15, 600)
+    s += T(x0 + 36, 176, "XL（32 キー）がつながっています", 13, 400, C["label2"])
+    s += R(x0 + lw - 76, 140, 62, 32, C["blue"], r=16) + T(x0 + lw - 45, 161, "登録", 15, 600, "#FFFFFF", "middle")
+    g, y = glist(x0, 220, lw, [
+        {"header": "登録した Stream Deck", "rows": [
+            {"dot": "ok", "t": "Stream Deck MK.2", "s": "15 キー（5 × 3）・接続中", "h": 60, "sel": sel == 0, "chev": True},
+            {"dot": "off", "t": "Stream Deck Mini", "s": "6 キー（3 × 2）・つながっていません", "h": 60, "sel": sel == 1, "chev": True},
+            {"t": "Stream Deck を追加", "tc": C["blue"]},
+        ], "footer": ["左にスワイプで削除"]},
+        {"header": "全体", "rows": [
             {"icon": ("lock", B["neutral"]), "t": "編集中も押せる", "sw": True},
-        ]},
+        ], "footer": ["オフにすると本番画面の時だけキーで押せます"]},
         {"header": "準備", "rows": [
             {"icon": ("info", B["neutral"]), "t": "メーカーの接続アプリ", "r": "入っています", "rc": C["green"]},
             {"icon": ("info", B["blue"]), "t": "使い方を見る", "chev": True},
-        ]},
-    ], sec_gap=24)
+        ], "footer": ["M1 以降・USB-C の iPad で使えます", "接続アプリを入れ、iPad の設定でドライバをオンにします"]},
+    ], sec_gap=22)
     s += g
-    notes = [
-        "キーには、iPad のボタンと同じ文字・色・画像・状態表示が出ます。",
-        "文字や色は、いつものボタン編集で変えるとすぐキーにも出ます。",
-        "M1 以降のチップで USB-C の iPad だけで使えます。",
-        "メーカーの接続アプリを入れ、iPad の設定でドライバをオンにします。",
-    ]
-    for i, n in enumerate(notes):
-        s += T(x0 + 16, y + 8 + i * 22, n, 13, 400, C["label2"])
-    # 右：対応の図（iPad の盤の範囲 → ボタン盤のキー）
-    rx = x0 + col_w + 40
-    s += T(rx, 140, "iPad のボタン（ページ 1「本番」）", 15, 600, C["label2"])
+    s += L(x0 + lw + 20, 0, x0 + lw + 20, IH, C["sep"], 0.7)
+    return s, x0 + lw + 44
+
+
+def ipad_stream_deck():
+    s, rx = stream_deck_left(0)
+    rw = IW - rx - 24
+    s += T(rx, 50, "Stream Deck MK.2", 17, 600)
+    g, y = glist(rx, 76, rw, [
+        {"rows": [
+            {"t": "名前", "r": "Stream Deck MK.2"},
+            {"t": "機種", "r": "MK.2（15 キー・5 × 3）", "chev": True},
+            {"t": "状態", "r": "接続中・USB-C", "rc": C["green"]},
+        ]},
+        {"header": "表示", "rows": [
+            {"t": "表示するページ", "r": "iPad と同じ", "chev": True},
+            {"t": "何行目から", "seg": (["−", "1", "＋"], 1, 120)},
+            {"t": "何列目から", "seg": (["−", "1", "＋"], 1, 120)},
+            {"t": "明るさ", "r": "70%", "chev": True},
+        ]},
+    ], sec_gap=18)
+    s += g
+    # 図：iPad の盤（8 × 4）と範囲 → 機種の形のキー
+    s += T(rx, y + 4, "iPad のボタン（ページ 1「本番」）", 13, 600, C["label2"])
+    s += T(rx + rw, y + 4, "青い枠＝キーに出す範囲", 13, 600, C["blue"], "end")
     spec = page_spec()
-    cw, ch, gp = 60, 60, 8
+    cw = ch = 46
+    gp = 6
+    gy = y + 16
+    gx = rx + (rw - (8 * cw + 7 * gp)) / 2
     for r_ in range(4):
         for c in range(8):
             cell = spec[r_][c]
-            tx_, ty_ = rx + c * (cw + gp), 176 + r_ * (ch + gp)
+            tx_, ty_ = gx + c * (cw + gp), gy + r_ * (ch + gp)
             if cell:
                 cell = dict(cell)
                 cell.pop("state", None)
-                s += tile(tx_, ty_, cw, ch, r=8, fs=11, **cell)
+                s += tile(tx_, ty_, cw, ch, r=7, fs=9, **cell)
             else:
-                s += R(tx_, ty_, cw, ch, C["bg2"], r=8)
-    # 範囲の枠（5 × 3）
-    s += R(rx - 5, 171, 5 * (cw + gp) + 2, 3 * (ch + gp) + 2, "none", r=12, stroke=C["blue"], sw=3)
-    s += T(rx + 5 * (cw + gp) - 8, 160, "青い枠＝キーに出す範囲", 13, 600, C["blue"], "end")
-    # 矢印
-    ay = 176 + 4 * (ch + gp) + 14
-    s += L(rx + 170, ay, rx + 170, ay + 40, C["blue"], 3)
-    s += f'<path d="M {rx + 162} {ay + 32} L {rx + 170} {ay + 44} L {rx + 178} {ay + 32}" fill="none" stroke="{C["blue"]}" stroke-width="3"/>'
+                s += R(tx_, ty_, cw, ch, C["bg2"], r=7)
+    s += R(gx - 4, gy - 4, 5 * (cw + gp) + 2, 3 * (ch + gp) + 2, "none", r=10, stroke=C["blue"], sw=3)
+    ay = gy + 4 * (ch + gp) + 6
+    mx = gx + 5 * (cw + gp) / 2
+    s += L(mx, ay, mx, ay + 26, C["blue"], 3)
+    s += f'<path d="M {mx - 8} {ay + 18} L {mx} {ay + 30} L {mx + 8} {ay + 18}" fill="none" stroke="{C["blue"]}" stroke-width="3"/>'
     cells = []
     for r_ in range(3):
         row = []
@@ -866,8 +912,38 @@ def ipad_usb_panel():
         cells.append(row)
     cells[1][2] = dict(cells[1][2], state="pressing")
     cells[2][1] = dict(cells[2][1], state="sent")
-    g2, pw_, ph_ = usb_panel(rx + 10, ay + 60, 5, 3, 64, 12, cells, "つないだボタン盤（押している・送れた の表示も同じ）")
+    pw_ = 5 * 50 + 4 * 9 + 44
+    g2, _, _ = usb_panel(rx + (rw - pw_) / 2, ay + 40, 5, 3, 50, 9, cells, "Stream Deck MK.2（押している・送れた の表示も同じ）")
     s += g2
+    return ipad_frame_common(s)
+
+
+def ipad_stream_deck_add():
+    s, rx = stream_deck_left(-1)
+    # 暗くしてシート
+    s += R(0, 0, IW, IH, "rgba(0,0,0,0.45)")
+    sw_, sh_ = 560, 700
+    sx, sy = (IW - sw_) / 2, (IH - sh_) / 2
+    s += R(sx, sy, sw_, sh_, "#1C1C1E", r=16)  # シート（ダークの elevated 背景）
+    s += T(sx + 20, sy + 38, "キャンセル", 17, 400, C["blue"])
+    s += T(sx + sw_ / 2, sy + 38, "機種を選ぶ", 17, 600, anchor="middle")
+    s += T(sx + 20, sy + 82, "使う Stream Deck の機種を選ぶと、キーの数と並びが決まります。", 13, 400, C["label2"])
+    ly = sy + 100
+    rh = 62
+    s += R(sx + 16, ly, sw_ - 32, rh * len(SD_MODELS), "#2C2C2E", r=12)
+    for i, (name, keys, cols, rows, note) in enumerate(SD_MODELS):
+        cy = ly + i * rh
+        s += model_glyph(sx + 34, cy + 17, cols, rows, C["blue"] if i == 4 else C["label2"])
+        s += T(sx + 96, cy + 27, name, 17, 400)
+        sub = f"{keys} キー（{cols} × {rows}）" + (f"・{note}" if note else "")
+        s += T(sx + 96, cy + 48, sub, 13, 400, C["label2"])
+        if i == 4:
+            s += icon("check", sx + sw_ - 52, cy + rh / 2 - 9, 18, C["blue"], 2.6)
+        if i < len(SD_MODELS) - 1:
+            s += L(sx + 96, cy + rh, sx + sw_ - 16, cy + rh, C["sep"], 0.7)
+    fy = ly + rh * len(SD_MODELS) + 24
+    s += T(sx + 32, fy, "モジュール版・Scissor Keys は同じ形の機種を選びます。", 12, 400, C["label2"])
+    s += T(sx + 32, fy + 18, "つないだ時は製品番号で機種を確かめます（違えば登録していない扱い）。", 12, 400, C["label2"])
     return ipad_frame_common(s)
 
 
@@ -1226,10 +1302,13 @@ FILES = {
     "08-ipad-triggers.svg": lambda: ipad_doc(ipad_triggers, "iPad / トリガー", "きっかけ（どれか）→ 条件（すべて）→ 動作"),
     "09-ipad-variables.svg": lambda: ipad_doc(ipad_variables, "iPad / 変数", "自分で作る・式・内部・機器 を切り替え"),
     "10-ipad-images.svg": lambda: ipad_doc(ipad_images, "iPad / 画像", "ボタンで使う画像の一覧と詳細"),
-    "11-ipad-settings.svg": lambda: ipad_doc(ipad_settings, "iPad / 設定", "ショー・書き出し/読み込み・ボタン・本番・USB ボタン盤・ログ"),
-    "12-ipad-usb-panel.svg": lambda: ipad_doc(ipad_usb_panel, "iPad / 設定：USB ボタン盤",
-                                              "USB-C でつないだボタン盤のキーに、iPad のボタンの一部をそのまま出す。文字・色・画像はボタン編集で変えるとキーにも出る",
-                                              ["M1 以降・USB-C の iPad だけ（それ以外の iPad と iPhone では設定に出さない）。メーカーの接続アプリとドライバが必要"]),
+    "11-ipad-settings.svg": lambda: ipad_doc(ipad_settings, "iPad / 設定", "ショー・書き出し/読み込み・ボタン・本番・Stream Deck・ログ"),
+    "12-ipad-stream-deck.svg": lambda: ipad_doc(ipad_stream_deck, "iPad / 設定：Stream Deck",
+                                                "登録した機種（キーの数・並び）で、iPad のボタンの範囲をキーに出す。文字・色・画像はボタン編集で変えるとキーにも出る",
+                                                ["M1 以降・USB-C の iPad だけ（それ以外の iPad と iPhone では設定に出さない）。メーカーの接続アプリとドライバが必要",
+                                                 "登録していない機種がつながると、上に［登録］を出す（登録するまでキーは黒）"]),
+    "13-ipad-stream-deck-add.svg": lambda: ipad_doc(ipad_stream_deck_add, "iPad / 設定：Stream Deck を追加（機種を選ぶ）",
+                                                    "機種を選ぶとキーの数と並びが決まる。一覧の値は StreamDeckKit（MIT）の機種表"),
     "20-iphone-buttons.svg": lambda: phones_doc([
         (iphone_buttons, PW, PH, "ボタン（盤）"),
         (iphone_edit_action, PW, PH, "ボタンを編集：動作"),

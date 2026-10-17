@@ -77,11 +77,11 @@
 
 ### 2.2 作らないもの（オーナー判断）
 
-~~外部コントローラ（USB ボタン盤・Stream Deck 等）~~ → 2026-10-17 オーナー指示で iPad の USB ボタン盤だけ作る（2.5）。Remote（ネットワーク越しのボタン盤）、Protocols（外部から操作を受ける TCP/UDP/HTTP/OSC/RossTalk/Ember+/Art-Net/Satellite API）、Modules 画面、Action Recorder、日の出・日の入り／PC のロックのきっかけ、HTTPS、利用統計。
+~~外部コントローラ（Stream Deck・Stream Deck 等）~~ → 2026-10-17 オーナー指示で iPad の Stream Deck だけ作る（2.5）。Remote（ネットワーク越しのボタン盤）、Protocols（外部から操作を受ける TCP/UDP/HTTP/OSC/RossTalk/Ember+/Art-Net/Satellite API）、Modules 画面、Action Recorder、日の出・日の入り／PC のロックのきっかけ、HTTPS、利用統計。
 
-### 2.5 USB ボタン盤（iPad・オーナー指示 2026-10-17、承認済・実装 0.6.0）
+### 2.5 Stream Deck（iPad・オーナー指示 2026-10-17、承認済・実装 0.6.0。2.5.1 の登録は確認待ち）
 
-- **何をするか**：USB-C でつないだボタン盤（メーカー製の物理キー）のキーに、iPad のボタンの一部をそのまま出す。キーを押すと、そのボタンを押したのと同じ動き（押した時・離した時・長押し・ステップ）。デザイン `docs/design/12-ipad-usb-panel.svg`
+- **何をするか**：USB-C でつないだボタン盤（メーカー製の物理キー）のキーに、iPad のボタンの一部をそのまま出す。キーを押すと、そのボタンを押したのと同じ動き（押した時・離した時・長押し・ステップ）。デザイン `docs/design/12-ipad-stream-deck.svg`
 - **文字・色・画像**：キー専用の編集画面は作らない。いつものボタン編集（見た目タブ）で文字・色・画像を変えると、すぐキーにも出る（オーナー要望「ボタンの文字もアプリから編集」）。変数入りの文字・状態表示・押下表現（押している／送れた／送れなかった）もキーに同じく出す
 - **どのボタンを出すか**：設定「表示するページ」＝ iPad と同じ（既定・本番でページを変えるとキーも変わる）／決まったページ。「表示する範囲」＝ 盤の何行目何列目からキーの数だけ（例 5 × 3 なら左上 5 列 3 行）。範囲の外は出さない
 - **いつ動くか**：本番画面で押せる。「編集中も押せる」がオンならボタン画面でも押せる（既定オン）。アプリが前面にある間だけ（11 章）
@@ -90,10 +90,35 @@
 - **対象のキー**：キーだけ（第 1 段階）。ダイヤル・タッチ帯・タッチキーは対象外（後で）。キー数は機種から自動
 - **実装**：Expo Modules API の Swift モジュール `modules/conductor-panel`。メーカー公開の StreamDeckKit（MIT）【確認済：github.com/elgatosf/streamdeck-kit-ipad】は Swift Package で CocoaPods に入れにくいので、ドライバとやりとりする定義のヘッダ（StreamDeckDriverShared.h、MIT の表示を残して `PanelDriverShared.h`）だけを入れ、IOKit で直接つなぐ（手順は StreamDeckKit と同じ：`IOServiceNameMatching("StreamDeckDriver")` → `IOServiceOpen` → ドライバの版（major 1）→ 機器情報・キー数 → キー押下の購読）。キーの絵は UIKit で描く（背景色・画像・文字・押下の枠・未接続の暗さ）。機器の向きは capabilities の transform をかけ、JPEG（または BMP）で送る。JS へはキーの押下・離しのイベント、JS からはキーごとの表示内容（文字・色・画像の場所・状態）を送る。変わったキーだけ送る
 - **制御（`src/engine/panel.ts`）**：押下表現は 押している（白枠）／送れた（0.35 秒の薄い枠）／送れなかった（橙枠と ⚠、次に送れるまで）。押したキーは離すまで同じボタンを持つ（途中でページが変わっても離す）。アプリが裏に回る・盤を外すと押したままのボタンを離す。時計の変数を使うボタンがある時だけ 1 秒ごとに描き直す
-- **設定の保存**：ショーの設定 `settings.usbPanel`（page 'follow' か番号・row・col（1 始まり）・brightness・editPress）。無い時は既定（iPad と同じ・1 行目 1 列目・70%・オン）
+- **設定の保存**：ショーの設定 `settings.usbPanel`（page 'follow' か番号・row・col（1 始まり）・brightness・editPress）。無い時は既定（iPad と同じ・1 行目 1 列目・70%・オン）（2.5.1 の登録が入ったら `settings.streamDecks` に移す。古い `usbPanel` は読み込み時に 1 台目の設定として引き継ぐ）
 - **権限**：アプリに「Communicates with Drivers」（`com.apple.developer.driverkit.communicates-with-drivers`）を付ける。Apple Developer の App ID でこの機能を有効にする作業がオーナー側で要る【推測：TestFlight 配布の署名に必要】。`LSApplicationQueriesSchemes` に `elgato-device-driver`
-- **表示の名前**：UI では「USB ボタン盤」「メーカーの接続アプリ」と書き、製品名・メーカー名・ロゴは出さない（名前・素材の決まり）。ライセンス画面には StreamDeckKit（MIT）を載せる
+- **表示の名前**：UI では「Stream Deck」と書く（2026-10-17 オーナー指示で名前は解禁。ロゴ・製品画像は使わない）。接続アプリは「メーカーの接続アプリ」。ライセンス画面には StreamDeckKit（MIT）を載せる。ストア審査で他社商標の扱い（App Review Guidelines 5.2.1）を指摘される可能性あり【推測】→ 説明文は「Stream Deck に対応」のような対応表記にとどめる
 - **不明・要確認**：実機（ボタン盤・M1 iPad）での動作は未確認【不明】。ドライバの版が 1 以外なら「対応していません」と出してつながない。他社アプリでの利用条件はメーカー資料に書かれていない【不明】（リポジトリは MIT）
+
+#### 2.5.1 Stream Deck の登録（機種を選ぶ・オーナー指示 2026-10-17、確認待ち）
+
+- **何をするか**：設定 > Stream Deck で「どの機種を使うか」を登録する。登録した機種でキーの数・並び（列 × 行）が決まり、その形で iPad のボタンの範囲を出す。つなぐ前から範囲を決められ、図で確かめられる。デザイン `docs/design/12-ipad-stream-deck.svg`・`13-ipad-stream-deck-add.svg`
+- **機種の一覧**（キーの数・並び・キーの絵の大きさは StreamDeckKit（MIT）の機種表【確認済：github.com/elgatosf/streamdeck-kit-ipad の StreamDeckProduct・Simulator の値】。実機は未確認）
+
+| 機種（表示名） | キー | 並び | キーの絵 | 対象外（後で） | 同じ扱いの機種 |
+|---|---|---|---|---|---|
+| Stream Deck Mini | 6 | 3 × 2 | 80px | — | Mini（2022）・Mini モジュール |
+| Stream Deck MK.2 | 15 | 5 × 3 | 72px | — | 初代・2019・Scissor Keys・MK.2 モジュール |
+| Stream Deck Neo | 8 | 4 × 2 | 96px | タッチキー 2・情報表示 | — |
+| Stream Deck + | 8 | 4 × 2 | 120px | ダイヤル 4・タッチ帯 | — |
+| Stream Deck XL | 32 | 8 × 4 | 96px | — | XL（2022）・XL モジュール |
+| Stream Deck + XL | 36 | 9 × 4 | 112px | ダイヤル 6・タッチ帯 | — |
+| Stream Deck Pedal | 3 | 3 × 1 | 絵なし | — | — |
+
+- **登録の項目**（1 台ごと）：名前（既定は機種名、例「Stream Deck MK.2」。2 台目以降は「… 2」）／機種／表示するページ（iPad と同じ・決まったページ）／表示する範囲（何行目・何列目から）／明るさ。「編集中も押せる」は全体で 1 つ
+- **つないだ時の対応**：ドライバが返す製品番号（productID）から機種を決め、同じ機種で登録したものに結びつける（初めてつないだ時にシリアル番号を覚え、次からはシリアルで結ぶ）。同じ機種を 2 台登録している時は、シリアルを覚えていない方に先に結ぶ
+- **登録していない機種をつないだ時**：一覧の上に「登録していない Stream Deck がつながっています（Stream Deck XL）」と［登録］を出す。押すと機種が入った状態で追加する。登録するまでキーには何も出さない（黒）
+- **登録した機種と違う形の時**（例：MK.2 で登録して Mini をつないだ）：結びつけず、上と同じ「登録していない」扱い
+- **ペダル**：絵は送らない（押す・離すだけ）。範囲は 3 × 1
+- **一覧の表示**：各行に 名前・機種（キー数）・状態（接続中＝緑の点／つながっていません＝灰）。行を押すとその台の設定。左にスワイプで削除（確認あり）
+- **台の設定画面の図**：iPad のボタン盤に範囲の青い枠、その下に機種の形のキー（押下表現も同じ）。範囲の行・列を変えると枠が動く
+- **保存**：ショーの設定 `settings.streamDecks: { id, name, model, serial?, page, row, col, brightness }[]` と `settings.streamDeckEditPress`
+- **不明・要確認**：ドライバが iPad で Pedal・Neo・+ XL に対応しているか【不明】（StreamDeckKit の機種表には入っている）。Stream Deck Studio などこの表に無い機種は対象外【推測：StreamDeckKit の表に無いため】
 
 ### 2.3 非機能
 

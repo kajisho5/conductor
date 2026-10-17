@@ -52,7 +52,7 @@ function inputs(show: Show, extra?: Partial<KeyInputs>): KeyInputs {
   };
 }
 
-describe('USB ボタン盤：キーとマスの対応（SPEC 2.5）', () => {
+describe('Stream Deck：キーとマスの対応（SPEC 2.5）', () => {
   test('左上から盤のキー数だけ。範囲の外は null', () => {
     const grid = { columns: 8, rows: 4 };
     expect(keyCell(0, PANEL, { row: 1, col: 1 }, grid)).toEqual({ row: 0, col: 0 });
@@ -80,7 +80,7 @@ describe('USB ボタン盤：キーとマスの対応（SPEC 2.5）', () => {
   });
 });
 
-describe('USB ボタン盤：キーの表示', () => {
+describe('Stream Deck：キーの表示', () => {
   test('文字・色・変数・空きマス', () => {
     const s = showWithButtons();
     const keys = buildKeys(PANEL, DEFAULT_USB_PANEL, inputs(s));
@@ -146,7 +146,7 @@ class FakePanel implements ConductorPanel {
   }
 }
 
-describe('USB ボタン盤：制御', () => {
+describe('Stream Deck：制御', () => {
   beforeEach(() => {
     jest.useFakeTimers();
   });
