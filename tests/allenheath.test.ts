@@ -118,3 +118,26 @@ describe('Allen & Heath Qu', () => {
     for (const a of getDefinition('allenheath-qu')!.actions) if (a.id !== 'command') expect(q(a.id)).toMatch(/^[89BCF][0-9A-F]( [0-9A-F]{2})+$/);
   });
 });
+
+describe('Allen & Heath CQ', () => {
+  function c(actionId: string, o: Record<string, string | number> = {}) {
+    const d = getDefinition('allenheath-cq')!;
+    const a = getActionDef('allenheath-cq', actionId)!;
+    const p = buildPayload(d, a, { ...withDefaults(a.options, {}), ...o }, withDefaults(d.configFields, {}));
+    if (p.kind !== 'bytes') throw new Error('bytes ではない');
+    return hex(p.bytes);
+  }
+  it('資料の番号と値', () => {
+    expect(c('mute', { t: String(2 * 128 + 3), on: '01' })).toBe('B0 63 02 B0 62 03 B0 06 00 B0 26 01');
+    expect(c('mute_toggle', { t: String(0x44) })).toBe('B0 63 00 B0 62 44 B0 60 00');
+    expect(c('level_out', { ip: 2, out: 1, v: '12544' })).toBe('B0 63 40 B0 62 50 B0 06 62 B0 26 00');
+    expect(c('level_fx', { ip: 1, fx: 4, v: '16320' })).toBe('B0 63 4C B0 62 17 B0 06 7F B0 26 40');
+    expect(c('master', { t: String(0x4f * 128 + 0x20), v: '0' })).toBe('B0 63 4F B0 62 20 B0 06 00 B0 26 00');
+    expect(c('pan_lr', { ip: 2, pan: 0 })).toBe('B0 63 50 B0 62 01 B0 06 40 B0 26 00');
+    expect(c('pan_lr', { ip: 1, pan: -100 }).endsWith('B0 06 00 B0 26 00')).toBe(true);
+    expect(c('pan_lr', { ip: 1, pan: 100 }).endsWith('B0 06 7F B0 26 7F')).toBe(true);
+    expect(c('scene', { scene: 64 })).toBe('B0 00 00 C0 3F');
+    expect(c('softkey', { key: 2 })).toBe('90 31 7F 80 31 00');
+    for (const a of getDefinition('allenheath-cq')!.actions) if (a.id !== 'command') expect(c(a.id)).toMatch(/^[89BC][0-9A-F]( [0-9A-F]{2})+$/);
+  });
+});

@@ -1,0 +1,1688 @@
+{
+  "format": 1,
+  "id": "allenheath-cq",
+  "name": "Allen & Heath CQ シリーズ",
+  "category": "音響ミキサー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "tcp",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.1.50",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 51325,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "actions": [
+    {
+      "id": "mute",
+      "name": "ミュート",
+      "options": [
+        {
+          "id": "t",
+          "label": "対象",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "入力 1"
+            },
+            {
+              "id": "1",
+              "label": "入力 2"
+            },
+            {
+              "id": "2",
+              "label": "入力 3"
+            },
+            {
+              "id": "3",
+              "label": "入力 4"
+            },
+            {
+              "id": "4",
+              "label": "入力 5"
+            },
+            {
+              "id": "5",
+              "label": "入力 6"
+            },
+            {
+              "id": "6",
+              "label": "入力 7"
+            },
+            {
+              "id": "7",
+              "label": "入力 8"
+            },
+            {
+              "id": "8",
+              "label": "入力 9"
+            },
+            {
+              "id": "9",
+              "label": "入力 10"
+            },
+            {
+              "id": "10",
+              "label": "入力 11"
+            },
+            {
+              "id": "11",
+              "label": "入力 12"
+            },
+            {
+              "id": "12",
+              "label": "入力 13"
+            },
+            {
+              "id": "13",
+              "label": "入力 14"
+            },
+            {
+              "id": "14",
+              "label": "入力 15"
+            },
+            {
+              "id": "15",
+              "label": "入力 16"
+            },
+            {
+              "id": "24",
+              "label": "ステレオ 1"
+            },
+            {
+              "id": "26",
+              "label": "ステレオ 2"
+            },
+            {
+              "id": "28",
+              "label": "USB"
+            },
+            {
+              "id": "30",
+              "label": "Bluetooth"
+            },
+            {
+              "id": "68",
+              "label": "メイン LR"
+            },
+            {
+              "id": "69",
+              "label": "出力 1"
+            },
+            {
+              "id": "70",
+              "label": "出力 2"
+            },
+            {
+              "id": "71",
+              "label": "出力 3"
+            },
+            {
+              "id": "72",
+              "label": "出力 4"
+            },
+            {
+              "id": "73",
+              "label": "出力 5"
+            },
+            {
+              "id": "74",
+              "label": "出力 6"
+            },
+            {
+              "id": "81",
+              "label": "FX 1"
+            },
+            {
+              "id": "82",
+              "label": "FX 2"
+            },
+            {
+              "id": "83",
+              "label": "FX 3"
+            },
+            {
+              "id": "84",
+              "label": "FX 4"
+            },
+            {
+              "id": "256",
+              "label": "DCA 1"
+            },
+            {
+              "id": "257",
+              "label": "DCA 2"
+            },
+            {
+              "id": "258",
+              "label": "DCA 3"
+            },
+            {
+              "id": "259",
+              "label": "DCA 4"
+            },
+            {
+              "id": "512",
+              "label": "ミュートグループ 1"
+            },
+            {
+              "id": "513",
+              "label": "ミュートグループ 2"
+            },
+            {
+              "id": "514",
+              "label": "ミュートグループ 3"
+            },
+            {
+              "id": "515",
+              "label": "ミュートグループ 4"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 06 00 B0 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.t}} {{option.on}}"
+    },
+    {
+      "id": "mute_toggle",
+      "name": "ミュートを切り替え",
+      "options": [
+        {
+          "id": "t",
+          "label": "対象",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "入力 1"
+            },
+            {
+              "id": "1",
+              "label": "入力 2"
+            },
+            {
+              "id": "2",
+              "label": "入力 3"
+            },
+            {
+              "id": "3",
+              "label": "入力 4"
+            },
+            {
+              "id": "4",
+              "label": "入力 5"
+            },
+            {
+              "id": "5",
+              "label": "入力 6"
+            },
+            {
+              "id": "6",
+              "label": "入力 7"
+            },
+            {
+              "id": "7",
+              "label": "入力 8"
+            },
+            {
+              "id": "8",
+              "label": "入力 9"
+            },
+            {
+              "id": "9",
+              "label": "入力 10"
+            },
+            {
+              "id": "10",
+              "label": "入力 11"
+            },
+            {
+              "id": "11",
+              "label": "入力 12"
+            },
+            {
+              "id": "12",
+              "label": "入力 13"
+            },
+            {
+              "id": "13",
+              "label": "入力 14"
+            },
+            {
+              "id": "14",
+              "label": "入力 15"
+            },
+            {
+              "id": "15",
+              "label": "入力 16"
+            },
+            {
+              "id": "24",
+              "label": "ステレオ 1"
+            },
+            {
+              "id": "26",
+              "label": "ステレオ 2"
+            },
+            {
+              "id": "28",
+              "label": "USB"
+            },
+            {
+              "id": "30",
+              "label": "Bluetooth"
+            },
+            {
+              "id": "68",
+              "label": "メイン LR"
+            },
+            {
+              "id": "69",
+              "label": "出力 1"
+            },
+            {
+              "id": "70",
+              "label": "出力 2"
+            },
+            {
+              "id": "71",
+              "label": "出力 3"
+            },
+            {
+              "id": "72",
+              "label": "出力 4"
+            },
+            {
+              "id": "73",
+              "label": "出力 5"
+            },
+            {
+              "id": "74",
+              "label": "出力 6"
+            },
+            {
+              "id": "81",
+              "label": "FX 1"
+            },
+            {
+              "id": "82",
+              "label": "FX 2"
+            },
+            {
+              "id": "83",
+              "label": "FX 3"
+            },
+            {
+              "id": "84",
+              "label": "FX 4"
+            },
+            {
+              "id": "256",
+              "label": "DCA 1"
+            },
+            {
+              "id": "257",
+              "label": "DCA 2"
+            },
+            {
+              "id": "258",
+              "label": "DCA 3"
+            },
+            {
+              "id": "259",
+              "label": "DCA 4"
+            },
+            {
+              "id": "512",
+              "label": "ミュートグループ 1"
+            },
+            {
+              "id": "513",
+              "label": "ミュートグループ 2"
+            },
+            {
+              "id": "514",
+              "label": "ミュートグループ 3"
+            },
+            {
+              "id": "515",
+              "label": "ミュートグループ 4"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 60 00",
+        "encoding": "hex"
+      },
+      "summary": "{{option.t}} 切り替え"
+    },
+    {
+      "id": "level_lr",
+      "name": "入力 → メイン LR のレベル",
+      "options": [
+        {
+          "id": "t",
+          "label": "入力",
+          "type": "select",
+          "default": "8192",
+          "choices": [
+            {
+              "id": "8192",
+              "label": "入力 1"
+            },
+            {
+              "id": "8193",
+              "label": "入力 2"
+            },
+            {
+              "id": "8194",
+              "label": "入力 3"
+            },
+            {
+              "id": "8195",
+              "label": "入力 4"
+            },
+            {
+              "id": "8196",
+              "label": "入力 5"
+            },
+            {
+              "id": "8197",
+              "label": "入力 6"
+            },
+            {
+              "id": "8198",
+              "label": "入力 7"
+            },
+            {
+              "id": "8199",
+              "label": "入力 8"
+            },
+            {
+              "id": "8200",
+              "label": "入力 9"
+            },
+            {
+              "id": "8201",
+              "label": "入力 10"
+            },
+            {
+              "id": "8202",
+              "label": "入力 11"
+            },
+            {
+              "id": "8203",
+              "label": "入力 12"
+            },
+            {
+              "id": "8204",
+              "label": "入力 13"
+            },
+            {
+              "id": "8205",
+              "label": "入力 14"
+            },
+            {
+              "id": "8206",
+              "label": "入力 15"
+            },
+            {
+              "id": "8207",
+              "label": "入力 16"
+            },
+            {
+              "id": "8216",
+              "label": "ステレオ 1"
+            },
+            {
+              "id": "8218",
+              "label": "ステレオ 2"
+            },
+            {
+              "id": "8220",
+              "label": "USB"
+            },
+            {
+              "id": "8222",
+              "label": "Bluetooth"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "12544",
+          "choices": [
+            {
+              "id": "16320",
+              "label": "+10 dB"
+            },
+            {
+              "id": "14784",
+              "label": "+5 dB"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB"
+            },
+            {
+              "id": "10048",
+              "label": "−5 dB"
+            },
+            {
+              "id": "7936",
+              "label": "−10 dB"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB"
+            },
+            {
+              "id": "1984",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 06 {{option.v|r14h:1|hexu|pad2}} B0 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.t}} → LR"
+    },
+    {
+      "id": "level_lr_raw",
+      "name": "入力 → メイン LR のレベル（数値）",
+      "options": [
+        {
+          "id": "t",
+          "label": "入力",
+          "type": "select",
+          "default": "8192",
+          "choices": [
+            {
+              "id": "8192",
+              "label": "入力 1"
+            },
+            {
+              "id": "8193",
+              "label": "入力 2"
+            },
+            {
+              "id": "8194",
+              "label": "入力 3"
+            },
+            {
+              "id": "8195",
+              "label": "入力 4"
+            },
+            {
+              "id": "8196",
+              "label": "入力 5"
+            },
+            {
+              "id": "8197",
+              "label": "入力 6"
+            },
+            {
+              "id": "8198",
+              "label": "入力 7"
+            },
+            {
+              "id": "8199",
+              "label": "入力 8"
+            },
+            {
+              "id": "8200",
+              "label": "入力 9"
+            },
+            {
+              "id": "8201",
+              "label": "入力 10"
+            },
+            {
+              "id": "8202",
+              "label": "入力 11"
+            },
+            {
+              "id": "8203",
+              "label": "入力 12"
+            },
+            {
+              "id": "8204",
+              "label": "入力 13"
+            },
+            {
+              "id": "8205",
+              "label": "入力 14"
+            },
+            {
+              "id": "8206",
+              "label": "入力 15"
+            },
+            {
+              "id": "8207",
+              "label": "入力 16"
+            },
+            {
+              "id": "8216",
+              "label": "ステレオ 1"
+            },
+            {
+              "id": "8218",
+              "label": "ステレオ 2"
+            },
+            {
+              "id": "8220",
+              "label": "USB"
+            },
+            {
+              "id": "8222",
+              "label": "Bluetooth"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383。0 dB = 12544）",
+          "type": "number",
+          "default": 12544,
+          "min": 0,
+          "max": 16383
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 06 {{option.v|r14h:1|hexu|pad2}} B0 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "level_lr_step",
+      "name": "入力 → メイン LR のレベルを上げ下げ",
+      "options": [
+        {
+          "id": "t",
+          "label": "入力",
+          "type": "select",
+          "default": "8192",
+          "choices": [
+            {
+              "id": "8192",
+              "label": "入力 1"
+            },
+            {
+              "id": "8193",
+              "label": "入力 2"
+            },
+            {
+              "id": "8194",
+              "label": "入力 3"
+            },
+            {
+              "id": "8195",
+              "label": "入力 4"
+            },
+            {
+              "id": "8196",
+              "label": "入力 5"
+            },
+            {
+              "id": "8197",
+              "label": "入力 6"
+            },
+            {
+              "id": "8198",
+              "label": "入力 7"
+            },
+            {
+              "id": "8199",
+              "label": "入力 8"
+            },
+            {
+              "id": "8200",
+              "label": "入力 9"
+            },
+            {
+              "id": "8201",
+              "label": "入力 10"
+            },
+            {
+              "id": "8202",
+              "label": "入力 11"
+            },
+            {
+              "id": "8203",
+              "label": "入力 12"
+            },
+            {
+              "id": "8204",
+              "label": "入力 13"
+            },
+            {
+              "id": "8205",
+              "label": "入力 14"
+            },
+            {
+              "id": "8206",
+              "label": "入力 15"
+            },
+            {
+              "id": "8207",
+              "label": "入力 16"
+            },
+            {
+              "id": "8216",
+              "label": "ステレオ 1"
+            },
+            {
+              "id": "8218",
+              "label": "ステレオ 2"
+            },
+            {
+              "id": "8220",
+              "label": "USB"
+            },
+            {
+              "id": "8222",
+              "label": "Bluetooth"
+            }
+          ]
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "上げる"
+            },
+            {
+              "id": "61",
+              "label": "下げる"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 {{option.step}} 00",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "level_fxr_lr",
+      "name": "FX リターン → メイン LR のレベル",
+      "options": [
+        {
+          "id": "t",
+          "label": "FX",
+          "type": "select",
+          "default": "8252",
+          "choices": [
+            {
+              "id": "8252",
+              "label": "FX 1"
+            },
+            {
+              "id": "8253",
+              "label": "FX 2"
+            },
+            {
+              "id": "8254",
+              "label": "FX 3"
+            },
+            {
+              "id": "8255",
+              "label": "FX 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "12544",
+          "choices": [
+            {
+              "id": "16320",
+              "label": "+10 dB"
+            },
+            {
+              "id": "14784",
+              "label": "+5 dB"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB"
+            },
+            {
+              "id": "10048",
+              "label": "−5 dB"
+            },
+            {
+              "id": "7936",
+              "label": "−10 dB"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB"
+            },
+            {
+              "id": "1984",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 06 {{option.v|r14h:1|hexu|pad2}} B0 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "level_out",
+      "name": "入力 → 出力のレベル",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "out",
+          "label": "出力（1–6）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 6
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "12544",
+          "choices": [
+            {
+              "id": "16320",
+              "label": "+10 dB"
+            },
+            {
+              "id": "14784",
+              "label": "+5 dB"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB"
+            },
+            {
+              "id": "10048",
+              "label": "−5 dB"
+            },
+            {
+              "id": "7936",
+              "label": "−10 dB"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB"
+            },
+            {
+              "id": "1984",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.ip|lin:12:8247|plus:out|r14h:1|hexu|pad2}} B0 62 {{option.ip|lin:12:8247|plus:out|r14l:1|hexu|pad2}} B0 06 {{option.v|r14h:1|hexu|pad2}} B0 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → 出力 {{option.out}}"
+    },
+    {
+      "id": "level_fx",
+      "name": "入力 → FX センドのレベル",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "fx",
+          "label": "FX（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "12544",
+          "choices": [
+            {
+              "id": "16320",
+              "label": "+10 dB"
+            },
+            {
+              "id": "14784",
+              "label": "+5 dB"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB"
+            },
+            {
+              "id": "10048",
+              "label": "−5 dB"
+            },
+            {
+              "id": "7936",
+              "label": "−10 dB"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB"
+            },
+            {
+              "id": "1984",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.ip|lin:4:9743|plus:fx|r14h:1|hexu|pad2}} B0 62 {{option.ip|lin:4:9743|plus:fx|r14l:1|hexu|pad2}} B0 06 {{option.v|r14h:1|hexu|pad2}} B0 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → FX {{option.fx}}"
+    },
+    {
+      "id": "master",
+      "name": "マスターのレベル",
+      "options": [
+        {
+          "id": "t",
+          "label": "対象",
+          "type": "select",
+          "default": "10112",
+          "choices": [
+            {
+              "id": "10112",
+              "label": "メイン LR"
+            },
+            {
+              "id": "10113",
+              "label": "出力 1"
+            },
+            {
+              "id": "10114",
+              "label": "出力 2"
+            },
+            {
+              "id": "10115",
+              "label": "出力 3"
+            },
+            {
+              "id": "10116",
+              "label": "出力 4"
+            },
+            {
+              "id": "10117",
+              "label": "出力 5"
+            },
+            {
+              "id": "10118",
+              "label": "出力 6"
+            },
+            {
+              "id": "10125",
+              "label": "FX 1"
+            },
+            {
+              "id": "10126",
+              "label": "FX 2"
+            },
+            {
+              "id": "10127",
+              "label": "FX 3"
+            },
+            {
+              "id": "10128",
+              "label": "FX 4"
+            },
+            {
+              "id": "10144",
+              "label": "DCA 1"
+            },
+            {
+              "id": "10145",
+              "label": "DCA 2"
+            },
+            {
+              "id": "10146",
+              "label": "DCA 3"
+            },
+            {
+              "id": "10147",
+              "label": "DCA 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "12544",
+          "choices": [
+            {
+              "id": "16320",
+              "label": "+10 dB"
+            },
+            {
+              "id": "14784",
+              "label": "+5 dB"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB"
+            },
+            {
+              "id": "10048",
+              "label": "−5 dB"
+            },
+            {
+              "id": "7936",
+              "label": "−10 dB"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB"
+            },
+            {
+              "id": "1984",
+              "label": "−40 dB"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 06 {{option.v|r14h:1|hexu|pad2}} B0 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.t}} マスター"
+    },
+    {
+      "id": "master_raw",
+      "name": "マスターのレベル（数値）",
+      "options": [
+        {
+          "id": "t",
+          "label": "対象",
+          "type": "select",
+          "default": "10112",
+          "choices": [
+            {
+              "id": "10112",
+              "label": "メイン LR"
+            },
+            {
+              "id": "10113",
+              "label": "出力 1"
+            },
+            {
+              "id": "10114",
+              "label": "出力 2"
+            },
+            {
+              "id": "10115",
+              "label": "出力 3"
+            },
+            {
+              "id": "10116",
+              "label": "出力 4"
+            },
+            {
+              "id": "10117",
+              "label": "出力 5"
+            },
+            {
+              "id": "10118",
+              "label": "出力 6"
+            },
+            {
+              "id": "10125",
+              "label": "FX 1"
+            },
+            {
+              "id": "10126",
+              "label": "FX 2"
+            },
+            {
+              "id": "10127",
+              "label": "FX 3"
+            },
+            {
+              "id": "10128",
+              "label": "FX 4"
+            },
+            {
+              "id": "10144",
+              "label": "DCA 1"
+            },
+            {
+              "id": "10145",
+              "label": "DCA 2"
+            },
+            {
+              "id": "10146",
+              "label": "DCA 3"
+            },
+            {
+              "id": "10147",
+              "label": "DCA 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383。0 dB = 12544）",
+          "type": "number",
+          "default": 12544,
+          "min": 0,
+          "max": 16383
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 06 {{option.v|r14h:1|hexu|pad2}} B0 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "master_step",
+      "name": "マスターのレベルを上げ下げ",
+      "options": [
+        {
+          "id": "t",
+          "label": "対象",
+          "type": "select",
+          "default": "10112",
+          "choices": [
+            {
+              "id": "10112",
+              "label": "メイン LR"
+            },
+            {
+              "id": "10113",
+              "label": "出力 1"
+            },
+            {
+              "id": "10114",
+              "label": "出力 2"
+            },
+            {
+              "id": "10115",
+              "label": "出力 3"
+            },
+            {
+              "id": "10116",
+              "label": "出力 4"
+            },
+            {
+              "id": "10117",
+              "label": "出力 5"
+            },
+            {
+              "id": "10118",
+              "label": "出力 6"
+            },
+            {
+              "id": "10125",
+              "label": "FX 1"
+            },
+            {
+              "id": "10126",
+              "label": "FX 2"
+            },
+            {
+              "id": "10127",
+              "label": "FX 3"
+            },
+            {
+              "id": "10128",
+              "label": "FX 4"
+            },
+            {
+              "id": "10144",
+              "label": "DCA 1"
+            },
+            {
+              "id": "10145",
+              "label": "DCA 2"
+            },
+            {
+              "id": "10146",
+              "label": "DCA 3"
+            },
+            {
+              "id": "10147",
+              "label": "DCA 4"
+            }
+          ]
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "上げる"
+            },
+            {
+              "id": "61",
+              "label": "下げる"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.t|r14h:1|hexu|pad2}} B0 62 {{option.t|r14l:1|hexu|pad2}} B0 {{option.step}} 00",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "pan_lr",
+      "name": "入力 → メイン LR のパン",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 – 0 中央 – 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 63 {{option.ip|lin:1:10239|r14h:1|hexu|pad2}} B0 62 {{option.ip|lin:1:10239|r14l:1|hexu|pad2}} B0 06 {{option.pan|lin:81.915:8191.5|r14h:1|hexu|pad2}} B0 26 {{option.pan|lin:81.915:8191.5|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} パン {{option.pan}}"
+    },
+    {
+      "id": "scene",
+      "name": "シーンを呼び出す",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン（1–100）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "B0 00 00 C0 {{option.scene|lin:1:-1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "シーン {{option.scene}}"
+    },
+    {
+      "id": "softkey",
+      "name": "ソフトキーを押して離す",
+      "options": [
+        {
+          "id": "key",
+          "label": "ソフトキー（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "90 {{option.key|lin:1:47|hexu|pad2}} 7F 80 {{option.key|lin:1:47|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ソフトキー {{option.key}}"
+    },
+    {
+      "id": "command",
+      "name": "MIDI を送る（16 進）",
+      "options": [
+        {
+          "id": "hex",
+          "label": "MIDI（16 進）",
+          "type": "text",
+          "placeholder": "B0 63 00 B0 62 00 B0 60 00",
+          "pattern": "^([0-9A-Fa-f]{2} ?)+$",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.hex}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.hex}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "presets": [
+    {
+      "id": "mute1",
+      "category": "ミュート",
+      "name": "入力 1 のミュート",
+      "text": "MUTE\nCH 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "0"
+        }
+      }
+    },
+    {
+      "id": "mute2",
+      "category": "ミュート",
+      "name": "入力 2 のミュート",
+      "text": "MUTE\nCH 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "1"
+        }
+      }
+    },
+    {
+      "id": "mute3",
+      "category": "ミュート",
+      "name": "入力 3 のミュート",
+      "text": "MUTE\nCH 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "2"
+        }
+      }
+    },
+    {
+      "id": "mute4",
+      "category": "ミュート",
+      "name": "入力 4 のミュート",
+      "text": "MUTE\nCH 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "3"
+        }
+      }
+    },
+    {
+      "id": "mute5",
+      "category": "ミュート",
+      "name": "入力 5 のミュート",
+      "text": "MUTE\nCH 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "4"
+        }
+      }
+    },
+    {
+      "id": "mute6",
+      "category": "ミュート",
+      "name": "入力 6 のミュート",
+      "text": "MUTE\nCH 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "5"
+        }
+      }
+    },
+    {
+      "id": "mute7",
+      "category": "ミュート",
+      "name": "入力 7 のミュート",
+      "text": "MUTE\nCH 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "6"
+        }
+      }
+    },
+    {
+      "id": "mute8",
+      "category": "ミュート",
+      "name": "入力 8 のミュート",
+      "text": "MUTE\nCH 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "7"
+        }
+      }
+    },
+    {
+      "id": "mute9",
+      "category": "ミュート",
+      "name": "入力 9 のミュート",
+      "text": "MUTE\nCH 9",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "8"
+        }
+      }
+    },
+    {
+      "id": "mute10",
+      "category": "ミュート",
+      "name": "入力 10 のミュート",
+      "text": "MUTE\nCH 10",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "9"
+        }
+      }
+    },
+    {
+      "id": "mute11",
+      "category": "ミュート",
+      "name": "入力 11 のミュート",
+      "text": "MUTE\nCH 11",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "10"
+        }
+      }
+    },
+    {
+      "id": "mute12",
+      "category": "ミュート",
+      "name": "入力 12 のミュート",
+      "text": "MUTE\nCH 12",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "11"
+        }
+      }
+    },
+    {
+      "id": "mute13",
+      "category": "ミュート",
+      "name": "入力 13 のミュート",
+      "text": "MUTE\nCH 13",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "12"
+        }
+      }
+    },
+    {
+      "id": "mute14",
+      "category": "ミュート",
+      "name": "入力 14 のミュート",
+      "text": "MUTE\nCH 14",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "13"
+        }
+      }
+    },
+    {
+      "id": "mute15",
+      "category": "ミュート",
+      "name": "入力 15 のミュート",
+      "text": "MUTE\nCH 15",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "14"
+        }
+      }
+    },
+    {
+      "id": "mute16",
+      "category": "ミュート",
+      "name": "入力 16 のミュート",
+      "text": "MUTE\nCH 16",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_toggle",
+        "options": {
+          "t": "15"
+        }
+      }
+    },
+    {
+      "id": "scene1",
+      "category": "シーン",
+      "name": "シーン 1",
+      "text": "SCENE\n1",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 1
+        }
+      }
+    },
+    {
+      "id": "scene2",
+      "category": "シーン",
+      "name": "シーン 2",
+      "text": "SCENE\n2",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 2
+        }
+      }
+    },
+    {
+      "id": "scene3",
+      "category": "シーン",
+      "name": "シーン 3",
+      "text": "SCENE\n3",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 3
+        }
+      }
+    },
+    {
+      "id": "scene4",
+      "category": "シーン",
+      "name": "シーン 4",
+      "text": "SCENE\n4",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 4
+        }
+      }
+    },
+    {
+      "id": "scene5",
+      "category": "シーン",
+      "name": "シーン 5",
+      "text": "SCENE\n5",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 5
+        }
+      }
+    },
+    {
+      "id": "scene6",
+      "category": "シーン",
+      "name": "シーン 6",
+      "text": "SCENE\n6",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 6
+        }
+      }
+    },
+    {
+      "id": "scene7",
+      "category": "シーン",
+      "name": "シーン 7",
+      "text": "SCENE\n7",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 7
+        }
+      }
+    },
+    {
+      "id": "scene8",
+      "category": "シーン",
+      "name": "シーン 8",
+      "text": "SCENE\n8",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 8
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Allen & Heath「CQ MIDI Protocol V1.2.0 issue 4」：TCP 51325・チャンネル 1、ミュート・レベル・パンの番号、シーン、ソフトキー",
+      "url": "https://www.rentex.com/wp-content/uploads/2025/03/CQ_MIDI_Protocol_V1_2_0_iss4.pdf",
+      "status": "確認済",
+      "note": "メーカーの PDF の写し（販売店のサイト）。パンの中央は資料どおり 40 00"
+    },
+    {
+      "title": "受信（本体からの状態）はまだ使っていない",
+      "status": "確認済"
+    }
+  ]
+}

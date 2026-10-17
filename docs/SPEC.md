@@ -517,6 +517,11 @@ export interface DriverInstance {
 - 動作 49（入力・ステレオ・FX・ミックス・グループ・マトリクス・DCA・ミュートグループのミュート、フェーダー（資料の dB 表・数値）、送り、パン、割り当て、シーン、カスタムレイヤー、MMC、MIDI をそのまま）
 - 定義は `scripts/drivers/build_allenheath_qu.py` から作る
 
+### 8.17 Allen & Heath CQ シリーズ（MIDI over TCP・オーナー指示 2026-10-17）
+- 接続：TCP **51325**、MIDI チャンネル 1 固定。SQ と同じ NRPN【確認済：「CQ MIDI Protocol V1.2.0 issue 4」】
+- 動作 15（ミュート・切り替え、入力 → LR / 出力 / FX のレベル、FX リターン、マスター、パン、シーン、ソフトキー、MIDI をそのまま。対象は選択肢で選ぶ）
+- 定義は `scripts/drivers/build_allenheath_cq.py` から作る
+
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。
 - 公式アプリや他社ソフトの通信の解析結果も根拠に使ってよい（2026-10-17 オーナー指示）。evidence の note に「〇〇の通信の観測」と出典を書く。
