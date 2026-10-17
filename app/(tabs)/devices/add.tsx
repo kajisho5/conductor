@@ -197,6 +197,8 @@ function transportLabel(t: string): string {
       return 'LAN（OSC / UDP）';
     case 'http':
       return 'LAN（HTTP）';
+    case 'ws':
+      return 'LAN（WebSocket）';
     case 'demo':
       return '通信しない（確認用）';
     default:

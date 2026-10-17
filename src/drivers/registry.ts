@@ -22,7 +22,7 @@ export class DefinitionError extends Error {
 }
 
 const FIELD_TYPES = new Set(['text', 'textarea', 'number', 'select', 'boolean']);
-const TRANSPORTS = new Set(['tcp', 'udp', 'osc', 'http', 'demo', 'internal']);
+const TRANSPORTS = new Set(['tcp', 'udp', 'osc', 'http', 'ws', 'demo', 'internal']);
 const SESSIONS = new Set(['roland-lan', 'atem']);
 const SEND_KINDS = new Set(['bytes', 'osc', 'http', 'builtin']);
 

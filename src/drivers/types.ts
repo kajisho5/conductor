@@ -4,7 +4,7 @@
  * 文字列のテンプレートは `{{option.名前}}` `{{config.名前}}` を置き換える。$(…) の変数は実行時に先に解決する。
  */
 
-export type Transport = 'tcp' | 'udp' | 'osc' | 'http' | 'demo' | 'internal';
+export type Transport = 'tcp' | 'udp' | 'osc' | 'http' | 'ws' | 'demo' | 'internal';
 
 export type FieldType = 'text' | 'textarea' | 'number' | 'select' | 'boolean';
 
@@ -129,6 +129,8 @@ export interface DriverDefinition {
    * atem：Blackmagic ATEM（UDP 9910。接続の手順・ack・コマンドの組み立てと解析。動作は builtin の名前で指定）
    */
   session?: 'roland-lan' | 'atem';
+  /** WebSocket の時の URL のパス（ws://ホスト:ポート の後ろ。例 /api/ws） */
+  wsPath?: string;
   /** Roland の SysEx 機種 ID（16 進を空白区切り）。あれば設定「接続」で USB / Bluetooth MIDI も選べる */
   midiModelId?: string;
   /** 接続できた直後に送る（テンプレート可、{{config.x}}） */

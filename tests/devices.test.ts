@@ -1,6 +1,6 @@
 import { interfaceLabel, lanAddresses, type ConductorNet, type ConductorNetEvents } from '../modules/conductor-net/src';
-import { DeviceManager, RECONNECT_STEPS_MS } from '@/engine/devices';
-import { getActionDef, getDefinition } from '@/drivers/registry';
+import { DeviceManager, RECONNECT_STEPS_MS, type WebSocketLike } from '@/engine/devices';
+import { getActionDef, getDefinition, registerDefinition, validateDefinition } from '@/drivers/registry';
 import { newDevice } from '@/model/devices';
 import { newShow } from '@/model/defaults';
 import type { Device, Show } from '@/model/types';
@@ -226,5 +226,64 @@ describe('この端末の IP', () => {
     ]);
     expect(list.map((a) => a.address)).toEqual(['192.168.10.20', '172.20.10.1', '192.168.0.50']);
     expect(list.map((a) => interfaceLabel(a.interface))).toEqual(['Wi-Fi', 'インターネット共有', '有線 LAN']);
+  });
+});
+
+describe('WebSocket の機器', () => {
+  it('ws://ホスト:ポート/パス に接続して、文字のフレームで送る', async () => {
+    registerDefinition(
+      validateDefinition({
+        format: 1,
+        id: 'm-demo-ws',
+        name: 'DEMO WS',
+        category: 'DEMO',
+        version: '1.0.0',
+        minAppVersion: '0.1.0',
+        transport: 'ws',
+        wsPath: '/api/ws',
+        configFields: [
+          { id: 'host', label: 'IP', type: 'text' },
+          { id: 'port', label: 'ポート', type: 'number', default: 4455 },
+        ],
+        actions: [
+          {
+            id: 'scene',
+            name: 'Scene',
+            options: [{ id: 'n', label: 'Scene', type: 'number', default: 1 }],
+            send: { kind: 'bytes', data: '{"op":6,"d":{"requestId":"1","scene":{{option.n}}}}', encoding: 'text' },
+          },
+        ],
+        feedbacks: [],
+        variables: [],
+        evidence: [],
+      }),
+    );
+    const sockets: { url: string; sent: (string | ArrayBuffer)[]; ws: WebSocketLike }[] = [];
+    const factory = (url: string): WebSocketLike => {
+      const rec = { url, sent: [] as (string | ArrayBuffer)[], ws: null as unknown as WebSocketLike };
+      rec.ws = {
+        onopen: null,
+        onclose: null,
+        onerror: null,
+        onmessage: null,
+        send: (d) => rec.sent.push(d),
+        close: () => undefined,
+      };
+      sockets.push(rec);
+      return rec.ws;
+    };
+    const m = new DeviceManager(() => null, fetch, () => null, factory);
+    const base = newDevice(getDefinition('m-demo-ws')!, []);
+    const d = { ...base, config: { ...base.config, host: '192.0.2.20' } };
+    m.sync(showWith(d));
+    expect(sockets[0]!.url).toBe('ws://192.0.2.20:4455/api/ws');
+    expect(status(d.id)).toBe('connecting');
+    sockets[0]!.ws.onopen?.();
+    expect(status(d.id)).toBe('connected');
+    const r = await m.send(d, getActionDef('m-demo-ws', 'scene')!, { n: 3 });
+    expect(r).toEqual({ ok: true });
+    expect(sockets[0]!.sent[0]).toBe('{"op":6,"d":{"requestId":"1","scene":3}}');
+    sockets[0]!.ws.onclose?.({ reason: 'bye' });
+    expect(status(d.id)).toBe('reconnecting');
   });
 });

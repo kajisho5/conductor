@@ -1,5 +1,5 @@
 import { getConductorNet, type ConductorNet, type NetState } from '../../modules/conductor-net/src';
-import { fromBase64, printable, toBase64 } from '@/drivers/bytes';
+import { fromBase64, printable, toBase64, utf8Encode } from '@/drivers/bytes';
 import { buildPayloads, PayloadError, withDefaults, type Payload, type Values } from '@/drivers/engine';
 import { createSession, type Session, type SessionIO } from '@/drivers/sessions';
 import { MidiLink } from './midiLink';
@@ -35,6 +35,8 @@ interface Conn {
   session: Session | null;
   /** USB / Bluetooth MIDI でつないでいる時（Roland） */
   midi: MidiLink | null;
+  /** WebSocket でつないでいる時 */
+  ws: WebSocketLike | null;
   attempt: number;
   retry: ReturnType<typeof setTimeout> | null;
   wanted: boolean;
@@ -52,6 +54,35 @@ function port(config: Values, name = 'port'): number {
   return Math.trunc(Number(config[name] ?? 0));
 }
 
+/** テストで差し替えられるよう、使う所だけ */
+export interface WebSocketLike {
+  binaryType?: string;
+  onopen: (() => void) | null;
+  onclose: ((ev: { code?: number; reason?: string }) => void) | null;
+  onerror: ((ev: unknown) => void) | null;
+  onmessage: ((ev: { data: unknown }) => void) | null;
+  send(data: string | ArrayBuffer): void;
+  close(): void;
+}
+export type WebSocketFactory = (url: string) => WebSocketLike;
+
+const defaultWebSocket: WebSocketFactory = (url) => new WebSocket(url) as unknown as WebSocketLike;
+
+/** WebSocket の URL（ws://host:port/path） */
+export function wsUrl(config: Values, path: string | undefined): string {
+  const p = path && path.startsWith('/') ? path : `/${path ?? ''}`;
+  return `ws://${host(config)}:${port(config)}${p}`;
+}
+
+/** 文字として読めるバイト列なら文字で、そうでなければバイナリで送る */
+function wsPayload(bytes: Uint8Array): string | ArrayBuffer {
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+  } catch {
+    return bytes.slice().buffer;
+  }
+}
+
 export class DeviceManager {
   private conns = new Map<string, Conn>();
   private byNetId = new Map<string, string>();
@@ -63,6 +94,7 @@ export class DeviceManager {
     private readonly netProvider: () => ConductorNet | null = getConductorNet,
     private readonly fetchImpl: typeof fetch = (...a) => fetch(...a),
     private readonly midiProvider: () => ConductorMidi | null = getConductorMidi,
+    private readonly wsFactory: WebSocketFactory = defaultWebSocket,
   ) {}
 
   private net(): ConductorNet | null {
@@ -129,6 +161,7 @@ export class DeviceManager {
       key: configKey(device),
       netId: '',
       session: null,
+      ws: null,
       midi: null,
       attempt: 0,
       retry: null,
@@ -171,6 +204,10 @@ export class DeviceManager {
       rt.setDeviceStatus(id, 'error', 'ポート番号を 1〜65535 で入れてください');
       return;
     }
+    if (t === 'ws') {
+      this.connectWs(c);
+      return;
+    }
     const net = this.net();
     if (!net) {
       rt.setDeviceStatus(id, 'error', '通信モジュールがありません（アプリのビルドに含まれていません）');
@@ -189,6 +226,54 @@ export class DeviceManager {
       const msg = e instanceof Error ? e.message : String(e);
       this.failed(c, msg);
     });
+  }
+
+  /** WebSocket（iOS の標準の WebSocket を使う。送る中身は文字なら文字のフレームで） */
+  private connectWs(c: Conn): void {
+    const id = c.device.id;
+    this.gen += 1;
+    const netId = `${id}#ws${this.gen}`;
+    c.netId = netId;
+    const url = wsUrl(c.config, c.def.wsPath);
+    useRuntimeStore.getState().setDeviceStatus(id, c.attempt > 0 ? 'reconnecting' : 'connecting');
+    log('info', c.device.label, `WebSocket ${url} に接続します`, id);
+    let ws: WebSocketLike;
+    try {
+      ws = this.wsFactory(url);
+    } catch (e) {
+      this.failed(c, e instanceof Error ? e.message : String(e));
+      return;
+    }
+    ws.binaryType = 'arraybuffer';
+    c.ws = ws;
+    const alive = () => c.netId === netId && this.conns.get(id) === c;
+    ws.onopen = () => {
+      if (!alive()) return;
+      c.attempt = 0;
+      log('info', c.device.label, '接続しました', id);
+      c.session?.dispose();
+      c.session = createSession({
+        ...this.sessionIO(c, netId),
+        write: async (bytes) => {
+          if (!alive() || !c.ws) throw new Error(`${c.device.label} に接続していません`);
+          c.ws.send(wsPayload(bytes));
+        },
+      });
+      c.session.ready();
+    };
+    ws.onmessage = (ev) => {
+      if (!alive()) return;
+      const bytes = typeof ev.data === 'string' ? utf8Encode(ev.data) : ev.data instanceof ArrayBuffer ? new Uint8Array(ev.data) : null;
+      if (!bytes) return;
+      log('debug', c.device.label, `受信 ${printable(bytes)}`, id);
+      c.session?.data(bytes);
+    };
+    ws.onerror = () => undefined;
+    ws.onclose = (ev) => {
+      if (!alive()) return;
+      c.ws = null;
+      this.failed(c, ev?.reason ? `接続が閉じました（${ev.reason}）` : '接続できませんでした');
+    };
   }
 
   /** Roland の USB / Bluetooth MIDI（同時に 1 台まで） */
@@ -296,6 +381,17 @@ export class DeviceManager {
   private async closeNet(c: Conn): Promise<void> {
     c.session?.dispose();
     c.session = null;
+    if (c.ws) {
+      const ws = c.ws;
+      c.ws = null;
+      c.netId = '';
+      try {
+        ws.close();
+      } catch {
+        // 閉じられなくても続ける
+      }
+      return;
+    }
     c.midi?.stop();
     c.midi = null;
     if (!c.netId) return;
