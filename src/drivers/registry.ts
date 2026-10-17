@@ -8,6 +8,12 @@ import rolandV80hd from './defs/roland-v80hd.json';
 import rolandVr120hd from './defs/roland-vr120hd.json';
 import atemDef from './defs/atem.json';
 import oseeDef from './defs/osee-gostream.json';
+import hyperdeckDef from './defs/bmd-hyperdeck.json';
+import videohubDef from './defs/bmd-videohub.json';
+import viscaDef from './defs/visca-ip.json';
+import obsDef from './defs/obs-studio.json';
+import x32Def from './defs/behringer-x32.json';
+import wingDef from './defs/behringer-wing.json';
 import type { ActionDef, DriverDefinition, FeedbackDef, FieldDef } from './types';
 
 /**
@@ -24,7 +30,7 @@ export class DefinitionError extends Error {
 
 const FIELD_TYPES = new Set(['text', 'textarea', 'number', 'select', 'boolean']);
 const TRANSPORTS = new Set(['tcp', 'udp', 'osc', 'http', 'ws', 'demo', 'internal']);
-const SESSIONS = new Set(['roland-lan', 'atem', 'osee']);
+const SESSIONS = new Set(['roland-lan', 'atem', 'osee', 'bmd-text', 'visca-ip', 'obs-ws']);
 const SEND_KINDS = new Set(['bytes', 'osc', 'http', 'builtin']);
 
 function isObj(v: unknown): v is Record<string, unknown> {
@@ -273,7 +279,7 @@ export const INTERNAL_DEFINITION: DriverDefinition = {
   evidence: [],
 };
 
-const BUNDLED: DriverDefinition[] = [rolandV160hd, rolandV80hd, rolandVr120hd, atemDef, oseeDef, tcpDef, udpDef, oscDef, httpDef, demoDef].map((d) =>
+const BUNDLED: DriverDefinition[] = [rolandV160hd, rolandV80hd, rolandVr120hd, atemDef, oseeDef, hyperdeckDef, videohubDef, viscaDef, obsDef, x32Def, wingDef, tcpDef, udpDef, oscDef, httpDef, demoDef].map((d) =>
   validateDefinition(d),
 );
 

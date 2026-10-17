@@ -453,6 +453,30 @@ export interface DriverInstance {
 - 模擬機器：`npm run mock:osee`（TCP 19010）
 - 定義は `scripts/drivers/build_osee.py` から作る
 
+### 8.7 Blackmagic HyperDeck / Videohub（LAN・オーナー指示 2026-10-17）
+- 接続：HyperDeck TCP **9993**、Videohub TCP **9990**。文字の命令を改行で送り、返事・通知は空行で区切られた塊【確認済：Blackmagic 公式の HyperDeck Ethernet Protocol・Videohub Ethernet Protocol】
+- 通信手順 `bmd-text`（`src/drivers/bmdText.ts`）：塊の見出し（先頭の 3 桁の番号は除く）を変数名の頭にし、`項目: 値` は `見出し_項目`、`番号 値` は `見出し_番号` にする。最後の返事は `last_reply`
+- HyperDeck 動作 22（再生・速さ・ループ・停止・収録・プレビュー・クリップ／タイムコード移動・ジョグ・シャトル・スロット・再生範囲など）。つながったら通知を有効にし、transport info を定期に問い合わせる
+- Videohub 動作 8（出力・モニター出力への入力の割り当て・ロック・入出力の名前・シリアルなど。番号は画面では 1 から、送るときは 0 から）。PING で生存確認
+- 定義は `scripts/drivers/build_bmd.py` から作る
+
+### 8.8 PTZ カメラ（VISCA over IP・オーナー指示 2026-10-17）
+- 接続：UDP **52381**。Sony 方式は 8 バイトの見出し（種別 01 00 / 01 10・長さ・通し番号）を付ける。見出しなしの機種向けに設定 `framing` で raw を選べる【確認済：Sony の VISCA over IP 命令一覧（FR7）】
+- 通信手順 `visca-ip`（`src/drivers/visca.ts`）：つながったら通し番号をリセットし、送るたびに番号を進める
+- 動作 17：パン・チルト・ホーム・ズーム・フォーカス（AF / MF）・プリセット呼び出し／記憶／消去・電源・16 進の命令
+- 定義は `scripts/drivers/build_visca.py` から作る
+
+### 8.9 OBS Studio（obs-websocket 5・オーナー指示 2026-10-17）
+- 接続：WebSocket **4455**。Hello → Identify（パスワードがあれば SHA-256 の認証文字列）→ Identified の後に Request（op 6）【確認済：obs-websocket の公開仕様 protocol.md】
+- 通信手順 `obs-ws`（`src/drivers/obs.ts`）：定義の動作は `{"requestType":…,"requestData":{…}}` を 1 行に 1 つ書き、手順が op 6 と requestId を付ける。出来事・返事から `program_scene` `preview_scene` `streaming` `recording` `studio_mode` `mute_<入力名>` などの変数を作る
+- 動作 27：シーン切り替え（番組 / プレビュー）、トランジション（実行・種類・時間）、配信・録画・一時停止・リプレイバッファ・仮想カメラ、スタジオモード、ミュート・音量、ソースの表示、メディアソース、ホットキー、スクリーンショット、リクエストを送る。状態表示 7
+- 定義は `scripts/drivers/build_obs.py` から作る
+
+### 8.10 Behringer X32 / M32・WING（OSC・オーナー指示 2026-10-17）
+- 接続：X32 / M32 は UDP **10023**、WING は UDP **2223** の OSC【推測：公開されている有志の資料に基づく。メーカーの一次資料は未確認のため、診断画面とログで実機確認する】
+- 動作：X32 18（チャンネル・AUX IN・FX リターン・バス・マトリクス・メイン・DCA のミュート／フェーダー、ミュートグループ、シーン・スニペット・キュー呼び出し、名前）、WING 12（同様のミュート／フェーダーとミュートグループ）
+- 定義は `scripts/drivers/build_mixers.py` から作る
+
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。
 - 公式アプリや他社ソフトの通信の解析・傍受はしない。

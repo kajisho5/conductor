@@ -1,0 +1,707 @@
+{
+  "format": 1,
+  "id": "bmd-videohub",
+  "name": "Blackmagic Videohub",
+  "category": "ルーター",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "tcp",
+  "session": "bmd-text",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.10.50",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 9990,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "actions": [
+    {
+      "id": "route",
+      "name": "出力に入力をつなぐ",
+      "options": [
+        {
+          "id": "out",
+          "label": "出力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "in",
+          "label": "入力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "VIDEO OUTPUT ROUTING:\\n{{option.out|lin:1:-1}} {{option.in|lin:1:-1}}\\n",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "出力 {{option.out}} ← 入力 {{option.in}}"
+    },
+    {
+      "id": "route_monitor",
+      "name": "モニター出力に入力をつなぐ",
+      "options": [
+        {
+          "id": "out",
+          "label": "出力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "in",
+          "label": "入力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "VIDEO MONITORING OUTPUT ROUTING:\\n{{option.out|lin:1:-1}} {{option.in|lin:1:-1}}\\n",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "lock",
+      "name": "出力のロック",
+      "options": [
+        {
+          "id": "out",
+          "label": "出力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "lock",
+          "label": "ロック",
+          "type": "select",
+          "default": "O",
+          "choices": [
+            {
+              "id": "O",
+              "label": "ロックする"
+            },
+            {
+              "id": "U",
+              "label": "外す"
+            },
+            {
+              "id": "F",
+              "label": "他の人のロックを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "VIDEO OUTPUT LOCKS:\\n{{option.out|lin:1:-1}} {{option.lock}}\\n",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "input_label",
+      "name": "入力の名前を変える",
+      "options": [
+        {
+          "id": "in",
+          "label": "入力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "name",
+          "label": "名前",
+          "type": "text",
+          "placeholder": "CAM 1"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "INPUT LABELS:\\n{{option.in|lin:1:-1}} {{option.name}}\\n",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "output_label",
+      "name": "出力の名前を変える",
+      "options": [
+        {
+          "id": "out",
+          "label": "出力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "name",
+          "label": "名前",
+          "type": "text",
+          "placeholder": "PGM"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "OUTPUT LABELS:\\n{{option.out|lin:1:-1}} {{option.name}}\\n",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "serial_route",
+      "name": "シリアルポートをつなぐ",
+      "options": [
+        {
+          "id": "out",
+          "label": "ポート（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "in",
+          "label": "つなぐ先（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "SERIAL PORT ROUTING:\\n{{option.out|lin:1:-1}} {{option.in|lin:1:-1}}\\n",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "ping",
+      "name": "応答を確かめる（PING）",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "PING:\\n",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "command",
+      "name": "命令を送る（ブロック）",
+      "options": [
+        {
+          "id": "cmd",
+          "label": "命令（\\n で改行）",
+          "type": "text",
+          "placeholder": "VIDEO OUTPUT ROUTING:\\n0 1\\n"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.cmd}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "routed",
+      "name": "出力に入力がつながっている",
+      "options": [
+        {
+          "id": "out",
+          "label": "出力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        },
+        {
+          "id": "in",
+          "label": "入力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        }
+      ],
+      "compare": {
+        "variable": "video_output_routing_{{option.out|lin:1:-1}}",
+        "op": "eq",
+        "value": "{{option.in|lin:1:-1}}"
+      },
+      "summary": "出力 {{option.out}} ← 入力 {{option.in}}"
+    },
+    {
+      "id": "locked",
+      "name": "出力がロック中",
+      "options": [
+        {
+          "id": "out",
+          "label": "出力（1 始まり）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 288
+        }
+      ],
+      "compare": {
+        "variable": "video_output_locks_{{option.out|lin:1:-1}}",
+        "op": "neq",
+        "value": "U"
+      }
+    }
+  ],
+  "variables": [
+    {
+      "id": "video_output_routing_0",
+      "name": "出力 1 の入力（0 始まり。出力ごとに _番号）"
+    },
+    {
+      "id": "input_labels_0",
+      "name": "入力 1 の名前（入力ごとに _番号）"
+    },
+    {
+      "id": "output_labels_0",
+      "name": "出力 1 の名前（出力ごとに _番号）"
+    },
+    {
+      "id": "videohub_device_model_name",
+      "name": "機種"
+    },
+    {
+      "id": "last_reply",
+      "name": "最後の返事（ACK / NAK）"
+    }
+  ],
+  "poll": [
+    {
+      "data": "PING:\\n\\n",
+      "intervalMs": 10000
+    }
+  ],
+  "presets": [
+    {
+      "id": "r1_1",
+      "category": "出力 1",
+      "name": "出力 1 ← 入力 1",
+      "text": "OUT 1\nIN 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 1,
+          "in": 1
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 1,
+            "in": 1
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r1_2",
+      "category": "出力 1",
+      "name": "出力 1 ← 入力 2",
+      "text": "OUT 1\nIN 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 1,
+          "in": 2
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 1,
+            "in": 2
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r1_3",
+      "category": "出力 1",
+      "name": "出力 1 ← 入力 3",
+      "text": "OUT 1\nIN 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 1,
+          "in": 3
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 1,
+            "in": 3
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r1_4",
+      "category": "出力 1",
+      "name": "出力 1 ← 入力 4",
+      "text": "OUT 1\nIN 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 1,
+          "in": 4
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 1,
+            "in": 4
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r1_5",
+      "category": "出力 1",
+      "name": "出力 1 ← 入力 5",
+      "text": "OUT 1\nIN 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 1,
+          "in": 5
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 1,
+            "in": 5
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r1_6",
+      "category": "出力 1",
+      "name": "出力 1 ← 入力 6",
+      "text": "OUT 1\nIN 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 1,
+          "in": 6
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 1,
+            "in": 6
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r1_7",
+      "category": "出力 1",
+      "name": "出力 1 ← 入力 7",
+      "text": "OUT 1\nIN 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 1,
+          "in": 7
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 1,
+            "in": 7
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r1_8",
+      "category": "出力 1",
+      "name": "出力 1 ← 入力 8",
+      "text": "OUT 1\nIN 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 1,
+          "in": 8
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 1,
+            "in": 8
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r2_1",
+      "category": "出力 2",
+      "name": "出力 2 ← 入力 1",
+      "text": "OUT 2\nIN 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 2,
+          "in": 1
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 2,
+            "in": 1
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r2_2",
+      "category": "出力 2",
+      "name": "出力 2 ← 入力 2",
+      "text": "OUT 2\nIN 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 2,
+          "in": 2
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 2,
+            "in": 2
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r2_3",
+      "category": "出力 2",
+      "name": "出力 2 ← 入力 3",
+      "text": "OUT 2\nIN 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 2,
+          "in": 3
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 2,
+            "in": 3
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r2_4",
+      "category": "出力 2",
+      "name": "出力 2 ← 入力 4",
+      "text": "OUT 2\nIN 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 2,
+          "in": 4
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 2,
+            "in": 4
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r2_5",
+      "category": "出力 2",
+      "name": "出力 2 ← 入力 5",
+      "text": "OUT 2\nIN 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 2,
+          "in": 5
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 2,
+            "in": 5
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r2_6",
+      "category": "出力 2",
+      "name": "出力 2 ← 入力 6",
+      "text": "OUT 2\nIN 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 2,
+          "in": 6
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 2,
+            "in": 6
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r2_7",
+      "category": "出力 2",
+      "name": "出力 2 ← 入力 7",
+      "text": "OUT 2\nIN 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 2,
+          "in": 7
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 2,
+            "in": 7
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    },
+    {
+      "id": "r2_8",
+      "category": "出力 2",
+      "name": "出力 2 ← 入力 8",
+      "text": "OUT 2\nIN 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "route",
+        "options": {
+          "out": 2,
+          "in": 8
+        }
+      },
+      "feedbacks": [
+        {
+          "definitionId": "routed",
+          "options": {
+            "out": 2,
+            "in": 8
+          },
+          "backgroundColor": "#1F5FD6"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Blackmagic Videohub Ethernet Protocol（TCP 9990、ブロックと空行、番号は 0 始まり、ACK / NAK）",
+      "url": "https://documents.blackmagicdesign.com/DeveloperManuals/VideohubEthernetProtocol.pdf",
+      "status": "確認済",
+      "note": "画面の番号は 1 始まりで、送る時に 1 引く。実機では未確認"
+    }
+  ]
+}

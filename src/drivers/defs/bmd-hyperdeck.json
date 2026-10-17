@@ -1,0 +1,717 @@
+{
+  "format": 1,
+  "id": "bmd-hyperdeck",
+  "name": "Blackmagic HyperDeck",
+  "category": "レコーダー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "tcp",
+  "session": "bmd-text",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.10.50",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 9993,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "actions": [
+    {
+      "id": "play",
+      "name": "再生",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "play",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "play_speed",
+      "name": "速さを決めて再生",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（%）",
+          "type": "number",
+          "default": 100,
+          "min": -5000,
+          "max": 5000,
+          "help": "100 が等速。マイナスで逆再生"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "play: speed: {{option.speed}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "再生 {{option.speed}}%"
+    },
+    {
+      "id": "play_loop",
+      "name": "ループ再生",
+      "options": [
+        {
+          "id": "on",
+          "label": "ループ",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "play: loop: {{option.on}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "play_single",
+      "name": "1 クリップだけ再生",
+      "options": [
+        {
+          "id": "on",
+          "label": "1 クリップだけ",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "play: single clip: {{option.on}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "stop",
+      "name": "停止",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "stop",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "record",
+      "name": "収録",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "record",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "record_name",
+      "name": "名前を付けて収録",
+      "options": [
+        {
+          "id": "name",
+          "label": "ファイル名",
+          "type": "text",
+          "placeholder": "DEMO-CLIP"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "record: name: {{option.name}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "preview",
+      "name": "プレビュー（入力を表示）",
+      "options": [
+        {
+          "id": "on",
+          "label": "プレビュー",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "preview: enable: {{option.on}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "goto_clip",
+      "name": "クリップへ移動",
+      "options": [
+        {
+          "id": "clip",
+          "label": "クリップ番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 9999
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "goto: clip id: {{option.clip}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "クリップ {{option.clip}}"
+    },
+    {
+      "id": "goto_clip_rel",
+      "name": "前後のクリップへ",
+      "options": [
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "+1",
+          "choices": [
+            {
+              "id": "+1",
+              "label": "次"
+            },
+            {
+              "id": "-1",
+              "label": "前"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "goto: clip id: {{option.dir}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "goto_clip_edge",
+      "name": "クリップの最初・最後へ",
+      "options": [
+        {
+          "id": "pos",
+          "label": "位置",
+          "type": "select",
+          "default": "start",
+          "choices": [
+            {
+              "id": "start",
+              "label": "最初"
+            },
+            {
+              "id": "end",
+              "label": "最後"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "goto: clip: {{option.pos}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "goto_timeline",
+      "name": "タイムラインの最初・最後へ",
+      "options": [
+        {
+          "id": "pos",
+          "label": "位置",
+          "type": "select",
+          "default": "start",
+          "choices": [
+            {
+              "id": "start",
+              "label": "最初"
+            },
+            {
+              "id": "end",
+              "label": "最後"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "goto: timeline: {{option.pos}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "goto_tc",
+      "name": "タイムコードへ移動",
+      "options": [
+        {
+          "id": "tc",
+          "label": "タイムコード（00:00:10:00、+ / - で前後）",
+          "type": "text",
+          "placeholder": "00:00:10:00",
+          "pattern": "^[+-]?\\d{2}:\\d{2}:\\d{2}[:;]\\d{2}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "goto: timecode: {{option.tc}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "jog",
+      "name": "ジョグ",
+      "options": [
+        {
+          "id": "tc",
+          "label": "動かす量（+00:00:01:00）",
+          "type": "text",
+          "placeholder": "+00:00:01:00",
+          "pattern": "^[+-]?\\d{2}:\\d{2}:\\d{2}[:;]\\d{2}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "jog: timecode: {{option.tc}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "shuttle",
+      "name": "シャトル",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（%）",
+          "type": "number",
+          "default": 200,
+          "min": -5000,
+          "max": 5000
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "shuttle: speed: {{option.speed}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "slot",
+      "name": "スロットを選ぶ",
+      "options": [
+        {
+          "id": "slot",
+          "label": "スロット番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "slot select: slot id: {{option.slot}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "playrange_clip",
+      "name": "再生範囲をクリップに",
+      "options": [
+        {
+          "id": "clip",
+          "label": "クリップ番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 9999
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "playrange set: clip id: {{option.clip}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "playrange_clear",
+      "name": "再生範囲を消す",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "playrange clear",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "stop_mode",
+      "name": "止めた時の表示",
+      "options": [
+        {
+          "id": "mode",
+          "label": "表示",
+          "type": "select",
+          "default": "lastframe",
+          "choices": [
+            {
+              "id": "lastframe",
+              "label": "最後のフレーム"
+            },
+            {
+              "id": "nextframe",
+              "label": "次のフレーム"
+            },
+            {
+              "id": "black",
+              "label": "黒"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "play option: stop mode: {{option.mode}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "remote",
+      "name": "リモート操作",
+      "options": [
+        {
+          "id": "on",
+          "label": "リモート",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "有効"
+            },
+            {
+              "id": "false",
+              "label": "無効"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "remote: enable: {{option.on}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "clips_refresh",
+      "name": "クリップの一覧を取り直す",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "clips get",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "command",
+      "name": "命令を送る",
+      "options": [
+        {
+          "id": "cmd",
+          "label": "命令",
+          "type": "text",
+          "placeholder": "transport info"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.cmd}}",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "{{option.cmd}}"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "status",
+      "name": "状態",
+      "options": [
+        {
+          "id": "status",
+          "label": "状態",
+          "type": "select",
+          "default": "play",
+          "choices": [
+            {
+              "id": "play",
+              "label": "再生中"
+            },
+            {
+              "id": "record",
+              "label": "収録中"
+            },
+            {
+              "id": "stopped",
+              "label": "停止中"
+            },
+            {
+              "id": "preview",
+              "label": "プレビュー"
+            },
+            {
+              "id": "shuttle",
+              "label": "シャトル"
+            },
+            {
+              "id": "jog",
+              "label": "ジョグ"
+            }
+          ]
+        }
+      ],
+      "compare": {
+        "variable": "transport_info_status",
+        "op": "eq",
+        "value": "{{option.status}}"
+      },
+      "summary": "{{option.status}}"
+    },
+    {
+      "id": "clip",
+      "name": "クリップ",
+      "options": [
+        {
+          "id": "clip",
+          "label": "クリップ番号",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 9999
+        }
+      ],
+      "compare": {
+        "variable": "transport_info_clip_id",
+        "op": "eq",
+        "value": "{{option.clip}}"
+      }
+    },
+    {
+      "id": "loop",
+      "name": "ループ再生が ON",
+      "options": [],
+      "compare": {
+        "variable": "transport_info_loop",
+        "op": "eq",
+        "value": "true"
+      }
+    }
+  ],
+  "variables": [
+    {
+      "id": "transport_info_status",
+      "name": "状態（play / record / stopped など）"
+    },
+    {
+      "id": "transport_info_clip_id",
+      "name": "クリップ番号"
+    },
+    {
+      "id": "transport_info_timecode",
+      "name": "タイムコード"
+    },
+    {
+      "id": "transport_info_display_timecode",
+      "name": "表示のタイムコード"
+    },
+    {
+      "id": "transport_info_speed",
+      "name": "速さ（%）"
+    },
+    {
+      "id": "transport_info_slot_id",
+      "name": "スロット"
+    },
+    {
+      "id": "transport_info_loop",
+      "name": "ループ"
+    },
+    {
+      "id": "slot_info_recording_time",
+      "name": "残りの収録時間（秒）"
+    },
+    {
+      "id": "connection_info_model",
+      "name": "機種"
+    },
+    {
+      "id": "last_reply",
+      "name": "最後の返事"
+    }
+  ],
+  "onConnect": [
+    "notify: transport: true",
+    "notify: slot: true",
+    "notify: remote: true",
+    "transport info",
+    "slot info"
+  ],
+  "poll": [
+    {
+      "data": "transport info",
+      "intervalMs": 5000
+    }
+  ],
+  "presets": [
+    {
+      "id": "play",
+      "category": "再生",
+      "name": "再生",
+      "text": "▶︎ PLAY",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "play",
+        "options": {}
+      },
+      "feedbacks": [
+        {
+          "definitionId": "status",
+          "options": {
+            "status": "play"
+          },
+          "backgroundColor": "#1F9E48"
+        }
+      ]
+    },
+    {
+      "id": "stop",
+      "category": "再生",
+      "name": "停止",
+      "text": "■ STOP",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "stop",
+        "options": {}
+      },
+      "feedbacks": [
+        {
+          "definitionId": "status",
+          "options": {
+            "status": "stopped"
+          },
+          "backgroundColor": "#8E8E93"
+        }
+      ]
+    },
+    {
+      "id": "rec",
+      "category": "収録",
+      "name": "収録",
+      "text": "● REC",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "record",
+        "options": {}
+      },
+      "feedbacks": [
+        {
+          "definitionId": "status",
+          "options": {
+            "status": "record"
+          },
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "prev",
+      "category": "クリップ",
+      "name": "前のクリップ",
+      "text": "⏮ PREV",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "goto_clip_rel",
+        "options": {
+          "dir": "-1"
+        }
+      }
+    },
+    {
+      "id": "next",
+      "category": "クリップ",
+      "name": "次のクリップ",
+      "text": "NEXT ⏭",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "goto_clip_rel",
+        "options": {
+          "dir": "+1"
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Blackmagic HyperDeck Ethernet Protocol（TCP 9993、命令・返事 200 ok・通知 5xx）",
+      "url": "https://documents.blackmagicdesign.com/DeveloperManuals/HyperDeckEthernetProtocol.pdf",
+      "status": "確認済",
+      "note": "実機では未確認。機器の画面の「最近のログ」（詳細）で確かめる"
+    }
+  ]
+}

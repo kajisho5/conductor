@@ -1,0 +1,568 @@
+{
+  "format": 1,
+  "id": "visca-ip",
+  "name": "PTZ カメラ（VISCA over IP）",
+  "category": "カメラ",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "udp",
+  "session": "visca-ip",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.0.100",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 52381,
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "id": "framing",
+      "label": "頭（ヘッダー）",
+      "type": "select",
+      "default": "sony",
+      "choices": [
+        {
+          "id": "sony",
+          "label": "付ける（Sony 形式・52381）"
+        },
+        {
+          "id": "raw",
+          "label": "付けない（VISCA だけ）"
+        }
+      ],
+      "help": "頭を付けないカメラはポートも機種の説明書の番号にします"
+    }
+  ],
+  "actions": [
+    {
+      "id": "move",
+      "name": "パン・チルト",
+      "options": [
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "up",
+          "choices": [
+            {
+              "id": "up",
+              "label": "上"
+            },
+            {
+              "id": "down",
+              "label": "下"
+            },
+            {
+              "id": "left",
+              "label": "左"
+            },
+            {
+              "id": "right",
+              "label": "右"
+            },
+            {
+              "id": "upleft",
+              "label": "左上"
+            },
+            {
+              "id": "upright",
+              "label": "右上"
+            },
+            {
+              "id": "downleft",
+              "label": "左下"
+            },
+            {
+              "id": "downright",
+              "label": "右下"
+            }
+          ]
+        },
+        {
+          "id": "pan",
+          "label": "パンの速さ（1–24）",
+          "type": "number",
+          "default": 8,
+          "min": 1,
+          "max": 24
+        },
+        {
+          "id": "tilt",
+          "label": "チルトの速さ（1–20）",
+          "type": "number",
+          "default": 8,
+          "min": 1,
+          "max": 20
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 06 01 {{option.pan|hexu|pad2}} {{option.tilt|hexu|pad2}} {{option.dir|map}} FF",
+        "encoding": "hex"
+      },
+      "summary": "パン・チルト {{option.dir}}",
+      "maps": {
+        "dir": {
+          "up": "03 01",
+          "down": "03 02",
+          "left": "01 03",
+          "right": "02 03",
+          "upleft": "01 01",
+          "upright": "02 01",
+          "downleft": "01 02",
+          "downright": "02 02"
+        }
+      }
+    },
+    {
+      "id": "stop",
+      "name": "パン・チルトを止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 06 01 01 01 03 03 FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "home",
+      "name": "ホームへ",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 06 04 FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "zoom_in",
+      "name": "ズームイン",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（0–7）",
+          "type": "number",
+          "default": 4,
+          "min": 0,
+          "max": 7,
+          "help": "0 がいちばん遅い"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 07 2{{option.speed}} FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "zoom_out",
+      "name": "ズームアウト",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（0–7）",
+          "type": "number",
+          "default": 4,
+          "min": 0,
+          "max": 7,
+          "help": "0 がいちばん遅い"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 07 3{{option.speed}} FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "zoom_stop",
+      "name": "ズームを止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 07 00 FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "focus_far",
+      "name": "フォーカス 遠く",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（0–7）",
+          "type": "number",
+          "default": 4,
+          "min": 0,
+          "max": 7,
+          "help": "0 がいちばん遅い"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 08 2{{option.speed}} FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "focus_near",
+      "name": "フォーカス 近く",
+      "options": [
+        {
+          "id": "speed",
+          "label": "速さ（0–7）",
+          "type": "number",
+          "default": 4,
+          "min": 0,
+          "max": 7,
+          "help": "0 がいちばん遅い"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 08 3{{option.speed}} FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "focus_stop",
+      "name": "フォーカスを止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 08 00 FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "focus_auto",
+      "name": "オートフォーカス",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 38 02 FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "focus_manual",
+      "name": "マニュアルフォーカス",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 38 03 FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "preset_recall",
+      "name": "プリセットを呼び出す",
+      "options": [
+        {
+          "id": "n",
+          "label": "プリセット番号（1–64）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 64
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 3F 02 {{option.n|lin:1:-1|hexu|pad2}} FF",
+        "encoding": "hex"
+      },
+      "summary": "プリセット {{option.n}}"
+    },
+    {
+      "id": "preset_set",
+      "name": "プリセットに記憶",
+      "options": [
+        {
+          "id": "n",
+          "label": "プリセット番号（1–64）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 64
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 3F 01 {{option.n|lin:1:-1|hexu|pad2}} FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "preset_reset",
+      "name": "プリセットを消す",
+      "options": [
+        {
+          "id": "n",
+          "label": "プリセット番号（1–64）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 64
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 3F 00 {{option.n|lin:1:-1|hexu|pad2}} FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "power_on",
+      "name": "電源を入れる",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 00 02 FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "power_off",
+      "name": "スタンバイ",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "81 01 04 00 03 FF",
+        "encoding": "hex"
+      }
+    },
+    {
+      "id": "command",
+      "name": "命令を送る（16 進）",
+      "options": [
+        {
+          "id": "hex",
+          "label": "VISCA の命令（16 進）",
+          "type": "text",
+          "placeholder": "81 01 06 04 FF",
+          "pattern": "^8[0-9A-Fa-f]( ?[0-9A-Fa-f]{2})* ?[Ff][Ff]$",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.hex}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.hex}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [
+    {
+      "id": "last_reply",
+      "name": "最後の返事（ack / done / error）"
+    }
+  ],
+  "presets": [
+    {
+      "id": "move_up",
+      "category": "パン・チルト",
+      "name": "上",
+      "text": "上",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "move",
+        "options": {
+          "dir": "up",
+          "pan": 8,
+          "tilt": 8
+        }
+      }
+    },
+    {
+      "id": "move_down",
+      "category": "パン・チルト",
+      "name": "下",
+      "text": "下",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "move",
+        "options": {
+          "dir": "down",
+          "pan": 8,
+          "tilt": 8
+        }
+      }
+    },
+    {
+      "id": "move_left",
+      "category": "パン・チルト",
+      "name": "左",
+      "text": "左",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "move",
+        "options": {
+          "dir": "left",
+          "pan": 8,
+          "tilt": 8
+        }
+      }
+    },
+    {
+      "id": "move_right",
+      "category": "パン・チルト",
+      "name": "右",
+      "text": "右",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "move",
+        "options": {
+          "dir": "right",
+          "pan": 8,
+          "tilt": 8
+        }
+      }
+    },
+    {
+      "id": "stop",
+      "category": "パン・チルト",
+      "name": "止める",
+      "text": "STOP",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "stop",
+        "options": {}
+      }
+    },
+    {
+      "id": "home",
+      "category": "パン・チルト",
+      "name": "ホーム",
+      "text": "HOME",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "home",
+        "options": {}
+      }
+    },
+    {
+      "id": "p1",
+      "category": "プリセット",
+      "name": "プリセット 1",
+      "text": "PRESET\n1",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 1
+        }
+      }
+    },
+    {
+      "id": "p2",
+      "category": "プリセット",
+      "name": "プリセット 2",
+      "text": "PRESET\n2",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 2
+        }
+      }
+    },
+    {
+      "id": "p3",
+      "category": "プリセット",
+      "name": "プリセット 3",
+      "text": "PRESET\n3",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 3
+        }
+      }
+    },
+    {
+      "id": "p4",
+      "category": "プリセット",
+      "name": "プリセット 4",
+      "text": "PRESET\n4",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 4
+        }
+      }
+    },
+    {
+      "id": "p5",
+      "category": "プリセット",
+      "name": "プリセット 5",
+      "text": "PRESET\n5",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 5
+        }
+      }
+    },
+    {
+      "id": "p6",
+      "category": "プリセット",
+      "name": "プリセット 6",
+      "text": "PRESET\n6",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 6
+        }
+      }
+    },
+    {
+      "id": "p7",
+      "category": "プリセット",
+      "name": "プリセット 7",
+      "text": "PRESET\n7",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 7
+        }
+      }
+    },
+    {
+      "id": "p8",
+      "category": "プリセット",
+      "name": "プリセット 8",
+      "text": "PRESET\n8",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "preset_recall",
+        "options": {
+          "n": 8
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Sony VISCA コマンド一覧（VISCA over IP の頭・UDP 52381・RESET、パン・チルト・ズーム・フォーカス・プリセット）",
+      "url": "https://www.sony.jp/ls-camera/download/pdf/FR7/ILME-FR7_VISCA_command_list.pdf",
+      "status": "確認済",
+      "note": "Sony 以外のカメラ（BirdDog・PTZOptics など）は同じ VISCA を使うものが多いが【推測】。実機で確かめる"
+    }
+  ]
+}

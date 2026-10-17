@@ -1,0 +1,702 @@
+{
+  "format": 1,
+  "id": "obs-studio",
+  "name": "OBS Studio（obs-websocket 5）",
+  "category": "配信ソフト",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "ws",
+  "wsPath": "",
+  "session": "obs-ws",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス（OBS の PC）",
+      "type": "text",
+      "placeholder": "192.168.0.20",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 4455,
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "id": "password",
+      "label": "パスワード（OBS の「WebSocket サーバー設定」）",
+      "type": "text",
+      "mono": true
+    }
+  ],
+  "actions": [
+    {
+      "id": "program_scene",
+      "name": "シーンを切り替える（番組）",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン名",
+          "type": "text",
+          "placeholder": "DEMO SCENE",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SetCurrentProgramScene\",\"requestData\":{\"sceneName\":\"{{option.scene}}\"}}",
+        "encoding": "text"
+      },
+      "summary": "シーン {{option.scene}}"
+    },
+    {
+      "id": "preview_scene",
+      "name": "プレビューのシーンを選ぶ（スタジオモード）",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン名",
+          "type": "text",
+          "placeholder": "DEMO SCENE",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SetCurrentPreviewScene\",\"requestData\":{\"sceneName\":\"{{option.scene}}\"}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "transition",
+      "name": "トランジション（スタジオモード）",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"TriggerStudioModeTransition\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "studio_mode",
+      "name": "スタジオモード",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SetStudioModeEnabled\",\"requestData\":{\"studioModeEnabled\":{{option.on}}}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "stream_start",
+      "name": "配信を始める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"StartStream\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "stream_stop",
+      "name": "配信を止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"StopStream\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "stream_toggle",
+      "name": "配信を始める / 止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"ToggleStream\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "record_start",
+      "name": "録画を始める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"StartRecord\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "record_stop",
+      "name": "録画を止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"StopRecord\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "record_toggle",
+      "name": "録画を始める / 止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"ToggleRecord\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "record_pause",
+      "name": "録画を一時停止",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"PauseRecord\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "record_resume",
+      "name": "録画を再開",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"ResumeRecord\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "replay_start",
+      "name": "リプレイバッファを始める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"StartReplayBuffer\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "replay_stop",
+      "name": "リプレイバッファを止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"StopReplayBuffer\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "replay_save",
+      "name": "リプレイを保存",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SaveReplayBuffer\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "virtualcam_start",
+      "name": "仮想カメラを始める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"StartVirtualCam\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "virtualcam_stop",
+      "name": "仮想カメラを止める",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"StopVirtualCam\"}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "mute",
+      "name": "ソースのミュート",
+      "options": [
+        {
+          "id": "input",
+          "label": "ソース（入力）名",
+          "type": "text",
+          "placeholder": "DEMO MIC",
+          "help": "「\"」と「\\」は使えません"
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SetInputMute\",\"requestData\":{\"inputName\":\"{{option.input}}\",\"inputMuted\":{{option.on}}}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "mute_toggle",
+      "name": "ソースのミュートを切り替える",
+      "options": [
+        {
+          "id": "input",
+          "label": "ソース（入力）名",
+          "type": "text",
+          "placeholder": "DEMO MIC",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"ToggleInputMute\",\"requestData\":{\"inputName\":\"{{option.input}}\"}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "volume",
+      "name": "ソースの音量",
+      "options": [
+        {
+          "id": "input",
+          "label": "ソース（入力）名",
+          "type": "text",
+          "placeholder": "DEMO MIC",
+          "help": "「\"」と「\\」は使えません"
+        },
+        {
+          "id": "db",
+          "label": "音量（dB）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 26
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SetInputVolume\",\"requestData\":{\"inputName\":\"{{option.input}}\",\"inputVolumeDb\":{{option.db}}}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "scene_transition",
+      "name": "トランジションの種類",
+      "options": [
+        {
+          "id": "name",
+          "label": "トランジション名",
+          "type": "text",
+          "placeholder": "フェード",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SetCurrentSceneTransition\",\"requestData\":{\"transitionName\":\"{{option.name}}\"}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "transition_duration",
+      "name": "トランジションの時間",
+      "options": [
+        {
+          "id": "ms",
+          "label": "時間（ミリ秒）",
+          "type": "number",
+          "default": 300,
+          "min": 50,
+          "max": 20000
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SetCurrentSceneTransitionDuration\",\"requestData\":{\"transitionDuration\":{{option.ms}}}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "item_enabled",
+      "name": "シーンのソースを表示 / 非表示",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン名",
+          "type": "text",
+          "placeholder": "DEMO SCENE",
+          "help": "「\"」と「\\」は使えません"
+        },
+        {
+          "id": "item",
+          "label": "ソースの番号（sceneItemId）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100000
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "true",
+          "choices": [
+            {
+              "id": "true",
+              "label": "ON"
+            },
+            {
+              "id": "false",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SetSceneItemEnabled\",\"requestData\":{\"sceneName\":\"{{option.scene}}\",\"sceneItemId\":{{option.item}},\"sceneItemEnabled\":{{option.on}}}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "media",
+      "name": "メディアソースの操作",
+      "options": [
+        {
+          "id": "input",
+          "label": "ソース（入力）名",
+          "type": "text",
+          "placeholder": "DEMO MIC",
+          "help": "「\"」と「\\」は使えません"
+        },
+        {
+          "id": "act",
+          "label": "操作",
+          "type": "select",
+          "default": "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PLAY",
+          "choices": [
+            {
+              "id": "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PLAY",
+              "label": "再生"
+            },
+            {
+              "id": "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PAUSE",
+              "label": "一時停止"
+            },
+            {
+              "id": "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_STOP",
+              "label": "停止"
+            },
+            {
+              "id": "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART",
+              "label": "最初から"
+            },
+            {
+              "id": "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NEXT",
+              "label": "次"
+            },
+            {
+              "id": "OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PREVIOUS",
+              "label": "前"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"TriggerMediaInputAction\",\"requestData\":{\"inputName\":\"{{option.input}}\",\"mediaAction\":\"{{option.act}}\"}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "hotkey",
+      "name": "ホットキーを押す",
+      "options": [
+        {
+          "id": "name",
+          "label": "ホットキー名",
+          "type": "text",
+          "placeholder": "OBSBasic.StartStreaming",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"TriggerHotkeyByName\",\"requestData\":{\"hotkeyName\":\"{{option.name}}\"}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "screenshot_save",
+      "name": "スクリーンショットを保存",
+      "options": [
+        {
+          "id": "source",
+          "label": "ソース名",
+          "type": "text",
+          "placeholder": "DEMO SCENE",
+          "help": "「\"」と「\\」は使えません"
+        },
+        {
+          "id": "path",
+          "label": "保存先（OBS の PC のパス）",
+          "type": "text",
+          "placeholder": "C:/demo/shot.png",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{\"requestType\":\"SaveSourceScreenshot\",\"requestData\":{\"sourceName\":\"{{option.source}}\",\"imageFormat\":\"png\",\"imageFilePath\":\"{{option.path}}\"}}",
+        "encoding": "text"
+      }
+    },
+    {
+      "id": "request",
+      "name": "リクエストを送る（JSON）",
+      "options": [
+        {
+          "id": "json",
+          "label": "リクエスト",
+          "type": "text",
+          "placeholder": "{\"requestType\":\"GetVersion\"}",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.json}}",
+        "encoding": "text"
+      },
+      "summary": "{{option.json}}"
+    }
+  ],
+  "feedbacks": [
+    {
+      "id": "program",
+      "name": "番組のシーン",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン名",
+          "type": "text",
+          "placeholder": "DEMO SCENE",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "compare": {
+        "variable": "program_scene",
+        "op": "eq",
+        "value": "{{option.scene}}"
+      },
+      "summary": "番組が {{option.scene}}"
+    },
+    {
+      "id": "preview",
+      "name": "プレビューのシーン",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン名",
+          "type": "text",
+          "placeholder": "DEMO SCENE",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "compare": {
+        "variable": "preview_scene",
+        "op": "eq",
+        "value": "{{option.scene}}"
+      }
+    },
+    {
+      "id": "streaming",
+      "name": "配信中",
+      "options": [],
+      "compare": {
+        "variable": "streaming",
+        "op": "eq",
+        "value": "1"
+      }
+    },
+    {
+      "id": "recording",
+      "name": "録画中",
+      "options": [],
+      "compare": {
+        "variable": "recording",
+        "op": "eq",
+        "value": "1"
+      }
+    },
+    {
+      "id": "paused",
+      "name": "録画を一時停止中",
+      "options": [],
+      "compare": {
+        "variable": "record_paused",
+        "op": "eq",
+        "value": "1"
+      }
+    },
+    {
+      "id": "muted",
+      "name": "ソースがミュート中",
+      "options": [
+        {
+          "id": "input",
+          "label": "ソース（入力）名",
+          "type": "text",
+          "placeholder": "DEMO MIC",
+          "help": "「\"」と「\\」は使えません"
+        }
+      ],
+      "compare": {
+        "variable": "mute_{{option.input}}",
+        "op": "eq",
+        "value": "1"
+      }
+    },
+    {
+      "id": "studio",
+      "name": "スタジオモード",
+      "options": [],
+      "compare": {
+        "variable": "studio_mode",
+        "op": "eq",
+        "value": "1"
+      }
+    }
+  ],
+  "variables": [
+    {
+      "id": "program_scene",
+      "name": "番組のシーン"
+    },
+    {
+      "id": "preview_scene",
+      "name": "プレビューのシーン"
+    },
+    {
+      "id": "streaming",
+      "name": "配信中（1 / 0）"
+    },
+    {
+      "id": "recording",
+      "name": "録画中（1 / 0）"
+    },
+    {
+      "id": "record_timecode",
+      "name": "録画の時間"
+    },
+    {
+      "id": "stream_timecode",
+      "name": "配信の時間"
+    },
+    {
+      "id": "studio_mode",
+      "name": "スタジオモード（1 / 0）"
+    },
+    {
+      "id": "transition",
+      "name": "トランジション"
+    },
+    {
+      "id": "last_reply",
+      "name": "最後の返事"
+    }
+  ],
+  "presets": [
+    {
+      "id": "stream",
+      "category": "配信・録画",
+      "name": "配信",
+      "text": "STREAM",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "stream_toggle",
+        "options": {}
+      },
+      "feedbacks": [
+        {
+          "definitionId": "streaming",
+          "options": {},
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "record",
+      "category": "配信・録画",
+      "name": "録画",
+      "text": "REC",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "record_toggle",
+        "options": {}
+      },
+      "feedbacks": [
+        {
+          "definitionId": "recording",
+          "options": {},
+          "backgroundColor": "#E0302B"
+        }
+      ]
+    },
+    {
+      "id": "transition",
+      "category": "シーン",
+      "name": "トランジション",
+      "text": "TRANS",
+      "backgroundColor": "#F2C200",
+      "action": {
+        "definitionId": "transition",
+        "options": {}
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "obs-websocket 5.x の公開仕様（Hello・Identify・認証・Request・Event、ポート 4455）",
+      "url": "https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md",
+      "status": "確認済",
+      "note": "シーン名などは OBS 側の名前をそのまま入れる。実機では未確認"
+    }
+  ]
+}

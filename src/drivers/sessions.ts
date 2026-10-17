@@ -5,6 +5,9 @@ import { applyDerive, ReceiveParser, renderTemplate, type Values } from './engin
 import type { DriverDefinition } from './types';
 import { AtemSession } from './atem';
 import { OseeSession } from './osee';
+import { BmdTextSession } from './bmdText';
+import { ViscaIpSession } from './visca';
+import { ObsSession } from './obs';
 
 /**
  * 接続ごとの通信手順（SPEC 7 章）。DeviceManager が TCP/UDP の口を開き、その上でこれが動く。
@@ -37,7 +40,7 @@ export interface Session {
 }
 
 /** 接続できた後の共通処理：onConnect を送り、poll を回す */
-class Routine {
+export class Routine {
   private timers: ReturnType<typeof setInterval>[] = [];
 
   constructor(
@@ -441,5 +444,8 @@ export function createSession(io: SessionIO): Session {
   if (io.def.session === 'roland-lan') return new RolandLanSession(io);
   if (io.def.session === 'atem') return new AtemSession(io);
   if (io.def.session === 'osee') return new OseeSession(io);
+  if (io.def.session === 'bmd-text') return new BmdTextSession(io);
+  if (io.def.session === 'visca-ip') return new ViscaIpSession(io);
+  if (io.def.session === 'obs-ws') return new ObsSession(io);
   return new RawSession(io);
 }

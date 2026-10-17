@@ -1,0 +1,775 @@
+{
+  "format": 1,
+  "id": "behringer-x32",
+  "name": "Behringer / Midas X32・M32",
+  "category": "ミキサー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "osc",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.0.64",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 10023,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "actions": [
+    {
+      "id": "ch_mute",
+      "name": "チャンネルのミュート",
+      "options": [
+        {
+          "id": "ch",
+          "label": "チャンネル（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ミュートする"
+            },
+            {
+              "id": "1",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/ch/{{option.ch|pad2}}/mix/on",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mute}}"
+          }
+        ]
+      },
+      "summary": "CH {{option.ch}} on={{option.mute}}"
+    },
+    {
+      "id": "ch_fader",
+      "name": "チャンネルのフェーダー",
+      "options": [
+        {
+          "id": "ch",
+          "label": "チャンネル（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "level",
+          "label": "レベル（0.0–1.0）",
+          "type": "number",
+          "default": 0.75,
+          "min": 0,
+          "max": 1,
+          "help": "0.75 がおよそ 0 dB"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/ch/{{option.ch|pad2}}/mix/fader",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.level}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "aux_mute",
+      "name": "AUX IN のミュート",
+      "options": [
+        {
+          "id": "ch",
+          "label": "AUX IN（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ミュートする"
+            },
+            {
+              "id": "1",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/auxin/{{option.ch|pad2}}/mix/on",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mute}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fxrtn_mute",
+      "name": "FX リターンのミュート",
+      "options": [
+        {
+          "id": "ch",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ミュートする"
+            },
+            {
+              "id": "1",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/fxrtn/{{option.ch|pad2}}/mix/on",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mute}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bus_mute",
+      "name": "バスのミュート",
+      "options": [
+        {
+          "id": "bus",
+          "label": "バス（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ミュートする"
+            },
+            {
+              "id": "1",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/bus/{{option.bus|pad2}}/mix/on",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mute}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bus_fader",
+      "name": "バスのフェーダー",
+      "options": [
+        {
+          "id": "bus",
+          "label": "バス（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "level",
+          "label": "レベル（0.0–1.0）",
+          "type": "number",
+          "default": 0.75,
+          "min": 0,
+          "max": 1,
+          "help": "0.75 がおよそ 0 dB"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/bus/{{option.bus|pad2}}/mix/fader",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.level}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mtx_mute",
+      "name": "マトリクスのミュート",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–6）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 6
+        },
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ミュートする"
+            },
+            {
+              "id": "1",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/mtx/{{option.mtx|pad2}}/mix/on",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mute}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "main_mute",
+      "name": "メイン LR のミュート",
+      "options": [
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ミュートする"
+            },
+            {
+              "id": "1",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/main/st/mix/on",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mute}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "main_fader",
+      "name": "メイン LR のフェーダー",
+      "options": [
+        {
+          "id": "level",
+          "label": "レベル（0.0–1.0）",
+          "type": "number",
+          "default": 0.75,
+          "min": 0,
+          "max": 1,
+          "help": "0.75 がおよそ 0 dB"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/main/st/mix/fader",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.level}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mono_mute",
+      "name": "メイン M/C のミュート",
+      "options": [
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ミュートする"
+            },
+            {
+              "id": "1",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/main/m/mix/on",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mute}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dca_mute",
+      "name": "DCA のミュート",
+      "options": [
+        {
+          "id": "dca",
+          "label": "DCA（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "ミュートする"
+            },
+            {
+              "id": "1",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/dca/{{option.dca}}/on",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.mute}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dca_fader",
+      "name": "DCA のフェーダー",
+      "options": [
+        {
+          "id": "dca",
+          "label": "DCA（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "level",
+          "label": "レベル（0.0–1.0）",
+          "type": "number",
+          "default": 0.75,
+          "min": 0,
+          "max": 1,
+          "help": "0.75 がおよそ 0 dB"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/dca/{{option.dca}}/fader",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.level}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mute_group",
+      "name": "ミュートグループ",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–6）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 6
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON（ミュート）"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/config/mute/{{option.grp}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "scene",
+      "name": "シーンを呼び出す",
+      "options": [
+        {
+          "id": "n",
+          "label": "シーン番号（0–99）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 99
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/-action/goscene",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.n}}"
+          }
+        ]
+      },
+      "summary": "シーン {{option.n}}"
+    },
+    {
+      "id": "snippet",
+      "name": "スニペットを呼び出す",
+      "options": [
+        {
+          "id": "n",
+          "label": "スニペット番号（0–99）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 99
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/-action/gosnippet",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.n}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cue",
+      "name": "キューを呼び出す",
+      "options": [
+        {
+          "id": "n",
+          "label": "キュー番号（0–99）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 99
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/-action/gocue",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.n}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ch_name",
+      "name": "チャンネルの名前",
+      "options": [
+        {
+          "id": "ch",
+          "label": "チャンネル（1–32）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 32
+        },
+        {
+          "id": "name",
+          "label": "名前（12 文字まで）",
+          "type": "text",
+          "placeholder": "DEMO MC"
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/ch/{{option.ch|pad2}}/config/name",
+        "args": [
+          {
+            "type": "s",
+            "value": "{{option.name}}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "send",
+      "name": "メッセージを送る",
+      "options": [
+        {
+          "id": "address",
+          "label": "アドレス",
+          "type": "text",
+          "placeholder": "/ch/01/mix/on",
+          "pattern": "^/.*",
+          "mono": true
+        },
+        {
+          "id": "type",
+          "label": "値の型",
+          "type": "select",
+          "default": "i",
+          "choices": [
+            {
+              "id": "i",
+              "label": "整数"
+            },
+            {
+              "id": "f",
+              "label": "小数"
+            },
+            {
+              "id": "s",
+              "label": "文字"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "値",
+          "type": "text",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{option.address}}",
+        "args": [
+          {
+            "type": "{{option.type}}",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "{{option.address}} {{option.value}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "presets": [
+    {
+      "id": "ch1",
+      "category": "チャンネル",
+      "name": "CH 1 ミュート",
+      "text": "CH 1\nMUTE",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "ch_mute",
+        "options": {
+          "ch": 1,
+          "mute": "0"
+        }
+      }
+    },
+    {
+      "id": "ch2",
+      "category": "チャンネル",
+      "name": "CH 2 ミュート",
+      "text": "CH 2\nMUTE",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "ch_mute",
+        "options": {
+          "ch": 2,
+          "mute": "0"
+        }
+      }
+    },
+    {
+      "id": "ch3",
+      "category": "チャンネル",
+      "name": "CH 3 ミュート",
+      "text": "CH 3\nMUTE",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "ch_mute",
+        "options": {
+          "ch": 3,
+          "mute": "0"
+        }
+      }
+    },
+    {
+      "id": "ch4",
+      "category": "チャンネル",
+      "name": "CH 4 ミュート",
+      "text": "CH 4\nMUTE",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "ch_mute",
+        "options": {
+          "ch": 4,
+          "mute": "0"
+        }
+      }
+    },
+    {
+      "id": "ch5",
+      "category": "チャンネル",
+      "name": "CH 5 ミュート",
+      "text": "CH 5\nMUTE",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "ch_mute",
+        "options": {
+          "ch": 5,
+          "mute": "0"
+        }
+      }
+    },
+    {
+      "id": "ch6",
+      "category": "チャンネル",
+      "name": "CH 6 ミュート",
+      "text": "CH 6\nMUTE",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "ch_mute",
+        "options": {
+          "ch": 6,
+          "mute": "0"
+        }
+      }
+    },
+    {
+      "id": "ch7",
+      "category": "チャンネル",
+      "name": "CH 7 ミュート",
+      "text": "CH 7\nMUTE",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "ch_mute",
+        "options": {
+          "ch": 7,
+          "mute": "0"
+        }
+      }
+    },
+    {
+      "id": "ch8",
+      "category": "チャンネル",
+      "name": "CH 8 ミュート",
+      "text": "CH 8\nMUTE",
+      "backgroundColor": "#E0302B",
+      "action": {
+        "definitionId": "ch_mute",
+        "options": {
+          "ch": 8,
+          "mute": "0"
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Unofficial X32/M32 OSC Remote Protocol（Patrick-Gilles Maillot、公開資料。UDP 10023、/ch/NN/mix/on など）",
+      "status": "推測",
+      "note": "メーカー公式ではない公開資料。ミュートは on=0。フェーダーは 0.0–1.0（0.75 ≒ 0 dB）。実機で確かめる"
+    }
+  ]
+}
