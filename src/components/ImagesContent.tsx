@@ -8,7 +8,6 @@ import { useShowStore } from '@/stores/show';
 import { imageFile, importImage, usedImageIds } from '@/storage/images';
 import { color, radius } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
-import { IconButton } from '@/components/ui/Buttons';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { sheet } from '@/components/editor/sheet';
 
@@ -37,7 +36,11 @@ export function ImagesContent() {
   const { width } = useWindowDimensions();
   if (!show) return null;
   const add = () => void pickImages(show);
-  const header = <Stack.Screen options={{ headerRight: () => <IconButton icon="plus" label="画像を取り込む" onPress={add} /> }} />;
+  const header = (
+    <Stack.Toolbar placement="right">
+      <Stack.Toolbar.Button icon="plus" accessibilityLabel="画像を取り込む" onPress={add} />
+    </Stack.Toolbar>
+  );
   if (show.images.length === 0) {
     return (
       <>

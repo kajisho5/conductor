@@ -122,7 +122,7 @@ export function ColorSwatches({
                     borderRadius: 14,
                     backgroundColor: c,
                     borderWidth: 1,
-                    borderColor: 'rgba(255,255,255,0.18)',
+                    borderColor: color.sep,
                   }}
                 />
               )}

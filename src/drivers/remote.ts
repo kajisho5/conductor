@@ -63,6 +63,9 @@ export function versionAtLeast(a: string, b: string): boolean {
 }
 
 /** 一覧の形を確かめる。おかしな行は捨てる */
+/** 名前・素材の決まりで UI に出さない名前 */
+const BLOCKED_NAMES = /bitfocus|companion|elgato/i;
+
 export function parseCatalog(raw: unknown): CatalogEntry[] {
   if (typeof raw !== 'object' || raw === null || (raw as { format?: unknown }).format !== 1) throw new RemoteError('定義の一覧の形式が違います');
   const list = (raw as { drivers?: unknown }).drivers;
@@ -73,6 +76,8 @@ export function parseCatalog(raw: unknown): CatalogEntry[] {
     const x = e as Record<string, unknown>;
     if (typeof x.id !== 'string' || !/^[a-z0-9][a-z0-9_.-]*$/.test(x.id) || typeof x.name !== 'string') continue;
     if (isBundled(x.id)) continue;
+    // UI に出せない名前（CLAUDE.md の名前の決まり）の機器は一覧に出さない
+    if (BLOCKED_NAMES.test(`${x.id} ${x.name} ${typeof x.category === 'string' ? x.category : ''}`)) continue;
     out.push({
       id: x.id,
       name: x.name,

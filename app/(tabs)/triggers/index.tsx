@@ -5,7 +5,6 @@ import { useSizeClass } from '@/hooks/useSizeClass';
 import { addTrigger, newTrigger } from '@/model/triggers';
 import { useShowStore } from '@/stores/show';
 import { color } from '@/theme/tokens';
-import { IconButton } from '@/components/ui/Buttons';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { TriggerEditor } from '@/components/triggers/TriggerEditor';
 import { TriggerList } from '@/components/triggers/TriggerList';
@@ -27,7 +26,11 @@ export default function TriggersScreen() {
     if (regular) setSelected(t.id);
     else router.push({ pathname: '/triggers/[id]', params: { id: t.id } });
   };
-  const header = <Stack.Screen options={{ headerRight: () => <IconButton icon="plus" label="トリガーを追加" onPress={add} /> }} />;
+  const header = (
+    <Stack.Toolbar placement="right">
+      <Stack.Toolbar.Button icon="plus" accessibilityLabel="トリガーを追加" onPress={add} />
+    </Stack.Toolbar>
+  );
 
   if (show.triggers.length === 0) {
     return (

@@ -18,7 +18,7 @@ import { pressDown, pressUp } from '@/engine/press';
 import type { ButtonModel, Show } from '@/model/types';
 import { useRuntimeStore } from '@/stores/runtime';
 import { color } from '@/theme/tokens';
-import { absoluteFill, ButtonFace } from './ButtonFace';
+import { absoluteFill, ButtonFace, textColorOf } from './ButtonFace';
 import { useButtonView } from './useButtonView';
 
 /**
@@ -230,6 +230,8 @@ export function LiveTile({
   if (!button || !view) {
     return <View style={{ width, height, borderRadius: radius, backgroundColor: color.fill4 }} accessibilityElementsHidden />;
   }
+  // 押下の光・枠はボタンの文字の色（白・黄のボタンでも見えるように）。外へ広がる枠は画面の文字の色（ライト／ダーク）
+  const mark = textColorOf(view.style);
 
   return (
     <GestureDetector gesture={gesture}>
@@ -260,10 +262,10 @@ export function LiveTile({
             topBar={topBar}
             statusIcons={show.settings.showStatusIcons}
           />
-          <Animated.View pointerEvents="none" style={[absoluteFill, { borderRadius: radius, backgroundColor: '#FFFFFF' }, overlayStyle]} />
+          <Animated.View pointerEvents="none" style={[absoluteFill, { borderRadius: radius, backgroundColor: mark }, overlayStyle]} />
           <Animated.View
             pointerEvents="none"
-            style={[absoluteFill, { borderRadius: radius, borderWidth: 3, borderColor: '#FFFFFF' }, ringStyle]}
+            style={[absoluteFill, { borderRadius: radius, borderWidth: 3, borderColor: mark }, ringStyle]}
           />
           <Animated.View
             pointerEvents="none"
@@ -278,7 +280,7 @@ export function LiveTile({
                 height={height - 3}
                 rx={radius - 1}
                 fill="none"
-                stroke="#FFFFFF"
+                stroke={mark}
                 strokeWidth={3}
                 strokeDashoffset={-(width / 2)}
                 animatedProps={holdProps}
@@ -291,14 +293,14 @@ export function LiveTile({
               style={{ position: 'absolute', left: 8, right: 8, bottom: 4, height: 3, borderRadius: 2, overflow: 'hidden' }}
             >
               <Animated.View
-                style={[{ width: '30%', height: 3, borderRadius: 2, backgroundColor: '#FFFFFF', alignSelf: 'center' }, runStyle]}
+                style={[{ width: '30%', height: 3, borderRadius: 2, backgroundColor: mark, alignSelf: 'center' }, runStyle]}
               />
             </View>
           ) : null}
         </Animated.View>
         <Animated.View
           pointerEvents="none"
-          style={[absoluteFill, { borderRadius: radius + 4, borderWidth: 3, borderColor: '#FFFFFF' }, outStyle]}
+          style={[absoluteFill, { borderRadius: radius + 4, borderWidth: 3, borderColor: color.label }, outStyle]}
         />
       </View>
     </GestureDetector>

@@ -1,9 +1,6 @@
-import { Pressable } from 'react-native';
 import { router, Stack } from 'expo-router';
 import { useShowStore } from '@/stores/show';
 import { useUiStore } from '@/stores/ui';
-import { color, MIN_TAP } from '@/theme/tokens';
-import { AppText } from '@/components/ui/AppText';
 import { ButtonInspector } from '@/components/inspector/ButtonInspector';
 
 /**
@@ -23,38 +20,23 @@ export default function EditButtonSheet() {
     router.back();
   };
 
+  const done = () => {
+    useUiStore.getState().setSheetSnapshot(null);
+    router.back();
+  };
+
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerLeft: () => <HeaderText label="キャンセル" onPress={cancel} />,
-          headerRight: () => (
-            <HeaderText
-              label="完了"
-              bold
-              onPress={() => {
-                useUiStore.getState().setSheetSnapshot(null);
-                router.back();
-              }}
-            />
-          ),
-        }}
-      />
+      {/* ヘッダーのボタンは UIKit の標準（Liquid Glass・文字の位置は OS が合わせる） */}
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.Button onPress={cancel}>キャンセル</Stack.Toolbar.Button>
+      </Stack.Toolbar>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Button variant="done" onPress={done}>
+          完了
+        </Stack.Toolbar.Button>
+      </Stack.Toolbar>
       {show && selected && button ? <ButtonInspector cell={selected} button={button} show={show} compact /> : null}
     </>
-  );
-}
-
-function HeaderText({ label, onPress, bold }: { label: string; onPress: () => void; bold?: boolean }) {
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      style={{ minHeight: MIN_TAP, minWidth: MIN_TAP, justifyContent: 'center', paddingHorizontal: 4 }}
-    >
-      <AppText weight={bold ? '600' : '400'} style={{ color: color.accent }}>
-        {label}
-      </AppText>
-    </Pressable>
   );
 }

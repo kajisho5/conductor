@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { FlatList, Share, View } from 'react-native';
+import { Alert, FlatList, Share, View } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { filterLogs, formatTime, LEVEL_LABEL, logsToText, useLogStore, type LogLevel } from '@/stores/log';
 import { useShowStore } from '@/stores/show';
 import { color } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
-import { IconButton } from '@/components/ui/Buttons';
 import { Segmented } from '@/components/ui/Segmented';
 import { EmptyState } from '@/components/ui/EmptyState';
 
@@ -32,18 +31,22 @@ export default function LogsScreen() {
       <Stack.Screen
         options={{
           title: label ? `${label} のログ` : 'ログ',
-          headerRight: () => (
-            <View style={{ flexDirection: 'row', gap: 8 }}>
-              <IconButton
-                icon="square.and.arrow.up"
-                label="ログを書き出す"
-                onPress={() => void Share.share({ message: logsToText(shown.slice().reverse()) || 'ログはありません' })}
-              />
-              <IconButton icon="trash" label="ログを消す" tint={color.danger} onPress={() => useLogStore.getState().clear()} />
-            </View>
-          ),
         }}
       />
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Button
+          icon="square.and.arrow.up"
+          accessibilityLabel="ログを書き出す"
+          onPress={() => void Share.share({ message: logsToText(shown.slice().reverse()) || 'ログはありません' })}
+        />
+        <Stack.Toolbar.Button icon="trash" accessibilityLabel="ログを消す" tintColor={color.danger} onPress={() =>
+            Alert.alert('ログを消しますか？', '消したログは戻せません。', [
+              { text: 'キャンセル', style: 'cancel' },
+              { text: '消す', style: 'destructive', onPress: () => useLogStore.getState().clear() },
+            ])
+          }
+        />
+      </Stack.Toolbar>
       <View style={{ padding: 16, paddingBottom: 8 }}>
         <Segmented items={LEVELS} value={level} onChange={setLevel} accessibilityLabel="表示するレベル" />
       </View>

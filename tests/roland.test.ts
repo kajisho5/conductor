@@ -67,6 +67,36 @@ describe('DTH の展開と派生の変数', () => {
     expect(p.kind === 'bytes' && utf8Decode(p.bytes)).toBe('DTH:002100,22;\n');
     expect(a.options[0]!.choices![2]).toEqual({ id: '22', label: 'INPUT 3' });
   });
+  it('V-160HD の増やした動作（公式のアドレスマップ・2 バイトの値）', () => {
+    const def = getDefinition('roland-v160hd')!;
+    const send = (id: string, o: Record<string, string | number>) => {
+      const p = buildPayload(def, getActionDef('roland-v160hd', id)!, o, withDefaults(def.configFields, {}));
+      return p.kind === 'bytes' ? utf8Decode(p.bytes) : '';
+    };
+    expect(def.actions.length).toBeGreaterThanOrEqual(75);
+    // 資料の例：-100.0% → 78H 18H、+100.0% → 07H 68H、0 → 00H 00H
+    expect(send('x_pinp_position_h', { pinp: '1B', v: -100 })).toBe('DTH:001B04,7818;\n');
+    expect(send('x_pinp_position_h', { pinp: '1C', v: 100 })).toBe('DTH:001C04,0768;\n');
+    expect(send('x_pinp_position_v', { pinp: '1E', v: 0 })).toBe('DTH:001E06,0000;\n');
+    // -50.0% → 7CH 0CH、+50.0% → 03H 74H、ズーム 400% → 03H 10H
+    expect(send('x_pinp_view_h', { pinp: '1B', v: -50 })).toBe('DTH:001B11,7C0C;\n');
+    expect(send('x_pinp_view_v', { pinp: '1B', v: 50 })).toBe('DTH:001B13,0374;\n');
+    expect(send('x_pinp_view_zoom', { pinp: '1B', v: 400 })).toBe('DTH:001B15,0310;\n');
+    expect(send('x_pinp_size', { pinp: '1B', v: 50.5 })).toBe('DTH:001B08,0379;\n');
+    expect(send('x_key_level', { pinp: '1B', v: 255 })).toBe('DTH:001B17,017F;\n');
+    // 1 バイトの符号付き：-30 → 62H、+30 → 1EH
+    expect(send('x_chroma_hue_width', { pinp: '1B', v: -30 })).toBe('DTH:001B1E,62;\n');
+    expect(send('x_chroma_hue_width', { pinp: '1B', v: 30 })).toBe('DTH:001B1E,1E;\n');
+    expect(send('x_wipe_direction', { dir: '02' })).toBe('DTH:001803,02;\n');
+    expect(send('x_cam_pan_left', { cam: '43' })).toBe('DTH:024322,7F;\n');
+    expect(send('x_cam_pt_speed', { cam: '41', v: 24 })).toBe('DTH:024124,18;\n');
+    // 公開 OSS から変換した動作（LF は 1 つ）
+    expect(send('x_freezeSwitchOn', {})).toBe('DTH:020500,01;\n');
+    expect(send('x_save_memory_trigger', { memory: '0' })).toMatch(/^DTH:0A0001,[0-9A-F]{2};\n$/);
+    // 名前は日本語、id は重複なし
+    expect(new Set(def.actions.map((a) => a.id)).size).toBe(def.actions.length);
+    for (const a of def.actions) expect(a.name).toMatch(/[ぁ-んァ-ン一-龥]|^(CUT|AUTO)$/);
+  });
   it('V-80HD・VR-120HD の入力の値', () => {
     expect(getActionDef('roland-v80hd', 'pgm')!.options[0]!.choices![0]!.id).toBe('29');
     expect(getActionDef('roland-vr120hd', 'pgm')!.options[0]!.choices![0]!.id).toBe('1D');

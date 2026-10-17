@@ -8,6 +8,7 @@ import {
   removeCustomVariable,
   removeExpressionVariable,
   updateCustomVariable,
+  renameCustomVariable,
   updateExpressionVariable,
 } from '@/model/variables';
 import type { CustomVariable, ExpressionVariable, Show } from '@/model/types';
@@ -18,6 +19,8 @@ import { AppText } from '@/components/ui/AppText';
 import { IconButton } from '@/components/ui/Buttons';
 import { Row, Section } from '@/components/ui/Group';
 import { Segmented } from '@/components/ui/Segmented';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { router } from 'expo-router';
 import { useNow } from '@/components/board/useButtonView';
 import { currentContext, evaluateFor, INTERNAL_VARIABLES, resolveOne, type ResolveContext } from '@/variables/resolve';
 
@@ -98,6 +101,15 @@ export default function VariablesScreen() {
         </Section>
       ) : null}
 
+      {kind === 'device' && show.devices.length === 0 ? (
+        <EmptyState
+          icon="cable.connector"
+          title="機器がありません"
+          message="機器を追加すると、機器から届いた値（PGM の入力など）がここに出ます。"
+          actionLabel="機器を追加"
+          onAction={() => router.push('/devices/add')}
+        />
+      ) : null}
       {kind === 'device'
         ? show.devices.map((d) => {
             const keys = Object.keys(values[d.id] ?? {})
@@ -154,7 +166,16 @@ function CustomCard({ v, show, current, mutate }: { v: CustomVariable; show: Sho
         </AppText>
         <TextInput
           value={v.name}
-          onChangeText={(name) => mutate((s) => updateCustomVariable(s, v.id, { name }), `custom:${v.id}:name`)}
+          onChangeText={(name) => {
+            // 今の値も新しい名前へ移す（名前を 1 文字変えるたびに初期値へ戻らないように）
+            const rt = useRuntimeStore.getState();
+            const cur = rt.customValues[v.name];
+            mutate((s) => renameCustomVariable(s, v.id, name), `custom:${v.id}:name`);
+            if (cur !== undefined) {
+              const { [v.name]: _old, ...rest } = rt.customValues;
+              rt.setCustomValues({ ...rest, [name]: cur });
+            }
+          }}
           autoCapitalize="none"
           autoCorrect={false}
           accessibilityLabel="変数の名前"

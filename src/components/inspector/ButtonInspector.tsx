@@ -26,14 +26,14 @@ const TABS_REGULAR: { value: InspectorTab; label: string }[] = [
   { value: 'style', label: '見た目' },
   { value: 'feedback', label: '状態表示' },
   { value: 'variables', label: '変数' },
-  { value: 'options', label: 'オプション' },
+  { value: 'options', label: 'その他' },
 ];
 const TABS_COMPACT: { value: InspectorTab; label: string }[] = [
   { value: 'actions', label: '動作' },
   { value: 'style', label: '見た目' },
-  { value: 'feedback', label: '状態' },
+  { value: 'feedback', label: '状態表示' },
   { value: 'variables', label: '変数' },
-  { value: 'options', label: '設定' },
+  { value: 'options', label: 'その他' },
 ];
 
 export function ButtonInspector({ cell, button, show, compact }: { cell: CellRef; button: ButtonModel; show: Show; compact?: boolean }) {
@@ -47,7 +47,7 @@ export function ButtonInspector({ cell, button, show, compact }: { cell: CellRef
       keyboardShouldPersistTaps="handled"
       automaticallyAdjustKeyboardInsets
     >
-      <InspectorHeader cell={cell} button={button} show={show} pageNumber={page?.number ?? 1} compact={compact} />
+      <InspectorHeader key={button.id} cell={cell} button={button} show={show} pageNumber={page?.number ?? 1} compact={compact} />
       <Segmented
         items={compact ? TABS_COMPACT : TABS_REGULAR}
         value={tab}

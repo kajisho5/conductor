@@ -52,7 +52,9 @@ export default function ShowsScreen() {
 
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={{ padding: 16, paddingBottom: 48 }}>
-      <Stack.Screen options={{ headerRight: () => <IconButton icon="plus" label="新しいショー" onPress={add} /> }} />
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.Button icon="plus" accessibilityLabel="新しいショー" onPress={add} />
+      </Stack.Toolbar>
       <Section footer="ショーは 1 現場ぶんの設定一式です。切り替えると機器に接続し直します。">
         {shows.map((s, i) => (
           <ShowRow
@@ -127,7 +129,7 @@ function ShowRow({
           <AppText weight={current ? '600' : '400'} numberOfLines={1}>
             {s.name}
           </AppText>
-          <AppText variant="footnote" tone="label2">{`ページ ${s.pages}・機器 ${s.devices}・${s.updatedAt.slice(0, 10)}`}</AppText>
+          <AppText variant="footnote" tone="label2">{`ページ ${s.pages}・機器 ${s.devices}・${localDate(s.updatedAt)}`}</AppText>
         </View>
         <View ref={ref} collapsable={false} style={{ minHeight: MIN_TAP, justifyContent: 'center' }}>
           <IconButton
@@ -145,4 +147,11 @@ function ShowRow({
       </View>
     </Pressable>
   );
+}
+
+/** 更新日（端末の時刻の日付。ISO の先頭 10 文字は UTC なので使わない） */
+function localDate(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }

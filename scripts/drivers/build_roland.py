@@ -6,7 +6,15 @@
 使い方：python3 scripts/drivers/build_roland.py
 """
 import json
+import os
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import roland_v160hd_more  # noqa: E402
+
+# kajisho5/conductor-drivers を置いた場所（builtin/ の変換結果を読む）
+DRIVERS_DIR = Path(os.environ.get('CONDUCTOR_DRIVERS', Path(__file__).resolve().parents[3] / 'conductor-drivers'))
 
 OUT = Path(__file__).resolve().parents[2] / 'src' / 'drivers' / 'defs'
 
@@ -166,6 +174,16 @@ def build(m):
         },
     ]
 
+    extra_evidence = []
+    if m['id'] == 'roland-v160hd':
+        conv, source, missing = roland_v160hd_more.converted(DRIVERS_DIR)
+        if missing:
+            raise SystemExit(f'変換結果に無い動作があります：{missing}（conductor-drivers を最新にしてください）')
+        actions += conv + roland_v160hd_more.manual()
+        extra_evidence = roland_v160hd_more.evidence(source)
+        ids = [a['id'] for a in actions]
+        assert len(ids) == len(set(ids)), '動作の id が重複しています'
+
     feedbacks = [
         {
             'id': 'pgm_is', 'name': 'PGM が入力',
@@ -217,7 +235,7 @@ def build(m):
     presets.append({'id': 'cut', 'category': 'トランジション', 'name': 'CUT', 'text': 'CUT', 'backgroundColor': '#E9E9EC', 'action': {'definitionId': 'cut', 'options': {}}})
     presets.append({'id': 'auto', 'category': 'トランジション', 'name': 'AUTO', 'text': 'AUTO', 'backgroundColor': '#F2C200', 'action': {'definitionId': 'auto', 'options': {}}})
 
-    evidence = [m['guide'], GUIDE_SUPPORT, SIMPLE, CROSSPOINT,
+    evidence = extra_evidence + [m['guide'], GUIDE_SUPPORT, SIMPLE, CROSSPOINT,
                 {'title': '実機での確認', 'status': '不明', 'note': 'この定義はまだ実機で通していない。機器の画面の「最近のログ」（詳細）で送受信を確かめる'},
                 {'title': m['cut_note'], 'status': '確認済' if m['id'] == 'roland-v160hd' else '推測'},
                 {'title': 'タリーの並び・値（0C0000 から）', 'status': '確認済' if m['id'] == 'roland-v160hd' else '推測',
@@ -228,7 +246,7 @@ def build(m):
         'id': m['id'],
         'name': m['name'],
         'category': '映像スイッチャー',
-        'version': '1.0.0',
+        'version': '1.1.0' if m['id'] == 'roland-v160hd' else '1.0.0',
         'minAppVersion': '0.3.0',
         'transport': 'tcp',
         'session': 'roland-lan',

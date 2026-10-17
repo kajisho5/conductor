@@ -1,3 +1,5 @@
+import { INTERNAL_VARIABLES } from '@/variables/resolve';
+import { getDefinition } from '@/drivers/registry';
 import { useRef } from 'react';
 import { ActionSheetIOS, Platform, Pressable, View, findNodeHandle } from 'react-native';
 import type { ButtonModel, ButtonStyle, Show } from '@/model/types';
@@ -37,13 +39,16 @@ const BAR_ITEMS = [
   { value: 'hide', label: '隠す' },
 ] as const;
 
-/** 埋め込める変数の候補（M1：機器の値と内部の値） */
+/** 埋め込める変数の候補：内部の値・自分で作る変数・式の変数・機器の値（機器は定義にある変数と、届いた値） */
 export function variableCandidates(show: Show, values: Record<string, Record<string, string>>): string[] {
-  const out = ['$(internal:time)', '$(internal:date)', '$(internal:page)', '$(internal:page_name)'];
+  const out: string[] = INTERNAL_VARIABLES.map((v) => `$(internal:${v.name})`);
+  for (const v of show.customVariables) if (v.name) out.push(`$(custom:${v.name})`);
+  for (const v of show.expressionVariables) if (v.name) out.push(`$(expression:${v.name})`);
   for (const d of show.devices) {
-    for (const k of Object.keys(values[d.id] ?? {}).sort()) out.push(`$(${d.label}:${k})`);
+    const keys = new Set([...(getDefinition(d.driverId)?.variables.map((x) => x.id) ?? []), ...Object.keys(values[d.id] ?? {})]);
+    for (const k of [...keys].sort()) out.push(`$(${d.label}:${k})`);
   }
-  return out;
+  return [...new Set(out)];
 }
 
 function sizeValue(s: ButtonStyle['textSize']): (typeof SIZE_ITEMS)[number]['value'] {

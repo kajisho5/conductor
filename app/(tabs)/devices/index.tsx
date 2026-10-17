@@ -4,7 +4,6 @@ import { router, Stack } from 'expo-router';
 import { useSizeClass } from '@/hooks/useSizeClass';
 import { useShowStore } from '@/stores/show';
 import { color } from '@/theme/tokens';
-import { IconButton } from '@/components/ui/Buttons';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { DeviceEditor } from '@/components/devices/DeviceEditor';
 import { DeviceList } from '@/components/devices/DeviceList';
@@ -21,7 +20,11 @@ export default function DevicesScreen() {
   const [selected, setSelected] = useState<string | null>(null);
   if (!show) return null;
   const add = () => router.push('/devices/add');
-  const header = <Stack.Screen options={{ headerRight: () => <IconButton icon="plus" label="機器を追加" onPress={add} /> }} />;
+  const header = (
+    <Stack.Toolbar placement="right">
+      <Stack.Toolbar.Button icon="plus" accessibilityLabel="機器を追加" onPress={add} />
+    </Stack.Toolbar>
+  );
 
   if (show.devices.length === 0) {
     return (

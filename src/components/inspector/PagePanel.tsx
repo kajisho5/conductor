@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { ActionSheetIOS, Platform, ScrollView, TextInput, View, findNodeHandle } from 'react-native';
+import { ActionSheetIOS, Alert, Platform, ScrollView, TextInput, View, findNodeHandle } from 'react-native';
 import { Tap as Pressable } from '@/components/ui/Tap';
 import type { Show } from '@/model/types';
 import { useRuntimeStore } from '@/stores/runtime';
@@ -94,20 +94,38 @@ export function PagePanel({ show, compact }: { show: Show; compact?: boolean }) 
         <Row
           title="ページを空にする"
           tone="danger"
-          onPress={() => {
-            store().clearPage(page.id);
-            useUiStore.getState().select(null);
-          }}
+          onPress={() =>
+            Alert.alert(`「${page.name}」を空にしますか？`, 'ページのボタンを全部消します。ボタン画面の左上の取り消しボタン（↶）で戻せます。', [
+              { text: 'キャンセル', style: 'cancel' },
+              {
+                text: '空にする',
+                style: 'destructive',
+                onPress: () => {
+                  store().clearPage(page.id);
+                  useUiStore.getState().select(null);
+                },
+              },
+            ])
+          }
         />
         {show.pages.length > 1 ? (
           <Row
             title="ページを削除"
             tone="danger"
             last
-            onPress={() => {
-              store().deletePage(page.id);
-              afterDelete();
-            }}
+            onPress={() =>
+              Alert.alert(`「${page.name}」を削除しますか？`, 'ボタン画面の左上の取り消しボタン（↶）で戻せます。', [
+                { text: 'キャンセル', style: 'cancel' },
+                {
+                  text: '削除',
+                  style: 'destructive',
+                  onPress: () => {
+                    store().deletePage(page.id);
+                    afterDelete();
+                  },
+                },
+              ])
+            }
           />
         ) : null}
       </Section>

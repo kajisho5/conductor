@@ -13,9 +13,12 @@ const root = path.resolve(process.argv[2] ?? path.join(HERE, '../../../conductor
 const out = path.join(HERE, '../../src/drivers/remote-bundle');
 
 const index = JSON.parse(readFileSync(path.join(root, 'index.json'), 'utf8'));
+// UI に出せない名前（CLAUDE.md の名前の決まり）の機器は入れない
+const BLOCKED = /bitfocus|companion|elgato/i;
 const defs = {};
 for (const f of readdirSync(path.join(root, 'defs')).filter((x) => x.endsWith('.json')).sort()) {
   const d = JSON.parse(readFileSync(path.join(root, 'defs', f), 'utf8'));
+  if (BLOCKED.test(`${d.id} ${d.name} ${d.category}`)) continue;
   defs[d.id] = d;
 }
 const drivers = index.drivers.filter((e) => defs[e.id]).map(({ bytes: _bytes, ...e }) => e);

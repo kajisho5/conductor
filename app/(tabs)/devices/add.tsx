@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, ScrollView, TextInput, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { listDefinitions } from '@/drivers/registry';
 import { ensureDefinition, refreshCatalog, useCatalogStore, type CatalogEntry } from '@/drivers/remote';
 import type { DriverDefinition } from '@/drivers/types';
@@ -82,7 +82,17 @@ export default function AddDeviceScreen() {
   );
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 48 }} keyboardShouldPersistTaps="handled">
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{ padding: 16, paddingBottom: 48 }}
+      keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="interactive"
+      automaticallyAdjustKeyboardInsets
+    >
+      {/* 閉じる手段を常に出す（HIG Sheets） */}
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.Button onPress={() => router.back()}>キャンセル</Stack.Toolbar.Button>
+      </Stack.Toolbar>
       <View
         style={{
           flexDirection: 'row',

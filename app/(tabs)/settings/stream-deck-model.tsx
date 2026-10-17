@@ -36,6 +36,9 @@ export default function StreamDeckModelScreen() {
   return (
     <>
       <Stack.Screen options={{ title: id ? '機種を変える' : '機種を選ぶ' }} />
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.Button onPress={() => router.back()}>キャンセル</Stack.Toolbar.Button>
+      </Stack.Toolbar>
       <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={{ padding: 16, paddingBottom: 48 }}>
         <AppText variant="footnote" tone="label2" style={{ marginHorizontal: 16, marginBottom: 8 }}>
           使う Stream Deck の機種を選ぶと、キーの数と並びが決まります。

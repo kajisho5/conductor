@@ -61,7 +61,9 @@ export function ButtonFace({
   const dim = fg === '#000000' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.35)';
   const fs = fontSizeFor(style.textSize, width, height);
   const lines = text.split('\n');
-  const dark = luminance(style.backgroundColor) < 0.06;
+  // 背景にとけ込む色（真っ黒・真っ白に近い）だけ縁を付ける。縁の色はライト／ダークに合わせる
+  const lum = luminance(style.backgroundColor);
+  const edge = lum < 0.06 || lum > 0.85;
   const iconSize = Math.max(16, Math.min(width, height) * 0.16);
   const bar = topBar ? Math.max(14, Math.round(height * 0.16)) : 0;
   return (
@@ -71,8 +73,8 @@ export function ButtonFace({
         height,
         borderRadius: radius,
         backgroundColor: style.backgroundColor,
-        borderWidth: dark ? 1 : 0,
-        borderColor: 'rgba(255,255,255,0.14)',
+        borderWidth: edge ? 1 : 0,
+        borderColor: color.sep,
         overflow: 'hidden',
       }}
     >

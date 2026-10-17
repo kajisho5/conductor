@@ -3,7 +3,7 @@
   "id": "roland-v160hd",
   "name": "Roland V-160HD",
   "category": "映像スイッチャー",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "minAppVersion": "0.3.0",
   "transport": "tcp",
   "session": "roland-lan",
@@ -494,6 +494,7040 @@
         "terminator": "\\n"
       },
       "summary": "{{option.cmd}}"
+    },
+    {
+      "id": "x_input_assign",
+      "name": "入力の割り当て",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Input 1"
+            },
+            {
+              "id": "1",
+              "label": "Input 2"
+            },
+            {
+              "id": "2",
+              "label": "Input 3"
+            },
+            {
+              "id": "3",
+              "label": "Input 4"
+            },
+            {
+              "id": "4",
+              "label": "Input 5"
+            },
+            {
+              "id": "5",
+              "label": "Input 6"
+            },
+            {
+              "id": "6",
+              "label": "Input 7"
+            },
+            {
+              "id": "7",
+              "label": "Input 8"
+            },
+            {
+              "id": "8",
+              "label": "Input 9"
+            },
+            {
+              "id": "9",
+              "label": "Input 10"
+            }
+          ]
+        },
+        {
+          "id": "assign",
+          "label": "入力の種類",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "HDMI 1"
+            },
+            {
+              "id": "1",
+              "label": "HDMI 2"
+            },
+            {
+              "id": "2",
+              "label": "HDMI 3"
+            },
+            {
+              "id": "3",
+              "label": "HDMI 4"
+            },
+            {
+              "id": "4",
+              "label": "HDMI 5"
+            },
+            {
+              "id": "5",
+              "label": "HDMI 6"
+            },
+            {
+              "id": "6",
+              "label": "HDMI 7"
+            },
+            {
+              "id": "7",
+              "label": "HDMI 8"
+            },
+            {
+              "id": "8",
+              "label": "SDI 1"
+            },
+            {
+              "id": "9",
+              "label": "SDI 2"
+            },
+            {
+              "id": "10",
+              "label": "SDI 3"
+            },
+            {
+              "id": "11",
+              "label": "SDI 4"
+            },
+            {
+              "id": "12",
+              "label": "SDI 5"
+            },
+            {
+              "id": "13",
+              "label": "SDI 6"
+            },
+            {
+              "id": "14",
+              "label": "SDI 7"
+            },
+            {
+              "id": "15",
+              "label": "SDI 8"
+            },
+            {
+              "id": "16",
+              "label": "Still 1"
+            },
+            {
+              "id": "17",
+              "label": "Still 2"
+            },
+            {
+              "id": "18",
+              "label": "Still 3"
+            },
+            {
+              "id": "19",
+              "label": "Still 4"
+            },
+            {
+              "id": "20",
+              "label": "Still 5"
+            },
+            {
+              "id": "21",
+              "label": "Still 6"
+            },
+            {
+              "id": "22",
+              "label": "Still 7"
+            },
+            {
+              "id": "23",
+              "label": "Still 8"
+            },
+            {
+              "id": "24",
+              "label": "Still 9"
+            },
+            {
+              "id": "25",
+              "label": "Still 10"
+            },
+            {
+              "id": "26",
+              "label": "Still 11"
+            },
+            {
+              "id": "27",
+              "label": "Still 12"
+            },
+            {
+              "id": "28",
+              "label": "Still 13"
+            },
+            {
+              "id": "29",
+              "label": "Still 14"
+            },
+            {
+              "id": "30",
+              "label": "Still 15"
+            },
+            {
+              "id": "31",
+              "label": "Still 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00000{{option.input|map}},{{option.assign|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "input": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7",
+          "8": "8",
+          "9": "9"
+        },
+        "assign": {
+          "0": "00",
+          "1": "01",
+          "2": "02",
+          "3": "03",
+          "4": "04",
+          "5": "05",
+          "6": "06",
+          "7": "07",
+          "8": "08",
+          "9": "09",
+          "10": "0A",
+          "11": "0B",
+          "12": "0C",
+          "13": "0D",
+          "14": "0E",
+          "15": "0F",
+          "16": "10",
+          "17": "11",
+          "18": "12",
+          "19": "13",
+          "20": "14",
+          "21": "15",
+          "22": "16",
+          "23": "17",
+          "24": "18",
+          "25": "19",
+          "26": "1A",
+          "27": "1B",
+          "28": "1C",
+          "29": "1D",
+          "30": "1E",
+          "31": "1F"
+        }
+      }
+    },
+    {
+      "id": "x_output_assign",
+      "name": "出力の割り当て",
+      "options": [
+        {
+          "id": "output",
+          "label": "出力",
+          "type": "select",
+          "default": "00000A",
+          "choices": [
+            {
+              "id": "00000A",
+              "label": "HDMI Output 1"
+            },
+            {
+              "id": "00000B",
+              "label": "HDMI Output 2"
+            },
+            {
+              "id": "00000C",
+              "label": "HDMI Output 3"
+            },
+            {
+              "id": "00000D",
+              "label": "SDI Output 1"
+            },
+            {
+              "id": "00000E",
+              "label": "SDI Output 2"
+            },
+            {
+              "id": "00000F",
+              "label": "SDI Output 3"
+            },
+            {
+              "id": "000110",
+              "label": "USB Output"
+            }
+          ]
+        },
+        {
+          "id": "assign",
+          "label": "種類",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Program"
+            },
+            {
+              "id": "01",
+              "label": "Sub Program"
+            },
+            {
+              "id": "02",
+              "label": "Preview"
+            },
+            {
+              "id": "03",
+              "label": "Aux 1"
+            },
+            {
+              "id": "04",
+              "label": "Aux 2"
+            },
+            {
+              "id": "05",
+              "label": "Aux 3"
+            },
+            {
+              "id": "06",
+              "label": "DSK 1 Source"
+            },
+            {
+              "id": "07",
+              "label": "DSK 2 Source"
+            },
+            {
+              "id": "08",
+              "label": "Multi-View"
+            },
+            {
+              "id": "09",
+              "label": "16 Input-View"
+            },
+            {
+              "id": "0A",
+              "label": "16 Still-View"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:000{{option.output|map}},0{{option.assign|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "output": {
+          "00000A": "00A",
+          "00000B": "00B",
+          "00000C": "00C",
+          "00000D": "00D",
+          "00000E": "00E",
+          "00000F": "00F",
+          "000110": "110"
+        },
+        "assign": {
+          "00": "0",
+          "01": "1",
+          "02": "2",
+          "03": "3",
+          "04": "4",
+          "05": "5",
+          "06": "6",
+          "07": "7",
+          "08": "8",
+          "09": "9",
+          "0A": "A"
+        }
+      }
+    },
+    {
+      "id": "x_aux_linked_pgm_mode",
+      "name": "AUX の PGM 連動のしかた",
+      "options": [
+        {
+          "id": "mode",
+          "label": "しかた",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Off"
+            },
+            {
+              "id": "01",
+              "label": "Auto Link"
+            },
+            {
+              "id": "02",
+              "label": "Manual Link"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02010D,0{{option.mode|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "mode": {
+          "00": "0",
+          "01": "1",
+          "02": "2"
+        }
+      }
+    },
+    {
+      "id": "x_aux_linked",
+      "name": "AUX を PGM に連動",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX",
+          "type": "select",
+          "default": "020154",
+          "choices": [
+            {
+              "id": "020154",
+              "label": "Aux 1"
+            },
+            {
+              "id": "020155",
+              "label": "Aux 2"
+            },
+            {
+              "id": "020156",
+              "label": "Aux 3"
+            }
+          ]
+        },
+        {
+          "id": "value",
+          "label": "オン・オフ",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Off"
+            },
+            {
+              "id": "01",
+              "label": "On"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02015{{option.aux|map}},0{{option.value|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "aux": {
+          "020154": "4",
+          "020155": "5",
+          "020156": "6"
+        },
+        "value": {
+          "00": "0",
+          "01": "1"
+        }
+      }
+    },
+    {
+      "id": "x_aux_assign",
+      "name": "AUX の割り当て",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX",
+          "type": "select",
+          "default": "000011",
+          "choices": [
+            {
+              "id": "000011",
+              "label": "Aux 1"
+            },
+            {
+              "id": "00002E",
+              "label": "Aux 2"
+            },
+            {
+              "id": "00002F",
+              "label": "Aux 3"
+            }
+          ]
+        },
+        {
+          "id": "assign",
+          "label": "入力の種類",
+          "type": "select",
+          "default": "20",
+          "choices": [
+            {
+              "id": "20",
+              "label": "INPUT 1"
+            },
+            {
+              "id": "21",
+              "label": "INPUT 2"
+            },
+            {
+              "id": "22",
+              "label": "INPUT 3"
+            },
+            {
+              "id": "23",
+              "label": "INPUT 4"
+            },
+            {
+              "id": "24",
+              "label": "INPUT 5"
+            },
+            {
+              "id": "25",
+              "label": "INPUT 6"
+            },
+            {
+              "id": "26",
+              "label": "INPUT 7"
+            },
+            {
+              "id": "27",
+              "label": "INPUT 8"
+            },
+            {
+              "id": "28",
+              "label": "INPUT 9"
+            },
+            {
+              "id": "29",
+              "label": "INPUT 10"
+            },
+            {
+              "id": "2A",
+              "label": "INPUT 11"
+            },
+            {
+              "id": "2B",
+              "label": "INPUT 12"
+            },
+            {
+              "id": "2C",
+              "label": "INPUT 13"
+            },
+            {
+              "id": "2D",
+              "label": "INPUT 14"
+            },
+            {
+              "id": "2E",
+              "label": "INPUT 15"
+            },
+            {
+              "id": "2F",
+              "label": "INPUT 16"
+            },
+            {
+              "id": "30",
+              "label": "INPUT 17"
+            },
+            {
+              "id": "31",
+              "label": "INPUT 18"
+            },
+            {
+              "id": "32",
+              "label": "INPUT 19"
+            },
+            {
+              "id": "33",
+              "label": "INPUT 20"
+            },
+            {
+              "id": "00",
+              "label": "HDMI 1"
+            },
+            {
+              "id": "01",
+              "label": "HDMI 2"
+            },
+            {
+              "id": "02",
+              "label": "HDMI 3"
+            },
+            {
+              "id": "03",
+              "label": "HDMI 4"
+            },
+            {
+              "id": "04",
+              "label": "HDMI 5"
+            },
+            {
+              "id": "05",
+              "label": "HDMI 6"
+            },
+            {
+              "id": "06",
+              "label": "HDMI 7"
+            },
+            {
+              "id": "07",
+              "label": "HDMI 8"
+            },
+            {
+              "id": "08",
+              "label": "SDI 1"
+            },
+            {
+              "id": "09",
+              "label": "SDI 2"
+            },
+            {
+              "id": "0A",
+              "label": "SDI 3"
+            },
+            {
+              "id": "0B",
+              "label": "SDI 4"
+            },
+            {
+              "id": "0C",
+              "label": "SDI 5"
+            },
+            {
+              "id": "0D",
+              "label": "SDI 6"
+            },
+            {
+              "id": "0E",
+              "label": "SDI 7"
+            },
+            {
+              "id": "0F",
+              "label": "SDI 8"
+            },
+            {
+              "id": "10",
+              "label": "Still 1"
+            },
+            {
+              "id": "11",
+              "label": "Still 2"
+            },
+            {
+              "id": "12",
+              "label": "Still 3"
+            },
+            {
+              "id": "13",
+              "label": "Still 4"
+            },
+            {
+              "id": "14",
+              "label": "Still 5"
+            },
+            {
+              "id": "15",
+              "label": "Still 6"
+            },
+            {
+              "id": "16",
+              "label": "Still 7"
+            },
+            {
+              "id": "17",
+              "label": "Still 8"
+            },
+            {
+              "id": "18",
+              "label": "Still 9"
+            },
+            {
+              "id": "19",
+              "label": "Still 10"
+            },
+            {
+              "id": "1A",
+              "label": "Still 11"
+            },
+            {
+              "id": "1B",
+              "label": "Still 12"
+            },
+            {
+              "id": "1C",
+              "label": "Still 13"
+            },
+            {
+              "id": "1D",
+              "label": "Still 14"
+            },
+            {
+              "id": "1E",
+              "label": "Still 15"
+            },
+            {
+              "id": "1F",
+              "label": "Still 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0000{{option.aux|map}},{{option.assign|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "aux": {
+          "000011": "11",
+          "00002E": "2E",
+          "00002F": "2F"
+        },
+        "assign": {
+          "10": "10",
+          "11": "11",
+          "12": "12",
+          "13": "13",
+          "14": "14",
+          "15": "15",
+          "16": "16",
+          "17": "17",
+          "18": "18",
+          "19": "19",
+          "20": "20",
+          "21": "21",
+          "22": "22",
+          "23": "23",
+          "24": "24",
+          "25": "25",
+          "26": "26",
+          "27": "27",
+          "28": "28",
+          "29": "29",
+          "30": "30",
+          "31": "31",
+          "32": "32",
+          "33": "33",
+          "2A": "2A",
+          "2B": "2B",
+          "2C": "2C",
+          "2D": "2D",
+          "2E": "2E",
+          "2F": "2F",
+          "00": "00",
+          "01": "01",
+          "02": "02",
+          "03": "03",
+          "04": "04",
+          "05": "05",
+          "06": "06",
+          "07": "07",
+          "08": "08",
+          "09": "09",
+          "0A": "0A",
+          "0B": "0B",
+          "0C": "0C",
+          "0D": "0D",
+          "0E": "0E",
+          "0F": "0F",
+          "1A": "1A",
+          "1B": "1B",
+          "1C": "1C",
+          "1D": "1D",
+          "1E": "1E",
+          "1F": "1F"
+        }
+      }
+    },
+    {
+      "id": "x_aux_mute",
+      "name": "AUX のミュート",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX",
+          "type": "select",
+          "default": "000011",
+          "choices": [
+            {
+              "id": "012203",
+              "label": "Aux 1"
+            },
+            {
+              "id": "012503",
+              "label": "Aux 2"
+            },
+            {
+              "id": "012603",
+              "label": "Aux 3"
+            }
+          ]
+        },
+        {
+          "id": "mute",
+          "label": "ミュート",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Unmute"
+            },
+            {
+              "id": "01",
+              "label": "Mute"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0{{option.aux|map}},{{option.mute|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "aux": {
+          "000011": "00011",
+          "012203": "12203",
+          "012503": "12503",
+          "012603": "12603"
+        },
+        "mute": {
+          "1": "1",
+          "00": "00",
+          "01": "01"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_enable",
+      "name": "PinP / KEY のオン・オフ",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "18",
+          "choices": [
+            {
+              "id": "18",
+              "label": "Program Layer PinP & Key 1"
+            },
+            {
+              "id": "19",
+              "label": "Program Layer PinP & Key 2"
+            },
+            {
+              "id": "20",
+              "label": "Program Layer PinP & Key 3"
+            },
+            {
+              "id": "21",
+              "label": "Program Layer PinP & Key 4"
+            },
+            {
+              "id": "22",
+              "label": "Program Layer DSK 1"
+            },
+            {
+              "id": "23",
+              "label": "Program Layer DSK 2"
+            },
+            {
+              "id": "24",
+              "label": "Sub Program Layer PinP & Key 1"
+            },
+            {
+              "id": "25",
+              "label": "Sub Program Layer PinP & Key 2"
+            },
+            {
+              "id": "26",
+              "label": "Sub Program Layer PinP & Key 3"
+            },
+            {
+              "id": "27",
+              "label": "Sub Program Layer PinP & Key 4"
+            },
+            {
+              "id": "28",
+              "label": "Sub Program Layer DSK 1"
+            },
+            {
+              "id": "29",
+              "label": "Sub Program Layer DSK 2"
+            }
+          ]
+        },
+        {
+          "id": "enable",
+          "label": "オン・オフ",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Disable"
+            },
+            {
+              "id": "1",
+              "label": "Enable"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00001{{option.pinp|map}},0{{option.enable|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "18": "2",
+          "19": "3",
+          "20": "4",
+          "21": "5",
+          "22": "6",
+          "23": "7",
+          "24": "8",
+          "25": "9",
+          "26": "A",
+          "27": "B",
+          "28": "C",
+          "29": "D"
+        },
+        "enable": {
+          "0": "0",
+          "1": "1"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_fade",
+      "name": "PinP / KEY のフェード",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "05",
+          "choices": [
+            {
+              "id": "05",
+              "label": "PnP/Key 1"
+            },
+            {
+              "id": "06",
+              "label": "PnP/Key 2"
+            },
+            {
+              "id": "07",
+              "label": "PnP/Key 3"
+            },
+            {
+              "id": "08",
+              "label": "PnP/Key 4"
+            }
+          ]
+        },
+        {
+          "id": "enable",
+          "label": "オン・オフ",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Disable"
+            },
+            {
+              "id": "01",
+              "label": "Enable"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02030{{option.pinp|map}},0{{option.enable|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "05": "5",
+          "06": "6",
+          "07": "7",
+          "08": "8"
+        },
+        "enable": {
+          "01": "1",
+          "00": "0"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_busselect",
+      "name": "PinP / KEY を出すバス",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PnP/Key 1"
+            },
+            {
+              "id": "1C",
+              "label": "PnP/Key 2"
+            },
+            {
+              "id": "1D",
+              "label": "PnP/Key 3"
+            },
+            {
+              "id": "1E",
+              "label": "PnP/Key 4"
+            }
+          ]
+        },
+        {
+          "id": "bus",
+          "label": "バス",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Program (PGM)"
+            },
+            {
+              "id": "01",
+              "label": "Preview (PVW)"
+            }
+          ]
+        },
+        {
+          "id": "onoff",
+          "label": "オン・オフ",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Off"
+            },
+            {
+              "id": "01",
+              "label": "On"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001{{option.pinp|map}}0{{option.bus|map}},0{{option.onoff|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "1B": "B",
+          "1C": "C",
+          "1D": "D",
+          "1E": "E"
+        },
+        "bus": {
+          "00": "0",
+          "01": "1"
+        },
+        "onoff": {
+          "01": "1",
+          "00": "0"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_setsource",
+      "name": "PinP / KEY のソース",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PnP/Key 1"
+            },
+            {
+              "id": "1C",
+              "label": "PnP/Key 2"
+            },
+            {
+              "id": "1D",
+              "label": "PnP/Key 3"
+            },
+            {
+              "id": "1E",
+              "label": "PnP/Key 4"
+            }
+          ]
+        },
+        {
+          "id": "source",
+          "label": "ソース",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "HDMI 1"
+            },
+            {
+              "id": "01",
+              "label": "HDMI 2"
+            },
+            {
+              "id": "02",
+              "label": "HDMI 3"
+            },
+            {
+              "id": "03",
+              "label": "HDMI 4"
+            },
+            {
+              "id": "04",
+              "label": "HDMI 5"
+            },
+            {
+              "id": "05",
+              "label": "HDMI 6"
+            },
+            {
+              "id": "06",
+              "label": "HDMI 7"
+            },
+            {
+              "id": "07",
+              "label": "HDMI 8"
+            },
+            {
+              "id": "08",
+              "label": "SDI 1"
+            },
+            {
+              "id": "09",
+              "label": "SDI 2"
+            },
+            {
+              "id": "0A",
+              "label": "SDI 3"
+            },
+            {
+              "id": "0B",
+              "label": "SDI 4"
+            },
+            {
+              "id": "0C",
+              "label": "SDI 5"
+            },
+            {
+              "id": "0D",
+              "label": "SDI 6"
+            },
+            {
+              "id": "0E",
+              "label": "SDI 7"
+            },
+            {
+              "id": "0F",
+              "label": "SDI 8"
+            },
+            {
+              "id": "10",
+              "label": "Still 1"
+            },
+            {
+              "id": "11",
+              "label": "Still 2"
+            },
+            {
+              "id": "12",
+              "label": "Still 3"
+            },
+            {
+              "id": "13",
+              "label": "Still 4"
+            },
+            {
+              "id": "14",
+              "label": "Still 5"
+            },
+            {
+              "id": "15",
+              "label": "Still 6"
+            },
+            {
+              "id": "16",
+              "label": "Still 7"
+            },
+            {
+              "id": "17",
+              "label": "Still 8"
+            },
+            {
+              "id": "18",
+              "label": "Still 9"
+            },
+            {
+              "id": "19",
+              "label": "Still 10"
+            },
+            {
+              "id": "1A",
+              "label": "Still 11"
+            },
+            {
+              "id": "1B",
+              "label": "Still 12"
+            },
+            {
+              "id": "1C",
+              "label": "Still 13"
+            },
+            {
+              "id": "1D",
+              "label": "Still 14"
+            },
+            {
+              "id": "1E",
+              "label": "Still 15"
+            },
+            {
+              "id": "1F",
+              "label": "Still 16"
+            },
+            {
+              "id": "20",
+              "label": "Input 1"
+            },
+            {
+              "id": "21",
+              "label": "Input 2"
+            },
+            {
+              "id": "22",
+              "label": "Input 3"
+            },
+            {
+              "id": "23",
+              "label": "Input 4"
+            },
+            {
+              "id": "24",
+              "label": "Input 5"
+            },
+            {
+              "id": "25",
+              "label": "Input 6"
+            },
+            {
+              "id": "26",
+              "label": "Input 7"
+            },
+            {
+              "id": "27",
+              "label": "Input 8"
+            },
+            {
+              "id": "28",
+              "label": "Input 9"
+            },
+            {
+              "id": "29",
+              "label": "Input 10"
+            },
+            {
+              "id": "2A",
+              "label": "Input 11"
+            },
+            {
+              "id": "2B",
+              "label": "Input 12"
+            },
+            {
+              "id": "2C",
+              "label": "Input 13"
+            },
+            {
+              "id": "2D",
+              "label": "Input 14"
+            },
+            {
+              "id": "2E",
+              "label": "Input 15"
+            },
+            {
+              "id": "2F",
+              "label": "Input 16"
+            },
+            {
+              "id": "30",
+              "label": "Input 17"
+            },
+            {
+              "id": "31",
+              "label": "Input 18"
+            },
+            {
+              "id": "32",
+              "label": "Input 19"
+            },
+            {
+              "id": "33",
+              "label": "Input 20"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001{{option.pinp|map}}02,{{option.source|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "1B": "B",
+          "1C": "C",
+          "1D": "D",
+          "1E": "E"
+        },
+        "source": {
+          "10": "10",
+          "11": "11",
+          "12": "12",
+          "13": "13",
+          "14": "14",
+          "15": "15",
+          "16": "16",
+          "17": "17",
+          "18": "18",
+          "19": "19",
+          "20": "20",
+          "21": "21",
+          "22": "22",
+          "23": "23",
+          "24": "24",
+          "25": "25",
+          "26": "26",
+          "27": "27",
+          "28": "28",
+          "29": "29",
+          "30": "30",
+          "31": "31",
+          "32": "32",
+          "33": "33",
+          "00": "00",
+          "01": "01",
+          "02": "02",
+          "03": "03",
+          "04": "04",
+          "05": "05",
+          "06": "06",
+          "07": "07",
+          "08": "08",
+          "09": "09",
+          "0A": "0A",
+          "0B": "0B",
+          "0C": "0C",
+          "0D": "0D",
+          "0E": "0E",
+          "0F": "0F",
+          "1A": "1A",
+          "1B": "1B",
+          "1C": "1C",
+          "1D": "1D",
+          "1E": "1E",
+          "1F": "1F",
+          "2A": "2A",
+          "2B": "2B",
+          "2C": "2C",
+          "2D": "2D",
+          "2E": "2E",
+          "2F": "2F"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_settype",
+      "name": "PinP / KEY の種類",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PnP/Key 1"
+            },
+            {
+              "id": "1C",
+              "label": "PnP/Key 2"
+            },
+            {
+              "id": "1D",
+              "label": "PnP/Key 3"
+            },
+            {
+              "id": "1E",
+              "label": "PnP/Key 4"
+            }
+          ]
+        },
+        {
+          "id": "type",
+          "label": "種類",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "PinP"
+            },
+            {
+              "id": "01",
+              "label": "Luminance-White Key"
+            },
+            {
+              "id": "02",
+              "label": "Luminance-Black Key"
+            },
+            {
+              "id": "03",
+              "label": "Chroma Key"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001{{option.pinp|map}}03,0{{option.type|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "1B": "B",
+          "1C": "C",
+          "1D": "D",
+          "1E": "E"
+        },
+        "type": {
+          "00": "0",
+          "01": "1",
+          "02": "2",
+          "03": "3"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_shape",
+      "name": "PinP の形",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PnP/Key 1"
+            },
+            {
+              "id": "1C",
+              "label": "PnP/Key 2"
+            },
+            {
+              "id": "1D",
+              "label": "PnP/Key 3"
+            },
+            {
+              "id": "1E",
+              "label": "PnP/Key 4"
+            }
+          ]
+        },
+        {
+          "id": "shape",
+          "label": "形",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Rectangle"
+            },
+            {
+              "id": "01",
+              "label": "Circle"
+            },
+            {
+              "id": "02",
+              "label": "Diamond"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001{{option.pinp|map}}0E,0{{option.shape|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "1B": "B",
+          "1C": "C",
+          "1D": "D",
+          "1E": "E"
+        },
+        "shape": {
+          "00": "0",
+          "01": "1",
+          "02": "2"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_borderColor",
+      "name": "PinP の枠の色",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PnP/Key 1"
+            },
+            {
+              "id": "1C",
+              "label": "PnP/Key 2"
+            },
+            {
+              "id": "1D",
+              "label": "PnP/Key 3"
+            },
+            {
+              "id": "1E",
+              "label": "PnP/Key 4"
+            }
+          ]
+        },
+        {
+          "id": "color",
+          "label": "枠の色",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "White"
+            },
+            {
+              "id": "01",
+              "label": "Yellow"
+            },
+            {
+              "id": "02",
+              "label": "Cyan"
+            },
+            {
+              "id": "03",
+              "label": "Green"
+            },
+            {
+              "id": "04",
+              "label": "Magenta"
+            },
+            {
+              "id": "05",
+              "label": "Red"
+            },
+            {
+              "id": "06",
+              "label": "Blue"
+            },
+            {
+              "id": "07",
+              "label": "Black"
+            },
+            {
+              "id": "08",
+              "label": "Custom"
+            },
+            {
+              "id": "09",
+              "label": "Soft Edge"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001{{option.pinp|map}}0F,0{{option.color|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "1B": "B",
+          "1C": "C",
+          "1D": "D",
+          "1E": "E"
+        },
+        "color": {
+          "00": "0",
+          "01": "1",
+          "02": "2",
+          "03": "3",
+          "04": "4",
+          "05": "5",
+          "06": "6",
+          "07": "7",
+          "08": "8",
+          "09": "9"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_borderWidth",
+      "name": "PinP の枠の太さ",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PnP/Key 1"
+            },
+            {
+              "id": "1C",
+              "label": "PnP/Key 2"
+            },
+            {
+              "id": "1D",
+              "label": "PnP/Key 3"
+            },
+            {
+              "id": "1E",
+              "label": "PnP/Key 4"
+            }
+          ]
+        },
+        {
+          "id": "width",
+          "label": "枠の太さ（0–14）",
+          "type": "number",
+          "default": 5,
+          "min": 0,
+          "max": 14,
+          "help": "0-14"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001{{option.pinp|map}}10,{{option.width|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "1B": "B",
+          "1C": "C",
+          "1D": "D",
+          "1E": "E"
+        }
+      }
+    },
+    {
+      "id": "x_pnpkey_chromaColor",
+      "name": "クロマキーの色",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PnP/Key 1"
+            },
+            {
+              "id": "1C",
+              "label": "PnP/Key 2"
+            },
+            {
+              "id": "1D",
+              "label": "PnP/Key 3"
+            },
+            {
+              "id": "1E",
+              "label": "PnP/Key 4"
+            }
+          ]
+        },
+        {
+          "id": "color",
+          "label": "色",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Green"
+            },
+            {
+              "id": "01",
+              "label": "Blue"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001{{option.pinp|map}}1D,0{{option.color|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "pinp": {
+          "1B": "B",
+          "1C": "C",
+          "1D": "D",
+          "1E": "E"
+        },
+        "color": {
+          "00": "0",
+          "01": "1"
+        }
+      }
+    },
+    {
+      "id": "x_dsk_busselect",
+      "name": "DSK を出すバス",
+      "options": [
+        {
+          "id": "dsk",
+          "label": "DSK",
+          "type": "select",
+          "default": "1F",
+          "choices": [
+            {
+              "id": "1F",
+              "label": "DSK 1"
+            },
+            {
+              "id": "20",
+              "label": "DSK 2"
+            }
+          ]
+        },
+        {
+          "id": "bus",
+          "label": "バス",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Program (PGM)"
+            },
+            {
+              "id": "01",
+              "label": "Preview (PVW)"
+            }
+          ]
+        },
+        {
+          "id": "onoff",
+          "label": "オン・オフ",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Off"
+            },
+            {
+              "id": "01",
+              "label": "On"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.dsk|map}}0{{option.bus|map}},0{{option.onoff|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "dsk": {
+          "20": "20",
+          "1F": "1F"
+        },
+        "bus": {
+          "00": "0",
+          "01": "1"
+        },
+        "onoff": {
+          "01": "1",
+          "00": "0"
+        }
+      }
+    },
+    {
+      "id": "x_set_transition_time",
+      "name": "トランジションの時間",
+      "options": [
+        {
+          "id": "type",
+          "label": "対象",
+          "type": "select",
+          "default": "001700",
+          "choices": [
+            {
+              "id": "001700",
+              "label": "Mix/Wipe Time"
+            },
+            {
+              "id": "001701",
+              "label": "PinP 1 Time"
+            },
+            {
+              "id": "001702",
+              "label": "PinP 2 Time"
+            },
+            {
+              "id": "001703",
+              "label": "PinP 3 Time"
+            },
+            {
+              "id": "001704",
+              "label": "PinP 4 Time"
+            },
+            {
+              "id": "001705",
+              "label": "DSK 1 Time"
+            },
+            {
+              "id": "001706",
+              "label": "DSK 2 Time"
+            },
+            {
+              "id": "001707",
+              "label": "Output Fade Time"
+            }
+          ]
+        },
+        {
+          "id": "time",
+          "label": "時間（秒）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 4,
+          "help": "(0.0-4.0)"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00170{{option.type|map}},{{option.time|lin:10:0|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "type": {
+          "001700": "0",
+          "001701": "1",
+          "001702": "2",
+          "001703": "3",
+          "001704": "4",
+          "001705": "5",
+          "001706": "6",
+          "001707": "7"
+        }
+      }
+    },
+    {
+      "id": "x_set_transition_type",
+      "name": "トランジションの種類（MIX / WIPE）",
+      "options": [
+        {
+          "id": "type",
+          "label": "対象",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Mix"
+            },
+            {
+              "id": "1",
+              "label": "Wipe"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001800,0{{option.type|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "type": {
+          "0": "0",
+          "1": "1"
+        }
+      }
+    },
+    {
+      "id": "x_set_mix_type",
+      "name": "MIX の種類",
+      "options": [
+        {
+          "id": "type",
+          "label": "MIX の種類",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Mix"
+            },
+            {
+              "id": "1",
+              "label": "Fam"
+            },
+            {
+              "id": "2",
+              "label": "Nam"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001801,0{{option.type|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "type": {
+          "0": "0",
+          "1": "1",
+          "2": "2"
+        }
+      }
+    },
+    {
+      "id": "x_set_wipe_type",
+      "name": "WIPE の種類",
+      "options": [
+        {
+          "id": "type",
+          "label": "WIPE の種類",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Horizontal"
+            },
+            {
+              "id": "1",
+              "label": "Vertical"
+            },
+            {
+              "id": "2",
+              "label": "Upper Left"
+            },
+            {
+              "id": "3",
+              "label": "Upper Right"
+            },
+            {
+              "id": "4",
+              "label": "Lower Left"
+            },
+            {
+              "id": "5",
+              "label": "Lower Right"
+            },
+            {
+              "id": "6",
+              "label": "H-Center"
+            },
+            {
+              "id": "7",
+              "label": "V-Center"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001802,0{{option.type|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "type": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7"
+        }
+      }
+    },
+    {
+      "id": "x_press_and_release_switch",
+      "name": "パネルのボタンを押して離す",
+      "options": [
+        {
+          "id": "switch",
+          "label": "ボタン",
+          "type": "select",
+          "default": "0B0000",
+          "choices": [
+            {
+              "id": "0B0000",
+              "label": "PGM/A 1 SW"
+            },
+            {
+              "id": "0B0001",
+              "label": "PGM/A 2 SW"
+            },
+            {
+              "id": "0B0002",
+              "label": "PGM/A 3 SW"
+            },
+            {
+              "id": "0B0003",
+              "label": "PGM/A 4 SW"
+            },
+            {
+              "id": "0B0004",
+              "label": "PGM/A 5 SW"
+            },
+            {
+              "id": "0B0005",
+              "label": "PGM/A 6 SW"
+            },
+            {
+              "id": "0B0006",
+              "label": "PGM/A 7 SW"
+            },
+            {
+              "id": "0B0007",
+              "label": "PGM/A 8 SW"
+            },
+            {
+              "id": "0B0008",
+              "label": "PGM/A 9 SW"
+            },
+            {
+              "id": "0B0009",
+              "label": "PGM/A 10 SW"
+            },
+            {
+              "id": "0B000A",
+              "label": "PST/B 1 SW"
+            },
+            {
+              "id": "0B000B",
+              "label": "PST/B 2 SW"
+            },
+            {
+              "id": "0B000C",
+              "label": "PST/B 3 SW"
+            },
+            {
+              "id": "0B000D",
+              "label": "PST/B 4 SW"
+            },
+            {
+              "id": "0B000E",
+              "label": "PST/B 5 SW"
+            },
+            {
+              "id": "0B000F",
+              "label": "PST/B 6 SW"
+            },
+            {
+              "id": "0B0010",
+              "label": "PST/B 7 SW"
+            },
+            {
+              "id": "0B0011",
+              "label": "PST/B 8 SW"
+            },
+            {
+              "id": "0B0012",
+              "label": "PST/B 9 SW"
+            },
+            {
+              "id": "0B0013",
+              "label": "PST/B 10 SW"
+            },
+            {
+              "id": "0B0014",
+              "label": "AUX 1 SW"
+            },
+            {
+              "id": "0B0015",
+              "label": "AUX 2 SW"
+            },
+            {
+              "id": "0B0016",
+              "label": "AUX 3 SW"
+            },
+            {
+              "id": "0B0017",
+              "label": "AUX 4 SW"
+            },
+            {
+              "id": "0B0018",
+              "label": "AUX 5 SW"
+            },
+            {
+              "id": "0B0019",
+              "label": "AUX 6 SW"
+            },
+            {
+              "id": "0B001A",
+              "label": "AUX 7 SW"
+            },
+            {
+              "id": "0B001B",
+              "label": "AUX 8 SW"
+            },
+            {
+              "id": "0B001C",
+              "label": "AUX 9 SW"
+            },
+            {
+              "id": "0B001D",
+              "label": "AUX 10 SW"
+            },
+            {
+              "id": "0B001E",
+              "label": "CUT SW"
+            },
+            {
+              "id": "0B001F",
+              "label": "AUTO SW"
+            },
+            {
+              "id": "0B0020",
+              "label": "TRANSITION SW"
+            },
+            {
+              "id": "0B0021",
+              "label": "MODE SW"
+            },
+            {
+              "id": "0B0022",
+              "label": "INPUT ASSIGN SW"
+            },
+            {
+              "id": "0B0023",
+              "label": "PGM-CENTER ENCODER"
+            },
+            {
+              "id": "0B0024",
+              "label": "PST-CENTER ENCODER"
+            },
+            {
+              "id": "0B0025",
+              "label": "SPLIT A SW"
+            },
+            {
+              "id": "0B0026",
+              "label": "SPLIT B SW"
+            },
+            {
+              "id": "0B0027",
+              "label": "AUTO MIXING"
+            },
+            {
+              "id": "0B0028",
+              "label": "CAPTURE SW"
+            },
+            {
+              "id": "0B0029",
+              "label": "USER 1 SW"
+            },
+            {
+              "id": "0B002A",
+              "label": "USER 2 SW"
+            },
+            {
+              "id": "0B002B",
+              "label": "USER 3 SW"
+            },
+            {
+              "id": "0B002C",
+              "label": "USER 4 SW"
+            },
+            {
+              "id": "0B002D",
+              "label": "PinP 1 POSITION H"
+            },
+            {
+              "id": "0B002E",
+              "label": "PinP 1 POSITION V"
+            },
+            {
+              "id": "0B002F",
+              "label": "PinP 1 SOURCE SW"
+            },
+            {
+              "id": "0B0030",
+              "label": "PinP 1 PVW SW"
+            },
+            {
+              "id": "0B0031",
+              "label": "PinP 1 PGM SW"
+            },
+            {
+              "id": "0B0032",
+              "label": "PinP 2 POSITION H"
+            },
+            {
+              "id": "0B0033",
+              "label": "PinP 2 POSITION V"
+            },
+            {
+              "id": "0B0034",
+              "label": "PinP 2 SOURCE SW"
+            },
+            {
+              "id": "0B0035",
+              "label": "PinP 2 PVW SW"
+            },
+            {
+              "id": "0B0036",
+              "label": "PinP 2 PGM SW"
+            },
+            {
+              "id": "0B0037",
+              "label": "PinP 3 POSITION H"
+            },
+            {
+              "id": "0B0038",
+              "label": "PinP 3 POSITION V"
+            },
+            {
+              "id": "0B0039",
+              "label": "PinP 3 SOURCE SW"
+            },
+            {
+              "id": "0B003A",
+              "label": "PinP 3 PVW SW"
+            },
+            {
+              "id": "0B003B",
+              "label": "PinP 3 PGM SW"
+            },
+            {
+              "id": "0B003C",
+              "label": "PinP 4 POSITION H"
+            },
+            {
+              "id": "0B003D",
+              "label": "PinP 4 POSITION V"
+            },
+            {
+              "id": "0B003E",
+              "label": "PinP 4 SOURCE SW"
+            },
+            {
+              "id": "0B003F",
+              "label": "PinP 4 PVW SW"
+            },
+            {
+              "id": "0B0040",
+              "label": "PinP 4 PGM SW"
+            },
+            {
+              "id": "0B0041",
+              "label": "DSK 1 SOURCE SW"
+            },
+            {
+              "id": "0B0042",
+              "label": "DSK 1 PVW SW"
+            },
+            {
+              "id": "0B0043",
+              "label": "DSK 1 PGM SW"
+            },
+            {
+              "id": "0B0044",
+              "label": "DSK 2 SOURCE SW"
+            },
+            {
+              "id": "0B0045",
+              "label": "DSK 2 PVW SW"
+            },
+            {
+              "id": "0B0046",
+              "label": "DSK 2 PGM SW"
+            },
+            {
+              "id": "0B0047",
+              "label": "MONITOR 1 SW"
+            },
+            {
+              "id": "0B0048",
+              "label": "MONITOR 2 SW"
+            },
+            {
+              "id": "0B0049",
+              "label": "MONITOR 3 SW"
+            },
+            {
+              "id": "0B004A",
+              "label": "MONITOR 4 SW"
+            },
+            {
+              "id": "0B004B",
+              "label": "MENU SW"
+            },
+            {
+              "id": "0B004C",
+              "label": "EXIT SW"
+            },
+            {
+              "id": "0B004D",
+              "label": "ENTER SW"
+            },
+            {
+              "id": "0B004E",
+              "label": "OUTPUT FADE SW"
+            },
+            {
+              "id": "0B004F",
+              "label": "SEQUENCER ON SW"
+            },
+            {
+              "id": "0B0050",
+              "label": "SEQUENCER AUTO SW"
+            },
+            {
+              "id": "0B0051",
+              "label": "SEQUENCER PREV SW"
+            },
+            {
+              "id": "0B0052",
+              "label": "SEQUENCER NEXT SW"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0B00{{option.switch|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "switch": {
+          "0B0000": "00,01",
+          "0B0001": "01,01;\\n\\nDTH:0B0000,00;\\n\\nDTH:0B0001,00",
+          "0B0002": "02,01",
+          "0B0003": "03,01;\\n\\nDTH:0B0002,00;\\n\\nDTH:0B0003,00",
+          "0B0004": "04,01",
+          "0B0005": "05,01;\\n\\nDTH:0B0004,00;\\n\\nDTH:0B0005,00",
+          "0B0006": "06,01",
+          "0B0007": "07,01;\\n\\nDTH:0B0006,00;\\n\\nDTH:0B0007,00",
+          "0B0008": "08,01",
+          "0B0009": "09,01;\\n\\nDTH:0B0008,00;\\n\\nDTH:0B0009,00",
+          "0B000A": "0A,01",
+          "0B000B": "0B,01;\\n\\nDTH:0B000A,00;\\n\\nDTH:0B000B,00",
+          "0B000C": "0C,01",
+          "0B000D": "0D,01;\\n\\nDTH:0B000C,00;\\n\\nDTH:0B000D,00",
+          "0B000E": "0E,01",
+          "0B000F": "0F,01;\\n\\nDTH:0B000E,00;\\n\\nDTH:0B000F,00",
+          "0B0010": "10,01",
+          "0B0011": "11,01;\\n\\nDTH:0B0010,00;\\n\\nDTH:0B0011,00",
+          "0B0012": "12,01",
+          "0B0013": "13,01;\\n\\nDTH:0B0012,00;\\n\\nDTH:0B0013,00",
+          "0B0014": "14,01",
+          "0B0015": "15,01;\\n\\nDTH:0B0014,00;\\n\\nDTH:0B0015,00",
+          "0B0016": "16,01",
+          "0B0017": "17,01;\\n\\nDTH:0B0016,00;\\n\\nDTH:0B0017,00",
+          "0B0018": "18,01",
+          "0B0019": "19,01;\\n\\nDTH:0B0018,00;\\n\\nDTH:0B0019,00",
+          "0B001A": "1A,01",
+          "0B001B": "1B,01;\\n\\nDTH:0B001A,00;\\n\\nDTH:0B001B,00",
+          "0B001C": "1C,01",
+          "0B001D": "1D,01;\\n\\nDTH:0B001C,00;\\n\\nDTH:0B001D,00",
+          "0B001E": "1E,01",
+          "0B001F": "1F,01;\\n\\nDTH:0B001E,00;\\n\\nDTH:0B001F,00",
+          "0B0020": "20,01",
+          "0B0021": "21,01;\\n\\nDTH:0B0020,00;\\n\\nDTH:0B0021,00",
+          "0B0022": "22,01",
+          "0B0023": "23,01;\\n\\nDTH:0B0022,00;\\n\\nDTH:0B0023,00",
+          "0B0024": "24,01",
+          "0B0025": "25,01;\\n\\nDTH:0B0024,00;\\n\\nDTH:0B0025,00",
+          "0B0026": "26,01",
+          "0B0027": "27,01;\\n\\nDTH:0B0026,00;\\n\\nDTH:0B0027,00",
+          "0B0028": "28,01",
+          "0B0029": "29,01;\\n\\nDTH:0B0028,00;\\n\\nDTH:0B0029,00",
+          "0B002A": "2A,01",
+          "0B002B": "2B,01;\\n\\nDTH:0B002A,00;\\n\\nDTH:0B002B,00",
+          "0B002C": "2C,01",
+          "0B002D": "2D,01;\\n\\nDTH:0B002C,00;\\n\\nDTH:0B002D,00",
+          "0B002E": "2E,01",
+          "0B002F": "2F,01;\\n\\nDTH:0B002E,00;\\n\\nDTH:0B002F,00",
+          "0B0030": "30,01",
+          "0B0031": "31,01;\\n\\nDTH:0B0030,00;\\n\\nDTH:0B0031,00",
+          "0B0032": "32,01",
+          "0B0033": "33,01;\\n\\nDTH:0B0032,00;\\n\\nDTH:0B0033,00",
+          "0B0034": "34,01",
+          "0B0035": "35,01;\\n\\nDTH:0B0034,00;\\n\\nDTH:0B0035,00",
+          "0B0036": "36,01",
+          "0B0037": "37,01;\\n\\nDTH:0B0036,00;\\n\\nDTH:0B0037,00",
+          "0B0038": "38,01",
+          "0B0039": "39,01;\\n\\nDTH:0B0038,00;\\n\\nDTH:0B0039,00",
+          "0B003A": "3A,01",
+          "0B003B": "3B,01;\\n\\nDTH:0B003A,00;\\n\\nDTH:0B003B,00",
+          "0B003C": "3C,01",
+          "0B003D": "3D,01;\\n\\nDTH:0B003C,00;\\n\\nDTH:0B003D,00",
+          "0B003E": "3E,01",
+          "0B003F": "3F,01;\\n\\nDTH:0B003E,00;\\n\\nDTH:0B003F,00",
+          "0B0040": "40,01",
+          "0B0041": "41,01;\\n\\nDTH:0B0040,00;\\n\\nDTH:0B0041,00",
+          "0B0042": "42,01",
+          "0B0043": "43,01;\\n\\nDTH:0B0042,00;\\n\\nDTH:0B0043,00",
+          "0B0044": "44,01",
+          "0B0045": "45,01;\\n\\nDTH:0B0044,00;\\n\\nDTH:0B0045,00",
+          "0B0046": "46,01",
+          "0B0047": "47,01;\\n\\nDTH:0B0046,00;\\n\\nDTH:0B0047,00",
+          "0B0048": "48,01",
+          "0B0049": "49,01;\\n\\nDTH:0B0048,00;\\n\\nDTH:0B0049,00",
+          "0B004A": "4A,01",
+          "0B004B": "4B,01;\\n\\nDTH:0B004A,00;\\n\\nDTH:0B004B,00",
+          "0B004C": "4C,01",
+          "0B004D": "4D,01;\\n\\nDTH:0B004C,00;\\n\\nDTH:0B004D,00",
+          "0B004E": "4E,01",
+          "0B004F": "4F,01;\\n\\nDTH:0B004E,00;\\n\\nDTH:0B004F,00",
+          "0B0050": "50,01",
+          "0B0051": "51,01;\\n\\nDTH:0B0050,00;\\n\\nDTH:0B0051,00",
+          "0B0052": "52,01"
+        }
+      }
+    },
+    {
+      "id": "x_press_switch",
+      "name": "パネルのボタンを押す（離さない）",
+      "options": [
+        {
+          "id": "switch",
+          "label": "ボタン",
+          "type": "select",
+          "default": "0B0000",
+          "choices": [
+            {
+              "id": "0B0000",
+              "label": "PGM/A 1 SW"
+            },
+            {
+              "id": "0B0001",
+              "label": "PGM/A 2 SW"
+            },
+            {
+              "id": "0B0002",
+              "label": "PGM/A 3 SW"
+            },
+            {
+              "id": "0B0003",
+              "label": "PGM/A 4 SW"
+            },
+            {
+              "id": "0B0004",
+              "label": "PGM/A 5 SW"
+            },
+            {
+              "id": "0B0005",
+              "label": "PGM/A 6 SW"
+            },
+            {
+              "id": "0B0006",
+              "label": "PGM/A 7 SW"
+            },
+            {
+              "id": "0B0007",
+              "label": "PGM/A 8 SW"
+            },
+            {
+              "id": "0B0008",
+              "label": "PGM/A 9 SW"
+            },
+            {
+              "id": "0B0009",
+              "label": "PGM/A 10 SW"
+            },
+            {
+              "id": "0B000A",
+              "label": "PST/B 1 SW"
+            },
+            {
+              "id": "0B000B",
+              "label": "PST/B 2 SW"
+            },
+            {
+              "id": "0B000C",
+              "label": "PST/B 3 SW"
+            },
+            {
+              "id": "0B000D",
+              "label": "PST/B 4 SW"
+            },
+            {
+              "id": "0B000E",
+              "label": "PST/B 5 SW"
+            },
+            {
+              "id": "0B000F",
+              "label": "PST/B 6 SW"
+            },
+            {
+              "id": "0B0010",
+              "label": "PST/B 7 SW"
+            },
+            {
+              "id": "0B0011",
+              "label": "PST/B 8 SW"
+            },
+            {
+              "id": "0B0012",
+              "label": "PST/B 9 SW"
+            },
+            {
+              "id": "0B0013",
+              "label": "PST/B 10 SW"
+            },
+            {
+              "id": "0B0014",
+              "label": "AUX 1 SW"
+            },
+            {
+              "id": "0B0015",
+              "label": "AUX 2 SW"
+            },
+            {
+              "id": "0B0016",
+              "label": "AUX 3 SW"
+            },
+            {
+              "id": "0B0017",
+              "label": "AUX 4 SW"
+            },
+            {
+              "id": "0B0018",
+              "label": "AUX 5 SW"
+            },
+            {
+              "id": "0B0019",
+              "label": "AUX 6 SW"
+            },
+            {
+              "id": "0B001A",
+              "label": "AUX 7 SW"
+            },
+            {
+              "id": "0B001B",
+              "label": "AUX 8 SW"
+            },
+            {
+              "id": "0B001C",
+              "label": "AUX 9 SW"
+            },
+            {
+              "id": "0B001D",
+              "label": "AUX 10 SW"
+            },
+            {
+              "id": "0B001E",
+              "label": "CUT SW"
+            },
+            {
+              "id": "0B001F",
+              "label": "AUTO SW"
+            },
+            {
+              "id": "0B0020",
+              "label": "TRANSITION SW"
+            },
+            {
+              "id": "0B0021",
+              "label": "MODE SW"
+            },
+            {
+              "id": "0B0022",
+              "label": "INPUT ASSIGN SW"
+            },
+            {
+              "id": "0B0023",
+              "label": "PGM-CENTER ENCODER"
+            },
+            {
+              "id": "0B0024",
+              "label": "PST-CENTER ENCODER"
+            },
+            {
+              "id": "0B0025",
+              "label": "SPLIT A SW"
+            },
+            {
+              "id": "0B0026",
+              "label": "SPLIT B SW"
+            },
+            {
+              "id": "0B0027",
+              "label": "AUTO MIXING"
+            },
+            {
+              "id": "0B0028",
+              "label": "CAPTURE SW"
+            },
+            {
+              "id": "0B0029",
+              "label": "USER 1 SW"
+            },
+            {
+              "id": "0B002A",
+              "label": "USER 2 SW"
+            },
+            {
+              "id": "0B002B",
+              "label": "USER 3 SW"
+            },
+            {
+              "id": "0B002C",
+              "label": "USER 4 SW"
+            },
+            {
+              "id": "0B002D",
+              "label": "PinP 1 POSITION H"
+            },
+            {
+              "id": "0B002E",
+              "label": "PinP 1 POSITION V"
+            },
+            {
+              "id": "0B002F",
+              "label": "PinP 1 SOURCE SW"
+            },
+            {
+              "id": "0B0030",
+              "label": "PinP 1 PVW SW"
+            },
+            {
+              "id": "0B0031",
+              "label": "PinP 1 PGM SW"
+            },
+            {
+              "id": "0B0032",
+              "label": "PinP 2 POSITION H"
+            },
+            {
+              "id": "0B0033",
+              "label": "PinP 2 POSITION V"
+            },
+            {
+              "id": "0B0034",
+              "label": "PinP 2 SOURCE SW"
+            },
+            {
+              "id": "0B0035",
+              "label": "PinP 2 PVW SW"
+            },
+            {
+              "id": "0B0036",
+              "label": "PinP 2 PGM SW"
+            },
+            {
+              "id": "0B0037",
+              "label": "PinP 3 POSITION H"
+            },
+            {
+              "id": "0B0038",
+              "label": "PinP 3 POSITION V"
+            },
+            {
+              "id": "0B0039",
+              "label": "PinP 3 SOURCE SW"
+            },
+            {
+              "id": "0B003A",
+              "label": "PinP 3 PVW SW"
+            },
+            {
+              "id": "0B003B",
+              "label": "PinP 3 PGM SW"
+            },
+            {
+              "id": "0B003C",
+              "label": "PinP 4 POSITION H"
+            },
+            {
+              "id": "0B003D",
+              "label": "PinP 4 POSITION V"
+            },
+            {
+              "id": "0B003E",
+              "label": "PinP 4 SOURCE SW"
+            },
+            {
+              "id": "0B003F",
+              "label": "PinP 4 PVW SW"
+            },
+            {
+              "id": "0B0040",
+              "label": "PinP 4 PGM SW"
+            },
+            {
+              "id": "0B0041",
+              "label": "DSK 1 SOURCE SW"
+            },
+            {
+              "id": "0B0042",
+              "label": "DSK 1 PVW SW"
+            },
+            {
+              "id": "0B0043",
+              "label": "DSK 1 PGM SW"
+            },
+            {
+              "id": "0B0044",
+              "label": "DSK 2 SOURCE SW"
+            },
+            {
+              "id": "0B0045",
+              "label": "DSK 2 PVW SW"
+            },
+            {
+              "id": "0B0046",
+              "label": "DSK 2 PGM SW"
+            },
+            {
+              "id": "0B0047",
+              "label": "MONITOR 1 SW"
+            },
+            {
+              "id": "0B0048",
+              "label": "MONITOR 2 SW"
+            },
+            {
+              "id": "0B0049",
+              "label": "MONITOR 3 SW"
+            },
+            {
+              "id": "0B004A",
+              "label": "MONITOR 4 SW"
+            },
+            {
+              "id": "0B004B",
+              "label": "MENU SW"
+            },
+            {
+              "id": "0B004C",
+              "label": "EXIT SW"
+            },
+            {
+              "id": "0B004D",
+              "label": "ENTER SW"
+            },
+            {
+              "id": "0B004E",
+              "label": "OUTPUT FADE SW"
+            },
+            {
+              "id": "0B004F",
+              "label": "SEQUENCER ON SW"
+            },
+            {
+              "id": "0B0050",
+              "label": "SEQUENCER AUTO SW"
+            },
+            {
+              "id": "0B0051",
+              "label": "SEQUENCER PREV SW"
+            },
+            {
+              "id": "0B0052",
+              "label": "SEQUENCER NEXT SW"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0B00{{option.switch|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "switch": {
+          "0B0000": "00,01;\\n\\nDTH:0B0052,00",
+          "0B0001": "01,01",
+          "0B0002": "02,01",
+          "0B0003": "03,01",
+          "0B0004": "04,01",
+          "0B0005": "05,01",
+          "0B0006": "06,01",
+          "0B0007": "07,01",
+          "0B0008": "08,01",
+          "0B0009": "09,01",
+          "0B000A": "0A,01",
+          "0B000B": "0B,01",
+          "0B000C": "0C,01",
+          "0B000D": "0D,01",
+          "0B000E": "0E,01",
+          "0B000F": "0F,01",
+          "0B0010": "10,01",
+          "0B0011": "11,01",
+          "0B0012": "12,01",
+          "0B0013": "13,01",
+          "0B0014": "14,01",
+          "0B0015": "15,01",
+          "0B0016": "16,01",
+          "0B0017": "17,01",
+          "0B0018": "18,01",
+          "0B0019": "19,01",
+          "0B001A": "1A,01",
+          "0B001B": "1B,01",
+          "0B001C": "1C,01",
+          "0B001D": "1D,01",
+          "0B001E": "1E,01",
+          "0B001F": "1F,01",
+          "0B0020": "20,01",
+          "0B0021": "21,01",
+          "0B0022": "22,01",
+          "0B0023": "23,01",
+          "0B0024": "24,01",
+          "0B0025": "25,01",
+          "0B0026": "26,01",
+          "0B0027": "27,01",
+          "0B0028": "28,01",
+          "0B0029": "29,01",
+          "0B002A": "2A,01",
+          "0B002B": "2B,01",
+          "0B002C": "2C,01",
+          "0B002D": "2D,01",
+          "0B002E": "2E,01",
+          "0B002F": "2F,01",
+          "0B0030": "30,01",
+          "0B0031": "31,01",
+          "0B0032": "32,01",
+          "0B0033": "33,01",
+          "0B0034": "34,01",
+          "0B0035": "35,01",
+          "0B0036": "36,01",
+          "0B0037": "37,01",
+          "0B0038": "38,01",
+          "0B0039": "39,01",
+          "0B003A": "3A,01",
+          "0B003B": "3B,01",
+          "0B003C": "3C,01",
+          "0B003D": "3D,01",
+          "0B003E": "3E,01",
+          "0B003F": "3F,01",
+          "0B0040": "40,01",
+          "0B0041": "41,01",
+          "0B0042": "42,01",
+          "0B0043": "43,01",
+          "0B0044": "44,01",
+          "0B0045": "45,01",
+          "0B0046": "46,01",
+          "0B0047": "47,01",
+          "0B0048": "48,01",
+          "0B0049": "49,01",
+          "0B004A": "4A,01",
+          "0B004B": "4B,01",
+          "0B004C": "4C,01",
+          "0B004D": "4D,01",
+          "0B004E": "4E,01",
+          "0B004F": "4F,01",
+          "0B0050": "50,01",
+          "0B0051": "51,01",
+          "0B0052": "52,01"
+        }
+      }
+    },
+    {
+      "id": "x_release_switch",
+      "name": "パネルのボタンを離す",
+      "options": [
+        {
+          "id": "switch",
+          "label": "ボタン",
+          "type": "select",
+          "default": "0B0000",
+          "choices": [
+            {
+              "id": "0B0000",
+              "label": "PGM/A 1 SW"
+            },
+            {
+              "id": "0B0001",
+              "label": "PGM/A 2 SW"
+            },
+            {
+              "id": "0B0002",
+              "label": "PGM/A 3 SW"
+            },
+            {
+              "id": "0B0003",
+              "label": "PGM/A 4 SW"
+            },
+            {
+              "id": "0B0004",
+              "label": "PGM/A 5 SW"
+            },
+            {
+              "id": "0B0005",
+              "label": "PGM/A 6 SW"
+            },
+            {
+              "id": "0B0006",
+              "label": "PGM/A 7 SW"
+            },
+            {
+              "id": "0B0007",
+              "label": "PGM/A 8 SW"
+            },
+            {
+              "id": "0B0008",
+              "label": "PGM/A 9 SW"
+            },
+            {
+              "id": "0B0009",
+              "label": "PGM/A 10 SW"
+            },
+            {
+              "id": "0B000A",
+              "label": "PST/B 1 SW"
+            },
+            {
+              "id": "0B000B",
+              "label": "PST/B 2 SW"
+            },
+            {
+              "id": "0B000C",
+              "label": "PST/B 3 SW"
+            },
+            {
+              "id": "0B000D",
+              "label": "PST/B 4 SW"
+            },
+            {
+              "id": "0B000E",
+              "label": "PST/B 5 SW"
+            },
+            {
+              "id": "0B000F",
+              "label": "PST/B 6 SW"
+            },
+            {
+              "id": "0B0010",
+              "label": "PST/B 7 SW"
+            },
+            {
+              "id": "0B0011",
+              "label": "PST/B 8 SW"
+            },
+            {
+              "id": "0B0012",
+              "label": "PST/B 9 SW"
+            },
+            {
+              "id": "0B0013",
+              "label": "PST/B 10 SW"
+            },
+            {
+              "id": "0B0014",
+              "label": "AUX 1 SW"
+            },
+            {
+              "id": "0B0015",
+              "label": "AUX 2 SW"
+            },
+            {
+              "id": "0B0016",
+              "label": "AUX 3 SW"
+            },
+            {
+              "id": "0B0017",
+              "label": "AUX 4 SW"
+            },
+            {
+              "id": "0B0018",
+              "label": "AUX 5 SW"
+            },
+            {
+              "id": "0B0019",
+              "label": "AUX 6 SW"
+            },
+            {
+              "id": "0B001A",
+              "label": "AUX 7 SW"
+            },
+            {
+              "id": "0B001B",
+              "label": "AUX 8 SW"
+            },
+            {
+              "id": "0B001C",
+              "label": "AUX 9 SW"
+            },
+            {
+              "id": "0B001D",
+              "label": "AUX 10 SW"
+            },
+            {
+              "id": "0B001E",
+              "label": "CUT SW"
+            },
+            {
+              "id": "0B001F",
+              "label": "AUTO SW"
+            },
+            {
+              "id": "0B0020",
+              "label": "TRANSITION SW"
+            },
+            {
+              "id": "0B0021",
+              "label": "MODE SW"
+            },
+            {
+              "id": "0B0022",
+              "label": "INPUT ASSIGN SW"
+            },
+            {
+              "id": "0B0023",
+              "label": "PGM-CENTER ENCODER"
+            },
+            {
+              "id": "0B0024",
+              "label": "PST-CENTER ENCODER"
+            },
+            {
+              "id": "0B0025",
+              "label": "SPLIT A SW"
+            },
+            {
+              "id": "0B0026",
+              "label": "SPLIT B SW"
+            },
+            {
+              "id": "0B0027",
+              "label": "AUTO MIXING"
+            },
+            {
+              "id": "0B0028",
+              "label": "CAPTURE SW"
+            },
+            {
+              "id": "0B0029",
+              "label": "USER 1 SW"
+            },
+            {
+              "id": "0B002A",
+              "label": "USER 2 SW"
+            },
+            {
+              "id": "0B002B",
+              "label": "USER 3 SW"
+            },
+            {
+              "id": "0B002C",
+              "label": "USER 4 SW"
+            },
+            {
+              "id": "0B002D",
+              "label": "PinP 1 POSITION H"
+            },
+            {
+              "id": "0B002E",
+              "label": "PinP 1 POSITION V"
+            },
+            {
+              "id": "0B002F",
+              "label": "PinP 1 SOURCE SW"
+            },
+            {
+              "id": "0B0030",
+              "label": "PinP 1 PVW SW"
+            },
+            {
+              "id": "0B0031",
+              "label": "PinP 1 PGM SW"
+            },
+            {
+              "id": "0B0032",
+              "label": "PinP 2 POSITION H"
+            },
+            {
+              "id": "0B0033",
+              "label": "PinP 2 POSITION V"
+            },
+            {
+              "id": "0B0034",
+              "label": "PinP 2 SOURCE SW"
+            },
+            {
+              "id": "0B0035",
+              "label": "PinP 2 PVW SW"
+            },
+            {
+              "id": "0B0036",
+              "label": "PinP 2 PGM SW"
+            },
+            {
+              "id": "0B0037",
+              "label": "PinP 3 POSITION H"
+            },
+            {
+              "id": "0B0038",
+              "label": "PinP 3 POSITION V"
+            },
+            {
+              "id": "0B0039",
+              "label": "PinP 3 SOURCE SW"
+            },
+            {
+              "id": "0B003A",
+              "label": "PinP 3 PVW SW"
+            },
+            {
+              "id": "0B003B",
+              "label": "PinP 3 PGM SW"
+            },
+            {
+              "id": "0B003C",
+              "label": "PinP 4 POSITION H"
+            },
+            {
+              "id": "0B003D",
+              "label": "PinP 4 POSITION V"
+            },
+            {
+              "id": "0B003E",
+              "label": "PinP 4 SOURCE SW"
+            },
+            {
+              "id": "0B003F",
+              "label": "PinP 4 PVW SW"
+            },
+            {
+              "id": "0B0040",
+              "label": "PinP 4 PGM SW"
+            },
+            {
+              "id": "0B0041",
+              "label": "DSK 1 SOURCE SW"
+            },
+            {
+              "id": "0B0042",
+              "label": "DSK 1 PVW SW"
+            },
+            {
+              "id": "0B0043",
+              "label": "DSK 1 PGM SW"
+            },
+            {
+              "id": "0B0044",
+              "label": "DSK 2 SOURCE SW"
+            },
+            {
+              "id": "0B0045",
+              "label": "DSK 2 PVW SW"
+            },
+            {
+              "id": "0B0046",
+              "label": "DSK 2 PGM SW"
+            },
+            {
+              "id": "0B0047",
+              "label": "MONITOR 1 SW"
+            },
+            {
+              "id": "0B0048",
+              "label": "MONITOR 2 SW"
+            },
+            {
+              "id": "0B0049",
+              "label": "MONITOR 3 SW"
+            },
+            {
+              "id": "0B004A",
+              "label": "MONITOR 4 SW"
+            },
+            {
+              "id": "0B004B",
+              "label": "MENU SW"
+            },
+            {
+              "id": "0B004C",
+              "label": "EXIT SW"
+            },
+            {
+              "id": "0B004D",
+              "label": "ENTER SW"
+            },
+            {
+              "id": "0B004E",
+              "label": "OUTPUT FADE SW"
+            },
+            {
+              "id": "0B004F",
+              "label": "SEQUENCER ON SW"
+            },
+            {
+              "id": "0B0050",
+              "label": "SEQUENCER AUTO SW"
+            },
+            {
+              "id": "0B0051",
+              "label": "SEQUENCER PREV SW"
+            },
+            {
+              "id": "0B0052",
+              "label": "SEQUENCER NEXT SW"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0B00{{option.switch|map}},00;",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "switch": {
+          "0B0000": "00",
+          "0B0001": "01",
+          "0B0002": "02",
+          "0B0003": "03",
+          "0B0004": "04",
+          "0B0005": "05",
+          "0B0006": "06",
+          "0B0007": "07",
+          "0B0008": "08",
+          "0B0009": "09",
+          "0B000A": "0A",
+          "0B000B": "0B",
+          "0B000C": "0C",
+          "0B000D": "0D",
+          "0B000E": "0E",
+          "0B000F": "0F",
+          "0B0010": "10",
+          "0B0011": "11",
+          "0B0012": "12",
+          "0B0013": "13",
+          "0B0014": "14",
+          "0B0015": "15",
+          "0B0016": "16",
+          "0B0017": "17",
+          "0B0018": "18",
+          "0B0019": "19",
+          "0B001A": "1A",
+          "0B001B": "1B",
+          "0B001C": "1C",
+          "0B001D": "1D",
+          "0B001E": "1E",
+          "0B001F": "1F",
+          "0B0020": "20",
+          "0B0021": "21",
+          "0B0022": "22",
+          "0B0023": "23",
+          "0B0024": "24",
+          "0B0025": "25",
+          "0B0026": "26",
+          "0B0027": "27",
+          "0B0028": "28",
+          "0B0029": "29",
+          "0B002A": "2A",
+          "0B002B": "2B",
+          "0B002C": "2C",
+          "0B002D": "2D",
+          "0B002E": "2E",
+          "0B002F": "2F",
+          "0B0030": "30",
+          "0B0031": "31",
+          "0B0032": "32",
+          "0B0033": "33",
+          "0B0034": "34",
+          "0B0035": "35",
+          "0B0036": "36",
+          "0B0037": "37",
+          "0B0038": "38",
+          "0B0039": "39",
+          "0B003A": "3A",
+          "0B003B": "3B",
+          "0B003C": "3C",
+          "0B003D": "3D",
+          "0B003E": "3E",
+          "0B003F": "3F",
+          "0B0040": "40",
+          "0B0041": "41",
+          "0B0042": "42",
+          "0B0043": "43",
+          "0B0044": "44",
+          "0B0045": "45",
+          "0B0046": "46",
+          "0B0047": "47",
+          "0B0048": "48",
+          "0B0049": "49",
+          "0B004A": "4A",
+          "0B004B": "4B",
+          "0B004C": "4C",
+          "0B004D": "4D",
+          "0B004E": "4E",
+          "0B004F": "4F",
+          "0B0050": "50",
+          "0B0051": "51",
+          "0B0052": "52"
+        }
+      }
+    },
+    {
+      "id": "x_set_dsk_key_source",
+      "name": "DSK のキーのソース",
+      "options": [
+        {
+          "id": "dsk",
+          "label": "DSK",
+          "type": "select",
+          "default": "31",
+          "choices": [
+            {
+              "id": "31",
+              "label": "DSK 1"
+            },
+            {
+              "id": "32",
+              "label": "DSK 2"
+            }
+          ]
+        },
+        {
+          "id": "assign",
+          "label": "入力の種類",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "HDMI 1"
+            },
+            {
+              "id": "1",
+              "label": "HDMI 2"
+            },
+            {
+              "id": "2",
+              "label": "HDMI 3"
+            },
+            {
+              "id": "3",
+              "label": "HDMI 4"
+            },
+            {
+              "id": "4",
+              "label": "HDMI 5"
+            },
+            {
+              "id": "5",
+              "label": "HDMI 6"
+            },
+            {
+              "id": "6",
+              "label": "HDMI 7"
+            },
+            {
+              "id": "7",
+              "label": "HDMI 8"
+            },
+            {
+              "id": "8",
+              "label": "SDI 1"
+            },
+            {
+              "id": "9",
+              "label": "SDI 2"
+            },
+            {
+              "id": "10",
+              "label": "SDI 3"
+            },
+            {
+              "id": "11",
+              "label": "SDI 4"
+            },
+            {
+              "id": "12",
+              "label": "SDI 5"
+            },
+            {
+              "id": "13",
+              "label": "SDI 6"
+            },
+            {
+              "id": "14",
+              "label": "SDI 7"
+            },
+            {
+              "id": "15",
+              "label": "SDI 8"
+            },
+            {
+              "id": "16",
+              "label": "Still 1"
+            },
+            {
+              "id": "17",
+              "label": "Still 2"
+            },
+            {
+              "id": "18",
+              "label": "Still 3"
+            },
+            {
+              "id": "19",
+              "label": "Still 4"
+            },
+            {
+              "id": "20",
+              "label": "Still 5"
+            },
+            {
+              "id": "21",
+              "label": "Still 6"
+            },
+            {
+              "id": "22",
+              "label": "Still 7"
+            },
+            {
+              "id": "23",
+              "label": "Still 8"
+            },
+            {
+              "id": "24",
+              "label": "Still 9"
+            },
+            {
+              "id": "25",
+              "label": "Still 10"
+            },
+            {
+              "id": "26",
+              "label": "Still 11"
+            },
+            {
+              "id": "27",
+              "label": "Still 12"
+            },
+            {
+              "id": "28",
+              "label": "Still 13"
+            },
+            {
+              "id": "29",
+              "label": "Still 14"
+            },
+            {
+              "id": "30",
+              "label": "Still 15"
+            },
+            {
+              "id": "31",
+              "label": "Still 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.dsk|map}}03,{{option.assign|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "dsk": {
+          "31": "1F",
+          "32": "20"
+        },
+        "assign": {
+          "0": "00",
+          "1": "01",
+          "2": "02",
+          "3": "03",
+          "4": "04",
+          "5": "05",
+          "6": "06",
+          "7": "07",
+          "8": "08",
+          "9": "09",
+          "10": "0A",
+          "11": "0B",
+          "12": "0C",
+          "13": "0D",
+          "14": "0E",
+          "15": "0F",
+          "16": "10",
+          "17": "11",
+          "18": "12",
+          "19": "13",
+          "20": "14",
+          "21": "15",
+          "22": "16",
+          "23": "17",
+          "24": "18",
+          "25": "19",
+          "26": "1A",
+          "27": "1B",
+          "28": "1C",
+          "29": "1D",
+          "30": "1E",
+          "31": "1F"
+        }
+      }
+    },
+    {
+      "id": "x_set_dsk_fill_source",
+      "name": "DSK のフィルのソース",
+      "options": [
+        {
+          "id": "dsk",
+          "label": "DSK",
+          "type": "select",
+          "default": "31",
+          "choices": [
+            {
+              "id": "31",
+              "label": "DSK 1"
+            },
+            {
+              "id": "32",
+              "label": "DSK 2"
+            }
+          ]
+        },
+        {
+          "id": "assign",
+          "label": "入力の種類",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "HDMI 1"
+            },
+            {
+              "id": "1",
+              "label": "HDMI 2"
+            },
+            {
+              "id": "2",
+              "label": "HDMI 3"
+            },
+            {
+              "id": "3",
+              "label": "HDMI 4"
+            },
+            {
+              "id": "4",
+              "label": "HDMI 5"
+            },
+            {
+              "id": "5",
+              "label": "HDMI 6"
+            },
+            {
+              "id": "6",
+              "label": "HDMI 7"
+            },
+            {
+              "id": "7",
+              "label": "HDMI 8"
+            },
+            {
+              "id": "8",
+              "label": "SDI 1"
+            },
+            {
+              "id": "9",
+              "label": "SDI 2"
+            },
+            {
+              "id": "10",
+              "label": "SDI 3"
+            },
+            {
+              "id": "11",
+              "label": "SDI 4"
+            },
+            {
+              "id": "12",
+              "label": "SDI 5"
+            },
+            {
+              "id": "13",
+              "label": "SDI 6"
+            },
+            {
+              "id": "14",
+              "label": "SDI 7"
+            },
+            {
+              "id": "15",
+              "label": "SDI 8"
+            },
+            {
+              "id": "16",
+              "label": "Still 1"
+            },
+            {
+              "id": "17",
+              "label": "Still 2"
+            },
+            {
+              "id": "18",
+              "label": "Still 3"
+            },
+            {
+              "id": "19",
+              "label": "Still 4"
+            },
+            {
+              "id": "20",
+              "label": "Still 5"
+            },
+            {
+              "id": "21",
+              "label": "Still 6"
+            },
+            {
+              "id": "22",
+              "label": "Still 7"
+            },
+            {
+              "id": "23",
+              "label": "Still 8"
+            },
+            {
+              "id": "24",
+              "label": "Still 9"
+            },
+            {
+              "id": "25",
+              "label": "Still 10"
+            },
+            {
+              "id": "26",
+              "label": "Still 11"
+            },
+            {
+              "id": "27",
+              "label": "Still 12"
+            },
+            {
+              "id": "28",
+              "label": "Still 13"
+            },
+            {
+              "id": "29",
+              "label": "Still 14"
+            },
+            {
+              "id": "30",
+              "label": "Still 15"
+            },
+            {
+              "id": "31",
+              "label": "Still 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.dsk|map}}04,{{option.assign|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "dsk": {
+          "31": "1F",
+          "32": "20"
+        },
+        "assign": {
+          "0": "00",
+          "1": "01",
+          "2": "02",
+          "3": "03",
+          "4": "04",
+          "5": "05",
+          "6": "06",
+          "7": "07",
+          "8": "08",
+          "9": "09",
+          "10": "0A",
+          "11": "0B",
+          "12": "0C",
+          "13": "0D",
+          "14": "0E",
+          "15": "0F",
+          "16": "10",
+          "17": "11",
+          "18": "12",
+          "19": "13",
+          "20": "14",
+          "21": "15",
+          "22": "16",
+          "23": "17",
+          "24": "18",
+          "25": "19",
+          "26": "1A",
+          "27": "1B",
+          "28": "1C",
+          "29": "1D",
+          "30": "1E",
+          "31": "1F"
+        }
+      }
+    },
+    {
+      "id": "x_set_dsk_type",
+      "name": "DSK のキーの種類",
+      "options": [
+        {
+          "id": "dsk",
+          "label": "DSK",
+          "type": "select",
+          "default": "31",
+          "choices": [
+            {
+              "id": "31",
+              "label": "DSK 1"
+            },
+            {
+              "id": "32",
+              "label": "DSK 2"
+            }
+          ]
+        },
+        {
+          "id": "key",
+          "label": "キーの種類",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Luminance-White Key"
+            },
+            {
+              "id": "1",
+              "label": "Luminance-Black Key"
+            },
+            {
+              "id": "2",
+              "label": "Chroma Key"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.dsk|map}}05,0{{option.key|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "dsk": {
+          "31": "1F",
+          "32": "20"
+        },
+        "key": {
+          "0": "0",
+          "1": "1",
+          "2": "2"
+        }
+      }
+    },
+    {
+      "id": "x_save_memory_trigger",
+      "name": "シーンメモリーに保存",
+      "options": [
+        {
+          "id": "memory",
+          "label": "メモリー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Memory 1"
+            },
+            {
+              "id": "1",
+              "label": "Memory 2"
+            },
+            {
+              "id": "2",
+              "label": "Memory 3"
+            },
+            {
+              "id": "3",
+              "label": "Memory 4"
+            },
+            {
+              "id": "4",
+              "label": "Memory 5"
+            },
+            {
+              "id": "5",
+              "label": "Memory 6"
+            },
+            {
+              "id": "6",
+              "label": "Memory 7"
+            },
+            {
+              "id": "7",
+              "label": "Memory 8"
+            },
+            {
+              "id": "8",
+              "label": "Memory 9"
+            },
+            {
+              "id": "9",
+              "label": "Memory 10"
+            },
+            {
+              "id": "10",
+              "label": "Memory 11"
+            },
+            {
+              "id": "11",
+              "label": "Memory 12"
+            },
+            {
+              "id": "12",
+              "label": "Memory 13"
+            },
+            {
+              "id": "13",
+              "label": "Memory 14"
+            },
+            {
+              "id": "14",
+              "label": "Memory 15"
+            },
+            {
+              "id": "15",
+              "label": "Memory 16"
+            },
+            {
+              "id": "16",
+              "label": "Memory 17"
+            },
+            {
+              "id": "17",
+              "label": "Memory 18"
+            },
+            {
+              "id": "18",
+              "label": "Memory 19"
+            },
+            {
+              "id": "19",
+              "label": "Memory 20"
+            },
+            {
+              "id": "20",
+              "label": "Memory 21"
+            },
+            {
+              "id": "21",
+              "label": "Memory 22"
+            },
+            {
+              "id": "22",
+              "label": "Memory 23"
+            },
+            {
+              "id": "23",
+              "label": "Memory 24"
+            },
+            {
+              "id": "24",
+              "label": "Memory 25"
+            },
+            {
+              "id": "25",
+              "label": "Memory 26"
+            },
+            {
+              "id": "26",
+              "label": "Memory 27"
+            },
+            {
+              "id": "27",
+              "label": "Memory 28"
+            },
+            {
+              "id": "28",
+              "label": "Memory 29"
+            },
+            {
+              "id": "29",
+              "label": "Memory 30"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0A0001,{{option.memory|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "memory": {
+          "0": "00",
+          "1": "01",
+          "2": "02",
+          "3": "03",
+          "4": "04",
+          "5": "05",
+          "6": "06",
+          "7": "07",
+          "8": "08",
+          "9": "09",
+          "10": "0A",
+          "11": "0B",
+          "12": "0C",
+          "13": "0D",
+          "14": "0E",
+          "15": "0F",
+          "16": "10",
+          "17": "11",
+          "18": "12",
+          "19": "13",
+          "20": "14",
+          "21": "15",
+          "22": "16",
+          "23": "17",
+          "24": "18",
+          "25": "19",
+          "26": "1A",
+          "27": "1B",
+          "28": "1C",
+          "29": "1D"
+        }
+      }
+    },
+    {
+      "id": "x_initialize_memory_trigger",
+      "name": "シーンメモリーを初期化",
+      "options": [
+        {
+          "id": "memory",
+          "label": "メモリー",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "Memory 1"
+            },
+            {
+              "id": "1",
+              "label": "Memory 2"
+            },
+            {
+              "id": "2",
+              "label": "Memory 3"
+            },
+            {
+              "id": "3",
+              "label": "Memory 4"
+            },
+            {
+              "id": "4",
+              "label": "Memory 5"
+            },
+            {
+              "id": "5",
+              "label": "Memory 6"
+            },
+            {
+              "id": "6",
+              "label": "Memory 7"
+            },
+            {
+              "id": "7",
+              "label": "Memory 8"
+            },
+            {
+              "id": "8",
+              "label": "Memory 9"
+            },
+            {
+              "id": "9",
+              "label": "Memory 10"
+            },
+            {
+              "id": "10",
+              "label": "Memory 11"
+            },
+            {
+              "id": "11",
+              "label": "Memory 12"
+            },
+            {
+              "id": "12",
+              "label": "Memory 13"
+            },
+            {
+              "id": "13",
+              "label": "Memory 14"
+            },
+            {
+              "id": "14",
+              "label": "Memory 15"
+            },
+            {
+              "id": "15",
+              "label": "Memory 16"
+            },
+            {
+              "id": "16",
+              "label": "Memory 17"
+            },
+            {
+              "id": "17",
+              "label": "Memory 18"
+            },
+            {
+              "id": "18",
+              "label": "Memory 19"
+            },
+            {
+              "id": "19",
+              "label": "Memory 20"
+            },
+            {
+              "id": "20",
+              "label": "Memory 21"
+            },
+            {
+              "id": "21",
+              "label": "Memory 22"
+            },
+            {
+              "id": "22",
+              "label": "Memory 23"
+            },
+            {
+              "id": "23",
+              "label": "Memory 24"
+            },
+            {
+              "id": "24",
+              "label": "Memory 25"
+            },
+            {
+              "id": "25",
+              "label": "Memory 26"
+            },
+            {
+              "id": "26",
+              "label": "Memory 27"
+            },
+            {
+              "id": "27",
+              "label": "Memory 28"
+            },
+            {
+              "id": "28",
+              "label": "Memory 29"
+            },
+            {
+              "id": "29",
+              "label": "Memory 30"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0A0002,{{option.memory|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "memory": {
+          "0": "00",
+          "1": "01",
+          "2": "02",
+          "3": "03",
+          "4": "04",
+          "5": "05",
+          "6": "06",
+          "7": "07",
+          "8": "08",
+          "9": "09",
+          "10": "0A",
+          "11": "0B",
+          "12": "0C",
+          "13": "0D",
+          "14": "0E",
+          "15": "0F",
+          "16": "10",
+          "17": "11",
+          "18": "12",
+          "19": "13",
+          "20": "14",
+          "21": "15",
+          "22": "16",
+          "23": "17",
+          "24": "18",
+          "25": "19",
+          "26": "1A",
+          "27": "1B",
+          "28": "1C",
+          "29": "1D"
+        }
+      }
+    },
+    {
+      "id": "x_freezeSwitchOn",
+      "name": "フリーズ オン",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:020500,01;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_freezeSwitchOff",
+      "name": "フリーズ オフ",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:020500,00;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_freezeSwitchType",
+      "name": "フリーズの種類",
+      "options": [
+        {
+          "id": "type",
+          "label": "種類",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "All"
+            },
+            {
+              "id": "01",
+              "label": "Select"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:020501,0{{option.type|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "type": {
+          "00": "0",
+          "01": "1"
+        }
+      }
+    },
+    {
+      "id": "x_freezeSwitchSelectEnableDisable",
+      "name": "入力ごとのフリーズの対象",
+      "options": [
+        {
+          "id": "input",
+          "label": "入力",
+          "type": "select",
+          "default": "02",
+          "choices": [
+            {
+              "id": "02",
+              "label": "HDMI IN 1"
+            },
+            {
+              "id": "03",
+              "label": "HDMI IN 2"
+            },
+            {
+              "id": "04",
+              "label": "HDMI IN 3"
+            },
+            {
+              "id": "05",
+              "label": "HDMI IN 4"
+            },
+            {
+              "id": "06",
+              "label": "HDMI IN 5"
+            },
+            {
+              "id": "07",
+              "label": "HDMI IN 6"
+            },
+            {
+              "id": "08",
+              "label": "HDMI IN 7"
+            },
+            {
+              "id": "09",
+              "label": "HDMI IN 8"
+            },
+            {
+              "id": "0A",
+              "label": "SDI IN 1"
+            },
+            {
+              "id": "0B",
+              "label": "SDI IN 2"
+            },
+            {
+              "id": "0C",
+              "label": "SDI IN 3"
+            },
+            {
+              "id": "0D",
+              "label": "SDI IN 4"
+            },
+            {
+              "id": "0E",
+              "label": "SDI IN 5"
+            },
+            {
+              "id": "0F",
+              "label": "SDI IN 6"
+            },
+            {
+              "id": "10",
+              "label": "SDI IN 7"
+            },
+            {
+              "id": "11",
+              "label": "SDI IN 8"
+            }
+          ]
+        },
+        {
+          "id": "enable",
+          "label": "オン・オフ",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "00",
+              "label": "Disable"
+            },
+            {
+              "id": "01",
+              "label": "Enable"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:0205{{option.input|map}},{{option.enable|map}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "maps": {
+        "input": {
+          "10": "10",
+          "11": "11",
+          "02": "02",
+          "03": "03",
+          "04": "04",
+          "05": "05",
+          "06": "06",
+          "07": "07",
+          "08": "08",
+          "09": "09",
+          "0A": "0A",
+          "0B": "0B",
+          "0C": "0C",
+          "0D": "0D",
+          "0E": "0E",
+          "0F": "0F"
+        },
+        "enable": {
+          "1": "1",
+          "00": "00",
+          "01": "01"
+        }
+      }
+    },
+    {
+      "id": "x_pinp_position_h",
+      "name": "PinP の位置（横）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "位置（%）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100,
+          "help": "0.1 きざみで入れられます"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}04,{{option.v|r14h:10|hexu|pad2}}{{option.v|r14l:10|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の位置（横） {{option.v}}"
+    },
+    {
+      "id": "x_pinp_position_v",
+      "name": "PinP の位置（縦）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "位置（%）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100,
+          "help": "0.1 きざみで入れられます"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}06,{{option.v|r14h:10|hexu|pad2}}{{option.v|r14l:10|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の位置（縦） {{option.v}}"
+    },
+    {
+      "id": "x_pinp_size",
+      "name": "PinP の大きさ",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "大きさ（%）",
+          "type": "number",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "help": "0.1 きざみで入れられます"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}08,{{option.v|r14h:10|hexu|pad2}}{{option.v|r14l:10|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の大きさ {{option.v}}"
+    },
+    {
+      "id": "x_pinp_cropping_h",
+      "name": "PinP の切り取り（横）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "切り取り（%）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "help": "0.1 きざみで入れられます"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}0A,{{option.v|r14h:10|hexu|pad2}}{{option.v|r14l:10|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の切り取り（横） {{option.v}}"
+    },
+    {
+      "id": "x_pinp_cropping_v",
+      "name": "PinP の切り取り（縦）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "切り取り（%）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "help": "0.1 きざみで入れられます"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}0C,{{option.v|r14h:10|hexu|pad2}}{{option.v|r14l:10|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の切り取り（縦） {{option.v}}"
+    },
+    {
+      "id": "x_pinp_view_h",
+      "name": "PinP の中の位置（横）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "位置（%）",
+          "type": "number",
+          "default": 0,
+          "min": -50,
+          "max": 50,
+          "help": "0.1 きざみで入れられます"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}11,{{option.v|r14h:10|hexu|pad2}}{{option.v|r14l:10|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の中の位置（横） {{option.v}}"
+    },
+    {
+      "id": "x_pinp_view_v",
+      "name": "PinP の中の位置（縦）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "位置（%）",
+          "type": "number",
+          "default": 0,
+          "min": -50,
+          "max": 50,
+          "help": "0.1 きざみで入れられます"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}13,{{option.v|r14h:10|hexu|pad2}}{{option.v|r14l:10|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の中の位置（縦） {{option.v}}"
+    },
+    {
+      "id": "x_pinp_view_zoom",
+      "name": "PinP の中のズーム",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "ズーム（%）",
+          "type": "number",
+          "default": 100,
+          "min": 100,
+          "max": 400
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}15,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の中のズーム {{option.v}}"
+    },
+    {
+      "id": "x_key_level",
+      "name": "キーのレベル",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "レベル（0–255）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}17,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "キーのレベル {{option.v}}"
+    },
+    {
+      "id": "x_key_gain",
+      "name": "キーのゲイン",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "ゲイン（0–255）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}19,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "キーのゲイン {{option.v}}"
+    },
+    {
+      "id": "x_key_mix_level",
+      "name": "キーのミックスレベル",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "レベル（0–255）",
+          "type": "number",
+          "default": 255,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}1B,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "キーのミックスレベル {{option.v}}"
+    },
+    {
+      "id": "x_chroma_hue_fine",
+      "name": "クロマキーの色相（細かく）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "色相（0–360）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 360
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}1F,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "クロマキーの色相（細かく） {{option.v}}"
+    },
+    {
+      "id": "x_chroma_sat_width",
+      "name": "クロマキーの彩度の幅",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "幅（-128–127）",
+          "type": "number",
+          "default": 0,
+          "min": -128,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}21,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "クロマキーの彩度の幅 {{option.v}}"
+    },
+    {
+      "id": "x_chroma_sat_fine",
+      "name": "クロマキーの彩度（細かく）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "彩度（0–255）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}23,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "クロマキーの彩度（細かく） {{option.v}}"
+    },
+    {
+      "id": "x_border_red",
+      "name": "PinP の枠の色（赤）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "赤（0–255）",
+          "type": "number",
+          "default": 255,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}25,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の枠の色（赤） {{option.v}}"
+    },
+    {
+      "id": "x_border_green",
+      "name": "PinP の枠の色（緑）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "緑（0–255）",
+          "type": "number",
+          "default": 255,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}27,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の枠の色（緑） {{option.v}}"
+    },
+    {
+      "id": "x_border_blue",
+      "name": "PinP の枠の色（青）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "青（0–255）",
+          "type": "number",
+          "default": 255,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}29,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "PinP の枠の色（青） {{option.v}}"
+    },
+    {
+      "id": "x_chroma_value_width",
+      "name": "クロマキーの明るさの幅",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "幅（-128–127）",
+          "type": "number",
+          "default": 0,
+          "min": -128,
+          "max": 127
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}2B,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "クロマキーの明るさの幅 {{option.v}}"
+    },
+    {
+      "id": "x_chroma_value_fine",
+      "name": "クロマキーの明るさ（細かく）",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "明るさ（0–255）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 255
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}2D,{{option.v|r14h:1|hexu|pad2}}{{option.v|r14l:1|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "クロマキーの明るさ（細かく） {{option.v}}"
+    },
+    {
+      "id": "x_chroma_hue_width",
+      "name": "クロマキーの色相の幅",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "幅（-30–30）",
+          "type": "number",
+          "default": 0,
+          "min": -30,
+          "max": 30
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}1E,{{option.v|s7|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      },
+      "summary": "クロマキーの色相の幅 {{option.v}}"
+    },
+    {
+      "id": "x_chroma_despill",
+      "name": "クロマキーのデスピル",
+      "options": [
+        {
+          "id": "pinp",
+          "label": "PinP / KEY",
+          "type": "select",
+          "default": "1B",
+          "choices": [
+            {
+              "id": "1B",
+              "label": "PinP & KEY 1"
+            },
+            {
+              "id": "1C",
+              "label": "PinP & KEY 2"
+            },
+            {
+              "id": "1D",
+              "label": "PinP & KEY 3"
+            },
+            {
+              "id": "1E",
+              "label": "PinP & KEY 4"
+            }
+          ]
+        },
+        {
+          "id": "on",
+          "label": "デスピル",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "OFF"
+            },
+            {
+              "id": "01",
+              "label": "ON"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:00{{option.pinp}}2F,{{option.on}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_wipe_direction",
+      "name": "WIPE の向き",
+      "options": [
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "NORMAL"
+            },
+            {
+              "id": "01",
+              "label": "REVERSE"
+            },
+            {
+              "id": "02",
+              "label": "ROUND TRIP"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:001803,{{option.dir}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_preset",
+      "name": "カメラのプリセットを呼び出す",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "プリセット",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "なし"
+            },
+            {
+              "id": "00",
+              "label": "1"
+            },
+            {
+              "id": "01",
+              "label": "2"
+            },
+            {
+              "id": "02",
+              "label": "3"
+            },
+            {
+              "id": "03",
+              "label": "4"
+            },
+            {
+              "id": "04",
+              "label": "5"
+            },
+            {
+              "id": "05",
+              "label": "6"
+            },
+            {
+              "id": "06",
+              "label": "7"
+            },
+            {
+              "id": "07",
+              "label": "8"
+            },
+            {
+              "id": "08",
+              "label": "9"
+            },
+            {
+              "id": "09",
+              "label": "10"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}21,{{option.v}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_pan_left",
+      "name": "カメラ パン 左",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}22,7F;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_pan_right",
+      "name": "カメラ パン 右",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}22,01;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_pan_stop",
+      "name": "カメラ パン 止める",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}22,00;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_tilt_up",
+      "name": "カメラ チルト 上",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}23,01;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_tilt_down",
+      "name": "カメラ チルト 下",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}23,7F;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_tilt_stop",
+      "name": "カメラ チルト 止める",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}23,00;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_pt_speed",
+      "name": "カメラ パン・チルトの速さ",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "速さ（0–24）",
+          "type": "number",
+          "default": 10,
+          "min": 0,
+          "max": 24
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}24,{{option.v|hexu|pad2}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_zoom_in_fast",
+      "name": "カメラ ズームイン（速く）",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}25,02;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_zoom_in_slow",
+      "name": "カメラ ズームイン（ゆっくり）",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}25,01;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_zoom_out_fast",
+      "name": "カメラ ズームアウト（速く）",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}25,7E;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_zoom_out_slow",
+      "name": "カメラ ズームアウト（ゆっくり）",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}25,7F;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_zoom_stop",
+      "name": "カメラ ズーム 止める",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}25,00;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_focus",
+      "name": "カメラ フォーカス",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "フォーカス",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "近く"
+            },
+            {
+              "id": "00",
+              "label": "止める"
+            },
+            {
+              "id": "01",
+              "label": "遠く"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}26,{{option.v}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_af_on",
+      "name": "カメラ オートフォーカス オン",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}27,01;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_af_off",
+      "name": "カメラ オートフォーカス オフ",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}27,00;",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_exposure",
+      "name": "カメラ 露出",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "露出",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "マニュアル"
+            },
+            {
+              "id": "01",
+              "label": "オート"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}28,{{option.v}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
+    },
+    {
+      "id": "x_cam_tally",
+      "name": "カメラのタリーにする入力",
+      "options": [
+        {
+          "id": "cam",
+          "label": "カメラ",
+          "type": "select",
+          "default": "41",
+          "choices": [
+            {
+              "id": "41",
+              "label": "カメラ 1"
+            },
+            {
+              "id": "42",
+              "label": "カメラ 2"
+            },
+            {
+              "id": "43",
+              "label": "カメラ 3"
+            },
+            {
+              "id": "44",
+              "label": "カメラ 4"
+            },
+            {
+              "id": "45",
+              "label": "カメラ 5"
+            },
+            {
+              "id": "46",
+              "label": "カメラ 6"
+            },
+            {
+              "id": "47",
+              "label": "カメラ 7"
+            },
+            {
+              "id": "48",
+              "label": "カメラ 8"
+            },
+            {
+              "id": "49",
+              "label": "カメラ 9"
+            },
+            {
+              "id": "4A",
+              "label": "カメラ 10"
+            },
+            {
+              "id": "4B",
+              "label": "カメラ 11"
+            },
+            {
+              "id": "4C",
+              "label": "カメラ 12"
+            },
+            {
+              "id": "4D",
+              "label": "カメラ 13"
+            },
+            {
+              "id": "4E",
+              "label": "カメラ 14"
+            },
+            {
+              "id": "4F",
+              "label": "カメラ 15"
+            },
+            {
+              "id": "50",
+              "label": "カメラ 16"
+            }
+          ]
+        },
+        {
+          "id": "v",
+          "label": "入力",
+          "type": "select",
+          "default": "00",
+          "choices": [
+            {
+              "id": "00",
+              "label": "HDMI 1"
+            },
+            {
+              "id": "01",
+              "label": "HDMI 2"
+            },
+            {
+              "id": "02",
+              "label": "HDMI 3"
+            },
+            {
+              "id": "03",
+              "label": "HDMI 4"
+            },
+            {
+              "id": "04",
+              "label": "HDMI 5"
+            },
+            {
+              "id": "05",
+              "label": "HDMI 6"
+            },
+            {
+              "id": "06",
+              "label": "HDMI 7"
+            },
+            {
+              "id": "07",
+              "label": "HDMI 8"
+            },
+            {
+              "id": "08",
+              "label": "SDI 1"
+            },
+            {
+              "id": "09",
+              "label": "SDI 2"
+            },
+            {
+              "id": "0A",
+              "label": "SDI 3"
+            },
+            {
+              "id": "0B",
+              "label": "SDI 4"
+            },
+            {
+              "id": "0C",
+              "label": "SDI 5"
+            },
+            {
+              "id": "0D",
+              "label": "SDI 6"
+            },
+            {
+              "id": "0E",
+              "label": "SDI 7"
+            },
+            {
+              "id": "0F",
+              "label": "SDI 8"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "DTH:02{{option.cam}}29,{{option.v}};",
+        "encoding": "text",
+        "terminator": "\\n"
+      }
     }
   ],
   "feedbacks": [
@@ -1391,6 +8425,18 @@
     }
   ],
   "evidence": [
+    {
+      "title": "Roland V-160HD Remote Control Guide のアドレスマップ（PinP & KEY 00 1B–1E xx、WIPE の向き 00 18 03、2 バイトの値の形）",
+      "url": "https://static.roland.com/assets/media/pdf/V-160HD_Control_eng06_W.pdf",
+      "status": "確認済",
+      "note": "2 バイトの値は 14 ビット（負の数は 16384 + 値）を上位・下位 7 ビットにしてアドレス順に送る。実機は未確認"
+    },
+    {
+      "title": "公開 OSS のモジュール roland-v160hd 2.2.1（MIT）から自動変換した動作（id が x_ で始まるもの）",
+      "url": "https://github.com/bitfocus/companion-module-roland-v160hd",
+      "status": "推測",
+      "note": "送る内容だけ。作者：Joseph Adams。カメラ（02 41 xx）は資料に無くモジュールから写した"
+    },
     {
       "title": "Roland V-160HD Remote Control Guide（LAN・アドレスマップ）",
       "url": "https://static.roland.com/assets/media/pdf/V-160HD_Control_eng06_W.pdf",

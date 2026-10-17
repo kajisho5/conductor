@@ -22,6 +22,7 @@ import type { Show, Trigger, TriggerEvent } from '@/model/types';
 import { useShowStore } from '@/stores/show';
 import { color, MIN_TAP, radius, type as typeStyles } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
+import { NumberInput } from '@/components/ui/NumberInput';
 import { IconButton, PillButton } from '@/components/ui/Buttons';
 import { Segmented } from '@/components/ui/Segmented';
 import { Symbol } from '@/components/ui/Symbol';
@@ -260,12 +261,11 @@ function EventCard({
       ) : null}
       {event.type === 'interval' ? (
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-          <TextInput
-            value={String(event.seconds)}
-            onChangeText={(t) =>
-              onChange({ ...event, seconds: Math.max(1, Math.min(86400, Math.round(Number(t.replace(/[^0-9]/g, '')) || 1))) }, 'seconds')
-            }
-            keyboardType="number-pad"
+          <NumberInput
+            value={event.seconds}
+            min={1}
+            max={86400}
+            onCommit={(seconds) => onChange({ ...event, seconds }, 'seconds')}
             accessibilityLabel="間隔（秒）"
             style={[...field, { minWidth: 100, textAlign: 'right', fontVariant: ['tabular-nums'] }]}
           />

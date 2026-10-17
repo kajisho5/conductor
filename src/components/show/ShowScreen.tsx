@@ -11,6 +11,7 @@ import type { Show } from '@/model/types';
 import { REGULAR_MIN_WIDTH } from '@/hooks/useSizeClass';
 import { useRuntimeStore } from '@/stores/runtime';
 import { useUiStore } from '@/stores/ui';
+import { useShowStore } from '@/stores/show';
 import { board, color, MIN_TAP, radius } from '@/theme/tokens';
 import { AppText } from '@/components/ui/AppText';
 import { Chip, IconButton } from '@/components/ui/Buttons';
@@ -55,16 +56,21 @@ export function ShowScreen({ show, onClose }: { show: Show; onClose: () => void 
   useEffect(() => {
     activateKeepAwakeAsync(KEEP_AWAKE_TAG).catch(() => undefined);
     useUiStore.getState().setInShowMode(true);
+    // ショーは本番中も書き換わる（トリガーの有効・無効、Stream Deck のシリアルなど）ので、最新を読む。
+    // 依存をショーにすると書き換わるたびに押しているボタンが離れてしまう
+    const current = () => useShowStore.getState().show;
     const sub = AppState.addEventListener('change', (s) => {
-      if (s !== 'active') releaseAll(show);
+      const sh = current();
+      if (s !== 'active' && sh) releaseAll(sh);
     });
     return () => {
       sub.remove();
       useUiStore.getState().setInShowMode(false);
-      releaseAll(show);
+      const sh = current();
+      if (sh) releaseAll(sh);
       deactivateKeepAwake(KEEP_AWAKE_TAG).catch(() => undefined);
     };
-  }, [show]);
+  }, [show.id]);
 
   /** 左右の切替：狭い時は列ブロック → ページの順に進む */
   const step = (dir: 1 | -1) => {
@@ -232,11 +238,13 @@ export function ShowScreen({ show, onClose }: { show: Show; onClose: () => void 
                   accessibilityLabel={`ページ ${p.number}、${p.name}`}
                   style={{
                     minHeight: MIN_TAP,
+                    minWidth: MIN_TAP,
                     paddingHorizontal: 16,
                     borderRadius: radius.pill,
                     backgroundColor: cur ? color.accent : color.fill,
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'center',
                     gap: 6,
                   }}
                 >
@@ -299,7 +307,7 @@ function UnlockButton({ holdMs }: { holdMs: number }) {
       }}
     >
       <Animated.View style={[{ position: 'absolute', left: 0, top: 0, bottom: 0, backgroundColor: color.fill2 }, fill]} />
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 16 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, paddingHorizontal: 16 }}>
         <Symbol name="lock.fill" size={17} />
         <AppText weight="600">ロック中</AppText>
       </View>

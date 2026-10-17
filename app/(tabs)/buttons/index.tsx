@@ -5,7 +5,7 @@ import { useSizeClass } from '@/hooks/useSizeClass';
 import { useRuntimeStore } from '@/stores/runtime';
 import { useShowStore } from '@/stores/show';
 import { color } from '@/theme/tokens';
-import { Chip, IconButton, ProminentButton } from '@/components/ui/Buttons';
+import { Chip, ProminentButton } from '@/components/ui/Buttons';
 import { EditBoard } from '@/components/board/EditBoard';
 import { PageSelector } from '@/components/board/PageSelector';
 import { Inspector } from '@/components/inspector/Inspector';
@@ -42,30 +42,36 @@ export default function ButtonsScreen() {
               onPresets={regular ? undefined : () => router.push('/buttons/presets')}
             />
           ),
-          headerLeft: () => (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-              {canUndo ? <IconButton icon="arrow.uturn.backward" label="取り消す" onPress={() => useShowStore.getState().undo()} /> : null}
-              {summary.total > 0 ? (
-                <Chip
-                  label={regular ? `機器 ${summary.ok}/${summary.total}` : `${summary.ok}/${summary.total}`}
-                  tone={summary.ok === summary.total ? 'ok' : 'warn'}
-                  onPress={() => router.navigate('/devices')}
-                />
-              ) : null}
-            </View>
-          ),
-          headerRight: () => (
-            <View ref={showRef} collapsable={false}>
-              <ProminentButton
-                label="本番"
-                icon="play.fill"
-                onPress={() => openShow(showRef.current)}
-                accessibilityHint="ボタンだけを大きく表示して押す画面を開きます"
-              />
-            </View>
-          ),
         }}
       />
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.Button
+          icon="arrow.uturn.backward"
+          accessibilityLabel="取り消す"
+          hidden={!canUndo}
+          onPress={() => useShowStore.getState().undo()}
+        />
+        <Stack.Toolbar.View hidden={summary.total === 0} hidesSharedBackground>
+          <Chip
+            label={regular ? `機器 ${summary.ok}/${summary.total}` : `${summary.ok}/${summary.total}`}
+            tone={summary.ok === summary.total ? 'ok' : 'warn'}
+            onPress={() => router.navigate('/devices')}
+          />
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
+      <Stack.Toolbar placement="right">
+        {/* 塗りのカプセルを自前で描くので、OS のガラスの下地は付けない。ロック確認のポップオーバーの起点に使うので View で包む */}
+        <Stack.Toolbar.View hidesSharedBackground>
+          <View ref={showRef} collapsable={false}>
+            <ProminentButton
+              label="本番"
+              icon="play.fill"
+              onPress={() => openShow(showRef.current)}
+              accessibilityHint="ボタンだけを大きく表示して押す画面を開きます"
+            />
+          </View>
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
       <View style={{ flex: 1 }}>
         <EditBoard show={show} onOpenEditor={regular ? undefined : () => router.push('/buttons/edit')} />
       </View>
