@@ -10,8 +10,8 @@ import atemDef from './defs/atem.json';
 import type { ActionDef, DriverDefinition, FeedbackDef, FieldDef } from './types';
 
 /**
- * 使えるドライバ定義の一覧（SPEC 7.1）。M2 はアプリ同梱の定義だけ。
- * 配信（GitHub / Cloudflare）からの取り込みは M3 以降で、同じ validateDefinition を通してからここへ足す。
+ * 使えるドライバ定義の一覧（SPEC 7.1）。アプリ同梱の定義と、配信（kajisho5/conductor-drivers）から取ってきた定義。
+ * 取ってきた定義も同じ validateDefinition を通してから registerDefinition で足す（src/drivers/remote.ts）。
  */
 
 export class DefinitionError extends Error {
@@ -59,7 +59,7 @@ export function validateDefinition(raw: unknown): DriverDefinition {
   for (const k of ['id', 'name', 'category', 'version', 'minAppVersion'] as const) {
     if (typeof raw[k] !== 'string' || raw[k] === '') throw new DefinitionError(`定義に ${k} がありません`);
   }
-  if (!/^[a-z0-9][a-z0-9-]*$/.test(String(raw.id))) throw new DefinitionError(`定義の id が正しくありません：${String(raw.id)}`);
+  if (!/^[a-z0-9][a-z0-9_.-]*$/.test(String(raw.id))) throw new DefinitionError(`定義の id が正しくありません：${String(raw.id)}`);
   if (!TRANSPORTS.has(String(raw.transport))) throw new DefinitionError(`通信方式が不明です：${String(raw.transport)}`);
   if (raw.session !== undefined && !SESSIONS.has(String(raw.session)))
     throw new DefinitionError(`通信手順が不明です：${String(raw.session)}`);
@@ -75,6 +75,13 @@ export function validateDefinition(raw: unknown): DriverDefinition {
     if (actionIds.has(a.id)) throw new DefinitionError(`${String(raw.id)}：動作 ${a.id} が重複しています`);
     actionIds.add(a.id);
     checkFields(`${String(raw.id)} の動作 ${a.id}`, a.options);
+    if (a.maps !== undefined) {
+      if (!isObj(a.maps)) throw new DefinitionError(`${String(raw.id)}：動作 ${a.id} の maps の形が正しくありません`);
+      for (const m of Object.values(a.maps)) {
+        if (!isObj(m) || Object.values(m).some((v) => typeof v !== 'string'))
+          throw new DefinitionError(`${String(raw.id)}：動作 ${a.id} の maps の形が正しくありません`);
+      }
+    }
   }
   for (const f of raw.feedbacks as unknown[]) {
     if (!isObj(f) || typeof f.id !== 'string' || !isObj(f.compare))
@@ -266,10 +273,25 @@ const BUNDLED: DriverDefinition[] = [rolandV160hd, rolandV80hd, rolandVr120hd, a
 );
 
 const byId = new Map<string, DriverDefinition>(BUNDLED.map((d) => [d.id, d]));
+const bundledIds = new Set(BUNDLED.map((d) => d.id));
 
-/** 機器として追加できる定義（内部は除く） */
+/** アプリ同梱の定義（機器を追加する画面の上に出す） */
 export function listDefinitions(): DriverDefinition[] {
-  return [...byId.values()];
+  return BUNDLED;
+}
+
+export function isBundled(id: string): boolean {
+  return bundledIds.has(id);
+}
+
+/** 配信から取ってきた定義を足す（同梱の定義は上書きしない） */
+export function registerDefinition(def: DriverDefinition): void {
+  if (bundledIds.has(def.id)) return;
+  byId.set(def.id, def);
+}
+
+export function isRegistered(id: string): boolean {
+  return byId.has(id);
 }
 
 export function getDefinition(id: string): DriverDefinition | undefined {

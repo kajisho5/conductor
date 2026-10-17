@@ -40,6 +40,8 @@ export interface ActionDef {
   send: SendTemplate;
   /** 一覧に出す要約（テンプレート） */
   summary?: string;
+  /** テンプレートの |map で使う「選んだ値 → 送る中身」の表（選択肢の id ごと） */
+  maps?: Record<string, Record<string, string>>;
 }
 
 /** bits：値（16 進）と比べる数のビットが 1 つでも重なれば真 */
@@ -135,4 +137,6 @@ export interface DriverDefinition {
   httpResponse?: { status?: string; body?: string };
   presets?: PresetDef[];
   evidence: Evidence[];
+  /** 公開 OSS から自動変換した定義の出典（kajisho5/conductor-drivers） */
+  source?: { module: string; version?: string; license?: string; maintainers?: string[]; repository?: string };
 }

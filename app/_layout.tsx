@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { initDevices } from '@/engine/executor';
+import { fetchMissing, loadCached } from '@/drivers/remote';
 import { deviceManager } from '@/engine/devices';
 import { log } from '@/stores/log';
 import { startAutosave, startStateAutosave, saveNow } from '@/storage/autosave';
@@ -31,6 +32,8 @@ function useBootstrap(): string | null {
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     try {
+      // 配信から取ってきた機器の定義（保存してあるもの）を先に読む
+      loadCached();
       const { show } = loadInitialShow();
       useShowStore.getState().setShow(show);
       useRuntimeStore.getState().setCustomValues(loadState(show.id));
@@ -73,7 +76,13 @@ function useDeviceStatusSync() {
     // IP アドレスなどを入力している途中で何度も接続し直さないよう、少し待つ
     const t = setTimeout(() => {
       const show = useShowStore.getState().show;
-      if (show) initDevices(show);
+      if (!show) return;
+      initDevices(show);
+      // 読み込んだショーなどで、定義が手元に無い機器があれば取ってきて接続し直す
+      void fetchMissing(show.devices.map((d) => d.driverId)).then((n) => {
+        const cur = useShowStore.getState().show;
+        if (n > 0 && cur) initDevices(cur);
+      });
     }, DEVICE_SYNC_DELAY_MS);
     return () => clearTimeout(t);
   }, [devices]);

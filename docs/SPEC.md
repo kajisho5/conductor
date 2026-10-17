@@ -346,6 +346,9 @@ export interface DriverInstance {
 - 定義で使える項目（M3 時点）：`configFields` `actions`（送信形式 bytes / osc / http / builtin）`feedbacks`（比べ方 eq neq contains gt lt gte lte bits）`variables` `receive`（正規表現で変数へ）`derive`（変数から変数を対応表で作る）`onConnect`（接続直後に送る）`poll`（定期的な問い合わせ）`presets`（状態表示つき）`evidence`
 - 定義では表せない手順（認証・区切り・ack 待ち）は、アプリに組み込んだ「通信手順」を `session` の名前で選ぶ。M3 は `roland-lan` だけ（`src/drivers/sessions.ts`）
 - 定義は `scripts/drivers/` のスクリプトから生成する（手で JSON を直さない）
+- 【実装 2026-10-17】配信は公開リポ kajisho5/conductor-drivers（GitHub の raw）から（オーナー判断で Cloudflare は使わない）。`index.json`（一覧）を機器を追加する画面で読み、機器を選んだ時に `defs/<id>.json` を取ってきて Documents/drivers/ に保存する。起動時は保存した定義を読む（通信しない）。設定「機器の定義」で新しい版を確かめる（`src/drivers/remote.ts`）
+- 配信の定義は、公開 OSS のモジュール（MIT など）を GitHub Actions の使い捨て環境で動かし、動作ごとに送った内容を記録して自動で作る（conductor-drivers の tools/）。記録の差からテンプレートを作り、全部の実行を描き直して一致した動作だけを入れる。状態表示・変数は入れない（受信の解析がプログラムのため）。すべて【推測】扱い（実機未確認）
+- テンプレートのフィルタ：`|map`（動作の `maps` で選んだ値ごとの中身）`|padN` `|lin:a:b`（a×値＋b）`|hexu` `|hexl` `|hexstr` `|u8` `|u16be` `|u16le` `|i16be` `|u32be` `|u32le` `|f32be`。変換側（tools/render.mjs）と同じ規則
 
 ## 8. 対応機器と通信仕様（優先順）
 

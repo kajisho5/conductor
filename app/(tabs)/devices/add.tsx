@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { ScrollView, TextInput, View } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Alert, ScrollView, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
 import { listDefinitions } from '@/drivers/registry';
+import { ensureDefinition, refreshCatalog, useCatalogStore, type CatalogEntry } from '@/drivers/remote';
+import type { DriverDefinition } from '@/drivers/types';
 import { newDevice } from '@/model/devices';
 import { useShowStore } from '@/stores/show';
 import { useSizeClass } from '@/hooks/useSizeClass';
@@ -9,25 +11,75 @@ import { color, MIN_TAP, radius, type as typeStyles } from '@/theme/tokens';
 import { Row, Section } from '@/components/ui/Group';
 import { Symbol } from '@/components/ui/Symbol';
 
-/** 機器を追加：種類を検索して選ぶ（SPEC 2.1-3）。選ぶとすぐ追加して編集へ */
+/** 検索した時に並べる数の上限（多すぎると重くなるため） */
+const SEARCH_LIMIT = 80;
+
+/**
+ * 機器を追加（SPEC 2.1-3）：アプリに入っている機器と、配信の一覧（メーカーごと）から選ぶ。
+ * 配信の機器は選んだ時に定義を取ってきて保存し、すぐ追加して編集へ。
+ */
 export default function AddDeviceScreen() {
   const [q, setQ] = useState('');
+  const [open, setOpen] = useState<string | null>(null);
   const regular = useSizeClass() === 'regular';
-  const defs = listDefinitions().filter((d) => {
-    const k = q.trim().toLowerCase();
-    return !k || d.name.toLowerCase().includes(k) || d.category.toLowerCase().includes(k) || d.id.includes(k);
-  });
-  const categories = [...new Set(defs.map((d) => d.category))];
+  const catalog = useCatalogStore();
+  const key = q.trim().toLowerCase();
 
-  const add = (id: string) => {
+  useEffect(() => {
+    // 一覧は開くたびに取り直す（通信できなければ保存してある一覧のまま）
+    refreshCatalog().catch(() => undefined);
+  }, []);
+
+  const bundled = listDefinitions().filter(
+    (d) => !key || d.name.toLowerCase().includes(key) || d.category.toLowerCase().includes(key) || d.id.includes(key),
+  );
+  const bundledCategories = [...new Set(bundled.map((d) => d.category))];
+
+  const makers = useMemo(() => {
+    const m = new Map<string, CatalogEntry[]>();
+    for (const e of catalog.entries) {
+      const list = m.get(e.category) ?? [];
+      list.push(e);
+      m.set(e.category, list);
+    }
+    return [...m.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  }, [catalog.entries]);
+
+  const found = useMemo(() => {
+    if (!key) return [];
+    return catalog.entries
+      .filter((e) => e.name.toLowerCase().includes(key) || e.category.toLowerCase().includes(key))
+      .slice(0, SEARCH_LIMIT);
+  }, [catalog.entries, key]);
+
+  const addDef = (def: DriverDefinition) => {
     const show = useShowStore.getState().show;
-    const def = defs.find((d) => d.id === id);
-    if (!show || !def) return;
+    if (!show) return;
     const device = newDevice(def, show.devices);
     useShowStore.getState().addDevice(device);
     router.back();
     if (!regular) setTimeout(() => router.push({ pathname: '/devices/[id]', params: { id: device.id } }), 300);
   };
+
+  const addRemote = async (e: CatalogEntry) => {
+    try {
+      addDef(await ensureDefinition(e.id));
+    } catch (err) {
+      Alert.alert('機器の定義を取得できませんでした', err instanceof Error ? err.message : String(err));
+    }
+  };
+
+  const remoteRow = (e: CatalogEntry, last: boolean, showMaker: boolean) => (
+    <Row
+      key={e.id}
+      title={e.name}
+      subtitle={[showMaker ? e.category : null, transportLabel(e.transport), actionCount(e)].filter(Boolean).join('・')}
+      value={catalog.downloading[e.id] ? '取得中…' : undefined}
+      chevron
+      last={last}
+      onPress={() => void addRemote(e)}
+    />
+  );
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 48 }} keyboardShouldPersistTaps="handled">
@@ -47,15 +99,18 @@ export default function AddDeviceScreen() {
         <TextInput
           value={q}
           onChangeText={setQ}
-          placeholder="機種名で検索"
+          placeholder="メーカー名・機種名で検索"
           placeholderTextColor={color.label3}
           autoCorrect={false}
-          accessibilityLabel="機種名で検索"
+          autoCapitalize="none"
+          clearButtonMode="while-editing"
+          accessibilityLabel="メーカー名・機種名で検索"
           style={[typeStyles.body, { flex: 1, color: color.label, minHeight: MIN_TAP }]}
         />
       </View>
-      {categories.map((cat) => {
-        const items = defs.filter((d) => d.category === cat);
+
+      {bundledCategories.map((cat) => {
+        const items = bundled.filter((d) => d.category === cat);
         return (
           <Section key={cat} title={cat}>
             {items.map((d, i) => (
@@ -65,19 +120,71 @@ export default function AddDeviceScreen() {
                 subtitle={transportLabel(d.transport)}
                 chevron
                 last={i === items.length - 1}
-                onPress={() => add(d.id)}
+                onPress={() => addDef(d)}
               />
             ))}
           </Section>
         );
       })}
-      {defs.length === 0 ? (
-        <Section>
-          <Row title="見つかりません" last />
+
+      {key ? (
+        found.length > 0 ? (
+          <Section
+            title="配信の機器"
+            footer={`${found.length >= SEARCH_LIMIT ? `先頭の ${SEARCH_LIMIT} 件だけ出しています。` : ''}公開されている操作の仕組みから自動で作った定義です。実機では確かめていません。`}
+          >
+            {found.map((e, i) => remoteRow(e, i === found.length - 1, true))}
+          </Section>
+        ) : bundled.length === 0 ? (
+          <Section>
+            <Row title="見つかりません" last />
+          </Section>
+        ) : null
+      ) : (
+        <Section
+          title={`配信の機器（${catalog.entries.length} 種類）`}
+          footer="公開されている操作の仕組みから自動で作った定義です。実機では確かめていません。選ぶと定義を取ってきて、この iPhone / iPad に保存します。"
+        >
+          {catalog.status === 'loading' && catalog.entries.length === 0 ? <Row title="一覧を取得しています…" last /> : null}
+          {catalog.status === 'error' && catalog.entries.length === 0 ? (
+            <Row
+              title="一覧を取得できませんでした"
+              subtitle={catalog.error}
+              value="もう一度"
+              tone="accent"
+              last
+              onPress={() => refreshCatalog().catch(() => undefined)}
+            />
+          ) : null}
+          {makers.map(([maker, items], i) => {
+            const expanded = open === maker;
+            const lastMaker = i === makers.length - 1;
+            return (
+              <View key={maker}>
+                <Row
+                  title={maker}
+                  value={`${items.length}`}
+                  chevron
+                  last={lastMaker && !expanded}
+                  onPress={() => setOpen(expanded ? null : maker)}
+                />
+                {expanded ? (
+                  <View style={{ backgroundColor: color.fill4 }}>
+                    {items.map((e, j) => remoteRow(e, lastMaker && j === items.length - 1, false))}
+                  </View>
+                ) : null}
+              </View>
+            );
+          })}
         </Section>
-      ) : null}
+      )}
     </ScrollView>
   );
+}
+
+function actionCount(e: CatalogEntry): string {
+  if (e.allActions !== undefined && e.allActions !== e.actions) return `動作 ${e.actions}／${e.allActions}`;
+  return `動作 ${e.actions}`;
 }
 
 function transportLabel(t: string): string {

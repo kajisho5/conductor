@@ -11,6 +11,7 @@ import { IconButton } from '@/components/ui/Buttons';
 import { Row, Section, SwitchRow } from '@/components/ui/Group';
 import { Segmented } from '@/components/ui/Segmented';
 import { LocalAddressesSection } from '@/components/devices/LocalAddresses';
+import { DriversSection } from '@/components/devices/DriversSection';
 import { exportAndShare, pickAndImport } from '@/storage/session';
 
 /** 設定（SPEC 2.1-7）。M1：ショー名、ボタン（グリッド・帯・状態アイコン）、本番、画像（compact）、このアプリについて */
@@ -108,6 +109,8 @@ export default function SettingsScreen() {
         {compact ? <Row title="画像" icon="photo.on.rectangle" chevron onPress={() => router.push('/settings/images')} /> : null}
         <Row title="ログ" icon="doc.text.magnifyingglass" chevron last onPress={() => router.push('/settings/logs')} />
       </Section>
+
+      <DriversSection />
 
       <Section title="このアプリについて" footer="アプリが前面にある間だけ、機器との通信とトリガーが動きます。">
         <Row title="バージョン" value={Constants.expoConfig?.version ?? '不明'} />

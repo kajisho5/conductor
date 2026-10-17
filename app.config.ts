@@ -4,7 +4,7 @@ const config: ExpoConfig = {
   name: 'conductor',
   slug: 'conductor',
   scheme: 'conductor',
-  version: '0.5.0',
+  version: '0.6.0',
   // アプリアイコン（HIG「App icons」：1024×1024・角丸なし。dark は透過背景、tinted はグレースケール。元 SVG は docs/brand/）
   icon: './assets/images/icon.png',
   // 向きは固定しない（サイズクラスで構成を変える。HIG Layout / iPhone Duo）

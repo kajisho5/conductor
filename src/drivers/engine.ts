@@ -16,11 +16,90 @@ export function optionString(v: OptionValue | undefined): string {
   return String(v);
 }
 
-/** `{{option.x}}` `{{config.x}}` を置き換える。無い名前は空文字 */
-export function renderTemplate(tpl: string, ctx: { option?: Values; config?: Values }): string {
-  return tpl.replace(/\{\{\s*(option|config)\.([A-Za-z0-9_]+)\s*\}\}/g, (_m, scope: 'option' | 'config', key: string) => {
+/**
+ * `{{option.x}}` `{{config.x}}` を置き換える。無い名前は空文字。
+ * フィルタ（左から順）：
+ *   |map            … 動作の maps[x][値]（選択肢ごとに送る中身が違う時）
+ *   |padN           … 0 埋めで N 桁
+ *   |lin:a:b        … a×値＋b
+ *   |hexu |hexl     … 数を 16 進の文字に（大文字・小文字）
+ *   |hexstr         … 文字列を UTF-8 の 16 進に
+ *   |u8 |u16be |u16le |i16be |u32be |u32le |f32be … 数を 16 進のバイト列に
+ * 変換の仕組み（kajisho5/conductor-drivers の tools/render.mjs）と同じ規則。
+ */
+const TOKEN = /\{\{\s*(option|config)\.([A-Za-z0-9_\-]+)((?:\|[a-z0-9]+(?::-?[0-9.e+-]+)*)*)\s*\}\}/g;
+
+export type TemplateMaps = Record<string, Record<string, string>>;
+
+export function formatNumber(x: number): string {
+  if (!Number.isFinite(x)) return '0';
+  const r = Math.round(x * 1e6) / 1e6;
+  return Object.is(r, -0) ? '0' : String(r);
+}
+
+function hexOfBytes(bytes: ArrayLike<number>): string {
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+function intBytes(n: string, size: number, little: boolean, signed: boolean): number[] {
+  let v = Math.trunc(Number(n));
+  if (!Number.isFinite(v)) v = 0;
+  const max = 2 ** (size * 8);
+  if (signed && v < 0) v += max;
+  v = ((v % max) + max) % max;
+  const out: number[] = [];
+  for (let i = size - 1; i >= 0; i--) out.push(Math.floor(v / 2 ** (i * 8)) & 0xff);
+  return little ? out.reverse() : out;
+}
+
+export function applyFilter(s: string, filter: string, mapping?: Record<string, string>): string {
+  const lin = /^lin:(-?[0-9.e+-]+):(-?[0-9.e+-]+)$/.exec(filter);
+  if (lin) return formatNumber(Number(s) * Number(lin[1]) + Number(lin[2]));
+  const pad = /^pad(\d+)$/.exec(filter);
+  if (pad) {
+    const neg = s.startsWith('-');
+    const body = neg ? s.slice(1) : s;
+    return (neg ? '-' : '') + body.padStart(Number(pad[1]), '0');
+  }
+  switch (filter) {
+    case 'map':
+      return mapping && Object.prototype.hasOwnProperty.call(mapping, s) ? mapping[s]! : '';
+    case 'hexu':
+    case 'hexl': {
+      const n = Math.trunc(Number(s));
+      const h = (Number.isFinite(n) && n > 0 ? n : 0).toString(16);
+      return filter === 'hexu' ? h.toUpperCase() : h;
+    }
+    case 'hexstr':
+      return hexOfBytes(new TextEncoder().encode(s));
+    case 'u8':
+      return hexOfBytes(intBytes(s, 1, false, false));
+    case 'u16be':
+      return hexOfBytes(intBytes(s, 2, false, false));
+    case 'u16le':
+      return hexOfBytes(intBytes(s, 2, true, false));
+    case 'i16be':
+      return hexOfBytes(intBytes(s, 2, false, true));
+    case 'u32be':
+      return hexOfBytes(intBytes(s, 4, false, false));
+    case 'u32le':
+      return hexOfBytes(intBytes(s, 4, true, false));
+    case 'f32be': {
+      const b = new Uint8Array(4);
+      new DataView(b.buffer).setFloat32(0, Number(s), false);
+      return hexOfBytes(b);
+    }
+    default:
+      return s;
+  }
+}
+
+export function renderTemplate(tpl: string, ctx: { option?: Values; config?: Values; maps?: TemplateMaps }): string {
+  return tpl.replace(TOKEN, (_m, scope: 'option' | 'config', key: string, filters: string) => {
     const v = ctx[scope]?.[key];
-    return v === undefined ? '' : String(v);
+    let s = v === undefined ? '' : String(v);
+    for (const f of filters.split('|').filter(Boolean)) s = applyFilter(s, f, scope === 'option' ? ctx.maps?.[key] : undefined);
+    return s;
   });
 }
 
@@ -52,7 +131,7 @@ export class PayloadError extends Error {
 
 export function buildPayload(def: DriverDefinition, action: ActionDef, option: Values, config: Values): Payload {
   const send = action.send;
-  const ctx = { option, config };
+  const ctx = { option, config, maps: action.maps };
   try {
     switch (send.kind) {
       case 'builtin':
