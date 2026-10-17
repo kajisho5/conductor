@@ -749,6 +749,7 @@ def ipad_settings():
             {"icon": ("grid", B["neutral"]), "t": "ボタンの上でもスワイプで切替", "sw": False},
             {"icon": ("wave", B["teal"]), "t": "押した時の振動", "sw": True},
             {"icon": ("sun", B["orange"]), "t": "画面スリープ防止", "r": "本番中だけ", "chev": True},
+            {"icon": ("grid", B["indigo"]), "t": "USB ボタン盤", "r": "接続中", "rc": C["green"], "chev": True},
         ]},
     ], sec_gap=24)
     s += g
@@ -775,6 +776,98 @@ def ipad_settings():
         s += T(lx + 16, yy + 18, t, 13, 500, C["label2"], mono=True)
         s += T(lx + 100, yy + 18, lv, 13, 700, col)
         s += T(lx + 16, yy + 40, msg, 14, 400)
+    return ipad_frame_common(s)
+
+
+# ---------------------------------------------------------------------------
+# iPad: 設定 > USB ボタン盤（M1 以降・USB-C の iPad だけ）
+# ---------------------------------------------------------------------------
+def usb_panel(x, y, cols, rows, key, gap, cells, title):
+    """つないだボタン盤の図。cells[r][c] = tile の引数（dict）または None"""
+    pad = 22
+    w = cols * key + (cols - 1) * gap + pad * 2
+    h = rows * key + (rows - 1) * gap + pad * 2
+    out = R(x, y, w, h, "#111114", r=22, stroke=C["sep"], sw=1.2)
+    for r_ in range(rows):
+        for c in range(cols):
+            kx = x + pad + c * (key + gap)
+            ky = y + pad + r_ * (key + gap)
+            cell = cells[r_][c] if r_ < len(cells) and c < len(cells[r_]) else None
+            if cell:
+                out += tile(kx, ky, key, key, r=10, fs=15, **cell)
+            else:
+                out += R(kx, ky, key, key, "#000000", r=10, stroke="#2A2A2E", sw=1)
+    out += T(x + w / 2, y + h + 26, title, 14, 500, C["label2"], "middle")
+    return out, w, h
+
+
+def ipad_usb_panel():
+    s = sidebar("settings")
+    s += L(SB, 0, SB, IH, C["sep"], 0.7)
+    x0 = SB + 24
+    s += T(x0, 72, "‹ 設定", 17, 400, C["blue"])
+    s += T(x0, 118, "USB ボタン盤", 34, 700)
+    col_w = 470
+    g, y = glist(x0, 140, col_w, [
+        {"header": "つないでいるボタン盤", "rows": [
+            {"dot": "ok", "t": "15 キー（5 × 3）", "s": "接続中・USB-C", "h": 60},
+        ], "footer": None},
+        {"header": "表示", "rows": [
+            {"icon": ("grid", B["neutral"]), "t": "表示するページ", "r": "iPad と同じ", "chev": True},
+            {"icon": ("grid", B["neutral"]), "t": "表示する範囲", "r": "1 行目 1 列目から", "chev": True},
+            {"icon": ("sun", B["orange"]), "t": "明るさ", "r": "70%", "chev": True},
+            {"icon": ("lock", B["neutral"]), "t": "編集中も押せる", "sw": True},
+        ]},
+        {"header": "準備", "rows": [
+            {"icon": ("info", B["neutral"]), "t": "メーカーの接続アプリ", "r": "入っています", "rc": C["green"]},
+            {"icon": ("info", B["blue"]), "t": "使い方を見る", "chev": True},
+        ]},
+    ], sec_gap=24)
+    s += g
+    notes = [
+        "キーには、iPad のボタンと同じ文字・色・画像・状態表示が出ます。",
+        "文字や色は、いつものボタン編集で変えるとすぐキーにも出ます。",
+        "M1 以降のチップで USB-C の iPad だけで使えます。",
+        "メーカーの接続アプリを入れ、iPad の設定でドライバをオンにします。",
+    ]
+    for i, n in enumerate(notes):
+        s += T(x0 + 16, y + 8 + i * 22, n, 13, 400, C["label2"])
+    # 右：対応の図（iPad の盤の範囲 → ボタン盤のキー）
+    rx = x0 + col_w + 40
+    s += T(rx, 140, "iPad のボタン（ページ 1「本番」）", 15, 600, C["label2"])
+    spec = page_spec()
+    cw, ch, gp = 60, 60, 8
+    for r_ in range(4):
+        for c in range(8):
+            cell = spec[r_][c]
+            tx_, ty_ = rx + c * (cw + gp), 176 + r_ * (ch + gp)
+            if cell:
+                cell = dict(cell)
+                cell.pop("state", None)
+                s += tile(tx_, ty_, cw, ch, r=8, fs=11, **cell)
+            else:
+                s += R(tx_, ty_, cw, ch, C["bg2"], r=8)
+    # 範囲の枠（5 × 3）
+    s += R(rx - 5, 171, 5 * (cw + gp) + 2, 3 * (ch + gp) + 2, "none", r=12, stroke=C["blue"], sw=3)
+    s += T(rx + 5 * (cw + gp) - 8, 160, "青い枠＝キーに出す範囲", 13, 600, C["blue"], "end")
+    # 矢印
+    ay = 176 + 4 * (ch + gp) + 14
+    s += L(rx + 170, ay, rx + 170, ay + 40, C["blue"], 3)
+    s += f'<path d="M {rx + 162} {ay + 32} L {rx + 170} {ay + 44} L {rx + 178} {ay + 32}" fill="none" stroke="{C["blue"]}" stroke-width="3"/>'
+    cells = []
+    for r_ in range(3):
+        row = []
+        for c in range(5):
+            cell = spec[r_][c]
+            if cell:
+                cell = dict(cell)
+                cell.pop("state", None)
+            row.append(cell)
+        cells.append(row)
+    cells[1][2] = dict(cells[1][2], state="pressing")
+    cells[2][1] = dict(cells[2][1], state="sent")
+    g2, pw_, ph_ = usb_panel(rx + 10, ay + 60, 5, 3, 64, 12, cells, "つないだボタン盤（押している・送れた の表示も同じ）")
+    s += g2
     return ipad_frame_common(s)
 
 
@@ -1133,7 +1226,10 @@ FILES = {
     "08-ipad-triggers.svg": lambda: ipad_doc(ipad_triggers, "iPad / トリガー", "きっかけ（どれか）→ 条件（すべて）→ 動作"),
     "09-ipad-variables.svg": lambda: ipad_doc(ipad_variables, "iPad / 変数", "自分で作る・式・内部・機器 を切り替え"),
     "10-ipad-images.svg": lambda: ipad_doc(ipad_images, "iPad / 画像", "ボタンで使う画像の一覧と詳細"),
-    "11-ipad-settings.svg": lambda: ipad_doc(ipad_settings, "iPad / 設定", "ショー・書き出し/読み込み・ボタン・本番・ログ"),
+    "11-ipad-settings.svg": lambda: ipad_doc(ipad_settings, "iPad / 設定", "ショー・書き出し/読み込み・ボタン・本番・USB ボタン盤・ログ"),
+    "12-ipad-usb-panel.svg": lambda: ipad_doc(ipad_usb_panel, "iPad / 設定：USB ボタン盤",
+                                              "USB-C でつないだボタン盤のキーに、iPad のボタンの一部をそのまま出す。文字・色・画像はボタン編集で変えるとキーにも出る",
+                                              ["M1 以降・USB-C の iPad だけ（それ以外の iPad と iPhone では設定に出さない）。メーカーの接続アプリとドライバが必要"]),
     "20-iphone-buttons.svg": lambda: phones_doc([
         (iphone_buttons, PW, PH, "ボタン（盤）"),
         (iphone_edit_action, PW, PH, "ボタンを編集：動作"),

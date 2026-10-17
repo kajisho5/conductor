@@ -16,7 +16,8 @@
 | `08-ipad-triggers.svg` | トリガー：きっかけ／条件／動作 |
 | `09-ipad-variables.svg` | 変数：自分で作る／式／内部／機器 |
 | `10-ipad-images.svg` | 画像 |
-| `11-ipad-settings.svg` | 設定・ログ |
+| `11-ipad-settings.svg` | 設定・ログ（USB ボタン盤の行を追加） |
+| `12-ipad-usb-panel.svg` | 設定 > USB ボタン盤（iPad だけ）：つないだボタン盤のキーに iPad のボタンの一部を出す（確認待ち） |
 | `20-iphone-buttons.svg` | iPhone：ボタン盤、ボタンを編集（動作・見た目・状態表示） |
 | `21-iphone-show-devices.svg` | iPhone：本番に入る時のロック確認・本番・機器・トリガー |
 | `22-iphone-variables-settings.svg` | iPhone：変数・設定 |
