@@ -1,0 +1,3702 @@
+{
+  "format": 1,
+  "id": "allenheath-sq",
+  "name": "Allen & Heath SQ5 / SQ6 / SQ7",
+  "category": "音響ミキサー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "tcp",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.1.20",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 51325,
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "id": "midich",
+      "label": "MIDI チャンネル",
+      "type": "number",
+      "default": 1,
+      "min": 1,
+      "max": 16,
+      "help": "本体の「MIDI」設定のチャンネル"
+    }
+  ],
+  "actions": [
+    {
+      "id": "mute_input",
+      "name": "入力のミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:-1|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_input_toggle",
+      "name": "入力のミュートを切り替え",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:-1|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} ミュート切り替え"
+    },
+    {
+      "id": "mute_group",
+      "name": "グループのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:47|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:47|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_group_toggle",
+      "name": "グループのミュートを切り替え",
+      "options": [
+        {
+          "id": "n",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:47|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:47|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.n}} ミュート切り替え"
+    },
+    {
+      "id": "mute_fxrtn",
+      "name": "FX リターンのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:59|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:59|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_fxrtn_toggle",
+      "name": "FX リターンのミュートを切り替え",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:59|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:59|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} ミュート切り替え"
+    },
+    {
+      "id": "mute_aux",
+      "name": "AUXのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:68|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:68|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_aux_toggle",
+      "name": "AUXのミュートを切り替え",
+      "options": [
+        {
+          "id": "n",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:68|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:68|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.n}} ミュート切り替え"
+    },
+    {
+      "id": "mute_fxsend",
+      "name": "FX センドのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:80|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:80|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "FX センド {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_fxsend_toggle",
+      "name": "FX センドのミュートを切り替え",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:80|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:80|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "FX センド {{option.n}} ミュート切り替え"
+    },
+    {
+      "id": "mute_mtx",
+      "name": "マトリクスのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:84|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:84|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "マトリクス {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_mtx_toggle",
+      "name": "マトリクスのミュートを切り替え",
+      "options": [
+        {
+          "id": "n",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:84|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:84|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "マトリクス {{option.n}} ミュート切り替え"
+    },
+    {
+      "id": "mute_dca",
+      "name": "DCAのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:255|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:255|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_dca_toggle",
+      "name": "DCAのミュートを切り替え",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:255|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:255|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.n}} ミュート切り替え"
+    },
+    {
+      "id": "mute_mgrp",
+      "name": "ミュートグループのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:511|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:511|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "ミュートグループ {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_mgrp_toggle",
+      "name": "ミュートグループのミュートを切り替え",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:511|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.n|lin:1:511|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "ミュートグループ {{option.n}} ミュート切り替え"
+    },
+    {
+      "id": "mute_lr",
+      "name": "LR のミュート",
+      "options": [
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "ミュートする"
+            },
+            {
+              "id": "00",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 00 {{config.midich|lin:1:175|hexu}} 62 44 {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "LR ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_lr_toggle",
+      "name": "LR のミュートを切り替え",
+      "options": [],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 00 {{config.midich|lin:1:175|hexu}} 62 44 {{config.midich|lin:1:175|hexu}} 60 00",
+        "encoding": "hex"
+      },
+      "summary": "LR ミュート切り替え"
+    },
+    {
+      "id": "level_ip_lr",
+      "name": "入力 → LR のレベル",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:1:8191|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:1:8191|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → LR {{option.v}}"
+    },
+    {
+      "id": "level_ip_lr_raw",
+      "name": "入力 → LR のレベル（数値）",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:1:8191|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:1:8191|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → LR = {{option.v}}"
+    },
+    {
+      "id": "level_ip_lr_step",
+      "name": "入力 → LR のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:1:8191|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:1:8191|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → LR {{option.step}}"
+    },
+    {
+      "id": "pan_ip_lr",
+      "name": "入力 → LR のパン・バランス",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:1:8191|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:1:8191|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → LR パン {{option.pan}}"
+    },
+    {
+      "id": "level_ip_aux",
+      "name": "入力 → AUX のレベル",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:12:8247|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:12:8247|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → AUX {{option.aux}} {{option.v}}"
+    },
+    {
+      "id": "level_ip_aux_raw",
+      "name": "入力 → AUX のレベル（数値）",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:12:8247|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:12:8247|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → AUX {{option.aux}} = {{option.v}}"
+    },
+    {
+      "id": "level_ip_aux_step",
+      "name": "入力 → AUX のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:12:8247|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:12:8247|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → AUX {{option.aux}} {{option.step}}"
+    },
+    {
+      "id": "pan_ip_aux",
+      "name": "入力 → AUX のパン・バランス",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:12:8247|plus:aux|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:12:8247|plus:aux|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → AUX {{option.aux}} パン {{option.pan}}"
+    },
+    {
+      "id": "level_ip_fx",
+      "name": "入力 → FX センド のレベル",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "fxs",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:4:9743|plus:fxs|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:4:9743|plus:fxs|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → FX {{option.fxs}} {{option.v}}"
+    },
+    {
+      "id": "level_ip_fx_raw",
+      "name": "入力 → FX センド のレベル（数値）",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "fxs",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:4:9743|plus:fxs|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:4:9743|plus:fxs|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → FX {{option.fxs}} = {{option.v}}"
+    },
+    {
+      "id": "level_ip_fx_step",
+      "name": "入力 → FX センド のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "fxs",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:4:9743|plus:fxs|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:4:9743|plus:fxs|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → FX {{option.fxs}} {{option.step}}"
+    },
+    {
+      "id": "pan_ip_fx",
+      "name": "入力 → FX センド のパン・バランス",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "fxs",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:4:9743|plus:fxs|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:4:9743|plus:fxs|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → FX {{option.fxs}} パン {{option.pan}}"
+    },
+    {
+      "id": "level_grp_lr",
+      "name": "グループ → LR のレベル",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:1:8239|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:1:8239|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → LR {{option.v}}"
+    },
+    {
+      "id": "level_grp_lr_raw",
+      "name": "グループ → LR のレベル（数値）",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:1:8239|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:1:8239|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → LR = {{option.v}}"
+    },
+    {
+      "id": "level_grp_lr_step",
+      "name": "グループ → LR のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:1:8239|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:1:8239|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → LR {{option.step}}"
+    },
+    {
+      "id": "pan_grp_lr",
+      "name": "グループ → LR のパン・バランス",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:1:8239|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:1:8239|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → LR パン {{option.pan}}"
+    },
+    {
+      "id": "level_grp_aux",
+      "name": "グループ → AUX のレベル",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–11）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 11
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:12:8823|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:12:8823|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → AUX {{option.aux}} {{option.v}}"
+    },
+    {
+      "id": "level_grp_aux_raw",
+      "name": "グループ → AUX のレベル（数値）",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–11）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 11
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:12:8823|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:12:8823|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → AUX {{option.aux}} = {{option.v}}"
+    },
+    {
+      "id": "level_grp_aux_step",
+      "name": "グループ → AUX のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–11）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 11
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:12:8823|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:12:8823|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → AUX {{option.aux}} {{option.step}}"
+    },
+    {
+      "id": "pan_grp_aux",
+      "name": "グループ → AUX のパン・バランス",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–11）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 11
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:12:8823|plus:aux|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:12:8823|plus:aux|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → AUX {{option.aux}} パン {{option.pan}}"
+    },
+    {
+      "id": "level_fxr_lr",
+      "name": "FX リターン → LR のレベル",
+      "options": [
+        {
+          "id": "fxr",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxr|lin:1:8251|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxr|lin:1:8251|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.fxr}} → LR {{option.v}}"
+    },
+    {
+      "id": "level_fxr_lr_raw",
+      "name": "FX リターン → LR のレベル（数値）",
+      "options": [
+        {
+          "id": "fxr",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxr|lin:1:8251|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxr|lin:1:8251|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.fxr}} → LR = {{option.v}}"
+    },
+    {
+      "id": "level_fxr_lr_step",
+      "name": "FX リターン → LR のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "fxr",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxr|lin:1:8251|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxr|lin:1:8251|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.fxr}} → LR {{option.step}}"
+    },
+    {
+      "id": "pan_fxr_lr",
+      "name": "FX リターン → LR のパン・バランス",
+      "options": [
+        {
+          "id": "fxr",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxr|lin:1:8251|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxr|lin:1:8251|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.fxr}} → LR パン {{option.pan}}"
+    },
+    {
+      "id": "level_fxr_aux",
+      "name": "FX リターン → AUX のレベル",
+      "options": [
+        {
+          "id": "fxr",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxr|lin:12:8967|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxr|lin:12:8967|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.fxr}} → AUX {{option.aux}} {{option.v}}"
+    },
+    {
+      "id": "level_fxr_aux_raw",
+      "name": "FX リターン → AUX のレベル（数値）",
+      "options": [
+        {
+          "id": "fxr",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxr|lin:12:8967|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxr|lin:12:8967|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.fxr}} → AUX {{option.aux}} = {{option.v}}"
+    },
+    {
+      "id": "level_fxr_aux_step",
+      "name": "FX リターン → AUX のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "fxr",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxr|lin:12:8967|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxr|lin:12:8967|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.fxr}} → AUX {{option.aux}} {{option.step}}"
+    },
+    {
+      "id": "pan_fxr_aux",
+      "name": "FX リターン → AUX のパン・バランス",
+      "options": [
+        {
+          "id": "fxr",
+          "label": "FX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxr|lin:12:8967|plus:aux|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxr|lin:12:8967|plus:aux|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.fxr}} → AUX {{option.aux}} パン {{option.pan}}"
+    },
+    {
+      "id": "level_lr_mtx",
+      "name": "LR → マトリクス のレベル",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.mtx|lin:1:10019|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.mtx|lin:1:10019|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "LR → MTX {{option.mtx}} {{option.v}}"
+    },
+    {
+      "id": "level_lr_mtx_raw",
+      "name": "LR → マトリクス のレベル（数値）",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.mtx|lin:1:10019|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.mtx|lin:1:10019|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "LR → MTX {{option.mtx}} = {{option.v}}"
+    },
+    {
+      "id": "level_lr_mtx_step",
+      "name": "LR → マトリクス のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.mtx|lin:1:10019|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.mtx|lin:1:10019|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "LR → MTX {{option.mtx}} {{option.step}}"
+    },
+    {
+      "id": "pan_lr_mtx",
+      "name": "LR → マトリクス のパン・バランス",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.mtx|lin:1:10019|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.mtx|lin:1:10019|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "LR → MTX {{option.mtx}} パン {{option.pan}}"
+    },
+    {
+      "id": "level_aux_mtx",
+      "name": "AUX → マトリクス のレベル",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.aux|lin:3:10019|plus:mtx|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.aux|lin:3:10019|plus:mtx|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.aux}} → MTX {{option.mtx}} {{option.v}}"
+    },
+    {
+      "id": "level_aux_mtx_raw",
+      "name": "AUX → マトリクス のレベル（数値）",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.aux|lin:3:10019|plus:mtx|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.aux|lin:3:10019|plus:mtx|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.aux}} → MTX {{option.mtx}} = {{option.v}}"
+    },
+    {
+      "id": "level_aux_mtx_step",
+      "name": "AUX → マトリクス のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.aux|lin:3:10019|plus:mtx|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.aux|lin:3:10019|plus:mtx|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.aux}} → MTX {{option.mtx}} {{option.step}}"
+    },
+    {
+      "id": "pan_aux_mtx",
+      "name": "AUX → マトリクス のパン・バランス",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.aux|lin:3:10019|plus:mtx|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.aux|lin:3:10019|plus:mtx|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.aux}} → MTX {{option.mtx}} パン {{option.pan}}"
+    },
+    {
+      "id": "level_grp_mtx",
+      "name": "グループ → マトリクス のレベル",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:3:10055|plus:mtx|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:3:10055|plus:mtx|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → MTX {{option.mtx}} {{option.v}}"
+    },
+    {
+      "id": "level_grp_mtx_raw",
+      "name": "グループ → マトリクス のレベル（数値）",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:3:10055|plus:mtx|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:3:10055|plus:mtx|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → MTX {{option.mtx}} = {{option.v}}"
+    },
+    {
+      "id": "level_grp_mtx_step",
+      "name": "グループ → マトリクス のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:3:10055|plus:mtx|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:3:10055|plus:mtx|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → MTX {{option.mtx}} {{option.step}}"
+    },
+    {
+      "id": "pan_grp_mtx",
+      "name": "グループ → マトリクス のパン・バランス",
+      "options": [
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.grp|lin:3:10055|plus:mtx|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.grp|lin:3:10055|plus:mtx|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "グループ {{option.grp}} → MTX {{option.mtx}} パン {{option.pan}}"
+    },
+    {
+      "id": "level_lr_master",
+      "name": "LR のマスター のレベル",
+      "options": [
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 4F {{config.midich|lin:1:175|hexu}} 62 00 {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "LR マスター {{option.v}}"
+    },
+    {
+      "id": "level_lr_master_raw",
+      "name": "LR のマスター のレベル（数値）",
+      "options": [
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 4F {{config.midich|lin:1:175|hexu}} 62 00 {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "LR マスター = {{option.v}}"
+    },
+    {
+      "id": "level_lr_master_step",
+      "name": "LR のマスター のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 4F {{config.midich|lin:1:175|hexu}} 62 00 {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "LR マスター {{option.step}}"
+    },
+    {
+      "id": "pan_lr_master",
+      "name": "LR のマスター のパン・バランス",
+      "options": [
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 5F {{config.midich|lin:1:175|hexu}} 62 00 {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "LR マスター パン {{option.pan}}"
+    },
+    {
+      "id": "level_aux_master",
+      "name": "AUX のマスター のレベル",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.aux|lin:1:10112|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.aux|lin:1:10112|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.aux}} マスター {{option.v}}"
+    },
+    {
+      "id": "level_aux_master_raw",
+      "name": "AUX のマスター のレベル（数値）",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.aux|lin:1:10112|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.aux|lin:1:10112|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.aux}} マスター = {{option.v}}"
+    },
+    {
+      "id": "level_aux_master_step",
+      "name": "AUX のマスター のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.aux|lin:1:10112|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.aux|lin:1:10112|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.aux}} マスター {{option.step}}"
+    },
+    {
+      "id": "pan_aux_master",
+      "name": "AUX のマスター のパン・バランス",
+      "options": [
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.aux|lin:1:10112|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.aux|lin:1:10112|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "AUX {{option.aux}} マスター パン {{option.pan}}"
+    },
+    {
+      "id": "level_fxs_master",
+      "name": "FX センドのマスター のレベル",
+      "options": [
+        {
+          "id": "fxs",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxs|lin:1:10124|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxs|lin:1:10124|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX {{option.fxs}} マスター {{option.v}}"
+    },
+    {
+      "id": "level_fxs_master_raw",
+      "name": "FX センドのマスター のレベル（数値）",
+      "options": [
+        {
+          "id": "fxs",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxs|lin:1:10124|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxs|lin:1:10124|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX {{option.fxs}} マスター = {{option.v}}"
+    },
+    {
+      "id": "level_fxs_master_step",
+      "name": "FX センドのマスター のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "fxs",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxs|lin:1:10124|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxs|lin:1:10124|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "FX {{option.fxs}} マスター {{option.step}}"
+    },
+    {
+      "id": "pan_fxs_master",
+      "name": "FX センドのマスター のパン・バランス",
+      "options": [
+        {
+          "id": "fxs",
+          "label": "FX センド（1–4）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 4
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.fxs|lin:1:10124|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.fxs|lin:1:10124|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX {{option.fxs}} マスター パン {{option.pan}}"
+    },
+    {
+      "id": "level_mtx_master",
+      "name": "マトリクスのマスター のレベル",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.mtx|lin:1:10128|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.mtx|lin:1:10128|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "MTX {{option.mtx}} マスター {{option.v}}"
+    },
+    {
+      "id": "level_mtx_master_raw",
+      "name": "マトリクスのマスター のレベル（数値）",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.mtx|lin:1:10128|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.mtx|lin:1:10128|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "MTX {{option.mtx}} マスター = {{option.v}}"
+    },
+    {
+      "id": "level_mtx_master_step",
+      "name": "マトリクスのマスター のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.mtx|lin:1:10128|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.mtx|lin:1:10128|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "MTX {{option.mtx}} マスター {{option.step}}"
+    },
+    {
+      "id": "pan_mtx_master",
+      "name": "マトリクスのマスター のパン・バランス",
+      "options": [
+        {
+          "id": "mtx",
+          "label": "マトリクス（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "pan",
+          "label": "パン（−100 左 〜 0 中央 〜 100 右）",
+          "type": "number",
+          "default": 0,
+          "min": -100,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.mtx|lin:1:10128|lin:1:2048|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.mtx|lin:1:10128|lin:1:2048|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.pan|lin:81.915:8191.4|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.pan|lin:81.915:8191.4|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "MTX {{option.mtx}} マスター パン {{option.pan}}"
+    },
+    {
+      "id": "level_dca_master",
+      "name": "DCA のマスター のレベル",
+      "options": [
+        {
+          "id": "dca",
+          "label": "DCA（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "v",
+          "label": "レベル",
+          "type": "select",
+          "default": "15196",
+          "help": "本体の「NRPN のフェーダーの法則」に合わせて選ぶ（資料にある値だけ）",
+          "choices": [
+            {
+              "id": "15196",
+              "label": "0 dB（リニア）"
+            },
+            {
+              "id": "13702",
+              "label": "−12 dB（リニア）"
+            },
+            {
+              "id": "12745",
+              "label": "−20 dB（リニア）"
+            },
+            {
+              "id": "12247",
+              "label": "−24 dB（リニア）"
+            },
+            {
+              "id": "12544",
+              "label": "0 dB（オーディオ）"
+            },
+            {
+              "id": "7552",
+              "label": "−12 dB（オーディオ）"
+            },
+            {
+              "id": "5952",
+              "label": "−20 dB（オーディオ）"
+            },
+            {
+              "id": "5184",
+              "label": "−24 dB（オーディオ）"
+            },
+            {
+              "id": "0",
+              "label": "−∞"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.dca|lin:1:10143|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.dca|lin:1:10143|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.dca}} {{option.v}}"
+    },
+    {
+      "id": "level_dca_master_raw",
+      "name": "DCA のマスター のレベル（数値）",
+      "options": [
+        {
+          "id": "dca",
+          "label": "DCA（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "v",
+          "label": "値（0–16383）",
+          "type": "number",
+          "default": 15196,
+          "min": 0,
+          "max": 16383,
+          "help": "NRPN の 14 ビットの値。リニアで 0 dB = 15196"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.dca|lin:1:10143|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.dca|lin:1:10143|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 {{option.v|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 26 {{option.v|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.dca}} = {{option.v}}"
+    },
+    {
+      "id": "level_dca_master_step",
+      "name": "DCA のマスター のレベルを ±1 dB",
+      "options": [
+        {
+          "id": "dca",
+          "label": "DCA（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "step",
+          "label": "向き",
+          "type": "select",
+          "default": "60",
+          "choices": [
+            {
+              "id": "60",
+              "label": "+1 dB"
+            },
+            {
+              "id": "61",
+              "label": "−1 dB"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.dca|lin:1:10143|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.dca|lin:1:10143|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} {{option.step}} 00",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.dca}} {{option.step}}"
+    },
+    {
+      "id": "scene",
+      "name": "シーンを呼び出す",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン（1–300）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 300
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 00 {{option.scene|lin:1:-1|r14h:1|hexu|pad2}} {{config.midich|lin:1:191|hexu}} {{option.scene|lin:1:-1|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "シーン {{option.scene}}"
+    },
+    {
+      "id": "softkey",
+      "name": "ソフトキーを押して離す",
+      "options": [
+        {
+          "id": "key",
+          "label": "ソフトキー（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.key|lin:1:47|hexu|pad2}} 7F {{config.midich|lin:1:127|hexu}} {{option.key|lin:1:47|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ソフトキー {{option.key}}"
+    },
+    {
+      "id": "softkey_press",
+      "name": "ソフトキーを押す",
+      "options": [
+        {
+          "id": "key",
+          "label": "ソフトキー（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.key|lin:1:47|hexu|pad2}} 7F",
+        "encoding": "hex"
+      },
+      "summary": "ソフトキー {{option.key}} 押す"
+    },
+    {
+      "id": "softkey_release",
+      "name": "ソフトキーを離す",
+      "options": [
+        {
+          "id": "key",
+          "label": "ソフトキー（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:127|hexu}} {{option.key|lin:1:47|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ソフトキー {{option.key}} 離す"
+    },
+    {
+      "id": "assign_ip_lr",
+      "name": "入力を LR に割り当て",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "割り当てる"
+            },
+            {
+              "id": "00",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:1:12287|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:1:12287|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → LR {{option.on}}"
+    },
+    {
+      "id": "assign_ip_aux",
+      "name": "入力を AUX に割り当て",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "aux",
+          "label": "AUX（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "割り当てる"
+            },
+            {
+              "id": "00",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:12:12343|plus:aux|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:12:12343|plus:aux|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → AUX {{option.aux}} {{option.on}}"
+    },
+    {
+      "id": "assign_ip_grp",
+      "name": "入力をグループに割り当て",
+      "options": [
+        {
+          "id": "ip",
+          "label": "入力（1–48）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 48
+        },
+        {
+          "id": "grp",
+          "label": "グループ（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "01",
+              "label": "割り当てる"
+            },
+            {
+              "id": "00",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.ip|lin:12:13159|plus:grp|r14h:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 {{option.ip|lin:12:13159|plus:grp|r14l:1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 06 00 {{config.midich|lin:1:175|hexu}} 26 {{option.on}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.ip}} → グループ {{option.grp}} {{option.on}}"
+    },
+    {
+      "id": "command",
+      "name": "MIDI を送る（16 進）",
+      "options": [
+        {
+          "id": "hex",
+          "label": "MIDI（16 進）",
+          "type": "text",
+          "placeholder": "B0 63 00 B0 62 00 B0 60 00",
+          "pattern": "^([0-9A-Fa-f]{2} ?)+$",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.hex}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.hex}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "presets": [
+    {
+      "id": "mute_ip1",
+      "category": "ミュート",
+      "name": "入力 1 のミュート",
+      "text": "MUTE\nCH 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 1
+        }
+      }
+    },
+    {
+      "id": "mute_ip2",
+      "category": "ミュート",
+      "name": "入力 2 のミュート",
+      "text": "MUTE\nCH 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 2
+        }
+      }
+    },
+    {
+      "id": "mute_ip3",
+      "category": "ミュート",
+      "name": "入力 3 のミュート",
+      "text": "MUTE\nCH 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 3
+        }
+      }
+    },
+    {
+      "id": "mute_ip4",
+      "category": "ミュート",
+      "name": "入力 4 のミュート",
+      "text": "MUTE\nCH 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 4
+        }
+      }
+    },
+    {
+      "id": "mute_ip5",
+      "category": "ミュート",
+      "name": "入力 5 のミュート",
+      "text": "MUTE\nCH 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 5
+        }
+      }
+    },
+    {
+      "id": "mute_ip6",
+      "category": "ミュート",
+      "name": "入力 6 のミュート",
+      "text": "MUTE\nCH 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 6
+        }
+      }
+    },
+    {
+      "id": "mute_ip7",
+      "category": "ミュート",
+      "name": "入力 7 のミュート",
+      "text": "MUTE\nCH 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 7
+        }
+      }
+    },
+    {
+      "id": "mute_ip8",
+      "category": "ミュート",
+      "name": "入力 8 のミュート",
+      "text": "MUTE\nCH 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 8
+        }
+      }
+    },
+    {
+      "id": "mute_ip9",
+      "category": "ミュート",
+      "name": "入力 9 のミュート",
+      "text": "MUTE\nCH 9",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 9
+        }
+      }
+    },
+    {
+      "id": "mute_ip10",
+      "category": "ミュート",
+      "name": "入力 10 のミュート",
+      "text": "MUTE\nCH 10",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 10
+        }
+      }
+    },
+    {
+      "id": "mute_ip11",
+      "category": "ミュート",
+      "name": "入力 11 のミュート",
+      "text": "MUTE\nCH 11",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 11
+        }
+      }
+    },
+    {
+      "id": "mute_ip12",
+      "category": "ミュート",
+      "name": "入力 12 のミュート",
+      "text": "MUTE\nCH 12",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 12
+        }
+      }
+    },
+    {
+      "id": "mute_ip13",
+      "category": "ミュート",
+      "name": "入力 13 のミュート",
+      "text": "MUTE\nCH 13",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 13
+        }
+      }
+    },
+    {
+      "id": "mute_ip14",
+      "category": "ミュート",
+      "name": "入力 14 のミュート",
+      "text": "MUTE\nCH 14",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 14
+        }
+      }
+    },
+    {
+      "id": "mute_ip15",
+      "category": "ミュート",
+      "name": "入力 15 のミュート",
+      "text": "MUTE\nCH 15",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 15
+        }
+      }
+    },
+    {
+      "id": "mute_ip16",
+      "category": "ミュート",
+      "name": "入力 16 のミュート",
+      "text": "MUTE\nCH 16",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input_toggle",
+        "options": {
+          "n": 16
+        }
+      }
+    },
+    {
+      "id": "mute_lr",
+      "category": "ミュート",
+      "name": "LR のミュート",
+      "text": "MUTE\nLR",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_lr_toggle",
+        "options": {}
+      }
+    },
+    {
+      "id": "mgrp1",
+      "category": "ミュートグループ",
+      "name": "ミュートグループ 1",
+      "text": "MGRP\n1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_mgrp_toggle",
+        "options": {
+          "n": 1
+        }
+      }
+    },
+    {
+      "id": "mgrp2",
+      "category": "ミュートグループ",
+      "name": "ミュートグループ 2",
+      "text": "MGRP\n2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_mgrp_toggle",
+        "options": {
+          "n": 2
+        }
+      }
+    },
+    {
+      "id": "mgrp3",
+      "category": "ミュートグループ",
+      "name": "ミュートグループ 3",
+      "text": "MGRP\n3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_mgrp_toggle",
+        "options": {
+          "n": 3
+        }
+      }
+    },
+    {
+      "id": "mgrp4",
+      "category": "ミュートグループ",
+      "name": "ミュートグループ 4",
+      "text": "MGRP\n4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_mgrp_toggle",
+        "options": {
+          "n": 4
+        }
+      }
+    },
+    {
+      "id": "mgrp5",
+      "category": "ミュートグループ",
+      "name": "ミュートグループ 5",
+      "text": "MGRP\n5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_mgrp_toggle",
+        "options": {
+          "n": 5
+        }
+      }
+    },
+    {
+      "id": "mgrp6",
+      "category": "ミュートグループ",
+      "name": "ミュートグループ 6",
+      "text": "MGRP\n6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_mgrp_toggle",
+        "options": {
+          "n": 6
+        }
+      }
+    },
+    {
+      "id": "mgrp7",
+      "category": "ミュートグループ",
+      "name": "ミュートグループ 7",
+      "text": "MGRP\n7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_mgrp_toggle",
+        "options": {
+          "n": 7
+        }
+      }
+    },
+    {
+      "id": "mgrp8",
+      "category": "ミュートグループ",
+      "name": "ミュートグループ 8",
+      "text": "MGRP\n8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_mgrp_toggle",
+        "options": {
+          "n": 8
+        }
+      }
+    },
+    {
+      "id": "scene1",
+      "category": "シーン",
+      "name": "シーン 1",
+      "text": "SCENE\n1",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 1
+        }
+      }
+    },
+    {
+      "id": "scene2",
+      "category": "シーン",
+      "name": "シーン 2",
+      "text": "SCENE\n2",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 2
+        }
+      }
+    },
+    {
+      "id": "scene3",
+      "category": "シーン",
+      "name": "シーン 3",
+      "text": "SCENE\n3",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 3
+        }
+      }
+    },
+    {
+      "id": "scene4",
+      "category": "シーン",
+      "name": "シーン 4",
+      "text": "SCENE\n4",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 4
+        }
+      }
+    },
+    {
+      "id": "scene5",
+      "category": "シーン",
+      "name": "シーン 5",
+      "text": "SCENE\n5",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 5
+        }
+      }
+    },
+    {
+      "id": "scene6",
+      "category": "シーン",
+      "name": "シーン 6",
+      "text": "SCENE\n6",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 6
+        }
+      }
+    },
+    {
+      "id": "scene7",
+      "category": "シーン",
+      "name": "シーン 7",
+      "text": "SCENE\n7",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 7
+        }
+      }
+    },
+    {
+      "id": "scene8",
+      "category": "シーン",
+      "name": "シーン 8",
+      "text": "SCENE\n8",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 8
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Allen & Heath「SQ MIDI Protocol Issue 5」：TCP 51325、NRPN のミュート・レベル・パン・割り当て、シーン呼び出し（BN 00 BK CN PG）、ソフトキー（9N / 8N、1 番が 30）",
+      "url": "https://www.allen-heath.com/content/uploads/2023/11/SQ-MIDI-Protocol-Issue5.pdf",
+      "status": "確認済",
+      "note": "パラメーター番号は表の最初の番号と増え方から計算（資料の例：入力 40 → AUX 5 = 44 1C、入力 36 → FX 3 = 4D 22 と一致）"
+    },
+    {
+      "title": "レベルの値は資料に載っている点（0 / −12 / −20 / −24 dB）だけを選べる。ほかは「数値」の動作で 14 ビットの値を直接送る",
+      "status": "確認済"
+    },
+    {
+      "title": "入力 → グループの割り当ては表の最初の番号（66 74）からの推定",
+      "status": "推測"
+    },
+    {
+      "title": "受信（本体からの状態）はまだ使っていない",
+      "status": "確認済"
+    }
+  ]
+}

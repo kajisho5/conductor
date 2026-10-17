@@ -27,7 +27,7 @@ export function optionString(v: OptionValue | undefined): string {
  *   |u8 |u16be |u16le |i16be |u32be |u32le |f32be … 数を 16 進のバイト列に
  * 変換の仕組み（kajisho5/conductor-drivers の tools/render.mjs）と同じ規則。
  */
-const TOKEN = /\{\{\s*(option|config)\.([A-Za-z0-9_\-]+)((?:\|[a-z0-9]+(?::-?[0-9.e+-]+)*)*)\s*\}\}/g;
+const TOKEN = /\{\{\s*(option|config)\.([A-Za-z0-9_\-]+)((?:\|(?:plus:[A-Za-z0-9_]+|[a-z0-9]+(?::-?[0-9.e+-]+)*))*)\s*\}\}/g;
 
 export type TemplateMaps = Record<string, Record<string, string>>;
 
@@ -109,7 +109,12 @@ export function renderTemplate(tpl: string, ctx: { option?: Values; config?: Val
   return tpl.replace(TOKEN, (_m, scope: 'option' | 'config', key: string, filters: string) => {
     const v = ctx[scope]?.[key];
     let s = v === undefined ? '' : String(v);
-    for (const f of filters.split('|').filter(Boolean)) s = applyFilter(s, f, scope === 'option' ? ctx.maps?.[key] : undefined);
+    for (const f of filters.split('|').filter(Boolean)) {
+      // plus:名前 … 同じ範囲（option / config）の別の値を足す（例：入力番号×12＋AUX 番号で SQ の NRPN 番号）
+      const plus = /^plus:([A-Za-z0-9_]+)$/.exec(f);
+      if (plus) s = formatNumber(Number(s) + Number(ctx[scope]?.[plus[1]!] ?? 0));
+      else s = applyFilter(s, f, scope === 'option' ? ctx.maps?.[key] : undefined);
+    }
     return s;
   });
 }

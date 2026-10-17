@@ -493,6 +493,13 @@ export interface DriverInstance {
 - 返事（UDP 53001）はまだ受け取らない（状態表示なし）
 - 定義は `scripts/drivers/build_qlab.py` から作る
 
+### 8.13 Allen & Heath SQ5 / SQ6 / SQ7（MIDI over TCP・オーナー指示 2026-10-17）
+- 接続：TCP **51325**。NRPN（`BN 63 MSB BN 62 LSB BN 06 VC BN 26 VF`、切り替えは `BN 60 00`）。N は設定の MIDI チャンネル【確認済：Allen & Heath「SQ MIDI Protocol Issue 5」】
+- パラメーター番号は表の最初の番号と増え方から 14 ビットの通し番号で計算する（資料の例と一致することをテストで確認）。そのためテンプレートに `|plus:名前`（同じ範囲の別の値を足す）を足した
+- 動作 85：ミュート（入力・グループ・FX リターン・LR・AUX・FX センド・マトリクス・DCA・ミュートグループ、ON / OFF / 切り替え）、レベル（入力 → LR / AUX / FX、グループ → LR / AUX、FX リターン → LR / AUX、→ マトリクス、各マスター、DCA。資料にある dB の点・14 ビットの数値・±1 dB）、パン・バランス、割り当て（入力 → LR / AUX / グループ）、シーン、ソフトキー、MIDI をそのまま
+- レベルの dB は資料に載っている点（0 / −12 / −20 / −24 dB）だけ。受信（状態表示）はまだ
+- 定義は `scripts/drivers/build_allenheath.py` から作る
+
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。
 - 公式アプリや他社ソフトの通信の解析結果も根拠に使ってよい（2026-10-17 オーナー指示）。evidence の note に「〇〇の通信の観測」と出典を書く。
