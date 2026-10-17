@@ -11,8 +11,11 @@ describe('保存', () => {
     saveShow(s);
     expect(loadShow(s.id)).toEqual(s);
   });
-  it('初回はデモを作り、2 回目は同じものを読む', () => {
+  it('初回は空のショー（デモの機器なし）を作り、2 回目は同じものを読む', () => {
+    (require('expo-file-system') as { __files: Map<string, unknown> }).__files.clear();
     const a = loadInitialShow();
+    expect(a.created).toBe(true);
+    expect(a.show.devices).toEqual([]);
     const b = loadInitialShow();
     expect(b.created).toBe(false);
     expect(b.show.id).toBe(a.show.id);

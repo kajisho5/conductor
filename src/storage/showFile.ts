@@ -1,5 +1,5 @@
 import { Directory, File, Paths } from 'expo-file-system';
-import { demoShow } from '@/model/defaults';
+import { newShow } from '@/model/defaults';
 import type { Show } from '@/model/types';
 
 /**
@@ -82,16 +82,16 @@ function currentShowId(): string | null {
   }
 }
 
-/** 起動時：最後のショーを読む。無ければデモショーを作って保存する */
+/** 起動時：最後のショーを読む。無ければ空のショー（機器・ボタンなし）を作って保存する（デモの機器は入れない。2026-10-17 オーナー指示） */
 export function loadInitialShow(): { show: Show; created: boolean } {
   const id = currentShowId();
   if (id) {
     const s = loadShow(id);
     if (s) return { show: s, created: false };
   }
-  const demo = demoShow();
-  saveShow(demo);
-  return { show: demo, created: true };
+  const first = newShow('ショー 1');
+  saveShow(first);
+  return { show: first, created: true };
 }
 
 /** 「再起動後も値を保持」の変数（SPEC 9 章：shows/<showId>/state.json） */

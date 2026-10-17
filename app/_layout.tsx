@@ -28,7 +28,7 @@ function reportSaveError(e: unknown) {
   Alert.alert('保存できませんでした', `空き容量を確認してから、もう一度変更してください。\n${e instanceof Error ? e.message : String(e)}`);
 }
 
-/** 起動：最後のショー（無ければデモ）を読み、機器の状態を用意し、自動保存を始める */
+/** 起動：最後のショー（無ければ空のショー）を読み、機器の状態を用意し、自動保存を始める */
 function useBootstrap(): string | null {
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
