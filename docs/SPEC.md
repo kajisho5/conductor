@@ -451,7 +451,7 @@ export interface DriverInstance {
 - 接続：TCP **19010**。枠は 先頭 EB A6・種別 00（JSON）・長さ（2 バイト LE、JSON＋CRC）・JSON・CRC-16/MODBUS（2 バイト LE）【確認済：公開 OSS のモジュール osee-gostream-series（MIT）を conductor-drivers の Actions で動かした送信と一致】
 - 命令：`{"id":"pgmIndex","type":"set","value":[1]}` の形。返事・通知は type が res / pus。命令の id と値の形はオーナーの別アプリ kajisho5/osee_control_software（cutline。同じ OSS と各機種の説明書が根拠、Duet 8 ISO の実機で使用）から写した【推測：conductor では実機未確認】
 - 通信手順 `osee`（`src/drivers/osee.ts`）：定義の動作は JSON を 1 行に 1 つ書き、手順が枠と CRC を付ける。つながったら機種・入力・PGM/PVW・KEY/DSK・収録・配信などを問い合わせる。受信は変数にする（番号つきの値は `id_番号`。例 `keyOnAir_0`、真偽は 1 / 0）。10 秒静かなら `version` を問い合わせ、16 秒何も届かなければつなぎ直す（cutline と同じ）
-- 動作 37：PGM / PVW、CUT / AUTO / FTB、トランジションの種類と時間、PREV TRANS、FTB の時間・AFV、KEY・DSK（次のトランジション・ON AIR）、マルチソース、音声（ON / AFV / OFF・フェーダー）、収録・配信・配信先、マクロ、プレーヤー、スチル、PTZ（Omni）、命令を送る（JSON）
+- 動作 231（2026-10-17 にメニューの項目を追加。オーナー指示で公式ソフトの解析結果も使う）：cutline のメニュー定義（`src/ui/menu/pages.ts`。公式 PC ソフトの画面定義の解析・説明書・Companion モジュールが根拠）から、スイッチャー・マルチソース・キー・DSK・オートスイッチング・音声・プレーヤー・収録・配信・入出力などの項目を `scripts/drivers/extract_osee_menu.mts`（`npx tsx`）で `scripts/drivers/data/osee_menu.json` に書き出し、`build_osee.py` が動作にする（本体の今の値を読み直して全部送る項目は除く。値の形が実機で未確認のものは名前に【未確認】）。以下は最初の 37：PGM / PVW、CUT / AUTO / FTB、トランジションの種類と時間、PREV TRANS、FTB の時間・AFV、KEY・DSK（次のトランジション・ON AIR）、マルチソース、音声（ON / AFV / OFF・フェーダー）、収録・配信・配信先、マクロ、プレーヤー、スチル、PTZ（Omni）、命令を送る（JSON）
 - 状態表示：PGM / PVW が入力、KEY / DSK が ON AIR、PREV TRANS、FTB 中、収録中、配信中、音声が ON。変数：`pgm` `pvw`（入力名）ほか
 - 模擬機器：`npm run mock:osee`（TCP 19010）
 - 定義は `scripts/drivers/build_osee.py` から作る

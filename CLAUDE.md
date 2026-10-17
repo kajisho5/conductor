@@ -50,6 +50,7 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 - `npm run mock:atem` — ATEM 風（UDP 9910）
 - `npm run mock:osee` — OSEE GoStream 風（TCP 19010）
 - `python3 scripts/drivers/build_roland.py` / `build_atem.py` / `build_osee.py` / `build_bmd.py` / `build_visca.py` / `build_obs.py` / `build_mixers.py` / `build_vmix.py` / `build_qlab.py` / `build_allenheath.py` / `build_allenheath_dlive.py` / `build_panasonic.py` — 定義 JSON を作り直す（JSON を手で直さない。build_roland.py は ../conductor-drivers の builtin/ を読む）
+- `npx tsx scripts/drivers/extract_osee_menu.mts ../osee_control_software` — cutline のメニュー定義を scripts/drivers/data/osee_menu.json に書き出す（その後 build_osee.py）
 - `python3 scripts/licenses/build_licenses.py` — ライセンス一覧（依存を変えたら作り直す）
 - `node scripts/drivers/bundle_remote.mjs ../conductor-drivers` — 配信の定義をアプリに同梱し直す（src/drivers/remote-bundle/。手で直さない）
 - バージョンや app.config.ts を変えたら `npx expo prebuild --platform ios --no-install`（tests/config.test.ts が食い違いを検出）

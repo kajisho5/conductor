@@ -1,0 +1,8180 @@
+{
+ "source": "kajisho5/osee_control_software src/ui/menu/pages.ts",
+ "items": [
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "MIX",
+   "label": "レート",
+   "id": "transitionMixRate",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0.5,
+   "max": 8,
+   "step": 0.5,
+   "unit": "s",
+   "decimals": 2
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "DIP",
+   "label": "レート",
+   "id": "transitionDipRate",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0.5,
+   "max": 8,
+   "step": 0.5,
+   "unit": "s",
+   "decimals": 2
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "DIP",
+   "label": "ソース",
+   "id": "transitionDipFillSource",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    }
+   ]
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "レート",
+   "id": "transitionWipeRate",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0.5,
+   "max": 8,
+   "step": 0.5,
+   "unit": "s",
+   "decimals": 2
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "パターン",
+   "id": "transitionWipePatternIndex",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "横 左→右"
+    },
+    {
+     "value": 1,
+     "label": "縦 上→下"
+    },
+    {
+     "value": 2,
+     "label": "横 右→左"
+    },
+    {
+     "value": 3,
+     "label": "縦 下→上"
+    },
+    {
+     "value": 4,
+     "label": "サラウンド"
+    },
+    {
+     "value": 5,
+     "label": "矩形"
+    },
+    {
+     "value": 6,
+     "label": "ダイヤ"
+    },
+    {
+     "value": 7,
+     "label": "円"
+    },
+    {
+     "value": 8,
+     "label": "矩形 左上から"
+    },
+    {
+     "value": 9,
+     "label": "矩形 右上から"
+    },
+    {
+     "value": 10,
+     "label": "矩形 右下から"
+    },
+    {
+     "value": 11,
+     "label": "矩形 左下から"
+    },
+    {
+     "value": 12,
+     "label": "矩形 上中央から"
+    },
+    {
+     "value": 13,
+     "label": "矩形 右中央から"
+    },
+    {
+     "value": 14,
+     "label": "矩形 下中央から"
+    },
+    {
+     "value": 15,
+     "label": "矩形 左中央から"
+    },
+    {
+     "value": 16,
+     "label": "斜め 左→右"
+    },
+    {
+     "value": 17,
+     "label": "斜め 右→左"
+    }
+   ]
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "方向",
+   "id": "transitionWipeDirection",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "ノーマル"
+    },
+    {
+     "value": 1,
+     "label": "インバース"
+    }
+   ]
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "X位置",
+   "id": "transitionWipeXPosition",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "Y位置",
+   "id": "transitionWipeYPosition",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "Symmetry",
+   "id": "transitionWipeSymmetry",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "Softness",
+   "id": "transitionWipeSoftness",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "Border",
+   "id": "transitionWipeBorder",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "WIPE",
+   "label": "ボーダーの塗り",
+   "id": "transitionWipeFillSource",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    }
+   ]
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "カラーバック",
+   "label": "Hue",
+   "id": "colorHue",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "color",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Color 1"
+    },
+    {
+     "value": 1,
+     "label": "Color 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 359,
+   "step": 1
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "カラーバック",
+   "label": "Saturation",
+   "id": "colorSaturation",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "color",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Color 1"
+    },
+    {
+     "value": 1,
+     "label": "Color 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "カラーバック",
+   "label": "Brightness",
+   "id": "colorBrightness",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "color",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Color 1"
+    },
+    {
+     "value": 1,
+     "label": "Color 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "FTB（フェード・トゥ・ブラック）",
+   "label": "レート",
+   "id": "ftbRate",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 8,
+   "step": 0.5,
+   "unit": "s",
+   "decimals": 1
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "FTB（フェード・トゥ・ブラック）",
+   "label": "AFV（音声も連動）",
+   "id": "ftbAfv",
+   "kind": "toggle",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "switcher",
+   "pageTitle": "スイッチャー",
+   "section": "FTB（フェード・トゥ・ブラック）",
+   "label": "FTBを有効にする",
+   "id": "ftbControlEnable",
+   "kind": "toggle",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "テンプレート",
+   "label": "テンプレート",
+   "id": "multiSourceTemplate",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "Template 1"
+    },
+    {
+     "value": 1,
+     "label": "Template 2"
+    },
+    {
+     "value": 2,
+     "label": "Template 3"
+    },
+    {
+     "value": 3,
+     "label": "Template 4"
+    },
+    {
+     "value": 4,
+     "label": "Template 5"
+    },
+    {
+     "value": 5,
+     "label": "Template 6"
+    },
+    {
+     "value": 6,
+     "label": "Template 7"
+    },
+    {
+     "value": 7,
+     "label": "Template 8"
+    },
+    {
+     "value": 8,
+     "label": "Template 9"
+    },
+    {
+     "value": 9,
+     "label": "Template 10"
+    },
+    {
+     "value": 10,
+     "label": "Template 11"
+    },
+    {
+     "value": 11,
+     "label": "Template 12"
+    }
+   ]
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "テンプレート",
+   "label": "名前",
+   "id": "multiSourceName",
+   "kind": "text",
+   "idx": false,
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "maxLength": 16,
+   "secret": false
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "テンプレート",
+   "label": "テンプレートを既定に戻す",
+   "id": "multiSourceTemplateRestore",
+   "kind": "action",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "value": [],
+   "confirm": "このテンプレートを既定に戻しますか？"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "全体",
+   "label": "MultiSourceを有効にする",
+   "id": "multiSourceEnable",
+   "kind": "toggle",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "hint": "オフのときM/SRCは黒になります",
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "レイアウト",
+   "label": "レイアウト",
+   "id": "multiSourceControlLayout",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "Zoom out"
+    },
+    {
+     "value": 1,
+     "label": "Crop-Zoom out"
+    },
+    {
+     "value": 2,
+     "label": "Zoom out-Crop"
+    },
+    {
+     "value": 3,
+     "label": "Crop"
+    },
+    {
+     "value": 4,
+     "label": "Crop-zoom out 1:2"
+    },
+    {
+     "value": 5,
+     "label": "Zoom out-crop 2:1"
+    }
+   ]
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "レイアウト",
+   "label": "Y位置",
+   "id": "multiSourceControlYPosition",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ウィンドウ",
+   "label": "有効",
+   "id": "multiSourceWindowEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "on": true,
+   "off": false
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ウィンドウ",
+   "label": "ソース",
+   "id": "multiSourceWindowSource",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 3011,
+     "label": "MP 1 Key"
+    },
+    {
+     "value": 3021,
+     "label": "MP 2 Key"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    }
+   ]
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ウィンドウ",
+   "label": "X位置",
+   "id": "multiSourceWindowXPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ウィンドウ",
+   "label": "Y位置",
+   "id": "multiSourceWindowYPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ウィンドウ",
+   "label": "サイズ",
+   "id": "multiSourceWindowSize",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 25,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ウィンドウ",
+   "label": "サイズ",
+   "id": "multiSourceWindowSize",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "min": 15,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "クロップ",
+   "label": "左",
+   "id": "multiSourceWindowCropLeft",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "クロップ",
+   "label": "上",
+   "id": "multiSourceWindowCropTop",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "クロップ",
+   "label": "右",
+   "id": "multiSourceWindowCropRight",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "クロップ",
+   "label": "下",
+   "id": "multiSourceWindowCropBottom",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "クロップ",
+   "label": "角の丸み",
+   "id": "multiSourceWindowCornerRadius",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ボーダー",
+   "label": "幅",
+   "id": "multiSourceWindowBorderWidth",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 31,
+   "step": 1
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ボーダー",
+   "label": "Hue",
+   "id": "multiSourceWindowBorderHue",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 359,
+   "step": 1
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ボーダー",
+   "label": "Saturation",
+   "id": "multiSourceWindowBorderSaturation",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "ボーダー",
+   "label": "Brightness",
+   "id": "multiSourceWindowBorderBrightness",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "window",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Window 1"
+    },
+    {
+     "value": 1,
+     "label": "Window 2"
+    },
+    {
+     "value": 2,
+     "label": "Window 3"
+    },
+    {
+     "value": 3,
+     "label": "Window 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "グラフィック",
+   "label": "塗りソース",
+   "id": "multiSourceFillSource",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 3011,
+     "label": "MP 1 Key"
+    },
+    {
+     "value": 3021,
+     "label": "MP 2 Key"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    }
+   ]
+  },
+  {
+   "page": "multisource",
+   "pageTitle": "MultiSource",
+   "section": "グラフィック",
+   "label": "配置",
+   "id": "multiSourcePlaceIn",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "options": [
+    {
+     "value": "Background",
+     "label": "背景"
+    },
+    {
+     "value": "Foreground",
+     "label": "前景"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "キーの種類",
+   "label": "種類",
+   "id": "keyType",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "Luma",
+     "label": "Luma"
+    },
+    {
+     "value": "Chroma",
+     "label": "Chroma"
+    },
+    {
+     "value": "Pattern",
+     "label": "Pattern"
+    },
+    {
+     "value": "PIP",
+     "label": "PIP"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "塗り（Fill）",
+   "id": "lumaFillSource",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3011,
+     "label": "GFX 1 Key"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 3021,
+     "label": "GFX 2 Key"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "キー（Key）",
+   "id": "lumaKeySource",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3011,
+     "label": "GFX 1 Key"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 3021,
+     "label": "GFX 2 Key"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "マスク",
+   "id": "lumaMaskEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "左（H Start）",
+   "id": "lumaMaskHStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "上（V Start）",
+   "id": "lumaMaskVStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "右（H End）",
+   "id": "lumaMaskHEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "下（V End）",
+   "id": "lumaMaskVEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "プリマルチプライド",
+   "id": "lumaPreMultipliedKey",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "Clip",
+   "id": "lumaClip",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "Gain",
+   "id": "lumaGain",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "反転",
+   "id": "lumaInvert",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "リサイズ",
+   "id": "lumaResize",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "サイズ",
+   "id": "lumaSize",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 7,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "サイズ",
+   "id": "lumaSize",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "0.25",
+     "label": "0.25"
+    },
+    {
+     "value": "0.33",
+     "label": "0.33"
+    },
+    {
+     "value": "0.50",
+     "label": "0.50"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "X位置",
+   "id": "lumaXPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Luma",
+   "label": "Y位置",
+   "id": "lumaYPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "塗り（Fill）",
+   "id": "chromaFillSource",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 3011,
+     "label": "MP 1 Key"
+    },
+    {
+     "value": 3021,
+     "label": "MP 2 Key"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "マスク",
+   "id": "chromaMaskEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "左（H Start）",
+   "id": "chromaMaskHStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "上（V Start）",
+   "id": "chromaMaskVStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "右（H End）",
+   "id": "chromaMaskHEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "下（V End）",
+   "id": "chromaMaskVEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "リサイズ",
+   "id": "chromaResize",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "サイズ",
+   "id": "chromaSize",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 7,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "サイズ",
+   "id": "chromaSize",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "0.25",
+     "label": "0.25"
+    },
+    {
+     "value": "0.33",
+     "label": "0.33"
+    },
+    {
+     "value": "0.50",
+     "label": "0.50"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "X位置",
+   "id": "chromaXPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "Y位置",
+   "id": "chromaYPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "サンプル表示",
+   "id": "chromaSample",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "サンプルX",
+   "id": "chromaSMPXPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "サンプルY",
+   "id": "chromaSMPYPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "Foreground",
+   "id": "chromaForeground",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "Background",
+   "id": "chromaBackground",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Chroma",
+   "label": "Key Edge",
+   "id": "chromaKeyEdge",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "塗り（Fill）",
+   "id": "patternFillSource",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3011,
+     "label": "GFX 1 Key"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 3021,
+     "label": "GFX 2 Key"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "パターン",
+   "id": "patternWipeIndex",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "横 左→右"
+    },
+    {
+     "value": 1,
+     "label": "縦 上→下"
+    },
+    {
+     "value": 2,
+     "label": "横 右→左"
+    },
+    {
+     "value": 3,
+     "label": "縦 下→上"
+    },
+    {
+     "value": 4,
+     "label": "サラウンド"
+    },
+    {
+     "value": 5,
+     "label": "矩形"
+    },
+    {
+     "value": 6,
+     "label": "ダイヤ"
+    },
+    {
+     "value": 7,
+     "label": "円"
+    },
+    {
+     "value": 8,
+     "label": "矩形 左上から"
+    },
+    {
+     "value": 9,
+     "label": "矩形 右上から"
+    },
+    {
+     "value": 10,
+     "label": "矩形 右下から"
+    },
+    {
+     "value": 11,
+     "label": "矩形 左下から"
+    },
+    {
+     "value": 12,
+     "label": "矩形 上中央から"
+    },
+    {
+     "value": 13,
+     "label": "矩形 右中央から"
+    },
+    {
+     "value": 14,
+     "label": "矩形 下中央から"
+    },
+    {
+     "value": 15,
+     "label": "矩形 左中央から"
+    },
+    {
+     "value": 16,
+     "label": "斜め 左→右"
+    },
+    {
+     "value": 17,
+     "label": "斜め 右→左"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "パターンサイズ",
+   "id": "patternWipeSize",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 1,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "パターンX",
+   "id": "patternWipeXPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "パターンY",
+   "id": "patternWipeYPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "Symmetry",
+   "id": "patternWipeSymmetry",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "Softness",
+   "id": "patternWipeSoftness",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "マスク",
+   "id": "patternMaskEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "左（H Start）",
+   "id": "patternMaskHStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "上（V Start）",
+   "id": "patternMaskVStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "右（H End）",
+   "id": "patternMaskHEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "下（V End）",
+   "id": "patternMaskVEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "リサイズ",
+   "id": "patternResize",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "サイズ",
+   "id": "patternSize",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 7,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "サイズ",
+   "id": "patternSize",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "0.25",
+     "label": "0.25"
+    },
+    {
+     "value": "0.33",
+     "label": "0.33"
+    },
+    {
+     "value": "0.50",
+     "label": "0.50"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "X位置",
+   "id": "patternXPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "Y位置",
+   "id": "patternYPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "ボーダー",
+   "id": "patternBorderEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "ボーダー幅",
+   "id": "patternBorderWidth",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 0,
+   "max": 31,
+   "step": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "ボーダーのHue",
+   "id": "patternBorderColorHue",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 0,
+   "max": 359,
+   "step": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "ボーダーのSaturation",
+   "id": "patternBorderColorSaturation",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "Pattern",
+   "label": "ボーダーのBrightness",
+   "id": "patternBorderColorBrightness",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "塗り（Fill）",
+   "id": "pipFillSource",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3011,
+     "label": "GFX 1 Key"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 3021,
+     "label": "GFX 2 Key"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "サイズ",
+   "id": "pipSize",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 7,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "サイズ",
+   "id": "pipSize",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "0.25",
+     "label": "0.25"
+    },
+    {
+     "value": "0.33",
+     "label": "0.33"
+    },
+    {
+     "value": "0.50",
+     "label": "0.50"
+    }
+   ]
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "X位置",
+   "id": "pipXPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "Y位置",
+   "id": "pipYPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "マスク",
+   "id": "pipMaskEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "左（H Start）",
+   "id": "pipMaskHStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "上（V Start）",
+   "id": "pipMaskVStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "右（H End）",
+   "id": "pipMaskHEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "下（V End）",
+   "id": "pipMaskVEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "ボーダー",
+   "id": "pipBorderEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "ボーダー幅",
+   "id": "pipBorderWidth",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 31,
+   "step": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "ボーダーのHue",
+   "id": "pipBorderColorHue",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 359,
+   "step": 1
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "ボーダーのSaturation",
+   "id": "pipBorderColorSaturation",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "key",
+   "pageTitle": "キー",
+   "section": "PIP",
+   "label": "ボーダーのBrightness",
+   "id": "pipBorderColorBrightness",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "key",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "KEY 1"
+    },
+    {
+     "value": 1,
+     "label": "KEY 2"
+    },
+    {
+     "value": 2,
+     "label": "KEY 3"
+    },
+    {
+     "value": 3,
+     "label": "KEY 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "ソース",
+   "label": "塗り（Fill）",
+   "id": "dskFillSource",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3011,
+     "label": "GFX 1 Key"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 3021,
+     "label": "GFX 2 Key"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    },
+    {
+     "value": 2001,
+     "label": "Color 1"
+    },
+    {
+     "value": 2002,
+     "label": "Color 2"
+    }
+   ]
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "ソース",
+   "label": "キー（Key）",
+   "id": "dskKeySource",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 3010,
+     "label": "GFX 1"
+    },
+    {
+     "value": 3011,
+     "label": "GFX 1 Key"
+    },
+    {
+     "value": 3020,
+     "label": "GFX 2"
+    },
+    {
+     "value": 3021,
+     "label": "GFX 2 Key"
+    },
+    {
+     "value": 1000,
+     "label": "Color Bar"
+    },
+    {
+     "value": 0,
+     "label": "Black"
+    }
+   ]
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "マスク",
+   "label": "マスク",
+   "id": "dskMaskEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "マスク",
+   "label": "左（H Start）",
+   "id": "dskMaskHStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "マスク",
+   "label": "上（V Start）",
+   "id": "dskMaskVStart",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "マスク",
+   "label": "右（H End）",
+   "id": "dskMaskHEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "マスク",
+   "label": "下（V End）",
+   "id": "dskMaskVEnd",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "コントロール",
+   "label": "プリマルチプライド",
+   "id": "dskPreMultipliedKey",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "コントロール",
+   "label": "Clip",
+   "id": "dskClip",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "コントロール",
+   "label": "Gain",
+   "id": "dskGain",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "コントロール",
+   "label": "反転",
+   "id": "dskInvert",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "サイズと位置",
+   "label": "リサイズ",
+   "id": "dskResize",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "サイズと位置",
+   "label": "サイズ",
+   "id": "dskSize",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "min": 7,
+   "max": 100,
+   "step": 1,
+   "unit": "%"
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "サイズと位置",
+   "label": "X位置",
+   "id": "dskXPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "dsk",
+   "pageTitle": "DSK",
+   "section": "サイズと位置",
+   "label": "Y位置",
+   "id": "dskYPosition",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "dsk",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "DSK 1"
+    },
+    {
+     "value": 1,
+     "label": "DSK 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "autoswitch",
+   "pageTitle": "オートスイッチング",
+   "section": "全体",
+   "label": "有効",
+   "id": "autoSwitchingEnable",
+   "kind": "toggle",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "チャンネル",
+   "label": "状態",
+   "id": "audioMixerEnable",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "audio",
+   "indexValues": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 1301,
+     "label": "Mic 1"
+    },
+    {
+     "value": 1302,
+     "label": "Mic 2"
+    },
+    {
+     "value": 1303,
+     "label": "Mic 3"
+    },
+    {
+     "value": 1304,
+     "label": "Mic 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "OFF"
+    },
+    {
+     "value": 1,
+     "label": "ON"
+    },
+    {
+     "value": 2,
+     "label": "AFV"
+    }
+   ]
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "チャンネル",
+   "label": "フェーダー",
+   "id": "audioMixerFader",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "audio",
+   "indexValues": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 1301,
+     "label": "Mic 1"
+    },
+    {
+     "value": 1302,
+     "label": "Mic 2"
+    },
+    {
+     "value": 1303,
+     "label": "Mic 3"
+    },
+    {
+     "value": 1304,
+     "label": "Mic 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -75,
+   "max": 10,
+   "step": 0.5,
+   "unit": "dB",
+   "decimals": 1
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "チャンネル",
+   "label": "パン",
+   "id": "audioMixerPanning",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "audio",
+   "indexValues": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 1301,
+     "label": "Mic 1"
+    },
+    {
+     "value": 1302,
+     "label": "Mic 2"
+    },
+    {
+     "value": 1303,
+     "label": "Mic 3"
+    },
+    {
+     "value": 1304,
+     "label": "Mic 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -100,
+   "max": 100,
+   "step": 1
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "チャンネル",
+   "label": "エフェクト",
+   "id": "audioMixerEffectEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "audio",
+   "indexValues": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 1301,
+     "label": "Mic 1"
+    },
+    {
+     "value": 1302,
+     "label": "Mic 2"
+    },
+    {
+     "value": 1303,
+     "label": "Mic 3"
+    },
+    {
+     "value": 1304,
+     "label": "Mic 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "チャンネル",
+   "label": "モノ→ステレオ",
+   "id": "audioMonoToStereo",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "audio",
+   "indexValues": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 1301,
+     "label": "Mic 1"
+    },
+    {
+     "value": 1302,
+     "label": "Mic 2"
+    },
+    {
+     "value": 1303,
+     "label": "Mic 3"
+    },
+    {
+     "value": 1304,
+     "label": "Mic 4"
+    }
+   ],
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "OFF"
+    },
+    {
+     "value": 1,
+     "label": "Copy L"
+    },
+    {
+     "value": 2,
+     "label": "Copy R"
+    }
+   ]
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "チャンネルのエフェクト",
+   "label": "AIノイズリダクション",
+   "id": "audioMixerAiNoiseReduction",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "audio",
+   "indexValues": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 4001,
+     "label": "Player 1"
+    },
+    {
+     "value": 4002,
+     "label": "Player 2"
+    },
+    {
+     "value": 4003,
+     "label": "AUX 3"
+    },
+    {
+     "value": 4004,
+     "label": "AUX 4"
+    },
+    {
+     "value": 1301,
+     "label": "Mic 1"
+    },
+    {
+     "value": 1302,
+     "label": "Mic 2"
+    },
+    {
+     "value": 1303,
+     "label": "Mic 3"
+    },
+    {
+     "value": 1304,
+     "label": "Mic 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "Off"
+    },
+    {
+     "value": 1,
+     "label": "Low"
+    },
+    {
+     "value": 2,
+     "label": "Medium"
+    },
+    {
+     "value": 3,
+     "label": "High"
+    }
+   ]
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "全体",
+   "label": "音声の切り替え",
+   "id": "audioMixerSwitchType",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "ハードカット"
+    },
+    {
+     "value": 1,
+     "label": "エフェクトで切り替え"
+    }
+   ]
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "全体",
+   "label": "ステレオ分割",
+   "id": "audioSeparateStereoEnable",
+   "kind": "toggle",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "audio",
+   "pageTitle": "オーディオミキサー",
+   "section": "全体",
+   "label": "分割するソース",
+   "id": "audioSeparateStereoSource",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 1,
+     "label": "Input 1"
+    },
+    {
+     "value": 2,
+     "label": "Input 2"
+    },
+    {
+     "value": 3,
+     "label": "Input 3"
+    },
+    {
+     "value": 4,
+     "label": "Input 4"
+    },
+    {
+     "value": 5,
+     "label": "Input 5"
+    },
+    {
+     "value": 6,
+     "label": "Input 6"
+    },
+    {
+     "value": 7,
+     "label": "Input 7"
+    },
+    {
+     "value": 8,
+     "label": "Input 8"
+    },
+    {
+     "value": 1301,
+     "label": "Mic 1"
+    },
+    {
+     "value": 1302,
+     "label": "Mic 2"
+    },
+    {
+     "value": 4001,
+     "label": "In 5"
+    },
+    {
+     "value": 4002,
+     "label": "In 6"
+    },
+    {
+     "value": 4003,
+     "label": "In 7"
+    },
+    {
+     "value": 4004,
+     "label": "In 8"
+    }
+   ]
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "GFX 1",
+   "label": "種類",
+   "id": "mediaPlayer",
+   "kind": "select",
+   "idx": false,
+   "prefix": [
+    0
+   ],
+   "suffix": [
+    0
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "options": [
+    {
+     "value": "Still",
+     "label": "スチル"
+    }
+   ]
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "GFX 1",
+   "label": "スチル番号（0は01）",
+   "id": "mediaPlayer",
+   "kind": "number",
+   "idx": false,
+   "prefix": [
+    0,
+    "Still"
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 0,
+   "max": 31,
+   "step": 1
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "MP 1",
+   "label": "種類",
+   "id": "mediaPlayer",
+   "kind": "select",
+   "idx": false,
+   "prefix": [
+    0
+   ],
+   "suffix": [
+    0
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "Still",
+     "label": "スチル"
+    }
+   ]
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "MP 1",
+   "label": "スチル番号（0は01）",
+   "id": "mediaPlayer",
+   "kind": "number",
+   "idx": false,
+   "prefix": [
+    0,
+    "Still"
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 31,
+   "step": 1
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "GFX 2",
+   "label": "種類",
+   "id": "mediaPlayer",
+   "kind": "select",
+   "idx": false,
+   "prefix": [
+    1
+   ],
+   "suffix": [
+    0
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "options": [
+    {
+     "value": "Still",
+     "label": "スチル"
+    }
+   ]
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "GFX 2",
+   "label": "スチル番号（0は01）",
+   "id": "mediaPlayer",
+   "kind": "number",
+   "idx": false,
+   "prefix": [
+    1,
+    "Still"
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 0,
+   "max": 31,
+   "step": 1
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "MP 2",
+   "label": "種類",
+   "id": "mediaPlayer",
+   "kind": "select",
+   "idx": false,
+   "prefix": [
+    1
+   ],
+   "suffix": [
+    0
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "Still",
+     "label": "スチル"
+    },
+    {
+     "value": "Browser",
+     "label": "ブラウザ"
+    }
+   ]
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "MP 2",
+   "label": "スチル番号（0は01）",
+   "id": "mediaPlayer",
+   "kind": "number",
+   "idx": false,
+   "prefix": [
+    1,
+    "Still"
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 31,
+   "step": 1
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "MP 2",
+   "label": "URL（ブラウザ）",
+   "id": "browser",
+   "kind": "text",
+   "idx": false,
+   "prefix": [
+    0
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "secret": false
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "スチルの位置",
+   "label": "MP 1のX位置",
+   "id": "stillXPosition",
+   "kind": "number",
+   "idx": false,
+   "prefix": [
+    0
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "スチルの位置",
+   "label": "MP 1のY位置",
+   "id": "stillYPosition",
+   "kind": "number",
+   "idx": false,
+   "prefix": [
+    0
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "スチルの位置",
+   "label": "MP 2のX位置",
+   "id": "stillXPosition",
+   "kind": "number",
+   "idx": false,
+   "prefix": [
+    1
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -16,
+   "max": 16,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "media",
+   "pageTitle": "スチルとメディア",
+   "section": "スチルの位置",
+   "label": "MP 2のY位置",
+   "id": "stillYPosition",
+   "kind": "number",
+   "idx": false,
+   "prefix": [
+    1
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": -9,
+   "max": 9,
+   "step": 0.1,
+   "decimals": 1
+  },
+  {
+   "page": "player",
+   "pageTitle": "プレイヤー",
+   "section": "再生",
+   "label": "再生モード",
+   "id": "playbackMode",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "player",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Player 1"
+    },
+    {
+     "value": 1,
+     "label": "Player 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "Single Play",
+     "label": "Single Play"
+    },
+    {
+     "value": "Single Loop",
+     "label": "Single Loop"
+    },
+    {
+     "value": "Group Play",
+     "label": "Group Play"
+    },
+    {
+     "value": "Cross-group Play",
+     "label": "Cross-group Play"
+    }
+   ]
+  },
+  {
+   "page": "player",
+   "pageTitle": "プレイヤー",
+   "section": "再生",
+   "label": "再生終了時の動作",
+   "id": "playbackCutLogic",
+   "kind": "select",
+   "idx": true,
+   "indexKind": "player",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Player 1"
+    },
+    {
+     "value": 1,
+     "label": "Player 2"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "options": [
+    {
+     "value": "Switch",
+     "label": "Switch"
+    },
+    {
+     "value": "No Action",
+     "label": "No Action"
+    },
+    {
+     "value": "Single Switch",
+     "label": "Single Switch"
+    },
+    {
+     "value": "Group Switch",
+     "label": "Group Switch"
+    }
+   ]
+  },
+  {
+   "page": "player",
+   "pageTitle": "プレイヤー",
+   "section": "再生",
+   "label": "1本リピート",
+   "id": "playRepeat",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "player",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Player 1"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ファイル",
+   "label": "ファイル名の接頭辞",
+   "id": "recordFileName",
+   "kind": "text",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "maxLength": 32,
+   "secret": false
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ファイル",
+   "label": "エンコード",
+   "id": "recordFormat",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "options": [
+    {
+     "value": "H.264",
+     "label": "H.264"
+    },
+    {
+     "value": "H.265",
+     "label": "H.265"
+    }
+   ]
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "画質",
+   "label": "録画の画質",
+   "id": "recordBitrate",
+   "kind": "select",
+   "idx": false,
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "High"
+    },
+    {
+     "value": 1,
+     "label": "Good"
+    },
+    {
+     "value": 2,
+     "label": "Medium"
+    },
+    {
+     "value": 3,
+     "label": "Low"
+    }
+   ]
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "画質",
+   "label": "録画ビットレート",
+   "id": "recordVideoBitrate",
+   "kind": "number",
+   "idx": false,
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 1,
+   "max": 50,
+   "step": 0.5,
+   "unit": "Mbps",
+   "decimals": 1,
+   "scale": 1000000
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 1",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    1
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 2",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    2
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 3",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    3
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 4",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    4
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 5",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    4001
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 6",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    4002
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 7",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    4003
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 8",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    4004
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 1",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    1
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 2",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    2
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 3",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    3
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 4",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    4
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 5",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    5
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 6",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    6
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 7",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    7
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "record",
+   "pageTitle": "録画",
+   "section": "ISO収録するチャンネル",
+   "label": "In 8",
+   "id": "recordISOChannel",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    8
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "stream",
+   "pageTitle": "配信",
+   "section": "配信先",
+   "label": "有効",
+   "id": "liveStreamOutputEnable",
+   "kind": "toggle",
+   "idx": true,
+   "indexKind": "stream",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "stream",
+   "pageTitle": "配信",
+   "section": "配信先",
+   "label": "プラットフォーム",
+   "id": "liveStreamOutputServiceName",
+   "kind": "text",
+   "idx": true,
+   "indexKind": "stream",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "maxLength": 64,
+   "secret": false
+  },
+  {
+   "page": "stream",
+   "pageTitle": "配信",
+   "section": "配信先",
+   "label": "サーバーURL",
+   "id": "liveStreamOutputUrl",
+   "kind": "text",
+   "idx": true,
+   "indexKind": "stream",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "maxLength": 256,
+   "secret": false
+  },
+  {
+   "page": "stream",
+   "pageTitle": "配信",
+   "section": "配信先",
+   "label": "ストリームキー",
+   "id": "liveStreamOutputKey",
+   "kind": "text",
+   "idx": true,
+   "indexKind": "stream",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "maxLength": 256,
+   "secret": true
+  },
+  {
+   "page": "stream",
+   "pageTitle": "配信",
+   "section": "全体",
+   "label": "配信の画質",
+   "id": "liveStreamOutputBitrate",
+   "kind": "select",
+   "idx": false,
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "Low"
+    },
+    {
+     "value": 1,
+     "label": "Medium"
+    },
+    {
+     "value": 2,
+     "label": "High"
+    },
+    {
+     "value": 3,
+     "label": "ユーザー定義"
+    }
+   ]
+  },
+  {
+   "page": "stream",
+   "pageTitle": "配信",
+   "section": "全体",
+   "label": "配信ビットレート",
+   "id": "liveStreamOutputVideoBitrate",
+   "kind": "number",
+   "idx": false,
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 1,
+   "max": 50,
+   "step": 0.5,
+   "unit": "Mbps",
+   "decimals": 1,
+   "scale": 1000000
+  },
+  {
+   "page": "stream",
+   "pageTitle": "配信",
+   "section": "全体",
+   "label": "配信先リストを既定に戻す",
+   "id": "removeAllStreamSetting",
+   "kind": "action",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "value": [],
+   "confirm": "配信先の設定をすべて既定に戻しますか？"
+  },
+  {
+   "page": "output",
+   "pageTitle": "出力",
+   "section": "フォーマット",
+   "label": "出力フォーマット",
+   "id": "outFormat",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": true,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": "1080p23.98",
+     "label": "1080p23.98"
+    },
+    {
+     "value": "1080p24",
+     "label": "1080p24"
+    },
+    {
+     "value": "1080p25",
+     "label": "1080p25"
+    },
+    {
+     "value": "1080p29.97",
+     "label": "1080p29.97"
+    },
+    {
+     "value": "1080p30",
+     "label": "1080p30"
+    },
+    {
+     "value": "1080p50",
+     "label": "1080p50"
+    },
+    {
+     "value": "1080p59.94",
+     "label": "1080p59.94"
+    },
+    {
+     "value": "1080p60",
+     "label": "1080p60"
+    }
+   ]
+  },
+  {
+   "page": "output",
+   "pageTitle": "出力",
+   "section": "向き",
+   "label": "モード",
+   "id": "landscapeMode",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": true,
+   "models": [
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "横向き"
+    },
+    {
+     "value": 1,
+     "label": "縦向き"
+    }
+   ]
+  },
+  {
+   "page": "input",
+   "pageTitle": "入力",
+   "section": "入力モード",
+   "label": "入力の割り当て",
+   "id": "inputMode",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": true,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "4+0"
+    },
+    {
+     "value": 1,
+     "label": "8+1"
+    },
+    {
+     "value": 2,
+     "label": "8+2"
+    },
+    {
+     "value": 3,
+     "label": "8+3"
+    }
+   ]
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "SRT Listener",
+   "label": "ポート",
+   "id": "srtListenerInputPort",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "min": 1,
+   "max": 65535,
+   "step": 1
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "SRT Listener",
+   "label": "バッファ",
+   "id": "srtListenerInputBufferDuration",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 20,
+   "max": 8000,
+   "step": 10,
+   "unit": "ms"
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "SRT Caller",
+   "label": "IPアドレス",
+   "id": "srtCallerInputIpAddress",
+   "kind": "text",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "secret": false
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "SRT Caller",
+   "label": "ポート",
+   "id": "srtCallerInputPort",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "min": 1,
+   "max": 65535,
+   "step": 1
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "SRT Caller",
+   "label": "Stream ID",
+   "id": "srtCallerInputStreamId",
+   "kind": "text",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "secret": false
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "SRT Caller",
+   "label": "バッファ",
+   "id": "srtCallerInputBufferDuration",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 20,
+   "max": 8000,
+   "step": 10,
+   "unit": "ms"
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "RTMP Pull",
+   "label": "URL",
+   "id": "rtmpPullInputUrl",
+   "kind": "text",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "secret": false
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "RTMP Pull",
+   "label": "キー",
+   "id": "rtmpPullInputKey",
+   "kind": "text",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO"
+   ],
+   "secret": true
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "RTMP Pull",
+   "label": "バッファ",
+   "id": "rtmpPullInputBufferDuration",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 20,
+   "max": 8000,
+   "step": 10,
+   "unit": "ms"
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "RTMP Push",
+   "label": "ストリームキー",
+   "id": "rtmpPushInputStreamKey",
+   "kind": "text",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "secret": true
+  },
+  {
+   "page": "streamin",
+   "pageTitle": "SRT / RTMP",
+   "section": "RTMP Push",
+   "label": "バッファ",
+   "id": "rtmpPushInputBufferDuration",
+   "kind": "number",
+   "idx": true,
+   "indexKind": "srtIn",
+   "indexValues": [
+    {
+     "value": 0,
+     "label": "Stream 1"
+    },
+    {
+     "value": 1,
+     "label": "Stream 2"
+    },
+    {
+     "value": 2,
+     "label": "Stream 3"
+    },
+    {
+     "value": 3,
+     "label": "Stream 4"
+    }
+   ],
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "min": 20,
+   "max": 8000,
+   "step": 10,
+   "unit": "ms"
+  },
+  {
+   "page": "ndi",
+   "pageTitle": "NDI",
+   "section": "NDIソース",
+   "label": "NDIソースを検索",
+   "id": "ndiInputSearch",
+   "kind": "action",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "value": []
+  },
+  {
+   "page": "settings",
+   "pageTitle": "設定",
+   "section": "マルチビュー",
+   "label": "レイアウト",
+   "id": "multiViewLayout",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "Layout 1"
+    },
+    {
+     "value": 1,
+     "label": "Layout 2"
+    }
+   ]
+  },
+  {
+   "page": "settings",
+   "pageTitle": "設定",
+   "section": "マルチビュー",
+   "label": "レイアウト",
+   "id": "multiViewLayout",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "DUET_8_ISO"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "10画面（4入力）"
+    },
+    {
+     "value": 1,
+     "label": "13画面（8入力）"
+    }
+   ]
+  },
+  {
+   "page": "settings",
+   "pageTitle": "設定",
+   "section": "マルチビュー",
+   "label": "PVWのマーカー",
+   "id": "marker",
+   "kind": "toggle",
+   "idx": false,
+   "prefix": [
+    16
+   ],
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "on": 1,
+   "off": 0
+  },
+  {
+   "page": "settings",
+   "pageTitle": "設定",
+   "section": "記録先",
+   "label": "記録先ディスク",
+   "id": "diskSelection",
+   "kind": "select",
+   "idx": false,
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "CFexpress B"
+    },
+    {
+     "value": 1,
+     "label": "SSD"
+    }
+   ]
+  },
+  {
+   "page": "settings",
+   "pageTitle": "設定",
+   "section": "本体",
+   "label": "ボタンの明るさ",
+   "id": "panelBrightness",
+   "kind": "number",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "min": 0,
+   "max": 15,
+   "step": 1
+  },
+  {
+   "page": "settings",
+   "pageTitle": "設定",
+   "section": "本体",
+   "label": "ファン速度",
+   "id": "fanSpeed",
+   "kind": "select",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "Auto"
+    },
+    {
+     "value": 1,
+     "label": "High"
+    },
+    {
+     "value": 2,
+     "label": "Low"
+    }
+   ]
+  },
+  {
+   "page": "info",
+   "pageTitle": "本体情報とネットワーク",
+   "section": "基本情報",
+   "label": "デバイス名",
+   "id": "deviceName",
+   "kind": "text",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "maxLength": 32,
+   "secret": false
+  },
+  {
+   "page": "info",
+   "pageTitle": "本体情報とネットワーク",
+   "section": "ネットワーク",
+   "label": "プロトコル",
+   "id": "networkProtocol",
+   "kind": "select",
+   "idx": false,
+   "unverified": true,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "options": [
+    {
+     "value": 0,
+     "label": "固定IP"
+    },
+    {
+     "value": 1,
+     "label": "DHCP"
+    }
+   ]
+  },
+  {
+   "page": "info",
+   "pageTitle": "本体情報とネットワーク",
+   "section": "ネットワーク",
+   "label": "IPアドレス",
+   "id": "staticIPAddress",
+   "kind": "text",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "secret": false
+  },
+  {
+   "page": "info",
+   "pageTitle": "本体情報とネットワーク",
+   "section": "ネットワーク",
+   "label": "サブネットマスク",
+   "id": "staticNetMask",
+   "kind": "text",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "secret": false
+  },
+  {
+   "page": "info",
+   "pageTitle": "本体情報とネットワーク",
+   "section": "ネットワーク",
+   "label": "ゲートウェイ",
+   "id": "staticGateway",
+   "kind": "text",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "secret": false
+  },
+  {
+   "page": "info",
+   "pageTitle": "本体情報とネットワーク",
+   "section": "ネットワーク",
+   "label": "プライマリDNS",
+   "id": "staticPrimaryDNS",
+   "kind": "text",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "secret": false
+  },
+  {
+   "page": "info",
+   "pageTitle": "本体情報とネットワーク",
+   "section": "ネットワーク",
+   "label": "セカンダリDNS",
+   "id": "staticSecondaryDNS",
+   "kind": "text",
+   "idx": false,
+   "unverified": false,
+   "restarts": false,
+   "models": [
+    "OMNI_12_ISO",
+    "DUET_8_ISO",
+    "DECK_PLUS",
+    "DUET",
+    "DECK"
+   ],
+   "secret": false
+  }
+ ]
+}

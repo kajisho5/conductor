@@ -186,12 +186,93 @@ presets += [
      'action': {'definitionId': 'record_stop', 'options': {}}},
 ]
 
+# ---------------------------------------------------------------- メニューの項目（cutline の pages.ts から書き出した data/osee_menu.json）
+# 公式ソフトの画面定義（QML）・説明書・Companion モジュールが根拠（cutline の docs/OFFICIAL_SOFTWARE_PARITY.md）。
+# 上で作った動作と同じ命令 id は足さない。作り直しは extract_osee_menu.mts（npx tsx）→ このスクリプト。
+MENU = json.loads((Path(__file__).resolve().parent / 'data' / 'osee_menu.json').read_text(encoding='utf-8'))['items']
+MODEL_NAMES = {'OMNI_12_ISO': 'Omni 12 ISO', 'DUET_8_ISO': 'Duet 8 ISO', 'DECK_PLUS': 'Deck Plus', 'DUET': 'Duet', 'DECK': 'Deck'}
+ALL_MODELS = set(MODEL_NAMES)
+
+
+def used_ids():
+    out = set()
+    for a in actions:
+        for part in a['send']['data'].split('\\n'):
+            if '"id":"' in part:
+                out.add(part.split('"id":"', 1)[1].split('"', 1)[0])
+    return out
+
+
+def lit(v):
+    return json.dumps(v, ensure_ascii=False, separators=(',', ':'))
+
+
+def menu_actions():
+    covered = used_ids()
+    made = []
+    seen_ids = {}
+    for it in MENU:
+        if it['id'] in covered:
+            continue
+        opts = []
+        lead = []
+        if it.get('idx') and it.get('indexValues'):
+            iv = it['indexValues']
+            opts.append(sel('index', '対象', [(lit(x['value']), str(x['label'])) for x in iv], lit(iv[0]['value'])))
+            lead.append('{{option.index}}')
+        lead += [lit(x) for x in it.get('prefix') or []]
+        tail = [lit(x) for x in it.get('suffix') or []]
+        kind = it['kind']
+        if kind == 'number':
+            lo, hi = it['min'], it['max']
+            unit = it.get('unit') or ''
+            label = it['label'] + (f'（{lo}–{hi}{unit}）' if unit else f'（{lo}–{hi}）')
+            default = 0 if lo <= 0 <= hi else lo
+            opts.append(num('v', label, default, lo, hi))
+            scale = it.get('scale')
+            val = [f'{{{{option.v|lin:{scale}:0}}}}' if scale else '{{option.v}}']
+        elif kind == 'select':
+            ch = [(lit(o['value']), str(o['label'])) for o in it['options']]
+            opts.append(sel('v', it['label'], ch, ch[0][0]))
+            val = ['{{option.v}}']
+        elif kind == 'toggle':
+            opts.append(sel('v', it['label'], [(lit(it['on']), 'ON'), (lit(it['off']), 'OFF')]))
+            val = ['{{option.v}}']
+        elif kind == 'text':
+            f = {'id': 'v', 'label': it['label'], 'type': 'text', 'default': '', 'pattern': '^[^"\\\\]*$'}
+            if it.get('maxLength'):
+                f['help'] = f'{it["maxLength"]} 文字まで。" と \\ は使えません'
+            opts.append(f)
+            val = ['"{{option.v}}"']
+        elif kind == 'action':
+            val = [lit(x) for x in it.get('value') or []]
+        else:
+            continue
+        values = lead + val + tail
+        line = f'{{"id":"{it["id"]}","type":"set"' + (f',"value":[{",".join(values)}]' if values else '') + '}'
+        name = f'{it["pageTitle"]}：' + (f'{it["section"]}・' if it.get('section') and it['section'] != it['label'] else '') + it['label']
+        if it.get('unverified'):
+            name += '【未確認】'
+        if it.get('restarts'):
+            name += '（本体が再起動）'
+        if set(it['models']) != ALL_MODELS:
+            name += '（' + '・'.join(MODEL_NAMES[m] for m in it['models']) + '）'
+        base_id = 'm_' + it['id']
+        n = seen_ids.get(base_id, 0)
+        seen_ids[base_id] = n + 1
+        aid = base_id if n == 0 else f'{base_id}_{n + 1}'
+        made.append(action(aid, name, opts, line, summary=it['label'] + (' {{option.v}}' if kind != 'action' else '')))
+    return made
+
+
+actions[-1:-1] = menu_actions()
+
 definition = {
     'format': 1,
     'id': 'osee-gostream',
     'name': 'OSEE GoStream シリーズ（Deck / Duet / Duet 8 ISO / Omni 12 ISO）',
     'category': '映像スイッチャー',
-    'version': '1.0.0',
+    'version': '1.1.0',
     'minAppVersion': '0.6.0',
     'transport': 'tcp',
     'session': 'osee',
@@ -211,6 +292,9 @@ definition = {
         {'title': '命令の id と値の形（pgmIndex・cutTransition・keyOnAir など）', 'status': '推測',
          'note': 'オーナーの別アプリ kajisho5/osee_control_software（同じ OSS と各機種の説明書が根拠。Duet 8 ISO の実機で使用）の実装から写した。'
                  'KEY は true / false、DSK は 1 / 0（cutline と同じ）。機器の画面の「最近のログ」（詳細）で送受信を確かめる'},
+        {'title': 'メニューの項目（スイッチャー・マルチソース・キー・DSK・オートスイッチング・音声・プレーヤー・収録・配信・入出力など）', 'status': '推測',
+         'note': 'cutline のメニュー定義（公式 PC ソフト GoStream Control v2.0.0 / Omni Software Control v1.0.3 の画面定義の解析・説明書・Companion モジュール）から作った。'
+                 '【未確認】の付いた項目は値の形を実機で確かめていない'},
         {'title': 'PTZ・スチルを撮る は Omni 12 ISO のみ。FTB は Duet 8 ISO ではファームウェア 2.1.0 以降', 'status': '推測',
          'note': 'cutline の deviceProfiles と説明書'},
     ],
