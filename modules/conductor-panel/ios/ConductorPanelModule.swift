@@ -200,6 +200,8 @@ final class PanelDevice {
   private var retainedSelf: Unmanaged<PanelDevice>?
 
   var id = ""
+  var serial = ""
+  var productId = 0
   var product = ""
   var keyCount = 0
   var rows = 0
@@ -219,6 +221,8 @@ final class PanelDevice {
   var summary: [String: Any] {
     return [
       "id": id,
+      "serial": serial,
+      "productId": productId,
       "product": product,
       "keyCount": keyCount,
       "rows": rows,
@@ -283,8 +287,9 @@ final class PanelDevice {
     guard let info = getStruct(SDExternalMethod_getDeviceInfo, SDDeviceInfo.self),
           let caps = getStruct(SDExternalMethod_getDeviceCapabilities, SDDeviceCapabilities.self)
     else { return false }
-    let serial = PanelDevice.string(info.serialNumber)
+    serial = PanelDevice.string(info.serialNumber)
     id = serial.isEmpty ? "panel-\(service)" : serial
+    productId = Int(info.productID)
     product = PanelDevice.string(info.product)
     keyCount = Int(caps.keyCount)
     rows = Int(caps.keyRows)

@@ -37,7 +37,7 @@ export default function SettingsScreen() {
   const show = useShowStore((s) => s.show);
   const compact = useSizeClass() === 'compact';
   const panelSupported = usePanelStore((s) => s.supported);
-  const panelCount = usePanelStore((s) => s.panels.length);
+  const panelCount = usePanelStore((s) => Object.keys(s.bindings).length);
   if (!show) return null;
   const st = show.settings;
   const set = (patch: Partial<ShowSettings>) => useShowStore.getState().updateSettings(patch);
@@ -116,7 +116,7 @@ export default function SettingsScreen() {
             value={panelCount > 0 ? '接続中' : 'つながっていません'}
             chevron
             last
-            onPress={() => router.push('/settings/usb-panel')}
+            onPress={() => router.push('/settings/stream-deck')}
           />
         </Section>
       ) : null}

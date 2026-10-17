@@ -7,6 +7,10 @@ import { requireOptionalNativeModule, type EventSubscription, type NativeModule 
 
 export interface PanelInfo {
   id: string;
+  /** シリアル番号（読めなければ ''） */
+  serial: string;
+  /** 製品番号（USB の idProduct。機種を決める） */
+  productId: number;
   /** 機種名（ドライバが返す名前） */
   product: string;
   keyCount: number;

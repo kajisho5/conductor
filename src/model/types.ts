@@ -150,12 +150,22 @@ export interface ShowSettings {
   keepAwake: 'showModeOnly' | 'always';
   /** 本番でボタンの上からもスワイプで切替（SPEC 3.5、既定 false） */
   showModeSwipe: boolean;
-  /** Stream Deck（SPEC 2.5、iPad のみ）。無ければ既定（src/engine/panel.ts の DEFAULT_USB_PANEL） */
-  usbPanel?: UsbPanelSettings;
+  /** 登録した Stream Deck（SPEC 2.5.1、iPad のみ）。無ければ空 */
+  streamDecks?: StreamDeckEntry[];
+  /** ボタン画面（編集中）でも Stream Deck のキーで押せる（既定 true） */
+  streamDeckEditPress?: boolean;
 }
 
-/** Stream Deckの設定（SPEC 2.5） */
-export interface UsbPanelSettings {
+/** Stream Deck の機種（src/model/streamDeck.ts の表） */
+export type StreamDeckModelId = 'mini' | 'mk2' | 'neo' | 'plus' | 'xl' | 'plusxl' | 'pedal';
+
+/** 登録した Stream Deck 1 台（SPEC 2.5.1） */
+export interface StreamDeckEntry {
+  id: string;
+  name: string;
+  model: StreamDeckModelId;
+  /** 初めてつないだ時に覚えるシリアル番号 */
+  serial?: string;
   /** 'follow' = iPad と同じページ、数字 = 決まったページ */
   page: 'follow' | number;
   /** 盤の何行目・何列目から出すか（1 始まり） */
@@ -163,8 +173,6 @@ export interface UsbPanelSettings {
   col: number;
   /** 明るさ 0–100 */
   brightness: number;
-  /** ボタン画面（編集中）でもキーで押せる */
-  editPress: boolean;
 }
 
 export interface Show {

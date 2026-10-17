@@ -9,7 +9,9 @@ export default function Layout() {
       <Stack.Screen name="logs" options={{ title: 'ログ' }} />
       <Stack.Screen name="shows" options={{ title: 'ショー' }} />
       <Stack.Screen name="licenses" options={{ title: 'ライセンス' }} />
-      <Stack.Screen name="usb-panel" options={{ title: 'Stream Deck' }} />
+      <Stack.Screen name="stream-deck" options={{ title: 'Stream Deck' }} />
+      <Stack.Screen name="stream-deck-item" options={{ title: 'Stream Deck' }} />
+      <Stack.Screen name="stream-deck-model" options={{ presentation: 'formSheet', title: '機種を選ぶ', headerShown: true }} />
     </Stack>
   );
 }

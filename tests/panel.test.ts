@@ -1,28 +1,49 @@
 import type { ConductorPanel, ConductorPanelEvents, PanelInfo, PanelKey } from '../modules/conductor-panel/src';
 import { newButton, newPage, newShow } from '@/model/defaults';
 import { cellKey } from '@/model/grid';
-import type { Show } from '@/model/types';
+import type { Show, StreamDeckEntry } from '@/model/types';
+import {
+  addStreamDeck,
+  bindPanels,
+  changeStreamDeckModel,
+  modelForPanel,
+  newStreamDeck,
+  removeStreamDeck,
+  STREAM_DECK_MODELS,
+  streamDeckModel,
+  streamDecks,
+} from '@/model/streamDeck';
 import {
   buildKeys,
   buttonForKey,
   canPressFromPanel,
-  DEFAULT_USB_PANEL,
   keyCell,
   keyFontSize,
   keyState,
   panelPageNumber,
   PanelController,
   SENT_FLASH_MS,
-  usbPanelSettings,
   usePanelStore,
   type KeyInputs,
+  type PanelLayout,
 } from '@/engine/panel';
 import { isPressing } from '@/engine/press';
 import { useRuntimeStore } from '@/stores/runtime';
 import { useShowStore } from '@/stores/show';
 import { useUiStore } from '@/stores/ui';
 
-const PANEL: PanelInfo = { id: 'DEMO-PANEL-1', product: 'DEMO-PANEL', keyCount: 15, rows: 3, columns: 5, keyWidth: 72, keyHeight: 72 };
+const PANEL: PanelInfo = {
+  id: 'DEMO-SERIAL-1',
+  serial: 'DEMO-SERIAL-1',
+  productId: 0x0080,
+  product: 'DEMO-PANEL',
+  keyCount: 15,
+  rows: 3,
+  columns: 5,
+  keyWidth: 72,
+  keyHeight: 72,
+};
+const LAYOUT: PanelLayout = { page: 'follow', row: 1, col: 1, brightness: 70 };
 
 function showWithButtons(): Show {
   const s = newShow('DEMO');
@@ -67,29 +88,89 @@ describe('Stream Deck：キーとマスの対応（SPEC 2.5）', () => {
 
   test('ページ：iPad と同じ／決まったページ（消えたら iPad と同じ）', () => {
     const s = showWithButtons();
-    expect(panelPageNumber(s, { ...DEFAULT_USB_PANEL }, 1)).toBe(1);
-    expect(panelPageNumber(s, { ...DEFAULT_USB_PANEL, page: 2 }, 1)).toBe(2);
-    expect(panelPageNumber(s, { ...DEFAULT_USB_PANEL, page: 9 }, 1)).toBe(1);
+    expect(panelPageNumber(s, LAYOUT, 1)).toBe(1);
+    expect(panelPageNumber(s, { ...LAYOUT, page: 2 }, 1)).toBe(2);
+    expect(panelPageNumber(s, { ...LAYOUT, page: 9 }, 1)).toBe(1);
+  });
+});
+
+describe('Stream Deck：機種と登録（SPEC 2.5.1）', () => {
+  test('機種の表', () => {
+    expect(STREAM_DECK_MODELS.map((m) => [m.id, m.keys, m.columns, m.rows])).toEqual([
+      ['mini', 6, 3, 2],
+      ['mk2', 15, 5, 3],
+      ['neo', 8, 4, 2],
+      ['plus', 8, 4, 2],
+      ['xl', 32, 8, 4],
+      ['plusxl', 36, 9, 4],
+      ['pedal', 3, 3, 1],
+    ]);
+    for (const m of STREAM_DECK_MODELS) expect(m.keys).toBe(m.columns * m.rows);
   });
 
-  test('設定が無いショーは既定値', () => {
-    const s = newShow('DEMO');
-    expect(usbPanelSettings(s)).toEqual(DEFAULT_USB_PANEL);
-    s.settings.usbPanel = { ...DEFAULT_USB_PANEL, brightness: 40 };
-    expect(usbPanelSettings(s).brightness).toBe(40);
+  test('製品番号で機種、無ければ形で（形が同じ機種が 2 つなら決めない）', () => {
+    expect(modelForPanel({ productId: 0x00a5, keyCount: 15, columns: 5, rows: 3 })?.id).toBe('mk2');
+    expect(modelForPanel({ productId: 0x00ba, keyCount: 32, columns: 8, rows: 4 })?.id).toBe('xl');
+    expect(modelForPanel({ productId: 0xffff, keyCount: 6, columns: 3, rows: 2 })?.id).toBe('mini');
+    expect(modelForPanel({ productId: 0xffff, keyCount: 8, columns: 4, rows: 2 })).toBeNull();
+  });
+
+  test('名前・追加・機種変更・削除', () => {
+    let s = newShow('DEMO');
+    expect(streamDecks(s)).toEqual([]);
+    const a = newStreamDeck(s, 'mk2');
+    s = addStreamDeck(s, a);
+    const b = newStreamDeck(s, 'mk2', 'DEMO-SERIAL-9');
+    s = addStreamDeck(s, b);
+    expect(streamDecks(s).map((e) => e.name)).toEqual(['Stream Deck MK.2', 'Stream Deck MK.2 2']);
+    expect(b).toMatchObject({ serial: 'DEMO-SERIAL-9', page: 'follow', row: 1, col: 1, brightness: 70 });
+    s = changeStreamDeckModel(s, b.id, 'xl');
+    expect(streamDecks(s)[1]).toMatchObject({ model: 'xl' });
+    expect(streamDecks(s)[1]!.serial).toBeUndefined();
+    s = removeStreamDeck(s, a.id);
+    expect(streamDecks(s).map((e) => e.id)).toEqual([b.id]);
+    expect(streamDeckModel('pedal').keyPx).toBe(0);
+  });
+
+  test('つないだ機器と登録の結びつけ', () => {
+    const entry = (id: string, model: StreamDeckEntry['model'], serial?: string): StreamDeckEntry => ({
+      id,
+      name: id,
+      model,
+      ...(serial ? { serial } : {}),
+      page: 'follow',
+      row: 1,
+      col: 1,
+      brightness: 70,
+    });
+    const p = (id: string, productId: number, keyCount: number, columns: number, rows: number) => ({ id, serial: id, productId, keyCount, columns, rows });
+    const entries = [entry('E1', 'mk2'), entry('E2', 'mk2', 'S-B'), entry('E3', 'mini')];
+    // シリアルが合うものが先、残りは覚えていない登録へ（シリアルを覚える）
+    const r1 = bindPanels(entries, [p('S-A', 0x0080, 15, 5, 3), p('S-B', 0x0080, 15, 5, 3)]);
+    expect(r1.bound.get('S-B')?.id).toBe('E2');
+    expect(r1.bound.get('S-A')?.id).toBe('E1');
+    expect(r1.learn.get('E1')).toBe('S-A');
+    expect(r1.unregistered).toEqual([]);
+    // 登録していない機種・登録と違う機種
+    const r2 = bindPanels(entries, [p('S-X', 0x006c, 32, 8, 4)]);
+    expect(r2.bound.size).toBe(0);
+    expect(r2.unregistered.map((u) => u.id)).toEqual(['S-X']);
+    // 同じ機種がもう 1 台（空きの登録なし）
+    const r3 = bindPanels([entry('E2', 'mk2', 'S-B')], [p('S-C', 0x0080, 15, 5, 3)]);
+    expect(r3.unregistered.map((u) => u.id)).toEqual(['S-C']);
   });
 });
 
 describe('Stream Deck：キーの表示', () => {
   test('文字・色・変数・空きマス', () => {
     const s = showWithButtons();
-    const keys = buildKeys(PANEL, DEFAULT_USB_PANEL, inputs(s));
+    const keys = buildKeys(PANEL, LAYOUT, inputs(s));
     expect(keys).toHaveLength(15);
     expect(keys[0]).toMatchObject({ text: 'CAM 1', backgroundColor: '#FFD60A', textColor: '#000000', empty: false, fontSize: 0 });
     expect(keys[7]).toMatchObject({ text: '1', backgroundColor: '#0A84FF', fontSize: keyFontSize('large', 72) });
     expect(keys[1]).toMatchObject({ empty: true });
     // 決まったページ
-    const p2 = buildKeys(PANEL, { ...DEFAULT_USB_PANEL, page: 2 }, inputs(s));
+    const p2 = buildKeys(PANEL, { ...LAYOUT, page: 2 }, inputs(s));
     expect(p2[0]).toMatchObject({ text: 'P2' });
     expect(p2[7]).toMatchObject({ empty: true });
   });
@@ -106,12 +187,12 @@ describe('Stream Deck：キーの表示', () => {
 
   test('キーからボタン、押せるか', () => {
     const s = showWithButtons();
-    expect(buttonForKey(s, PANEL, DEFAULT_USB_PANEL, 1, 0)?.name).toBe('A');
-    expect(buttonForKey(s, PANEL, DEFAULT_USB_PANEL, 2, 0)?.name).toBe('D');
-    expect(buttonForKey(s, PANEL, DEFAULT_USB_PANEL, 1, 1)).toBeUndefined();
-    expect(canPressFromPanel({ ...DEFAULT_USB_PANEL, editPress: false }, false)).toBe(false);
-    expect(canPressFromPanel({ ...DEFAULT_USB_PANEL, editPress: false }, true)).toBe(true);
-    expect(canPressFromPanel(DEFAULT_USB_PANEL, false)).toBe(true);
+    expect(buttonForKey(s, PANEL, LAYOUT, 1, 0)?.name).toBe('A');
+    expect(buttonForKey(s, PANEL, LAYOUT, 2, 0)?.name).toBe('D');
+    expect(buttonForKey(s, PANEL, LAYOUT, 1, 1)).toBeUndefined();
+    expect(canPressFromPanel(false, false)).toBe(false);
+    expect(canPressFromPanel(false, true)).toBe(true);
+    expect(canPressFromPanel(true, false)).toBe(true);
   });
 });
 
@@ -154,8 +235,35 @@ describe('Stream Deck：制御', () => {
     jest.useRealTimers();
   });
 
-  test('つないだら描き、キーで押して離す。編集中も押せるがオフなら本番だけ', async () => {
+  test('登録していない機器は黒、登録すると描く', () => {
     const show = showWithButtons();
+    useShowStore.getState().setShow(show);
+    useRuntimeStore.getState().setPageNumber(1);
+    const fake = new FakePanel();
+    const ctl = new PanelController(() => fake);
+    ctl.start();
+    fake.emit('onPanelsChanged', { panels: [PANEL] });
+    jest.advanceTimersByTime(30);
+    expect(usePanelStore.getState().unregistered.map((p) => p.id)).toEqual([PANEL.id]);
+    expect(fake.sent.at(-1)!.keys.every((k) => k.empty)).toBe(true);
+    expect(fake.brightness).toEqual([]);
+    // キーを押しても何もしない
+    fake.emit('onKey', { id: PANEL.id, index: 0, pressed: true });
+    expect(isPressing(show.pages[0]!.buttons[cellKey(0, 0)]!.id)).toBe(false);
+    fake.emit('onKey', { id: PANEL.id, index: 0, pressed: false });
+    // 登録 → 結びつき、シリアルを覚えて描く
+    const cur = useShowStore.getState().show!;
+    useShowStore.getState().mutateShow((s) => addStreamDeck(s, newStreamDeck(cur, 'mk2')));
+    jest.advanceTimersByTime(30);
+    expect(usePanelStore.getState().unregistered).toEqual([]);
+    expect(streamDecks(useShowStore.getState().show!)[0]!.serial).toBe(PANEL.serial);
+    expect(fake.sent.at(-1)!.keys[0]!.text).toBe('CAM 1');
+    ctl.stop();
+  });
+
+  test('つないだら描き、キーで押して離す。編集中も押せるがオフなら本番だけ', async () => {
+    const base = showWithButtons();
+    const show = addStreamDeck(base, newStreamDeck(base, 'mk2'));
     useShowStore.getState().setShow(show);
     useRuntimeStore.getState().setPageNumber(1);
     useUiStore.getState().setInShowMode(false);
@@ -190,7 +298,7 @@ describe('Stream Deck：制御', () => {
     await Promise.resolve();
 
     // 「編集中も押せる」オフ：編集中は押せない、本番では押せる
-    useShowStore.getState().updateSettings({ usbPanel: { ...DEFAULT_USB_PANEL, editPress: false } });
+    useShowStore.getState().updateSettings({ streamDeckEditPress: false });
     fake.emit('onKey', { id: PANEL.id, index: 0, pressed: true });
     expect(isPressing(a.id)).toBe(false);
     useUiStore.getState().setInShowMode(true);
