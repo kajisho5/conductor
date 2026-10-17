@@ -106,7 +106,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				5A62879F15704EBCA00655FA /* [Expo Dev Launcher] Strip Local Network Keys for Release */,
+				BC23126173DF4D8BA52986BD /* [Expo Dev Launcher] Strip Local Network Keys for Release */,
 			);
 			buildRules = (
 			);
@@ -223,7 +223,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-conductor/Pods-conductor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5A62879F15704EBCA00655FA /* [Expo Dev Launcher] Strip Local Network Keys for Release */ = {
+		BC23126173DF4D8BA52986BD /* [Expo Dev Launcher] Strip Local Network Keys for Release */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

@@ -14,7 +14,7 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 ## 決まっていること（オーナー合意）
 - 作る：ボタン（ページ・ボタン編集・プリセット）／本番画面／機器／トリガー／変数（自分で作る・式・内部・機器）／画像／設定（書き出し・読み込み、ログ、グリッド、スリープ防止）
 - 作らない：Remote、Protocols（外部から操作される API）、Modules 画面、Action Recorder、日の出/日の入りイベント、HTTPS、利用統計
-- 物理ボタン盤の代わりに iPhone / iPad の画面そのものにボタンを並べる。加えて iPad（M1 以降・USB-C）では USB ボタン盤のキーにもボタンを出す（2026-10-17 オーナー指示、SPEC 2.5。デザイン確認待ち）
+- 物理ボタン盤の代わりに iPhone / iPad の画面そのものにボタンを並べる。加えて iPad（M1 以降・USB-C）では USB ボタン盤のキーにもボタンを出す（2026-10-17 オーナー指示・承認済、SPEC 2.5。`modules/conductor-panel` ＋ `src/engine/panel.ts`。実機未確認）
 - ボタンを押したことが一目で分かる表現にする（押下中・送信成功・失敗の区別）
 - ドライバは JSON の定義として GitHub / Cloudflare から更新できるようにする。コード（JS・Swift）は配らない（SPEC 7.1）
 
@@ -51,7 +51,7 @@ kajisho5/crosspoint とは完全に別アプリ（コードの流用は可、依
 - `python3 scripts/licenses/build_licenses.py` — ライセンス一覧（依存を変えたら作り直す）
 - `node scripts/drivers/bundle_remote.mjs ../conductor-drivers` — 配信の定義をアプリに同梱し直す（src/drivers/remote-bundle/。手で直さない）
 - バージョンや app.config.ts を変えたら `npx expo prebuild --platform ios --no-install`（tests/config.test.ts が食い違いを検出）
-- Linux では Swift（`modules/conductor-net/ios`）をコンパイルできない。CI の macOS ジョブ（シミュレータビルド）で確認する
+- Linux では Swift（`modules/*/ios`）をコンパイルできない。CI の macOS ジョブ（シミュレータビルド）で確認する
 
 ## 返答
 - 日本語で短く、結論から

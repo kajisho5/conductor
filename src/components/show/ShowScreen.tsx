@@ -54,11 +54,13 @@ export function ShowScreen({ show, onClose }: { show: Show; onClose: () => void 
 
   useEffect(() => {
     activateKeepAwakeAsync(KEEP_AWAKE_TAG).catch(() => undefined);
+    useUiStore.getState().setInShowMode(true);
     const sub = AppState.addEventListener('change', (s) => {
       if (s !== 'active') releaseAll(show);
     });
     return () => {
       sub.remove();
+      useUiStore.getState().setInShowMode(false);
       releaseAll(show);
       deactivateKeepAwake(KEEP_AWAKE_TAG).catch(() => undefined);
     };

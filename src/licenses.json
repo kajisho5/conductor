@@ -180,6 +180,13 @@
     "use": "アプリに入っている"
   },
   {
+    "name": "streamdeck-kit-ipad（StreamDeckDriverShared.h）",
+    "version": "",
+    "license": "MIT",
+    "use": "アプリに入っている",
+    "notice": "Copyright (c) 2023 Corsair Memory Inc.（USB ボタン盤のドライバとやりとりする定義）"
+  },
+  {
     "name": "atem-connection",
     "version": "3.10.3",
     "license": "MIT",

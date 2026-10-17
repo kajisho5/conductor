@@ -13,6 +13,7 @@ import { Segmented } from '@/components/ui/Segmented';
 import { LocalAddressesSection } from '@/components/devices/LocalAddresses';
 import { DriversSection } from '@/components/devices/DriversSection';
 import { exportAndShare, pickAndImport } from '@/storage/session';
+import { usePanelStore } from '@/engine/panel';
 
 /** 設定（SPEC 2.1-7）。M1：ショー名、ボタン（グリッド・帯・状態アイコン）、本番、画像（compact）、このアプリについて */
 
@@ -35,6 +36,8 @@ const AWAKE_ITEMS = [
 export default function SettingsScreen() {
   const show = useShowStore((s) => s.show);
   const compact = useSizeClass() === 'compact';
+  const panelSupported = usePanelStore((s) => s.supported);
+  const panelCount = usePanelStore((s) => s.panels.length);
   if (!show) return null;
   const st = show.settings;
   const set = (patch: Partial<ShowSettings>) => useShowStore.getState().updateSettings(patch);
@@ -104,6 +107,19 @@ export default function SettingsScreen() {
           last
         />
       </Section>
+
+      {panelSupported ? (
+        <Section>
+          <Row
+            title="USB ボタン盤"
+            icon="keyboard"
+            value={panelCount > 0 ? '接続中' : 'つながっていません'}
+            chevron
+            last
+            onPress={() => router.push('/settings/usb-panel')}
+          />
+        </Section>
+      ) : null}
 
       <Section>
         {compact ? <Row title="画像" icon="photo.on.rectangle" chevron onPress={() => router.push('/settings/images')} /> : null}

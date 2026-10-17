@@ -1,0 +1,9 @@
+{
+  "name": "conductor-panel",
+  "version": "0.1.0",
+  "description": "conductor — USB button panel (iPad, via the maker's DriverKit driver) for Expo (iOS only)",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "author": "SEVENTHWELL",
+  "private": true
+}

@@ -12,9 +12,15 @@ export default function LicensesScreen() {
   const refs = licenses.filter((l) => l.use !== 'アプリに入っている');
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={{ padding: 16, paddingBottom: 48 }}>
-      <Section title="アプリに入っているもの">
+      <Section title="アプリに入っているもの" footer={MIT_TEXT}>
         {inApp.map((l, i) => (
-          <Row key={l.name} title={l.name} subtitle={l.version} value={l.license} last={i === inApp.length - 1} />
+          <Row
+            key={l.name}
+            title={l.name}
+            subtitle={'notice' in l && l.notice ? l.notice : l.version}
+            value={l.license}
+            last={i === inApp.length - 1}
+          />
         ))}
       </Section>
       <Section title="仕様の参考にしたもの">

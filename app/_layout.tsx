@@ -12,6 +12,7 @@ import { log } from '@/stores/log';
 import { startAutosave, startStateAutosave, saveNow } from '@/storage/autosave';
 import { loadInitialShow, loadState } from '@/storage/showFile';
 import { triggerEngine } from '@/engine/triggers';
+import { panelController } from '@/engine/panel';
 import { useRuntimeStore } from '@/stores/runtime';
 import { useUiStore } from '@/stores/ui';
 import { importFromUri } from '@/storage/session';
@@ -39,6 +40,8 @@ function useBootstrap(): string | null {
       useRuntimeStore.getState().setCustomValues(loadState(show.id));
       initDevices(show);
       triggerEngine.start(show);
+      // USB ボタン盤（iPad のみ。SPEC 2.5）
+      panelController.start();
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
       return undefined;
@@ -64,6 +67,7 @@ function useBootstrap(): string | null {
       stopState();
       deviceManager.stopAll();
       triggerEngine.stop();
+      panelController.stop();
     };
   }, []);
   return error;

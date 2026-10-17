@@ -150,6 +150,21 @@ export interface ShowSettings {
   keepAwake: 'showModeOnly' | 'always';
   /** 本番でボタンの上からもスワイプで切替（SPEC 3.5、既定 false） */
   showModeSwipe: boolean;
+  /** USB ボタン盤（SPEC 2.5、iPad のみ）。無ければ既定（src/engine/panel.ts の DEFAULT_USB_PANEL） */
+  usbPanel?: UsbPanelSettings;
+}
+
+/** USB ボタン盤の設定（SPEC 2.5） */
+export interface UsbPanelSettings {
+  /** 'follow' = iPad と同じページ、数字 = 決まったページ */
+  page: 'follow' | number;
+  /** 盤の何行目・何列目から出すか（1 始まり） */
+  row: number;
+  col: number;
+  /** 明るさ 0–100 */
+  brightness: number;
+  /** ボタン画面（編集中）でもキーで押せる */
+  editPress: boolean;
 }
 
 export interface Show {

@@ -45,6 +45,12 @@ const config: ExpoConfig = {
         },
       ],
       LSSupportsOpeningDocumentsInPlace: false,
+      // USB ボタン盤：メーカーの接続アプリが入っているかを確かめる（SPEC 2.5）
+      LSApplicationQueriesSchemes: ['elgato-device-driver'],
+    },
+    // USB ボタン盤のドライバと通信する（SPEC 2.5。App ID で「Communicates with Drivers」を有効にする必要あり）
+    entitlements: {
+      'com.apple.developer.driverkit.communicates-with-drivers': true,
     },
   },
   plugins: [

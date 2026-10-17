@@ -16,6 +16,14 @@ for name in sorted(pkg['dependencies']):
     d = json.loads(p.read_text())
     lic = d.get('license') or (d.get('licenses') or [{}])[0].get('type') or '不明'
     out.append({'name': name, 'version': d.get('version', ''), 'license': lic, 'use': 'アプリに入っている'})
+# アプリに入れた公開 OSS のコード（npm 以外）
+out.append({
+    'name': 'streamdeck-kit-ipad（StreamDeckDriverShared.h）',
+    'version': '',
+    'license': 'MIT',
+    'use': 'アプリに入っている',
+    'notice': 'Copyright (c) 2023 Corsair Memory Inc.（USB ボタン盤のドライバとやりとりする定義）',
+})
 # 仕様の参考にしたもの（コードは入れていない）
 out.append({'name': 'atem-connection', 'version': '3.10.3', 'license': 'MIT', 'use': 'ATEM の通信手順の参考（コードは入れていない）'})
 (ROOT / 'src' / 'licenses.json').write_text(json.dumps(out, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')

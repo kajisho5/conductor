@@ -26,6 +26,8 @@ interface UiState {
   presetDeviceId: string | null;
   /** compact の編集シートを開く直前のショー（［キャンセル］でここへ戻す） */
   sheetSnapshot: Show | null;
+  /** 本番画面を表示中（USB ボタン盤の「編集中も押せる」の判断に使う） */
+  inShowMode: boolean;
 
   select: (ref: CellRef | null) => void;
   setSegment: (s: InspectorSegment) => void;
@@ -37,6 +39,7 @@ interface UiState {
   pickPreset: (p: { deviceId: string; presetId: string } | null) => void;
   setPresetDevice: (id: string | null) => void;
   setPendingImport: (uri: string | null) => void;
+  setInShowMode: (v: boolean) => void;
 }
 
 export const useUiStore = create<UiState>((set) => ({
@@ -49,6 +52,7 @@ export const useUiStore = create<UiState>((set) => ({
   pendingPreset: null,
   presetDeviceId: null,
   pendingImport: null,
+  inShowMode: false,
 
   select: (ref) => set({ selected: ref }),
   setSegment: (segment) => set({ segment }),
@@ -60,6 +64,7 @@ export const useUiStore = create<UiState>((set) => ({
   pickPreset: (pendingPreset) => set({ pendingPreset, pending: null }),
   setPresetDevice: (presetDeviceId) => set({ presetDeviceId }),
   setPendingImport: (pendingImport) => set({ pendingImport }),
+  setInShowMode: (inShowMode) => set({ inShowMode }),
 }));
 
 export const OP_LABEL: Record<CellOp, string> = {

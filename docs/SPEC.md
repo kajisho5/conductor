@@ -79,7 +79,7 @@
 
 ~~外部コントローラ（USB ボタン盤・Stream Deck 等）~~ → 2026-10-17 オーナー指示で iPad の USB ボタン盤だけ作る（2.5）。Remote（ネットワーク越しのボタン盤）、Protocols（外部から操作を受ける TCP/UDP/HTTP/OSC/RossTalk/Ember+/Art-Net/Satellite API）、Modules 画面、Action Recorder、日の出・日の入り／PC のロックのきっかけ、HTTPS、利用統計。
 
-### 2.5 USB ボタン盤（iPad・オーナー指示 2026-10-17、確認待ち）
+### 2.5 USB ボタン盤（iPad・オーナー指示 2026-10-17、承認済・実装 0.6.0）
 
 - **何をするか**：USB-C でつないだボタン盤（メーカー製の物理キー）のキーに、iPad のボタンの一部をそのまま出す。キーを押すと、そのボタンを押したのと同じ動き（押した時・離した時・長押し・ステップ）。デザイン `docs/design/12-ipad-usb-panel.svg`
 - **文字・色・画像**：キー専用の編集画面は作らない。いつものボタン編集（見た目タブ）で文字・色・画像を変えると、すぐキーにも出る（オーナー要望「ボタンの文字もアプリから編集」）。変数入りの文字・状態表示・押下表現（押している／送れた／送れなかった）もキーに同じく出す
@@ -88,10 +88,12 @@
 - **使える端末**：M1 以降のチップで USB-C の iPad、iPadOS 16 以降【確認済：メーカーの開発者資料 docs.elgato.com/ipad/getting-started】。それ以外の iPad と iPhone では設定に出さない
 - **準備（利用者）**：メーカーの接続アプリ（App Store）を入れ、iPad の「設定」でドライバをオンにする【確認済：同資料】。アプリは入っているかを URL スキーム `elgato-device-driver://` で確かめ、無ければ App Store を開く行を出す
 - **対象のキー**：キーだけ（第 1 段階）。ダイヤル・タッチ帯・タッチキーは対象外（後で）。キー数は機種から自動
-- **実装**：Expo Modules API の Swift モジュール `modules/conductor-panel`。メーカー公開の StreamDeckKit（MIT）【確認済：github.com/elgatosf/streamdeck-kit-ipad の README】を使い、キーの絵は SwiftUI で描く（文字・背景色・画像・枠）。JS へはキーの押下・離しのイベント、JS からはキーごとの表示内容（文字・色・画像の場所・状態）を送る
+- **実装**：Expo Modules API の Swift モジュール `modules/conductor-panel`。メーカー公開の StreamDeckKit（MIT）【確認済：github.com/elgatosf/streamdeck-kit-ipad】は Swift Package で CocoaPods に入れにくいので、ドライバとやりとりする定義のヘッダ（StreamDeckDriverShared.h、MIT の表示を残して `PanelDriverShared.h`）だけを入れ、IOKit で直接つなぐ（手順は StreamDeckKit と同じ：`IOServiceNameMatching("StreamDeckDriver")` → `IOServiceOpen` → ドライバの版（major 1）→ 機器情報・キー数 → キー押下の購読）。キーの絵は UIKit で描く（背景色・画像・文字・押下の枠・未接続の暗さ）。機器の向きは capabilities の transform をかけ、JPEG（または BMP）で送る。JS へはキーの押下・離しのイベント、JS からはキーごとの表示内容（文字・色・画像の場所・状態）を送る。変わったキーだけ送る
+- **制御（`src/engine/panel.ts`）**：押下表現は 押している（白枠）／送れた（0.35 秒の薄い枠）／送れなかった（橙枠と ⚠、次に送れるまで）。押したキーは離すまで同じボタンを持つ（途中でページが変わっても離す）。アプリが裏に回る・盤を外すと押したままのボタンを離す。時計の変数を使うボタンがある時だけ 1 秒ごとに描き直す
+- **設定の保存**：ショーの設定 `settings.usbPanel`（page 'follow' か番号・row・col（1 始まり）・brightness・editPress）。無い時は既定（iPad と同じ・1 行目 1 列目・70%・オン）
 - **権限**：アプリに「Communicates with Drivers」（`com.apple.developer.driverkit.communicates-with-drivers`）を付ける。Apple Developer の App ID でこの機能を有効にする作業がオーナー側で要る【推測：TestFlight 配布の署名に必要】。`LSApplicationQueriesSchemes` に `elgato-device-driver`
 - **表示の名前**：UI では「USB ボタン盤」「メーカーの接続アプリ」と書き、製品名・メーカー名・ロゴは出さない（名前・素材の決まり）。ライセンス画面には StreamDeckKit（MIT）を載せる
-- **不明・要確認**：StreamDeckKit を Expo のビルド（CocoaPods）に入れる方法（Swift Package のため、prebuild の設定プラグインで追加する予定【推測】）。他社アプリでの利用条件はメーカー資料に書かれていない【不明】→ 実装前にリポジトリの LICENSE（MIT）以外の条件が無いか確認
+- **不明・要確認**：実機（ボタン盤・M1 iPad）での動作は未確認【不明】。ドライバの版が 1 以外なら「対応していません」と出してつながない。他社アプリでの利用条件はメーカー資料に書かれていない【不明】（リポジトリは MIT）
 
 ### 2.3 非機能
 
