@@ -54,3 +54,44 @@ describe('Allen & Heath SQ', () => {
     }
   });
 });
+
+describe('Allen & Heath dLive・Avantis', () => {
+  function send2(defId: string, actionId: string, o: Record<string, string | number> = {}, midich = 1) {
+    const d = getDefinition(defId)!;
+    const a = getActionDef(defId, actionId)!;
+    const p = buildPayload(d, a, { ...withDefaults(a.options, {}), ...o }, { ...withDefaults(d.configFields, {}), midich });
+    if (p.kind !== 'bytes') throw new Error('bytes ではない');
+    return hex(p.bytes);
+  }
+
+  it('ミュート・フェーダー（資料の形と LV の式）', () => {
+    expect(send2('allenheath-dlive', 'mute_input', { n: 1, on: '7F' })).toBe('90 00 7F 90 00 00');
+    expect(send2('allenheath-dlive', 'mute_dca', { n: 1, on: '3F' }, 12)).toBe('9F 36 3F 9F 36 00');
+    expect(send2('allenheath-dlive', 'mute_mg', { n: 8, on: '7F' })).toBe('94 55 7F 94 55 00');
+    expect(send2('allenheath-avantis', 'mute_mg', { n: 1, on: '7F' })).toBe('94 46 7F 94 46 00');
+    expect(send2('allenheath-dlive', 'level_aux', { n: 2, db: 0 })).toBe('B2 63 01 B2 62 17 B2 06 6B');
+    expect(send2('allenheath-dlive', 'level_input', { n: 1, db: 10 }).endsWith('7F')).toBe(true);
+    expect(send2('allenheath-dlive', 'level_input', { n: 1, db: -10 }).endsWith('57')).toBe(true);
+    expect(send2('allenheath-dlive', 'level_input', { n: 1, db: -54 }).endsWith('00')).toBe(true);
+  });
+
+  it('割り当て・送り・シーン・名前', () => {
+    expect(send2('allenheath-dlive', 'dca_input', { n: 1, dca: 24, on: '0' }).endsWith('B0 06 57')).toBe(true);
+    expect(send2('allenheath-dlive', 'dca_input', { n: 1, dca: 1, on: '-64' }).endsWith('B0 06 00')).toBe(true);
+    expect(send2('allenheath-dlive', 'mgrp_input', { n: 1, mg: 1, on: '0' }).endsWith('B0 06 58')).toBe(true);
+    expect(send2('allenheath-avantis', 'mgrp_input', { n: 1, mg: 8, on: '-64' }).endsWith('B0 06 17')).toBe(true);
+    expect(send2('allenheath-dlive', 'main_input', { n: 3, v: '7F' })).toBe('B0 63 02 B0 62 18 B0 06 7F');
+    expect(send2('allenheath-dlive', 'send_saux', { n: 1, d: 1, db: 0 })).toBe('F0 00 00 1A 50 10 01 00 00 0D 00 02 40 6B F7');
+    expect(send2('allenheath-dlive', 'scene', { scene: 500 })).toBe('B0 00 03 C0 73');
+    expect(send2('allenheath-dlive', 'name_input', { n: 1, name: 'VOX' })).toBe('F0 00 00 1A 50 10 01 00 00 03 00 56 4F 58 F7');
+  });
+
+  it('どの動作も既定値で送れる', () => {
+    for (const id of ['allenheath-dlive', 'allenheath-avantis']) {
+      for (const a of getDefinition(id)!.actions) {
+        if (a.id === 'command') continue;
+        expect(send2(id, a.id)).toMatch(/^[9BF][0-9A-F]( [0-9A-F]{2})+$/);
+      }
+    }
+  });
+});

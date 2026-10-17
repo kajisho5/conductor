@@ -500,6 +500,12 @@ export interface DriverInstance {
 - レベルの dB は資料に載っている点（0 / −12 / −20 / −24 dB）だけ。受信（状態表示）はまだ
 - 定義は `scripts/drivers/build_allenheath.py` から作る
 
+### 8.14 Allen & Heath dLive・Avantis（MIDI over TCP・オーナー指示 2026-10-17）
+- 接続：TCP **51325**。チャンネルの種類ごとに MIDI チャンネル（基本 N ＋ 0〜4）と番号が決まっている。ミュートは `9N CH 7F/3F 9N CH 00`、フェーダーは `BN 63 CH BN 62 17 BN 06 LV`（LV = (dB + 54) / 64 × 127）【確認済：「dLive MIDI Over TCP Protocol V1.9」「Avantis MIDI TCP/IP Protocol」】
+- 動作：dLive 91・Avantis 104（種類ごとのミュート・フェーダー・メイン割り当て・DCA / ミュートグループ割り当て・名前・色、入力 → AUX / FX / マトリクスの送りのレベル、入力 → グループ / AUX などの割り当て、シーン 1–500、MIDI をそのまま）
+- 受信（状態表示）はまだ。色名は資料に無いので【推測】
+- 定義は `scripts/drivers/build_allenheath_dlive.py` から作る
+
 ### 8.4 根拠の扱い
 - 各ドライバの `evidence` に資料名・URL・確認日・状態（確認済／推測／不明）を持たせ、機器の「診断」に表示する。
 - 公式アプリや他社ソフトの通信の解析結果も根拠に使ってよい（2026-10-17 オーナー指示）。evidence の note に「〇〇の通信の観測」と出典を書く。

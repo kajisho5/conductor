@@ -1,0 +1,4700 @@
+{
+  "format": 1,
+  "id": "allenheath-avantis",
+  "name": "Allen & Heath Avantis",
+  "category": "音響ミキサー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "tcp",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.1.70",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート",
+      "type": "number",
+      "default": 51325,
+      "min": 1,
+      "max": 65535
+    },
+    {
+      "id": "midich",
+      "label": "MIDI チャンネル（範囲のいちばん下）",
+      "type": "number",
+      "default": 12,
+      "min": 1,
+      "max": 12,
+      "help": "本体の Utility / Control / MIDI で決めた範囲の最初のチャンネル"
+    }
+  ],
+  "actions": [
+    {
+      "id": "mute_input",
+      "name": "入力のミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:143|hexu}} {{option.n|lin:1:-1|hexu|pad2}} {{option.on}} {{config.midich|lin:1:143|hexu}} {{option.n|lin:1:-1|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_input",
+      "name": "入力のフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 17 {{config.midich|lin:1:175|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "main_input",
+      "name": "入力をメインに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 18 {{config.midich|lin:1:175|hexu}} 06 {{option.v}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → メイン {{option.v}}"
+    },
+    {
+      "id": "dca_input",
+      "name": "入力を DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_input",
+      "name": "入力をミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:175|hexu}} 62 40 {{config.midich|lin:1:175|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_input",
+      "name": "入力の名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 03 {{option.n|lin:1:-1|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_input",
+      "name": "入力の色",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 06 {{option.n|lin:1:-1|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_grp",
+      "name": "モノグループのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノグループ（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:144|hexu}} {{option.n|lin:1:-1|hexu|pad2}} {{option.on}} {{config.midich|lin:1:144|hexu}} {{option.n|lin:1:-1|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "モノグループ {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_grp",
+      "name": "モノグループのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノグループ（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:176|hexu}} 62 17 {{config.midich|lin:1:176|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノグループ {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "main_grp",
+      "name": "モノグループをメインに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノグループ（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:176|hexu}} 62 18 {{config.midich|lin:1:176|hexu}} 06 {{option.v}}",
+        "encoding": "hex"
+      },
+      "summary": "モノグループ {{option.n}} → メイン {{option.v}}"
+    },
+    {
+      "id": "dca_grp",
+      "name": "モノグループを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノグループ（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:176|hexu}} 62 40 {{config.midich|lin:1:176|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノグループ {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_grp",
+      "name": "モノグループをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノグループ（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:176|hexu}} 62 40 {{config.midich|lin:1:176|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノグループ {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_grp",
+      "name": "モノグループの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノグループ（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:0|hexu|pad2}} 03 {{option.n|lin:1:-1|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "モノグループ {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_grp",
+      "name": "モノグループの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノグループ（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:0|hexu|pad2}} 06 {{option.n|lin:1:-1|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "モノグループ {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_sgrp",
+      "name": "ステレオグループのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオグループ（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:144|hexu}} {{option.n|lin:1:63|hexu|pad2}} {{option.on}} {{config.midich|lin:1:144|hexu}} {{option.n|lin:1:63|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ステレオグループ {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_sgrp",
+      "name": "ステレオグループのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオグループ（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:176|hexu}} 62 17 {{config.midich|lin:1:176|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオグループ {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "main_sgrp",
+      "name": "ステレオグループをメインに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオグループ（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:176|hexu}} 62 18 {{config.midich|lin:1:176|hexu}} 06 {{option.v}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオグループ {{option.n}} → メイン {{option.v}}"
+    },
+    {
+      "id": "dca_sgrp",
+      "name": "ステレオグループを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオグループ（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:176|hexu}} 62 40 {{config.midich|lin:1:176|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオグループ {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_sgrp",
+      "name": "ステレオグループをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオグループ（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:176|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:176|hexu}} 62 40 {{config.midich|lin:1:176|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオグループ {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_sgrp",
+      "name": "ステレオグループの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオグループ（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:0|hexu|pad2}} 03 {{option.n|lin:1:63|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオグループ {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_sgrp",
+      "name": "ステレオグループの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオグループ（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:0|hexu|pad2}} 06 {{option.n|lin:1:63|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオグループ {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_aux",
+      "name": "モノ AUXのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ AUX（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:145|hexu}} {{option.n|lin:1:-1|hexu|pad2}} {{option.on}} {{config.midich|lin:1:145|hexu}} {{option.n|lin:1:-1|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "モノ AUX {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_aux",
+      "name": "モノ AUXのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ AUX（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:177|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:177|hexu}} 62 17 {{config.midich|lin:1:177|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノ AUX {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "dca_aux",
+      "name": "モノ AUXを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ AUX（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:177|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:177|hexu}} 62 40 {{config.midich|lin:1:177|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノ AUX {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_aux",
+      "name": "モノ AUXをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ AUX（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:177|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:177|hexu}} 62 40 {{config.midich|lin:1:177|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノ AUX {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_aux",
+      "name": "モノ AUXの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ AUX（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:1|hexu|pad2}} 03 {{option.n|lin:1:-1|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "モノ AUX {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_aux",
+      "name": "モノ AUXの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ AUX（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:1|hexu|pad2}} 06 {{option.n|lin:1:-1|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "モノ AUX {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_saux",
+      "name": "ステレオ AUXのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ AUX（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:145|hexu}} {{option.n|lin:1:63|hexu|pad2}} {{option.on}} {{config.midich|lin:1:145|hexu}} {{option.n|lin:1:63|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ AUX {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_saux",
+      "name": "ステレオ AUXのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ AUX（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:177|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:177|hexu}} 62 17 {{config.midich|lin:1:177|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ AUX {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "dca_saux",
+      "name": "ステレオ AUXを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ AUX（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:177|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:177|hexu}} 62 40 {{config.midich|lin:1:177|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ AUX {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_saux",
+      "name": "ステレオ AUXをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ AUX（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:177|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:177|hexu}} 62 40 {{config.midich|lin:1:177|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ AUX {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_saux",
+      "name": "ステレオ AUXの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ AUX（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:1|hexu|pad2}} 03 {{option.n|lin:1:63|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ AUX {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_saux",
+      "name": "ステレオ AUXの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ AUX（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:1|hexu|pad2}} 06 {{option.n|lin:1:63|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ AUX {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_mtx",
+      "name": "モノマトリクスのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノマトリクス（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:146|hexu}} {{option.n|lin:1:-1|hexu|pad2}} {{option.on}} {{config.midich|lin:1:146|hexu}} {{option.n|lin:1:-1|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "モノマトリクス {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_mtx",
+      "name": "モノマトリクスのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノマトリクス（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:178|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:178|hexu}} 62 17 {{config.midich|lin:1:178|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノマトリクス {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "dca_mtx",
+      "name": "モノマトリクスを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノマトリクス（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:178|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:178|hexu}} 62 40 {{config.midich|lin:1:178|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノマトリクス {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_mtx",
+      "name": "モノマトリクスをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノマトリクス（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:178|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:178|hexu}} 62 40 {{config.midich|lin:1:178|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノマトリクス {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_mtx",
+      "name": "モノマトリクスの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノマトリクス（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:2|hexu|pad2}} 03 {{option.n|lin:1:-1|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "モノマトリクス {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_mtx",
+      "name": "モノマトリクスの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノマトリクス（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:2|hexu|pad2}} 06 {{option.n|lin:1:-1|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "モノマトリクス {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_smtx",
+      "name": "ステレオマトリクスのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオマトリクス（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:146|hexu}} {{option.n|lin:1:63|hexu|pad2}} {{option.on}} {{config.midich|lin:1:146|hexu}} {{option.n|lin:1:63|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ステレオマトリクス {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_smtx",
+      "name": "ステレオマトリクスのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオマトリクス（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:178|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:178|hexu}} 62 17 {{config.midich|lin:1:178|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオマトリクス {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "dca_smtx",
+      "name": "ステレオマトリクスを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオマトリクス（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:178|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:178|hexu}} 62 40 {{config.midich|lin:1:178|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオマトリクス {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_smtx",
+      "name": "ステレオマトリクスをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオマトリクス（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:178|hexu}} 63 {{option.n|lin:1:63|hexu|pad2}} {{config.midich|lin:1:178|hexu}} 62 40 {{config.midich|lin:1:178|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオマトリクス {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_smtx",
+      "name": "ステレオマトリクスの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオマトリクス（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:2|hexu|pad2}} 03 {{option.n|lin:1:63|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオマトリクス {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_smtx",
+      "name": "ステレオマトリクスの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオマトリクス（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:2|hexu|pad2}} 06 {{option.n|lin:1:63|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオマトリクス {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_fxs",
+      "name": "モノ FX センドのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:147|hexu}} {{option.n|lin:1:-1|hexu|pad2}} {{option.on}} {{config.midich|lin:1:147|hexu}} {{option.n|lin:1:-1|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "モノ FX センド {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_fxs",
+      "name": "モノ FX センドのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 17 {{config.midich|lin:1:179|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノ FX センド {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "dca_fxs",
+      "name": "モノ FX センドを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノ FX センド {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_fxs",
+      "name": "モノ FX センドをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "モノ FX センド {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_fxs",
+      "name": "モノ FX センドの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 03 {{option.n|lin:1:-1|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "モノ FX センド {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_fxs",
+      "name": "モノ FX センドの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "モノ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 06 {{option.n|lin:1:-1|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "モノ FX センド {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_sfxs",
+      "name": "ステレオ FX センドのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:147|hexu}} {{option.n|lin:1:15|hexu|pad2}} {{option.on}} {{config.midich|lin:1:147|hexu}} {{option.n|lin:1:15|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ FX センド {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_sfxs",
+      "name": "ステレオ FX センドのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:15|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 17 {{config.midich|lin:1:179|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ FX センド {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "dca_sfxs",
+      "name": "ステレオ FX センドを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:15|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ FX センド {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_sfxs",
+      "name": "ステレオ FX センドをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:15|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ FX センド {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_sfxs",
+      "name": "ステレオ FX センドの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 03 {{option.n|lin:1:15|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ FX センド {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_sfxs",
+      "name": "ステレオ FX センドの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 06 {{option.n|lin:1:15|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ FX センド {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_fxr",
+      "name": "FX リターンのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:147|hexu}} {{option.n|lin:1:31|hexu|pad2}} {{option.on}} {{config.midich|lin:1:147|hexu}} {{option.n|lin:1:31|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_fxr",
+      "name": "FX リターンのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 17 {{config.midich|lin:1:179|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "main_fxr",
+      "name": "FX リターンをメインに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 18 {{config.midich|lin:1:179|hexu}} 06 {{option.v}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} → メイン {{option.v}}"
+    },
+    {
+      "id": "dca_fxr",
+      "name": "FX リターンを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_fxr",
+      "name": "FX リターンをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:31|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_fxr",
+      "name": "FX リターンの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 03 {{option.n|lin:1:31|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_fxr",
+      "name": "FX リターンの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "FX リターン（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 06 {{option.n|lin:1:31|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "FX リターン {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_main",
+      "name": "メインのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "メイン（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:147|hexu}} {{option.n|lin:1:47|hexu|pad2}} {{option.on}} {{config.midich|lin:1:147|hexu}} {{option.n|lin:1:47|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "メイン {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_main",
+      "name": "メインのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "メイン（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:47|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 17 {{config.midich|lin:1:179|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "メイン {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "dca_main",
+      "name": "メインを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "メイン（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:47|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "メイン {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_main",
+      "name": "メインをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "メイン（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:47|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "メイン {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_main",
+      "name": "メインの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "メイン（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 03 {{option.n|lin:1:47|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "メイン {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_main",
+      "name": "メインの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "メイン（1–3）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 3
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 06 {{option.n|lin:1:47|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "メイン {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_dca",
+      "name": "DCAのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:147|hexu}} {{option.n|lin:1:53|hexu|pad2}} {{option.on}} {{config.midich|lin:1:147|hexu}} {{option.n|lin:1:53|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_dca",
+      "name": "DCAのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:53|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 17 {{config.midich|lin:1:179|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "name_dca",
+      "name": "DCAの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 03 {{option.n|lin:1:53|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_dca",
+      "name": "DCAの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 06 {{option.n|lin:1:53|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "DCA {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_mg",
+      "name": "ミュートグループのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:147|hexu}} {{option.n|lin:1:69|hexu|pad2}} {{option.on}} {{config.midich|lin:1:147|hexu}} {{option.n|lin:1:69|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ミュートグループ {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "mute_ufxs",
+      "name": "ステレオ UFX センドのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX センド（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:147|hexu}} {{option.n|lin:1:85|hexu|pad2}} {{option.on}} {{config.midich|lin:1:147|hexu}} {{option.n|lin:1:85|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX センド {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_ufxs",
+      "name": "ステレオ UFX センドのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX センド（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:85|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 17 {{config.midich|lin:1:179|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX センド {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "dca_ufxs",
+      "name": "ステレオ UFX センドを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX センド（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:85|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX センド {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_ufxs",
+      "name": "ステレオ UFX センドをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX センド（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:85|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX センド {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_ufxs",
+      "name": "ステレオ UFX センドの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX センド（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 03 {{option.n|lin:1:85|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX センド {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_ufxs",
+      "name": "ステレオ UFX センドの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX センド（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 06 {{option.n|lin:1:85|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX センド {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "mute_ufxr",
+      "name": "ステレオ UFX リターンのミュート",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "ミュートする"
+            },
+            {
+              "id": "3F",
+              "label": "ミュートを外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:147|hexu}} {{option.n|lin:1:93|hexu|pad2}} {{option.on}} {{config.midich|lin:1:147|hexu}} {{option.n|lin:1:93|hexu|pad2}} 00",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX リターン {{option.n}} ミュート {{option.on}}"
+    },
+    {
+      "id": "level_ufxr",
+      "name": "ステレオ UFX リターンのフェーダー",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:93|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 17 {{config.midich|lin:1:179|hexu}} 06 {{option.db|lin:1.984375:107.15625|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX リターン {{option.n}} {{option.db}} dB"
+    },
+    {
+      "id": "main_ufxr",
+      "name": "ステレオ UFX リターンをメインに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:93|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 18 {{config.midich|lin:1:179|hexu}} 06 {{option.v}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX リターン {{option.n}} → メイン {{option.v}}"
+    },
+    {
+      "id": "dca_ufxr",
+      "name": "ステレオ UFX リターンを DCA に割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "dca",
+          "label": "DCA（1–16）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 16
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:93|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.dca|lin:1:63|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX リターン {{option.n}} → DCA {{option.dca}} {{option.on}}"
+    },
+    {
+      "id": "mgrp_ufxr",
+      "name": "ステレオ UFX リターンをミュートグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "mg",
+          "label": "ミュートグループ（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "0",
+          "choices": [
+            {
+              "id": "0",
+              "label": "割り当てる"
+            },
+            {
+              "id": "-64",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:179|hexu}} 63 {{option.n|lin:1:93|hexu|pad2}} {{config.midich|lin:1:179|hexu}} 62 40 {{config.midich|lin:1:179|hexu}} 06 {{option.mg|lin:1:79|plus:on|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX リターン {{option.n}} → ミュートグループ {{option.mg}} {{option.on}}"
+    },
+    {
+      "id": "name_ufxr",
+      "name": "ステレオ UFX リターンの名前",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "name",
+          "label": "名前（英数 8 文字まで）",
+          "type": "text",
+          "default": "DEMO",
+          "pattern": "^[ -~]{1,8}$"
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 03 {{option.n|lin:1:93|hexu|pad2}} {{option.name|hexstr}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX リターン {{option.n}} → {{option.name}}"
+    },
+    {
+      "id": "colour_ufxr",
+      "name": "ステレオ UFX リターンの色",
+      "options": [
+        {
+          "id": "n",
+          "label": "ステレオ UFX リターン（1–8）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 8
+        },
+        {
+          "id": "col",
+          "label": "色",
+          "type": "select",
+          "default": "01",
+          "choices": [
+            {
+              "id": "00",
+              "label": "0（消灯）"
+            },
+            {
+              "id": "01",
+              "label": "1（赤）"
+            },
+            {
+              "id": "02",
+              "label": "2（緑）"
+            },
+            {
+              "id": "03",
+              "label": "3（黄）"
+            },
+            {
+              "id": "04",
+              "label": "4（青）"
+            },
+            {
+              "id": "05",
+              "label": "5（紫）"
+            },
+            {
+              "id": "06",
+              "label": "6（水色）"
+            },
+            {
+              "id": "07",
+              "label": "7（白）"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:3|hexu|pad2}} 06 {{option.n|lin:1:93|hexu|pad2}} {{option.col}} F7",
+        "encoding": "hex"
+      },
+      "summary": "ステレオ UFX リターン {{option.n}} 色 {{option.col}}"
+    },
+    {
+      "id": "send_aux",
+      "name": "入力 → モノ AUXの送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "モノ AUX（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0D {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:1|hexu|pad2}} {{option.d|lin:1:-1|hexu|pad2}} {{option.db|lin:1.984375:107.15625|hexu|pad2}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → モノ AUX {{option.d}} {{option.db}} dB"
+    },
+    {
+      "id": "assign_aux",
+      "name": "入力をモノ AUXに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "モノ AUX（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0E {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:1|hexu|pad2}} {{option.d|lin:1:-1|hexu|pad2}} {{option.v}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → モノ AUX {{option.d}} {{option.v}}"
+    },
+    {
+      "id": "send_saux",
+      "name": "入力 → ステレオ AUXの送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "ステレオ AUX（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0D {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:1|hexu|pad2}} {{option.d|lin:1:63|hexu|pad2}} {{option.db|lin:1.984375:107.15625|hexu|pad2}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → ステレオ AUX {{option.d}} {{option.db}} dB"
+    },
+    {
+      "id": "assign_saux",
+      "name": "入力をステレオ AUXに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "ステレオ AUX（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0E {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:1|hexu|pad2}} {{option.d|lin:1:63|hexu|pad2}} {{option.v}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → ステレオ AUX {{option.d}} {{option.v}}"
+    },
+    {
+      "id": "send_fxs",
+      "name": "入力 → モノ FX センドの送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "モノ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0D {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:3|hexu|pad2}} {{option.d|lin:1:-1|hexu|pad2}} {{option.db|lin:1.984375:107.15625|hexu|pad2}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → モノ FX センド {{option.d}} {{option.db}} dB"
+    },
+    {
+      "id": "assign_fxs",
+      "name": "入力をモノ FX センドに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "モノ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0E {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:3|hexu|pad2}} {{option.d|lin:1:-1|hexu|pad2}} {{option.v}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → モノ FX センド {{option.d}} {{option.v}}"
+    },
+    {
+      "id": "send_sfxs",
+      "name": "入力 → ステレオ FX センドの送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "ステレオ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0D {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:3|hexu|pad2}} {{option.d|lin:1:15|hexu|pad2}} {{option.db|lin:1.984375:107.15625|hexu|pad2}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → ステレオ FX センド {{option.d}} {{option.db}} dB"
+    },
+    {
+      "id": "assign_sfxs",
+      "name": "入力をステレオ FX センドに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "ステレオ FX センド（1–12）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0E {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:3|hexu|pad2}} {{option.d|lin:1:15|hexu|pad2}} {{option.v}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → ステレオ FX センド {{option.d}} {{option.v}}"
+    },
+    {
+      "id": "send_mtx",
+      "name": "入力 → モノマトリクスの送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "モノマトリクス（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0D {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:2|hexu|pad2}} {{option.d|lin:1:-1|hexu|pad2}} {{option.db|lin:1.984375:107.15625|hexu|pad2}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → モノマトリクス {{option.d}} {{option.db}} dB"
+    },
+    {
+      "id": "assign_mtx",
+      "name": "入力をモノマトリクスに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "モノマトリクス（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0E {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:2|hexu|pad2}} {{option.d|lin:1:-1|hexu|pad2}} {{option.v}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → モノマトリクス {{option.d}} {{option.v}}"
+    },
+    {
+      "id": "send_smtx",
+      "name": "入力 → ステレオマトリクスの送りのレベル",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "ステレオマトリクス（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "db",
+          "label": "レベル（dB、−54 で −∞）",
+          "type": "number",
+          "default": 0,
+          "min": -54,
+          "max": 10
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0D {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:2|hexu|pad2}} {{option.d|lin:1:63|hexu|pad2}} {{option.db|lin:1.984375:107.15625|hexu|pad2}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → ステレオマトリクス {{option.d}} {{option.db}} dB"
+    },
+    {
+      "id": "assign_smtx",
+      "name": "入力をステレオマトリクスに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "ステレオマトリクス（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0E {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:2|hexu|pad2}} {{option.d|lin:1:63|hexu|pad2}} {{option.v}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → ステレオマトリクス {{option.d}} {{option.v}}"
+    },
+    {
+      "id": "assign_grp",
+      "name": "入力をモノグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "モノグループ（1–54）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 54
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0E {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:0|hexu|pad2}} {{option.d|lin:1:-1|hexu|pad2}} {{option.v}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → モノグループ {{option.d}} {{option.v}}"
+    },
+    {
+      "id": "assign_sgrp",
+      "name": "入力をステレオグループに割り当て",
+      "options": [
+        {
+          "id": "n",
+          "label": "入力（1–96）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 96
+        },
+        {
+          "id": "d",
+          "label": "ステレオグループ（1–27）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 27
+        },
+        {
+          "id": "v",
+          "label": "状態",
+          "type": "select",
+          "default": "7F",
+          "choices": [
+            {
+              "id": "7F",
+              "label": "割り当てる"
+            },
+            {
+              "id": "3F",
+              "label": "外す"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "F0 00 00 1A 50 10 01 00 {{config.midich|lin:1:-1|hexu|pad2}} 0E {{option.n|lin:1:-1|hexu|pad2}} {{config.midich|lin:1:0|hexu|pad2}} {{option.d|lin:1:63|hexu|pad2}} {{option.v}} F7",
+        "encoding": "hex"
+      },
+      "summary": "入力 {{option.n}} → ステレオグループ {{option.d}} {{option.v}}"
+    },
+    {
+      "id": "scene",
+      "name": "シーンを呼び出す",
+      "options": [
+        {
+          "id": "scene",
+          "label": "シーン（1–500）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 500
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{config.midich|lin:1:175|hexu}} 00 {{option.scene|lin:1:-1|r14h:1|hexu|pad2}} {{config.midich|lin:1:191|hexu}} {{option.scene|lin:1:-1|r14l:1|hexu|pad2}}",
+        "encoding": "hex"
+      },
+      "summary": "シーン {{option.scene}}"
+    },
+    {
+      "id": "command",
+      "name": "MIDI を送る（16 進）",
+      "options": [
+        {
+          "id": "hex",
+          "label": "MIDI（16 進）",
+          "type": "text",
+          "placeholder": "90 00 7F 90 00 00",
+          "pattern": "^([0-9A-Fa-f]{2} ?)+$",
+          "mono": true
+        }
+      ],
+      "send": {
+        "kind": "bytes",
+        "data": "{{option.hex}}",
+        "encoding": "hex"
+      },
+      "summary": "{{option.hex}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "presets": [
+    {
+      "id": "mute_ip1",
+      "category": "ミュート",
+      "name": "入力 1 をミュート",
+      "text": "MUTE\nCH 1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 1,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip2",
+      "category": "ミュート",
+      "name": "入力 2 をミュート",
+      "text": "MUTE\nCH 2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 2,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip3",
+      "category": "ミュート",
+      "name": "入力 3 をミュート",
+      "text": "MUTE\nCH 3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 3,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip4",
+      "category": "ミュート",
+      "name": "入力 4 をミュート",
+      "text": "MUTE\nCH 4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 4,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip5",
+      "category": "ミュート",
+      "name": "入力 5 をミュート",
+      "text": "MUTE\nCH 5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 5,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip6",
+      "category": "ミュート",
+      "name": "入力 6 をミュート",
+      "text": "MUTE\nCH 6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 6,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip7",
+      "category": "ミュート",
+      "name": "入力 7 をミュート",
+      "text": "MUTE\nCH 7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 7,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip8",
+      "category": "ミュート",
+      "name": "入力 8 をミュート",
+      "text": "MUTE\nCH 8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 8,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip9",
+      "category": "ミュート",
+      "name": "入力 9 をミュート",
+      "text": "MUTE\nCH 9",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 9,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip10",
+      "category": "ミュート",
+      "name": "入力 10 をミュート",
+      "text": "MUTE\nCH 10",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 10,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip11",
+      "category": "ミュート",
+      "name": "入力 11 をミュート",
+      "text": "MUTE\nCH 11",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 11,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip12",
+      "category": "ミュート",
+      "name": "入力 12 をミュート",
+      "text": "MUTE\nCH 12",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 12,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip13",
+      "category": "ミュート",
+      "name": "入力 13 をミュート",
+      "text": "MUTE\nCH 13",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 13,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip14",
+      "category": "ミュート",
+      "name": "入力 14 をミュート",
+      "text": "MUTE\nCH 14",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 14,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip15",
+      "category": "ミュート",
+      "name": "入力 15 をミュート",
+      "text": "MUTE\nCH 15",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 15,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "mute_ip16",
+      "category": "ミュート",
+      "name": "入力 16 をミュート",
+      "text": "MUTE\nCH 16",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 16,
+          "on": "7F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip1",
+      "category": "ミュートを外す",
+      "name": "入力 1 のミュートを外す",
+      "text": "ON\nCH 1",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 1,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip2",
+      "category": "ミュートを外す",
+      "name": "入力 2 のミュートを外す",
+      "text": "ON\nCH 2",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 2,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip3",
+      "category": "ミュートを外す",
+      "name": "入力 3 のミュートを外す",
+      "text": "ON\nCH 3",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 3,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip4",
+      "category": "ミュートを外す",
+      "name": "入力 4 のミュートを外す",
+      "text": "ON\nCH 4",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 4,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip5",
+      "category": "ミュートを外す",
+      "name": "入力 5 のミュートを外す",
+      "text": "ON\nCH 5",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 5,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip6",
+      "category": "ミュートを外す",
+      "name": "入力 6 のミュートを外す",
+      "text": "ON\nCH 6",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 6,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip7",
+      "category": "ミュートを外す",
+      "name": "入力 7 のミュートを外す",
+      "text": "ON\nCH 7",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 7,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip8",
+      "category": "ミュートを外す",
+      "name": "入力 8 のミュートを外す",
+      "text": "ON\nCH 8",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 8,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip9",
+      "category": "ミュートを外す",
+      "name": "入力 9 のミュートを外す",
+      "text": "ON\nCH 9",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 9,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip10",
+      "category": "ミュートを外す",
+      "name": "入力 10 のミュートを外す",
+      "text": "ON\nCH 10",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 10,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip11",
+      "category": "ミュートを外す",
+      "name": "入力 11 のミュートを外す",
+      "text": "ON\nCH 11",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 11,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip12",
+      "category": "ミュートを外す",
+      "name": "入力 12 のミュートを外す",
+      "text": "ON\nCH 12",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 12,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip13",
+      "category": "ミュートを外す",
+      "name": "入力 13 のミュートを外す",
+      "text": "ON\nCH 13",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 13,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip14",
+      "category": "ミュートを外す",
+      "name": "入力 14 のミュートを外す",
+      "text": "ON\nCH 14",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 14,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip15",
+      "category": "ミュートを外す",
+      "name": "入力 15 のミュートを外す",
+      "text": "ON\nCH 15",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 15,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "unmute_ip16",
+      "category": "ミュートを外す",
+      "name": "入力 16 のミュートを外す",
+      "text": "ON\nCH 16",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "mute_input",
+        "options": {
+          "n": 16,
+          "on": "3F"
+        }
+      }
+    },
+    {
+      "id": "scene1",
+      "category": "シーン",
+      "name": "シーン 1",
+      "text": "SCENE\n1",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 1
+        }
+      }
+    },
+    {
+      "id": "scene2",
+      "category": "シーン",
+      "name": "シーン 2",
+      "text": "SCENE\n2",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 2
+        }
+      }
+    },
+    {
+      "id": "scene3",
+      "category": "シーン",
+      "name": "シーン 3",
+      "text": "SCENE\n3",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 3
+        }
+      }
+    },
+    {
+      "id": "scene4",
+      "category": "シーン",
+      "name": "シーン 4",
+      "text": "SCENE\n4",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 4
+        }
+      }
+    },
+    {
+      "id": "scene5",
+      "category": "シーン",
+      "name": "シーン 5",
+      "text": "SCENE\n5",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 5
+        }
+      }
+    },
+    {
+      "id": "scene6",
+      "category": "シーン",
+      "name": "シーン 6",
+      "text": "SCENE\n6",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 6
+        }
+      }
+    },
+    {
+      "id": "scene7",
+      "category": "シーン",
+      "name": "シーン 7",
+      "text": "SCENE\n7",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 7
+        }
+      }
+    },
+    {
+      "id": "scene8",
+      "category": "シーン",
+      "name": "シーン 8",
+      "text": "SCENE\n8",
+      "backgroundColor": "#1F5FD6",
+      "action": {
+        "definitionId": "scene",
+        "options": {
+          "scene": 8
+        }
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "Allen & Heath「Avantis MIDI TCP/IP Protocol」（V2.0 以降）：TCP 51325、チャンネルの種類と番号、ミュート・フェーダー・割り当て・送り・シーン・名前・色",
+      "url": "https://support.allen-heath.com/hc/en-gb/articles/45146889174801-Avantis-MIDI-TCP-IP-Protocol",
+      "status": "確認済"
+    },
+    {
+      "title": "レベル LV = (dB + 54) / 64 × 127（資料の式。資料の表の +5 dB だけ 16 進と 10 進が食い違う）",
+      "status": "確認済"
+    },
+    {
+      "title": "DCA・ミュートグループの割り当ては NRPN 40 の値（ON は 40 から、OFF は 00 から）",
+      "status": "確認済"
+    },
+    {
+      "title": "色の番号（0–7）の色名",
+      "status": "推測",
+      "note": "資料に色名が無い。本体で確かめる"
+    },
+    {
+      "title": "受信（本体からの状態）はまだ使っていない",
+      "status": "確認済"
+    }
+  ]
+}
