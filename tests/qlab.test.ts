@@ -2,7 +2,7 @@
  * QLab 5（OSC）。アドレスが公式の OSC Dictionary v5 の形になるか。
  */
 import { getActionDef, getDefinition } from '@/drivers/registry';
-import { buildPayload, withDefaults } from '@/drivers/engine';
+import { buildPayload, buildPayloads, withDefaults } from '@/drivers/engine';
 
 const def = getDefinition('qlab')!;
 function address(actionId: string, o: Record<string, string | number> = {}, config: Record<string, string> = {}) {
@@ -51,5 +51,23 @@ describe('ProPresenter', () => {
     expect(req('stage_message_clear').method).toBe('DELETE');
     expect(JSON.parse(req('message_text', { id: '1', token: 'Name', text: 'DEMO' }).body!)).toEqual([{ name: 'Name', text: { text: 'DEMO' } }]);
     for (const a of pp.actions) expect(req(a.id).url).toMatch(/^http:\/\/192\.168\.0\.10:50001\/v1\/\S*$/);
+  });
+});
+
+describe('Resolume', () => {
+  const rs = getDefinition('resolume')!;
+  it('アドレスと「押して離す」', () => {
+    const a = getActionDef('resolume', 'clip_connect')!;
+    const ps = buildPayloads(rs, a, { ...withDefaults(a.options, {}), layer: 2, column: 5 }, withDefaults(rs.configFields, {}));
+    expect(ps).toHaveLength(2);
+    const addr = (b: Uint8Array) => new TextDecoder().decode(b.subarray(0, b.indexOf(0)));
+    const bytesOf = (p: (typeof ps)[number]) => (p.kind === 'bytes' ? p.bytes : new Uint8Array());
+    expect(addr(bytesOf(ps[0]!))).toBe('/composition/layers/2/clips/5/connect');
+    expect(Array.from(bytesOf(ps[0]!).subarray(-4))).toEqual([0, 0, 0, 1]);
+    expect(Array.from(bytesOf(ps[1]!).subarray(-4))).toEqual([0, 0, 0, 0]);
+    for (const x of rs.actions) {
+      const p = buildPayloads(rs, x, withDefaults(x.options, {}), withDefaults(rs.configFields, {}));
+      expect(addr(bytesOf(p[0]!)).startsWith('/composition/')).toBe(true);
+    }
   });
 });

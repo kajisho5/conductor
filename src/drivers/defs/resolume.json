@@ -1,0 +1,1930 @@
+{
+  "format": 1,
+  "id": "resolume",
+  "name": "Resolume Arena / Avenue",
+  "category": "メディアサーバー",
+  "version": "1.0.0",
+  "minAppVersion": "0.6.0",
+  "transport": "osc",
+  "configFields": [
+    {
+      "id": "host",
+      "label": "IP アドレス",
+      "type": "text",
+      "placeholder": "192.168.0.80",
+      "pattern": "^[A-Za-z0-9.:\\-]+$",
+      "mono": true
+    },
+    {
+      "id": "port",
+      "label": "ポート（Resolume の設定 > OSC の入力）",
+      "type": "number",
+      "default": 7000,
+      "min": 1,
+      "max": 65535
+    }
+  ],
+  "actions": [
+    {
+      "id": "clip_connect",
+      "name": "クリップを出す",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/connect",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/connect",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "レイヤー {{option.layer}} クリップ {{option.column}}"
+    },
+    {
+      "id": "clip_select",
+      "name": "クリップを選ぶ",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/select",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "summary": "選ぶ {{option.layer}}-{{option.column}}"
+    },
+    {
+      "id": "column_connect",
+      "name": "列を出す",
+      "options": [
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/columns/{{option.column}}/connect",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/columns/{{option.column}}/connect",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "列 {{option.column}}"
+    },
+    {
+      "id": "column_select",
+      "name": "列を選ぶ",
+      "options": [
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/columns/{{option.column}}/select",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "summary": "列を選ぶ {{option.column}}"
+    },
+    {
+      "id": "next_column",
+      "name": "次の列",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/connectnextcolumn",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/connectnextcolumn",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "次の列"
+    },
+    {
+      "id": "prev_column",
+      "name": "前の列",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/connectprevcolumn",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/connectprevcolumn",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "前の列"
+    },
+    {
+      "id": "layer_next_clip",
+      "name": "レイヤーの次のクリップ",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/connectnextclip",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/layers/{{option.layer}}/connectnextclip",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "レイヤー {{option.layer}} 次"
+    },
+    {
+      "id": "layer_prev_clip",
+      "name": "レイヤーの前のクリップ",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/connectprevclip",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/layers/{{option.layer}}/connectprevclip",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "レイヤー {{option.layer}} 前"
+    },
+    {
+      "id": "layer_clear",
+      "name": "レイヤーを消す",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clear",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/layers/{{option.layer}}/clear",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "レイヤー {{option.layer}} を消す"
+    },
+    {
+      "id": "clear_all",
+      "name": "すべて消す",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/disconnectall",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/disconnectall",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "すべて消す"
+    },
+    {
+      "id": "group_clear",
+      "name": "レイヤーグループを消す",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/disconnectlayers",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/groups/{{option.group}}/disconnectlayers",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "グループ {{option.group}} を消す"
+    },
+    {
+      "id": "layer_opacity",
+      "name": "レイヤーの不透明度",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/video/opacity",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} 不透明度 {{option.value}}"
+    },
+    {
+      "id": "layer_volume",
+      "name": "レイヤーの音量",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/audio/volume",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} 音量 {{option.value}}"
+    },
+    {
+      "id": "layer_master",
+      "name": "レイヤーのマスター",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/master",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} マスター {{option.value}}"
+    },
+    {
+      "id": "layer_bypass",
+      "name": "レイヤーのバイパス",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/bypassed",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} バイパス {{option.on}}"
+    },
+    {
+      "id": "layer_bypass_toggle",
+      "name": "レイヤーのバイパスを切り替え",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/bypassed",
+        "args": [
+          {
+            "type": "s",
+            "value": "!"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} バイパス切り替え"
+    },
+    {
+      "id": "layer_solo",
+      "name": "レイヤーのソロ",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/solo",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} ソロ {{option.on}}"
+    },
+    {
+      "id": "layer_solo_toggle",
+      "name": "レイヤーのソロを切り替え",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/solo",
+        "args": [
+          {
+            "type": "s",
+            "value": "!"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} ソロ切り替え"
+    },
+    {
+      "id": "layer_select",
+      "name": "レイヤーを選ぶ",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/select",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} を選ぶ"
+    },
+    {
+      "id": "layer_transition",
+      "name": "レイヤーのトランジションの長さ",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 0.5,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/transition/duration",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} トランジション {{option.value}}"
+    },
+    {
+      "id": "layer_speed",
+      "name": "レイヤーの速さ",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 0.5,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/speed",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} 速さ {{option.value}}"
+    },
+    {
+      "id": "layer_direction",
+      "name": "レイヤーの再生の向き",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "2",
+          "choices": [
+            {
+              "id": "2",
+              "label": "前へ再生"
+            },
+            {
+              "id": "1",
+              "label": "一時停止"
+            },
+            {
+              "id": "0",
+              "label": "後ろへ再生"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/direction",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.dir}}"
+          }
+        ]
+      },
+      "summary": "レイヤー {{option.layer}} 向き {{option.dir}}"
+    },
+    {
+      "id": "clip_direction",
+      "name": "クリップの再生 / 一時停止",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        },
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "2",
+          "choices": [
+            {
+              "id": "2",
+              "label": "前へ再生"
+            },
+            {
+              "id": "1",
+              "label": "一時停止"
+            },
+            {
+              "id": "0",
+              "label": "後ろへ再生"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/transport/position/behaviour/direction",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.dir}}"
+          }
+        ]
+      },
+      "summary": "クリップ {{option.layer}}-{{option.column}} {{option.dir}}"
+    },
+    {
+      "id": "clip_position",
+      "name": "クリップの再生位置",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        },
+        {
+          "id": "value",
+          "label": "位置（0.0 最初 – 1.0 最後）",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/transport/position",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "クリップ {{option.layer}}-{{option.column}} 位置 {{option.value}}"
+    },
+    {
+      "id": "clip_restart",
+      "name": "クリップを最初から",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/transport/position",
+        "args": [
+          {
+            "type": "f",
+            "value": "0"
+          }
+        ]
+      },
+      "summary": "クリップ {{option.layer}}-{{option.column}} 最初から"
+    },
+    {
+      "id": "clip_opacity",
+      "name": "クリップの不透明度",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/video/opacity",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "クリップ {{option.layer}}-{{option.column}} 不透明度 {{option.value}}"
+    },
+    {
+      "id": "clip_volume",
+      "name": "クリップの音量",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/audio/volume",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "クリップ {{option.layer}}-{{option.column}} 音量 {{option.value}}"
+    },
+    {
+      "id": "clip_speed",
+      "name": "クリップの速さ",
+      "options": [
+        {
+          "id": "layer",
+          "label": "レイヤー",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 0.5,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/layers/{{option.layer}}/clips/{{option.column}}/transport/position/behaviour/speed",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "クリップ {{option.layer}}-{{option.column}} 速さ {{option.value}}"
+    },
+    {
+      "id": "group_column",
+      "name": "レイヤーグループの列を出す",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        },
+        {
+          "id": "column",
+          "label": "列（クリップ）",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 1000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/columns/{{option.column}}/connect",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/groups/{{option.group}}/columns/{{option.column}}/connect",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "グループ {{option.group}} 列 {{option.column}}"
+    },
+    {
+      "id": "group_bypass",
+      "name": "レイヤーグループのバイパス",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/bypassed",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "グループ {{option.group}} バイパス {{option.on}}"
+    },
+    {
+      "id": "group_solo",
+      "name": "レイヤーグループのソロ",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        },
+        {
+          "id": "on",
+          "label": "状態",
+          "type": "select",
+          "default": "1",
+          "choices": [
+            {
+              "id": "1",
+              "label": "ON"
+            },
+            {
+              "id": "0",
+              "label": "OFF"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/solo",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.on}}"
+          }
+        ]
+      },
+      "summary": "グループ {{option.group}} ソロ {{option.on}}"
+    },
+    {
+      "id": "group_select",
+      "name": "レイヤーグループを選ぶ",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/select",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "summary": "グループ {{option.group}} を選ぶ"
+    },
+    {
+      "id": "group_opacity",
+      "name": "レイヤーグループの不透明度",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/video/opacity",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "グループ {{option.group}} 不透明度 {{option.value}}"
+    },
+    {
+      "id": "group_volume",
+      "name": "レイヤーグループの音量",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/audio/volume",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "グループ {{option.group}} 音量 {{option.value}}"
+    },
+    {
+      "id": "group_master",
+      "name": "レイヤーグループのマスター",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/master",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "グループ {{option.group}} マスター {{option.value}}"
+    },
+    {
+      "id": "group_speed",
+      "name": "レイヤーグループの速さ",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        },
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 0.5,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/speed",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "グループ {{option.group}} 速さ {{option.value}}"
+    },
+    {
+      "id": "group_direction",
+      "name": "レイヤーグループの再生の向き",
+      "options": [
+        {
+          "id": "group",
+          "label": "レイヤーグループ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 50
+        },
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "2",
+          "choices": [
+            {
+              "id": "2",
+              "label": "前へ再生"
+            },
+            {
+              "id": "1",
+              "label": "一時停止"
+            },
+            {
+              "id": "0",
+              "label": "後ろへ再生"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/groups/{{option.group}}/direction",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.dir}}"
+          }
+        ]
+      },
+      "summary": "グループ {{option.group}} 向き {{option.dir}}"
+    },
+    {
+      "id": "comp_opacity",
+      "name": "全体の不透明度",
+      "options": [
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/video/opacity",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "全体 不透明度 {{option.value}}"
+    },
+    {
+      "id": "comp_volume",
+      "name": "全体の音量",
+      "options": [
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/audio/volume",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "全体 音量 {{option.value}}"
+    },
+    {
+      "id": "comp_master",
+      "name": "全体のマスター",
+      "options": [
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 1,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/master",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "全体 マスター {{option.value}}"
+    },
+    {
+      "id": "comp_speed",
+      "name": "全体の速さ",
+      "options": [
+        {
+          "id": "value",
+          "label": "値（0.0–1.0）",
+          "type": "number",
+          "default": 0.5,
+          "min": 0,
+          "max": 1
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/speed",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "全体 速さ {{option.value}}"
+    },
+    {
+      "id": "comp_direction",
+      "name": "全体の再生の向き",
+      "options": [
+        {
+          "id": "dir",
+          "label": "向き",
+          "type": "select",
+          "default": "2",
+          "choices": [
+            {
+              "id": "2",
+              "label": "前へ再生"
+            },
+            {
+              "id": "1",
+              "label": "一時停止"
+            },
+            {
+              "id": "0",
+              "label": "後ろへ再生"
+            }
+          ]
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/direction",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.dir}}"
+          }
+        ]
+      },
+      "summary": "全体 向き {{option.dir}}"
+    },
+    {
+      "id": "tempo",
+      "name": "テンポ（BPM）",
+      "options": [
+        {
+          "id": "bpm",
+          "label": "BPM",
+          "type": "number",
+          "default": 120,
+          "min": 20,
+          "max": 500
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/tempocontroller/tempo",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.bpm}}"
+          }
+        ]
+      },
+      "summary": "テンポ {{option.bpm}}"
+    },
+    {
+      "id": "tempo_tap",
+      "name": "テンポをタップ",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/tempocontroller/tempotap",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/tempocontroller/tempotap",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "タップ"
+    },
+    {
+      "id": "tempo_resync",
+      "name": "テンポを合わせ直す",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/tempocontroller/resync",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/tempocontroller/resync",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "リシンク"
+    },
+    {
+      "id": "deck_select",
+      "name": "デッキを選ぶ",
+      "options": [
+        {
+          "id": "deck",
+          "label": "デッキ",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/decks/{{option.deck}}/select",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "summary": "デッキ {{option.deck}}"
+    },
+    {
+      "id": "next_deck",
+      "name": "次のデッキ",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/selectnextdeck",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/selectnextdeck",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "次のデッキ"
+    },
+    {
+      "id": "prev_deck",
+      "name": "前のデッキ",
+      "options": [],
+      "send": {
+        "kind": "osc",
+        "address": "/composition/selectprevdeck",
+        "args": [
+          {
+            "type": "i",
+            "value": "1"
+          }
+        ]
+      },
+      "more": [
+        {
+          "kind": "osc",
+          "address": "/composition/selectprevdeck",
+          "args": [
+            {
+              "type": "i",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "summary": "前のデッキ"
+    },
+    {
+      "id": "osc_f",
+      "name": "OSC を送る（数）",
+      "options": [
+        {
+          "id": "address",
+          "label": "アドレス",
+          "type": "text",
+          "default": "/composition/master",
+          "mono": true
+        },
+        {
+          "id": "value",
+          "label": "値",
+          "type": "number",
+          "default": 1,
+          "min": -100000,
+          "max": 100000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{option.address}}",
+        "args": [
+          {
+            "type": "f",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "{{option.address}} {{option.value}}"
+    },
+    {
+      "id": "osc_i",
+      "name": "OSC を送る（整数）",
+      "options": [
+        {
+          "id": "address",
+          "label": "アドレス",
+          "type": "text",
+          "default": "/composition/layers/1/clear",
+          "mono": true
+        },
+        {
+          "id": "value",
+          "label": "値",
+          "type": "number",
+          "default": 1,
+          "min": -100000,
+          "max": 100000
+        }
+      ],
+      "send": {
+        "kind": "osc",
+        "address": "{{option.address}}",
+        "args": [
+          {
+            "type": "i",
+            "value": "{{option.value}}"
+          }
+        ]
+      },
+      "summary": "{{option.address}} {{option.value}}"
+    }
+  ],
+  "feedbacks": [],
+  "variables": [],
+  "presets": [
+    {
+      "id": "col1",
+      "category": "列",
+      "name": "列 1",
+      "text": "COLUMN\n1",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "column_connect",
+        "options": {
+          "column": 1
+        }
+      }
+    },
+    {
+      "id": "col2",
+      "category": "列",
+      "name": "列 2",
+      "text": "COLUMN\n2",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "column_connect",
+        "options": {
+          "column": 2
+        }
+      }
+    },
+    {
+      "id": "col3",
+      "category": "列",
+      "name": "列 3",
+      "text": "COLUMN\n3",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "column_connect",
+        "options": {
+          "column": 3
+        }
+      }
+    },
+    {
+      "id": "col4",
+      "category": "列",
+      "name": "列 4",
+      "text": "COLUMN\n4",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "column_connect",
+        "options": {
+          "column": 4
+        }
+      }
+    },
+    {
+      "id": "col5",
+      "category": "列",
+      "name": "列 5",
+      "text": "COLUMN\n5",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "column_connect",
+        "options": {
+          "column": 5
+        }
+      }
+    },
+    {
+      "id": "col6",
+      "category": "列",
+      "name": "列 6",
+      "text": "COLUMN\n6",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "column_connect",
+        "options": {
+          "column": 6
+        }
+      }
+    },
+    {
+      "id": "col7",
+      "category": "列",
+      "name": "列 7",
+      "text": "COLUMN\n7",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "column_connect",
+        "options": {
+          "column": 7
+        }
+      }
+    },
+    {
+      "id": "col8",
+      "category": "列",
+      "name": "列 8",
+      "text": "COLUMN\n8",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "column_connect",
+        "options": {
+          "column": 8
+        }
+      }
+    },
+    {
+      "id": "clear1",
+      "category": "消す",
+      "name": "レイヤー 1 を消す",
+      "text": "CLEAR\nL1",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "layer_clear",
+        "options": {
+          "layer": 1
+        }
+      }
+    },
+    {
+      "id": "clear2",
+      "category": "消す",
+      "name": "レイヤー 2 を消す",
+      "text": "CLEAR\nL2",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "layer_clear",
+        "options": {
+          "layer": 2
+        }
+      }
+    },
+    {
+      "id": "clear3",
+      "category": "消す",
+      "name": "レイヤー 3 を消す",
+      "text": "CLEAR\nL3",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "layer_clear",
+        "options": {
+          "layer": 3
+        }
+      }
+    },
+    {
+      "id": "clear4",
+      "category": "消す",
+      "name": "レイヤー 4 を消す",
+      "text": "CLEAR\nL4",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "layer_clear",
+        "options": {
+          "layer": 4
+        }
+      }
+    },
+    {
+      "id": "clearall",
+      "category": "消す",
+      "name": "すべて消す",
+      "text": "CLEAR\nALL",
+      "backgroundColor": "#6E1616",
+      "action": {
+        "definitionId": "clear_all",
+        "options": {}
+      }
+    },
+    {
+      "id": "next",
+      "category": "列",
+      "name": "次の列",
+      "text": "NEXT",
+      "backgroundColor": "#1F9E48",
+      "action": {
+        "definitionId": "next_column",
+        "options": {}
+      }
+    },
+    {
+      "id": "prev",
+      "category": "列",
+      "name": "前の列",
+      "text": "PREV",
+      "backgroundColor": "#2A2A2E",
+      "action": {
+        "definitionId": "prev_column",
+        "options": {}
+      }
+    },
+    {
+      "id": "tap",
+      "category": "テンポ",
+      "name": "タップ",
+      "text": "TAP",
+      "backgroundColor": "#F2C200",
+      "action": {
+        "definitionId": "tempo_tap",
+        "options": {}
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "title": "OSC のアドレスと値の形（connect / clear は 1 → 0、バイパス・ソロの切り替えは文字 \"!\"、向きは 0 後ろ・1 停止・2 前）",
+      "status": "確認済",
+      "note": "公開 OSS のモジュール resolume-arena（MIT、3.13.0-beta.4）の src/arena-api/osc.ts と src/actions/osc-transport を読んだ"
+    },
+    {
+      "title": "OSC の入力ポート 7000（既定）",
+      "url": "https://resolume.com/support/en/osc",
+      "status": "確認済"
+    },
+    {
+      "title": "状態（今のクリップなど）の受け取りはまだ",
+      "status": "確認済"
+    }
+  ]
+}
