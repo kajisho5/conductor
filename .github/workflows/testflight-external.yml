@@ -1,0 +1,64 @@
+# TestFlight の外部テスター（パブリックリンク）に出す。知り合いにリンクを渡して入れてもらう用。
+# testflight.yml から自動で呼ばれる（外部に出す=ON の時）。単独で「後から出す」「連絡先を入れて再実行」もできる。
+# Secrets（runway の sync-secrets が配る）：ASC_KEY_ID・ASC_ISSUER_ID・ASC_KEY_P8_BASE64
+# 審査用の連絡先（任意。無ければ App Store Connect の TestFlight → テスト情報 に入っている値を使う）：
+#   BETA_CONTACT_EMAIL・BETA_CONTACT_FIRST・BETA_CONTACT_LAST・BETA_CONTACT_PHONE（このリポは公開なので Variables ではなく Secrets に入れる）
+name: testflight-external
+
+on:
+  workflow_dispatch:
+    inputs:
+      build:
+        description: 'ビルド番号（空ならいちばん新しいもの）'
+        required: false
+        default: ''
+      group:
+        description: '外部グループの名前'
+        required: false
+        default: 'External'
+      whats_new:
+        description: 'テスト内容（空なら既定の文）'
+        required: false
+        default: ''
+  workflow_call:
+    inputs:
+      build:
+        type: string
+        default: ''
+      group:
+        type: string
+        default: 'External'
+      whats_new:
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  external:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      BUNDLE_ID: com.seventhwell.conductor
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      BETA_CONTACT_EMAIL: ${{ secrets.BETA_CONTACT_EMAIL }}
+      BETA_CONTACT_FIRST: ${{ secrets.BETA_CONTACT_FIRST }}
+      BETA_CONTACT_LAST: ${{ secrets.BETA_CONTACT_LAST }}
+      BETA_CONTACT_PHONE: ${{ secrets.BETA_CONTACT_PHONE }}
+      BETA_WHATS_NEW: ${{ inputs.whats_new }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: 外部テスターに出す
+        env:
+          P8_IN: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: |
+          set -euo pipefail
+          [ -n "$P8_IN" ] && [ -n "$ASC_KEY_ID" ] && [ -n "$ASC_ISSUER_ID" ] || { echo "::error::ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_P8_BASE64 がありません（runway の sync-secrets）"; exit 1; }
+          # .p8 の中身は PEM のまま、または base64（runway と同じ扱い）
+          if printf '%s' "$P8_IN" | grep -q -- '-----BEGIN'; then ASC_KEY_P8="$P8_IN"; else ASC_KEY_P8="$(printf '%s' "$P8_IN" | base64 -d)"; fi
+          export ASC_KEY_P8
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --quiet pyjwt cryptography
+          "$RUNNER_TEMP/venv/bin/python" .github/scripts/asc_external.py "$BUNDLE_ID" "${{ inputs.build }}" "${{ inputs.group }}"

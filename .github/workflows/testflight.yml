@@ -1,8 +1,18 @@
 # kajisho5/runway の共通 TestFlight 基盤で配る（Mac 不要）。Secrets は runway の sync-secrets が配る（リポジトリに鍵を置かない）。
+# 外部に出す=ON（タグの push も ON）なら、アップロードの後に testflight-external で外部テスター（パブリックリンク）にも出す。
 name: testflight
 
 on:
   workflow_dispatch:
+    inputs:
+      external:
+        description: '外部テスター（パブリックリンク）にも出す'
+        type: boolean
+        default: true
+      whats_new:
+        description: 'テスト内容（空なら既定の文）'
+        required: false
+        default: ''
   push:
     tags: ["v*"]
 
@@ -18,4 +28,12 @@ jobs:
       scheme: conductor
       node_version: "22"
       pre_build: npm ci && cd ios && pod install
+    secrets: inherit
+
+  external:
+    needs: ios
+    if: ${{ github.event_name == 'push' || inputs.external }}
+    uses: ./.github/workflows/testflight-external.yml
+    with:
+      whats_new: ${{ inputs.whats_new || '' }}
     secrets: inherit
